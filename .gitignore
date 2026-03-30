@@ -1,0 +1,8 @@
+4-Data/ 
+5-Video/ 
+3-Model/10-Archives/ 
+__pycache__/ 
+*.pyc 
+.idea/ 
+Thumbs.db 
+*.npz 

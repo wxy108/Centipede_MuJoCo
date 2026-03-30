@@ -1,0 +1,89 @@
+# terrain_config.yaml
+# ============================================================
+# Multi-frequency terrain generation configuration
+#
+# Design philosophy:
+#   Terrain = Σ A_k · sin(2π·f_k·x + φ_kx) · sin(2π·f_k·y + φ_ky)
+#
+#   Three spectral bands:
+#     low  (f ≈ 0.5–2 /m)  : base landscape undulation — hills, valleys
+#     mid  (f ≈ 2–8 /m)    : secondary features — rocks, soil mounds
+#     high (f ≈ 8–32 /m)   : surface roughness — gravel, debris
+#
+#   The centipede body is ~10 cm long. To relate spatial frequency to
+#   the animal:
+#     low  → features larger than the body (whole-body pitch)
+#     mid  → features at body-length scale (segment-level)
+#     high → features at leg-spacing scale (foot-level)
+#
+# Sweep axes for the ML dataset:
+#   - low_amplitude  : base landscape height variation (m)
+#   - high_amplitude : obstacle/roughness height (m)
+#   - high_freq      : obstacle spatial frequency (obstacles/m)
+#   - seed           : random phase seed (for dataset diversity)
+# ============================================================
+
+# ── Image / MuJoCo heightmap settings ────────────────────────────────
+image:
+  size: 1024              # pixels (must be power of 2 for MuJoCo) — higher = smoother
+  world_size: 4.0         # metres — longer tile so centipede runs further
+  world_height: 0.15      # metres — full height range (pixel 0→255 maps to 0→world_height)
+  baseline_grey: 128      # pixel value for zero-height reference (mid-grey)
+  smooth_sigma:  4.0      # Gaussian blur sigma in pixels — removes angular edges
+
+# ── Spectral component definitions ───────────────────────────────────
+# Each band: list of sinusoidal components summed together.
+# Amplitude is in metres; freq in cycles/metre.
+# Random phases are drawn from [0, 2π) per component per seed.
+spectral_bands:
+  low:
+    n_components: 4
+    freq_min:     0.2        # cycles/m — very long gentle undulations
+    freq_max:     0.8        # cycles/m
+    amplitude:    0.010
+    orientation_spread: 1.0
+
+  mid:
+    n_components: 6
+    freq_min:     0.8
+    freq_max:     2.5        # cycles/m — moderate features
+    amplitude:    0.005
+    orientation_spread: 1.0
+
+  high:
+    n_components: 12
+    freq_min:     2.5
+    freq_max:     6.0        # cycles/m — fine surface texture (not spiky)
+    amplitude:    0.002
+    orientation_spread: 1.0
+
+# ── Centering ─────────────────────────────────────────────────────────
+# Flatten the start zone so the centipede spawns on flat ground.
+centering:
+  enabled: false
+
+# ── Output ────────────────────────────────────────────────────────────
+output:
+  base_dir: "terrain_output"
+  save_heightmap_png: true
+  save_preview_png:   true    # colourmap + 3D preview figure
+  save_config_copy:   true    # copy this config next to each terrain
+
+# ── Sweep parameters ──────────────────────────────────────────────────
+# Values swept in generate_terrain_sweep.py
+sweep:
+  seeds:          [0, 1, 2, 3, 4]          # random seeds → dataset diversity
+
+  # Base landscape intensity (low-freq amplitude, metres)
+  low_amplitudes: [0.000, 0.004, 0.012, 0.030, 0.060]   # 0=flat, 0.06=very hilly
+
+  # Obstacle/roughness height (high-freq amplitude, metres)
+  high_amplitudes: [0.000, 0.002, 0.006, 0.012, 0.025]  # 0=smooth, 0.025=very rough
+
+  # Obstacle spatial density (high-freq band centre, cycles/metre)
+  # Controls whether obstacles are spaced farther apart or very dense
+  high_freq_centres: [8.0, 12.0, 18.0, 26.0]
+
+  # Roughness index for labelling (computed, not swept directly):
+  #   roughness_index = sqrt(low_amp^2 + high_amp^2) / world_height
+  #   Stored in metadata.json alongside each terrain for ML targets.

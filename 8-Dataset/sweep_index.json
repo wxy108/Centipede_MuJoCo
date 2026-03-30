@@ -1,0 +1,69 @@
+{
+  "created": "2026-03-30T02:31:17.191826",
+  "n_trials": 3,
+  "duration": 0.5,
+  "dt_record": 0.01,
+  "rot_range": 180.0,
+  "terrains": [
+    {
+      "label": "flat",
+      "png": null,
+      "roughness_index": 0.0
+    },
+    {
+      "label": "rough",
+      "png": "X:\\Xiyuan_Wang\\1-LIBR\\9-Centipede_project\\3-Centipede_main\\2-Simulation\\Centipede_MUJOCO-main\\Centipede_MUJOCO-main\\7-Terrain\\terrain_test_with_pits\\terrain_test_with_pits\\terrain_rough_perlin_roughness_1.0_centered_pits.png",
+      "roughness_index": 1.4
+    }
+  ],
+  "trials": [
+    {
+      "file": "flat\\trial_000.npz",
+      "label": "flat",
+      "roughness_index": 0.0,
+      "trial": 0,
+      "yaw_deg": 49.306,
+      "n_frames": 50
+    },
+    {
+      "file": "flat\\trial_001.npz",
+      "label": "flat",
+      "roughness_index": 0.0,
+      "trial": 1,
+      "yaw_deg": -82.877,
+      "n_frames": 50
+    },
+    {
+      "file": "flat\\trial_002.npz",
+      "label": "flat",
+      "roughness_index": 0.0,
+      "trial": 2,
+      "yaw_deg": -165.25,
+      "n_frames": 50
+    },
+    {
+      "file": "rough\\trial_000.npz",
+      "label": "rough",
+      "roughness_index": 1.4,
+      "trial": 0,
+      "yaw_deg": -174.05,
+      "n_frames": 50
+    },
+    {
+      "file": "rough\\trial_001.npz",
+      "label": "rough",
+      "roughness_index": 1.4,
+      "trial": 1,
+      "yaw_deg": 112.777,
+      "n_frames": 50
+    },
+    {
+      "file": "rough\\trial_002.npz",
+      "label": "rough",
+      "roughness_index": 1.4,
+      "trial": 2,
+      "yaw_deg": 148.592,
+      "n_frames": 50
+    }
+  ]
+}

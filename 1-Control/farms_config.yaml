@@ -1,0 +1,38 @@
+# farms_config.yaml — Control parameters for the FARMS centipede model
+# Edit this file to change locomotion parameters; no code changes needed.
+# Values sourced from animat.yaml (Base_exp) via extract_animat_params.py
+
+# ── Body travelling wave ──────────────────────────────────────────────────────
+body_wave:
+  amplitude:    0.2       # rad — peak body yaw angle
+  frequency:    2.0       # Hz  — locomotion frequency (start low for stability)
+  wave_number:  3.0       # spatial waves along body (n_wave)
+  speed:        1.0       # wave speed multiplier (1.0 = normal)
+  # FARMS original: frequency=6 Hz, wave_number=5
+  # Reduced here for initial stability testing; increase gradually
+
+# ── Leg wave ─────────────────────────────────────────────────────────────────
+leg_wave:
+  # Per-DOF amplitudes [DOF0, DOF1, DOF2, DOF3]
+  # DOF0 = hip yaw, DOF1 = hip pitch (elevation), DOF2/3 ≈ 0 in FARMS
+  amplitudes:     [0.6, 0.3, 0.0, 0.0]
+
+  # Per-DOF phase offsets relative to body wave [rad]
+  # DOF0: -π/2 → leg leads body by 90° (cosine coupling)
+  # DOF1:  π   → antiphase to body (leg up when body bends)
+  phase_offsets:  [-1.5707963, 3.1415926, 0.0, 3.1415926]
+
+  # DC offsets added to each DOF (zero = symmetric swing)
+  dc_offsets:     [0.0, 0.0, 0.0, 0.5235987755982988]
+
+  # Which DOFs are actively driven (others held at dc_offset)
+  active_dofs:    [0, 1]
+
+# ── Simulation ───────────────────────────────────────────────────────────────
+simulation:
+  duration:     10.0    # seconds
+  timestep:     0.001   # must match <option timestep> in XML
+
+# ── Recording ────────────────────────────────────────────────────────────────
+recording:
+  dt_record:    0.01    # seconds between saved frames

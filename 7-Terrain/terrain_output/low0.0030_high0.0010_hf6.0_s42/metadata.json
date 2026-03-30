@@ -1,0 +1,12 @@
+{
+  "seed": 42,
+  "low_amplitude": 0.003,
+  "mid_amplitude": 0.00125,
+  "high_amplitude": 0.001,
+  "high_freq_centre": 6.0,
+  "roughness_index": 0.016029,
+  "sigma_h_metres": 0.002404,
+  "world_size": 4.0,
+  "world_height": 0.15,
+  "image_size": 1024
+}
