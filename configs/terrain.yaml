@@ -1,0 +1,34 @@
+world:
+  size:                 0.5     # metres, square arena (was 1.0 — halved for 2x resolution)
+  image_size:           1024    # pixels per side → ~0.5mm/pixel at 0.5m terrain
+  terrain_world_height: 0.05   # metres, encoding range +/-25 mm, enough for all levels
+  smooth_sigma:         8.0     # Gaussian blur sigma in pixels (~4mm on 0.5m/1024px terrain)
+
+# Flat pad centred at world origin (0,0) = image pixel (512,512).
+centering:
+  enabled:          false
+
+# Three non-overlapping spectral bands.
+# Frequencies increase: low -> mid -> high  (body-scale -> segment-scale -> leg-scale)
+# Each band amplitude is set independently via CLI: --low-amp, --mid-amp, --high-amp
+spectral_bands:
+  low:
+    n_components:   6
+    freq_min:       1.0      # wavelength 1.0 m = 2x terrain, gentle curvature
+    freq_max:       5.0      # wavelength 0.2 m = body-scale undulation (~2x body length)
+    amplitude:      0.0010   # default (overridden by --low-amp)
+    orientation_spread: 1.0
+
+  mid:
+    n_components:   6
+    freq_min:       5.0      # wavelength 0.2 m
+    freq_max:       20.0     # wavelength 0.05 m = segment-scale mounds (~1 segment)
+    amplitude:      0.0005   # default (overridden by --mid-amp)
+    orientation_spread: 1.0
+
+  high:
+    n_components:   12
+    freq_min:       20.0     # wavelength 0.05 m = leg-scale bumps
+    freq_max:       40.0     # wavelength 0.025 m — capped to avoid staircase aliasing
+    amplitude:      0.0002   # default (overridden by --high-amp)
+    orientation_spread: 1.0

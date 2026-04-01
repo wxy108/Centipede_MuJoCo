@@ -1,8 +1,27 @@
-4-Data/ 
-5-Video/ 
-3-Model/10-Archives/ 
-__pycache__/ 
-*.pyc 
-.idea/ 
-Thumbs.db 
-*.npz 
+# Outputs (generated data, videos, logs, optimization results)
+outputs/
+
+# Generated terrain PNGs
+terrain/output/
+
+# Archive (legacy/deprecated files)
+archive/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Data files
+*.npz
+*.pkl
