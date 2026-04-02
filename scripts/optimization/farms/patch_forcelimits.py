@@ -4,13 +4,17 @@ patch_forcelimits.py — Patch pitch joint stiffness and damping
 Updates all pitch body joints and passive pitch joints with the
 specified compliance parameters.
 
-Default values (terrain-conforming, overdamped):
-  stiffness = 1e-3  (10x softer than original 1e-2)
-  damping   = 1e-4  (10x softer than original 1e-3)
+Default values (Option B — optimized for stability + terrain compliance):
+  stiffness = 1e-3  (pitch spring stiffness, prevents gravity-induced buckling)
+  damping   = 5e-4  (pitch viscous damping, d/k=0.5 for responsive terrain following)
+
+The moderate stiffness prevents body sag/buckling under gravity (the failure mode
+seen at stiffness=1e-4), while the d/k=0.5 ratio allows responsive pitch compliance
+on rough terrain. Combined with solref="0.01 1.5" for firm ground contact.
 
 Usage:
   python patch_forcelimits.py                           # apply defaults
-  python patch_forcelimits.py --stiffness 5e-4 --damping 5e-5
+  python patch_forcelimits.py --stiffness 5e-4 --damping 5e-3
 """
 import re
 import os
@@ -19,7 +23,7 @@ import argparse
 SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", ".."))
 
-def patch_pitch_compliance(stiffness="1e-3", damping="1e-4"):
+def patch_pitch_compliance(stiffness="1e-3", damping="5e-4"):
     path = os.path.join(PROJECT_ROOT, "models", "farms", "centipede.xml")
     with open(path, 'r') as f:
         content = f.read()
@@ -47,7 +51,7 @@ if __name__ == "__main__":
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--stiffness", default="1e-3",
                    help="Pitch joint stiffness (default: 1e-3)")
-    p.add_argument("--damping", default="1e-4",
-                   help="Pitch joint damping (default: 1e-4)")
+    p.add_argument("--damping", default="5e-4",
+                   help="Pitch joint damping (default: 5e-4)")
     args = p.parse_args()
     patch_pitch_compliance(args.stiffness, args.damping)

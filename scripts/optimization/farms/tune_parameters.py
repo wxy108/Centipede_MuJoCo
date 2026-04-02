@@ -136,9 +136,9 @@ class FARMSCentipedeOptimizer:
         'leg_dof01_damping': 1.0e-06,
         'leg_dof2_damping':  3.027e-03,
         'leg_dof3_damping':  1.724e-04,
-        # Passive pitch springs (terrain-conforming, overdamped)
-        'pitch_stiffness':   1.0e-03,
-        'pitch_damping':     1.0e-04,
+        # Passive pitch springs (optimized for terrain compliance)
+        'pitch_stiffness':   1.0e-04,
+        'pitch_damping':     1.0e-03,
     }
 
     FAILURE_PENALTY = 10.0
