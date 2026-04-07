@@ -4,7 +4,7 @@
 
 # ── Body travelling wave ──────────────────────────────────────────────────────
 body_wave:
-  amplitude:    0.2       # rad — peak body yaw angle
+  amplitude:    0.6       # rad — peak body yaw angle
   frequency:    1.0       # Hz  — locomotion frequency (start low for stability)
   wave_number:  3.0       # spatial waves along body (n_wave)
   speed:        1.0       # wave speed multiplier (1.0 = normal)
@@ -34,5 +34,27 @@ simulation:
   timestep:     0.001   # must match <option timestep> in XML
 
 # ── Recording ────────────────────────────────────────────────────────────────
+# ── Impedance control (body yaw) ─────────────────────────────────────────────
+# Used by ImpedanceTravelingWaveController (replaces stiff position control).
+# Body yaw actuators must be <general> type (see add_compliance.py).
+impedance:
+  body_kp:      0.5     # yaw proportional gain
+  body_kv:      0.10    # yaw velocity damping (0.2 * body_kp)
+  pitch_kp:     0.003   # pitch proportional gain — softest stable (fold boundary at 0.001)
+  pitch_kv:     0.0012  # pitch velocity damping (0.4 * pitch_kp)
+  roll_kp:      0.005   # roll proportional gain — very soft, just prevent flop
+  roll_kv:      0.002   # roll velocity damping (0.4 * roll_kp)
+  # Optimized: 5/5 robustness (amp=0.2-0.6, freq=0.5-2Hz), avg_cost=0.0468
+  # max_pitch=1.3°, max_roll=6.1° at 10s across all challenges
+
+# ── Joint control summary ────────────────────────────────────────────────────
+# Pitch (joint_pitch_body_0..19): impedance + online grav comp
+#   Indices 3,7,11,15 are transition joints between body modules
+#   XML springs zeroed, controlled by pitch_kp/pitch_kv in impedance section
+# Body roll (joint_roll_body_0..19): impedance + grav comp
+#   XML springs zeroed, controlled by roll_kp/roll_kv in impedance section
+# Leg roll (joint_roll_leg_N_L/R): passive springs in XML (stiffness=5e-2)
+# Body yaw (joint_body_N): impedance, controlled by body_kp/body_kv
+
 recording:
   dt_record:    0.01    # seconds between saved frames

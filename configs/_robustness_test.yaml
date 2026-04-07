@@ -1,0 +1,34 @@
+body_wave:
+  amplitude: 0.6
+  frequency: 2.0
+  speed: 1.0
+  wave_number: 3.0
+impedance:
+  body_kp: 0.5
+  body_kv: 0.1
+  pitch_kp: 0.01
+  pitch_kv: 0.004
+leg_wave:
+  active_dofs:
+  - 0
+  - 1
+  amplitudes:
+  - 0.6
+  - 0.3
+  - 0.0
+  - 0.0
+  dc_offsets:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.5235987755982988
+  phase_offsets:
+  - -1.5707963
+  - 3.1415926
+  - 0.0
+  - 3.1415926
+recording:
+  dt_record: 0.01
+simulation:
+  duration: 10.0
+  timestep: 0.001

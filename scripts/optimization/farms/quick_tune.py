@@ -60,8 +60,8 @@ def apply_params(xml, p):
 
     xml = _pj(xml, r'joint_pitch_body_\d+', 'stiffness', p['pitch_k'])
     xml = _pj(xml, r'joint_pitch_body_\d+', 'damping', p['pitch_d'])
-    xml = _pj(xml, r'joint_passive_\d+', 'stiffness', p['pitch_k'])
-    xml = _pj(xml, r'joint_passive_\d+', 'damping', p['pitch_d'])
+    xml = _pj(xml, r'joint_pitch_body_\d+', 'stiffness', p['pitch_k'])
+    xml = _pj(xml, r'joint_pitch_body_\d+', 'damping', p['pitch_d'])
 
     xml = re.sub(r'(<hfield\s+name="terrain"\s+file=")[^"]*(")', rf'\g<1>{FLAT_TERRAIN}\2', xml)
     return xml
@@ -90,7 +90,7 @@ def run_sim(xml_text, duration):
     pitch_ids=[]
     for i in range(model.njnt):
         nm = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, i)
-        if nm and ('joint_pitch_body' in nm or 'joint_passive' in nm):
+        if nm and ('joint_pitch_body' in nm):
             pitch_ids.append(i)
 
     dt=model.opt.timestep; n_steps=int(duration/dt)

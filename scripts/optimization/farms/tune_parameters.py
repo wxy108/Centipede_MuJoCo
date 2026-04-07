@@ -258,8 +258,8 @@ class FARMSCentipedeOptimizer:
         # -- PASSIVE PITCH SPRINGS --
         xml = _patch_joint_attr(xml, r'joint_pitch_body_\d+', 'stiffness', p['pitch_stiffness'])
         xml = _patch_joint_attr(xml, r'joint_pitch_body_\d+', 'damping',   p['pitch_damping'])
-        xml = _patch_joint_attr(xml, r'joint_passive_\d+',    'stiffness', p['pitch_stiffness'])
-        xml = _patch_joint_attr(xml, r'joint_passive_\d+',    'damping',   p['pitch_damping'])
+        xml = _patch_joint_attr(xml, r'joint_pitch_body_\d+',    'stiffness', p['pitch_stiffness'])
+        xml = _patch_joint_attr(xml, r'joint_pitch_body_\d+',    'damping',   p['pitch_damping'])
 
         with open(XML_PATH, 'w', encoding='utf-8') as f:
             f.write(xml)

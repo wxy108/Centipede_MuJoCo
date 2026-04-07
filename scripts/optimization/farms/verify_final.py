@@ -35,8 +35,8 @@ def patch(xml, tpng, zmax):
     # Pitch joints
     xml = _pj(xml, r'joint_pitch_body_\d+', 'stiffness', '0.0001')
     xml = _pj(xml, r'joint_pitch_body_\d+', 'damping', '0.001')
-    xml = _pj(xml, r'joint_passive_\d+', 'stiffness', '0.0001')
-    xml = _pj(xml, r'joint_passive_\d+', 'damping', '0.001')
+    xml = _pj(xml, r'joint_pitch_body_\d+', 'stiffness', '0.0001')
+    xml = _pj(xml, r'joint_pitch_body_\d+', 'damping', '0.001')
     # Terrain file
     xml = re.sub(r'(<hfield\s+name="terrain"\s+file=")[^"]*(")', rf'\g<1>{tpng}\2', xml)
     # Terrain z_max (3rd component of size="x y z r")
@@ -77,7 +77,7 @@ for tname, (tpng, tz) in TERRAINS.items():
     pids = []
     for i in range(model.njnt):
         nm = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, i)
-        if nm and ('joint_pitch_body' in nm or 'joint_passive' in nm):
+        if nm and ('joint_pitch_body' in nm):
             pids.append(i)
 
     dur = 5.0

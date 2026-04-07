@@ -37,7 +37,7 @@ def patch_xml(base, pk, pd, stc, sdr, tpng, zmax):
     # Solref — replace any existing pair
     x = re.sub(r'solref="[\d.\-e]+ [\d.\-e]+"', f'solref="{stc} {sdr}"', x)
     # Pitch joints stiffness + damping
-    for pat in [r'joint_pitch_body_\d+', r'joint_passive_\d+']:
+    for pat in [r'joint_pitch_body_\d+', r'joint_pitch_body_\d+']:
         x = re.sub(
             rf'(<joint\s[^>]*name="{pat}"[^>]*?)stiffness="[^"]*"',
             rf'\g<1>stiffness="{pk:.6e}"', x)
@@ -85,7 +85,7 @@ def run_sim(xml_text, duration):
     pitch_ids = []
     for i in range(model.njnt):
         nm = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, i)
-        if nm and ('joint_pitch_body' in nm or 'joint_passive' in nm):
+        if nm and ('joint_pitch_body' in nm):
             pitch_ids.append(i)
 
     n_steps = int(duration / model.opt.timestep)

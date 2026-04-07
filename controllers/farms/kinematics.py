@@ -6,8 +6,8 @@ the FARMS SDF. All other FARMS-model scripts import from here.
 
 Joint naming convention (from sdf_to_mjcf.py output):
   Body yaw joints  : joint_body_1  .. joint_body_19   (joint_body_0 is welded)
-  Body pitch joints: joint_pitch_body_1 .. joint_pitch_body_19  (passive, no actuator)
-                     joint_passive_0 .. joint_passive_3         (passive, no actuator)
+  Body pitch joints: joint_pitch_body_0 .. joint_pitch_body_19  (impedance + grav comp)
+                     indices 3,7,11,15 are transition joints between modules
   Leg joints       : joint_leg_{n}_L_{d}  /  joint_leg_{n}_R_{d}
                      n = 0..18 (19 legs per side), d = 0..3 (4 DOF)
   Foot joints      : joint_foot_{n}_0  /  joint_foot_{n}_1  (n = 0..18)
@@ -20,7 +20,7 @@ Actuator naming:
 
 Notes:
   - joint_body_0 is welded (no joint element, no actuator)
-  - Pitch joints are passive springs — no actuators
+  - Pitch joints: impedance-controlled with gravity compensation
   - DOF 2 and 3 of leg have near-zero amplitude in FARMS params
   - Right leg = negated left leg waveform
 """
@@ -73,6 +73,10 @@ def foot_joint_name(n, side_idx):
 def body_act_name(i):
     """Position actuator for body yaw joint i. i = 1..19."""
     return f"act_joint_body_{i}"
+
+def pitch_act_name(i):
+    """General actuator for body pitch joint. i = 0..19 (matches joint_pitch_body_N)."""
+    return f"act_joint_pitch_body_{i}"
 
 def leg_act_name(n, side, dof):
     """Position actuator for leg joint."""
@@ -141,14 +145,56 @@ class FARMSModelIndex:
                         raise ValueError(f"Joint not found in model: {name!r}")
                     self.leg_jnt_ids[n, si, dof] = jid
 
+        # ── pitch actuators (optional — may not exist) ──
+        # All pitch joints are named joint_pitch_body_N (N=0..19, skipping none)
+        # Indices 3,7,11,15 are transition joints between body modules.
+        self.pitch_act_ids  = []   # actuator ids (parallel with pitch_jnt_ids)
+        self.pitch_jnt_ids  = []   # joint ids
+        self.pitch_body_ids = []   # body ids (for gravity comp)
+        self.has_pitch_actuators = False
+        for j in range(model.njnt):
+            jname = model.joint(j).name
+            if not jname.startswith("joint_pitch_body_"):
+                continue
+            aname = "act_" + jname
+            aid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_ACTUATOR, aname)
+            if aid >= 0:
+                self.pitch_act_ids.append(aid)
+                self.pitch_jnt_ids.append(j)
+                self.pitch_body_ids.append(model.jnt_bodyid[j])
+                self.has_pitch_actuators = True
+        self.pitch_act_ids  = np.array(self.pitch_act_ids,  dtype=int)
+        self.pitch_jnt_ids  = np.array(self.pitch_jnt_ids,  dtype=int)
+        self.pitch_body_ids = np.array(self.pitch_body_ids, dtype=int)
+
+        # ── roll actuators (optional — may not exist) ──
+        # All body roll joints are named joint_roll_body_N
+        self.roll_act_ids  = []
+        self.roll_jnt_ids  = []
+        self.has_roll_actuators = False
+        for j in range(model.njnt):
+            jname = model.joint(j).name
+            if not jname.startswith("joint_roll_body_"):
+                continue
+            aname = "act_" + jname
+            aid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_ACTUATOR, aname)
+            if aid >= 0:
+                self.roll_act_ids.append(aid)
+                self.roll_jnt_ids.append(j)
+                self.has_roll_actuators = True
+        self.roll_act_ids = np.array(self.roll_act_ids, dtype=int)
+        self.roll_jnt_ids = np.array(self.roll_jnt_ids, dtype=int)
+
         # ── root freejoint (for COM tracking) ──
         self.root_body_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, "link_body_0")
         if self.root_body_id < 0:
             raise ValueError("Body 'link_body_0' not found in model")
 
+        n_pitch_str = f", {len(self.pitch_act_ids)} pitch actuators" if self.has_pitch_actuators else ""
+        n_roll_str = f", {len(self.roll_act_ids)} roll actuators" if self.has_roll_actuators else ""
         print(f"[FARMSModelIndex] Loaded: "
               f"{N_BODY_JOINTS} body actuators, "
-              f"{N_LEGS}×2×{N_LEG_DOF} leg actuators")
+              f"{N_LEGS}×2×{N_LEG_DOF} leg actuators{n_pitch_str}{n_roll_str}")
 
     # ── convenience accessors ──────────────────────────────
 

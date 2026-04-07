@@ -66,7 +66,7 @@ class ComplianceRecorder:
         self.pitch_joint_names = []
         for i in range(model.njnt):
             name = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, i)
-            if name and ('joint_pitch_body' in name or 'joint_passive' in name):
+            if name and ('joint_pitch_body' in name):
                 self.pitch_joint_ids.append(i)
                 self.pitch_joint_names.append(name)
         print(f"  Found {len(self.pitch_joint_ids)} pitch joints")

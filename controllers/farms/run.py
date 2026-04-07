@@ -25,7 +25,7 @@ import mujoco
 import mujoco.viewer
 
 from kinematics import FARMSModelIndex, N_BODY_JOINTS, N_LEGS, N_LEG_DOF
-from controller import FARMSTravelingWaveController, load_config
+from impedance_controller import ImpedanceTravelingWaveController, load_config
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
@@ -43,7 +43,7 @@ def make_run_tag():
 # ── Recorder ──────────────────────────────────────────────────────────────────
 
 class FARMSRecorder:
-    """Records COM trajectory, body joint angles, and leg joint angles."""
+    """Records COM trajectory, joint angles, commanded torque, and actual torque."""
 
     def __init__(self, model, idx, dt_record=0.01):
         self.model     = model
@@ -56,6 +56,11 @@ class FARMSRecorder:
         self.com_vel      = []   # (T, 3)
         self.body_jnt_pos = []   # (T, N_BODY_JOINTS)
         self.leg_jnt_pos  = []   # (T, N_LEGS, 2, N_LEG_DOF)
+        # Torque data
+        self.body_cmd_torque = []   # (T, N_BODY_JOINTS) — ctrl signal sent to body yaw actuators
+        self.body_act_torque = []   # (T, N_BODY_JOINTS) — actual actuator force from MuJoCo
+        self.leg_cmd_torque  = []   # (T, N_LEGS, 2, N_LEG_DOF) — ctrl for leg actuators
+        self.leg_act_torque  = []   # (T, N_LEGS, 2, N_LEG_DOF) — actual leg actuator force
 
     def maybe_record(self, data):
         if data.time - self._last_t < self.dt_record - 1e-10:
@@ -76,17 +81,41 @@ class FARMSRecorder:
                     lj[n, si, dof] = self.idx.leg_joint_pos(data, n, side, dof)
         self.leg_jnt_pos.append(lj)
 
+        # Body torque: commanded (ctrl) and actual (actuator_force)
+        body_cmd = np.array([data.ctrl[self.idx.body_act_ids[i]]
+                             for i in range(N_BODY_JOINTS)])
+        body_act = np.array([data.actuator_force[self.idx.body_act_ids[i]]
+                             for i in range(N_BODY_JOINTS)])
+        self.body_cmd_torque.append(body_cmd)
+        self.body_act_torque.append(body_act)
+
+        # Leg torque: commanded (ctrl) and actual (actuator_force)
+        leg_cmd = np.zeros((N_LEGS, 2, N_LEG_DOF))
+        leg_act = np.zeros((N_LEGS, 2, N_LEG_DOF))
+        for n in range(N_LEGS):
+            for si, side in enumerate(('L', 'R')):
+                for dof in range(N_LEG_DOF):
+                    aid = self.idx.leg_act_ids[n, si, dof]
+                    leg_cmd[n, si, dof] = data.ctrl[aid]
+                    leg_act[n, si, dof] = data.actuator_force[aid]
+        self.leg_cmd_torque.append(leg_cmd)
+        self.leg_act_torque.append(leg_act)
+
     def save(self, path):
         dirname = os.path.dirname(path)
         if dirname:
             os.makedirs(dirname, exist_ok=True)
         np.savez_compressed(
             path,
-            time          = np.array(self.times),
-            com_pos       = np.array(self.com_pos),
-            com_vel       = np.array(self.com_vel),
-            body_jnt_pos  = np.array(self.body_jnt_pos),
-            leg_jnt_pos   = np.array(self.leg_jnt_pos),
+            time             = np.array(self.times),
+            com_pos          = np.array(self.com_pos),
+            com_vel          = np.array(self.com_vel),
+            body_jnt_pos     = np.array(self.body_jnt_pos),
+            leg_jnt_pos      = np.array(self.leg_jnt_pos),
+            body_cmd_torque  = np.array(self.body_cmd_torque),
+            body_act_torque  = np.array(self.body_act_torque),
+            leg_cmd_torque   = np.array(self.leg_cmd_torque),
+            leg_act_torque   = np.array(self.leg_act_torque),
         )
         print(f"  Saved {len(self.times)} frames → {path}")
 
@@ -227,8 +256,8 @@ def main():
     if args.duration:
         cfg["simulation"]["duration"] = args.duration
 
-    # ── Controller ────────────────────────────────────────────────────────
-    ctrl = FARMSTravelingWaveController(model, config_path=args.config)
+    # ── Controller (impedance-based, compliant body yaw) ────────────────
+    ctrl = ImpedanceTravelingWaveController(model, config_path=args.config)
 
     # ── Recorder ──────────────────────────────────────────────────────────
     tag      = make_run_tag()

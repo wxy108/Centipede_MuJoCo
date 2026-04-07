@@ -62,6 +62,7 @@ import mujoco
 
 from kinematics import FARMSModelIndex, N_BODY_JOINTS, N_LEGS, N_LEG_DOF
 from controller import FARMSTravelingWaveController, load_config
+from impedance_controller import ImpedanceTravelingWaveController
 
 XML_PATH    = os.path.join(BASE, "models", "farms", "centipede.xml")
 XML_BACKUP  = XML_PATH + ".terrain_sweep_backup"
@@ -183,28 +184,17 @@ def run_single(xml_text, duration, dt_record, record_video=False):
         return None, f"xml_error: {e}", []
 
     data = mujoco.MjData(model)
-    idx  = FARMSModelIndex(model)
     cfg  = load_config(CONFIG_PATH)
 
-    # Build controller
-    ctrl = FARMSTravelingWaveController.__new__(FARMSTravelingWaveController)
-    bw, lw = cfg['body_wave'], cfg['leg_wave']
-    ctrl.body_amp = float(bw['amplitude'])
-    ctrl.freq     = float(bw['frequency'])
-    ctrl.n_wave   = float(bw['wave_number'])
-    ctrl.speed    = float(bw['speed'])
-    ctrl.omega    = 2 * np.pi * ctrl.freq
-    ctrl.leg_amps          = np.array(lw['amplitudes'], dtype=float)
-    ctrl.leg_phase_offsets = np.array(lw['phase_offsets'], dtype=float)
-    ctrl.leg_dc_offsets    = np.array(lw['dc_offsets'], dtype=float)
-    ctrl.active_dofs       = set(lw['active_dofs'])
-    ctrl.idx = idx
+    # Build controller — use impedance controller for compliant body yaw
+    ctrl = ImpedanceTravelingWaveController(model, CONFIG_PATH)
+    idx  = ctrl.idx
 
     # Find pitch joint IDs
     pitch_ids = []
     for i in range(model.njnt):
         nm = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, i)
-        if nm and ('joint_pitch_body' in nm or 'joint_passive' in nm):
+        if nm and ('joint_pitch_body' in nm):
             pitch_ids.append(i)
 
     # Find all body IDs for segment heights

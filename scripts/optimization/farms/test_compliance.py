@@ -64,7 +64,7 @@ def run_test(duration=5.0, print_every=1.0):
     pitch_ids = []
     for i in range(model.njnt):
         name = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, i)
-        if name and ('joint_pitch_body' in name or 'joint_passive' in name):
+        if name and ('joint_pitch_body' in name):
             pitch_ids.append(i)
     print(f"    pitch joints: {len(pitch_ids)} found")
 
