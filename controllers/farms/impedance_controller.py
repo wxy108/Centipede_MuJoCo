@@ -4,16 +4,15 @@ impedance_controller.py — Impedance-based traveling wave controller
 Torque-based impedance control for body yaw AND pitch joints:
 
     Body yaw:   tau = kp * (q_target - q) - kv * q_dot
-    Body pitch: tau = pitch_kp * (0 - q) - pitch_kv * q_dot + gravity_comp
+    Body pitch: tau = pitch_kp * (0 - q) - pitch_kv * q_dot
 
 The yaw impedance makes the body compliant laterally: it follows the
 traveling wave command but yields to external forces.
 
-The pitch impedance with gravity compensation keeps the body straight
-against gravity while remaining soft enough to conform to terrain.
-Gravity compensation is computed per-joint based on subtree mass and
-geometry — it exactly counteracts the static gravitational torque,
-allowing very low pitch_kp for terrain compliance.
+The pitch impedance keeps the body straight while remaining soft enough
+to conform to terrain. At 2.5g total mass, gravitational pitch torques
+are negligible vs ground reaction forces, so gravity compensation is
+not used — pure impedance control is sufficient.
 
 Leg joints remain position-actuated (their gains are already low).
 
@@ -42,8 +41,8 @@ class ImpedanceTravelingWaveController:
     Impedance-based traveling wave controller.
 
     Body yaw joints:   torque = kp*(target - q) - kv*qdot
-    Body pitch joints: torque = pitch_kp*(0 - q) - pitch_kv*qdot + grav_comp
-    Body roll joints:  torque = roll_kp*(0 - q) - roll_kv*qdot + grav_comp
+    Body pitch joints: torque = pitch_kp*(0 - q) - pitch_kv*qdot
+    Body roll joints:  torque = roll_kp*(0 - q) - roll_kv*qdot
     Leg joints:        position control (unchanged)
     """
 
@@ -159,21 +158,18 @@ class ImpedanceTravelingWaveController:
 
             data.ctrl[self.idx.body_act_ids[i]] = torque
 
-        # ── body pitch: impedance + online gravity compensation ──
+        # ── body pitch: pure impedance (no gravity compensation) ──
+        # At 2.5g total mass, gravitational pitch torques (~0.001 Nm) are
+        # negligible vs ground reaction forces.  The impedance spring alone
+        # holds neutral; adding qfrc_bias (either sign) only creates a
+        # static pitch offset that fights the controller.
         if self.has_pitch:
             for i in range(len(self.idx.pitch_act_ids)):
                 q    = data.qpos[self.pitch_qpos_adr[i]]
                 qdot = data.qvel[self.pitch_dof_adr[i]]
 
-                # Online gravity compensation: qfrc_bias contains gravity +
-                # Coriolis forces at the current configuration. This exactly
-                # counteracts gravitational sag, allowing very soft pitch_kp.
-                grav_bias = data.qfrc_bias[self.pitch_dof_adr[i]]
-
-                # Impedance: soft spring toward 0 (straight) + damping + grav comp
                 torque = (self.pitch_kp * (0.0 - q)
-                          - self.pitch_kv * qdot
-                          + grav_bias)
+                          - self.pitch_kv * qdot)
 
                 data.ctrl[self.idx.pitch_act_ids[i]] = torque
 
@@ -183,13 +179,9 @@ class ImpedanceTravelingWaveController:
                 q    = data.qpos[self.roll_qpos_adr[i]]
                 qdot = data.qvel[self.roll_dof_adr[i]]
 
-                # Online gravity compensation (same approach as pitch)
-                grav_bias = data.qfrc_bias[self.roll_dof_adr[i]]
-
-                # Impedance: soft spring toward 0 (no roll) + damping + grav comp
+                # Pure impedance (no gravity compensation, same reasoning as pitch)
                 torque = (self.roll_kp * (0.0 - q)
-                          - self.roll_kv * qdot
-                          + grav_bias)
+                          - self.roll_kv * qdot)
 
                 data.ctrl[self.idx.roll_act_ids[i]] = torque
 

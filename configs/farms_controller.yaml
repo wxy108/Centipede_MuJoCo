@@ -31,7 +31,7 @@ leg_wave:
 # ── Simulation ───────────────────────────────────────────────────────────────
 simulation:
   duration:     10.0    # seconds
-  timestep:     0.001   # must match <option timestep> in XML
+  timestep:     0.0005  # must match <option timestep="0.0005"> in centipede.xml
 
 # ── Recording ────────────────────────────────────────────────────────────────
 # ── Impedance control (body yaw) ─────────────────────────────────────────────
@@ -40,10 +40,10 @@ simulation:
 impedance:
   body_kp:      0.5     # yaw proportional gain
   body_kv:      0.10    # yaw velocity damping (0.2 * body_kp)
-  pitch_kp:     0.00151 # Bayesian optimized — best terrain conformity (rmse=19.3mm)
-  pitch_kv:     0.00180 # kv_ratio=1.19 — high damping prevents oscillation near fold
-  # Bayesian opt: 55/60 survived, cost=0.000344, worst pitch=29°
-  # Safer alternatives: kp=0.004/kv=0.0005 (same cost, more margin)
+  pitch_kp:     0.008692 # v2 sweep best — 59/60 survival, cost=0.8652
+  pitch_kv:     0.002285 # kv_ratio=0.26 — conformity rmse=22.8mm, max_pitch=7.1°
+  # Previous: kp=0.00151/kv=0.00180 (Bayesian opt, rmse=19.3mm but 55/60 survival)
+  # v2 sweep top-5 all within cost 0.8652–0.8671, kp range 0.007–0.009
   roll_kp:      0.005   # roll proportional gain — very soft, just prevent flop
   roll_kv:      0.002   # roll velocity damping (0.4 * roll_kp)
   # Optimized: 5/5 robustness (amp=0.2-0.6, freq=0.5-2Hz), avg_cost=0.0468

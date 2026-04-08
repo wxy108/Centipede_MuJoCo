@@ -72,7 +72,7 @@ N_BODY_LINKS = 21
 MAX_PITCH_DEG = 35.0
 MAX_ROLL_DEG  = 60.0
 MIN_HEIGHT_M  = -0.01
-NOMINAL_CLEARANCE = 0.0283  # body standing height above terrain
+NOMINAL_CLEARANCE = 0.0258  # measured mean body height on flat ground under gait
 
 # ═══════════════════════════════════════════════════════════════════
 # Terrain sampler

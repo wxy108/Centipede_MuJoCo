@@ -10,7 +10,7 @@ Cost metric: terrain conformity error
     terrain_z_i = heightfield(body_x_i, body_y_i)
     body_z_i    = world z position of link_body_i
     clearance_i = body_z_i - terrain_z_i
-  Ideal clearance = nominal standing height (~0.0283m from XML)
+  Ideal clearance = nominal standing height (~0.0258m measured on flat ground)
   Error = mean over time and segments of (clearance_i - nominal)²
 
   A perfectly compliant body tracks the terrain surface exactly →  low error.
@@ -234,8 +234,10 @@ def evaluate(pitch_kp, pitch_kv, duration, wave_params=None, verbose=False):
     max_pitch_history = []
     max_roll_history  = []
 
-    # Nominal clearance: body standing height above terrain (from XML: z=0.0283m)
-    NOMINAL_CLEARANCE = 0.0283
+    # Nominal clearance: measured mean body height on flat ground under gait
+    # (XML spawn z=0.0283m, but actual steady-state is ~25.8mm due to
+    #  gravity + contact dynamics + traveling wave motion)
+    NOMINAL_CLEARANCE = 0.0258
 
     buckled = False
     buckle_reason = ""
