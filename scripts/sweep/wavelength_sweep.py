@@ -1,23 +1,28 @@
 #!/usr/bin/env python3
 """
-Wavelength sweep — frequency response of centipede locomotion.
+Wavelength sweep — frequency response of centipede locomotion (Bode-plot analogy).
 
 Generates single-wavelength terrains from λ_max (world-scale) down to λ_min
-(leg-scale), runs a simulation on each, and records locomotion metrics:
-  - Cost of Transport (CoT) = Σ|τ·ω|·dt / (m·g·d)
-  - Forward speed
-  - Max/mean pitch angle
-  - Max/mean roll angle
-  - Survival (did it fold?)
+(leg-scale), runs a simulation on each, and records:
 
-Output: JSON + CSV with (wavelength, CoT, speed, pitch, roll, survived)
-        → plot CoT vs wavelength to find critical transitions.
+  Magnitude (gain):
+    - CoT(λ) / CoT_flat   — locomotion cost amplification
+    - Raw CoT, speed, pitch, roll
+
+  Phase:
+    - Cross-spectral phase lag between terrain slope under the body and
+      the measured body pitch angle.  At low frequencies (long λ) the body
+      conforms → phase ≈ 0.  At high frequencies (short λ) the body can't
+      follow → phase grows, eventually decoupling.
+
+Output: JSON + CSV with all metrics, optional per-trial MP4 video.
 
 Usage
 -----
   python scripts/sweep/wavelength_sweep.py
   python scripts/sweep/wavelength_sweep.py --n-points 30 --duration 8 --amplitude 0.005
-  python scripts/sweep/wavelength_sweep.py --headless   (no video, faster)
+  python scripts/sweep/wavelength_sweep.py --video          # save per-trial MP4s
+  python scripts/sweep/wavelength_sweep.py --video --n-points 5  # quick visual check
 
 Design
 ------
@@ -45,6 +50,7 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, "controllers", "farms"))
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "terrain", "generator"))
 
 from impedance_controller import ImpedanceTravelingWaveController
+from kinematics import FARMSModelIndex
 
 import yaml
 from generate import (resolve_morphology, heightmap_to_png, _spectral_band)
@@ -60,6 +66,13 @@ OUTPUT_DIR  = os.path.join(PROJECT_ROOT, "outputs", "wavelength_sweep")
 MAX_PITCH_DEG = 35.0
 MAX_ROLL_DEG  = 60.0
 MIN_HEIGHT_M  = -0.01
+
+# Video settings
+VID_W, VID_H = 1280, 720
+VID_FPS      = 30
+CAM_DISTANCE = 0.20
+CAM_AZIMUTH  = 60
+CAM_ELEVATION = -35
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -116,6 +129,146 @@ def save_wavelength_terrain(h_m, wavelength_m, seed, output_dir):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Terrain height sampler (for phase measurement)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+class TerrainSampler:
+    """Bilinear-interpolated heightfield lookup from MuJoCo model."""
+
+    def __init__(self, model):
+        hf_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_HFIELD, "terrain")
+        if hf_id < 0:
+            raise ValueError("Heightfield 'terrain' not found")
+        self.nrow = model.hfield_nrow[hf_id]
+        self.ncol = model.hfield_ncol[hf_id]
+        self.x_half = model.hfield_size[hf_id, 0]
+        self.y_half = model.hfield_size[hf_id, 1]
+        self.z_top  = model.hfield_size[hf_id, 2]
+        n_data = self.nrow * self.ncol
+        start = model.hfield_adr[hf_id]
+        self.data = model.hfield_data[start:start + n_data].reshape(
+            self.nrow, self.ncol).copy()
+        geom_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, "terrain_geom")
+        self.offset = model.geom_pos[geom_id].copy() if geom_id >= 0 else np.zeros(3)
+
+    def get_height(self, x, y):
+        lx = x - self.offset[0]
+        ly = y - self.offset[1]
+        u = np.clip((lx + self.x_half) / (2.0 * self.x_half), 0, 1 - 1e-10)
+        v = np.clip((ly + self.y_half) / (2.0 * self.y_half), 0, 1 - 1e-10)
+        col = u * (self.ncol - 1)
+        row = v * (self.nrow - 1)
+        c0, r0 = int(col), int(row)
+        c1, r1 = min(c0 + 1, self.ncol - 1), min(r0 + 1, self.nrow - 1)
+        fc, fr = col - c0, row - r0
+        h = (self.data[r0, c0] * (1 - fc) * (1 - fr) +
+             self.data[r0, c1] * fc * (1 - fr) +
+             self.data[r1, c0] * (1 - fc) * fr +
+             self.data[r1, c1] * fc * fr)
+        return self.offset[2] + h * self.z_top
+
+    def get_slope_along(self, x, y, dx_m=0.002):
+        """Terrain slope (dz/dx) at (x,y) along the forward x-direction."""
+        h_fwd  = self.get_height(x + dx_m, y)
+        h_back = self.get_height(x - dx_m, y)
+        return (h_fwd - h_back) / (2.0 * dx_m)
+
+
+def compute_phase_lag(terrain_slope_ts, body_pitch_ts, dt_sample):
+    """
+    Compute phase lag between terrain slope signal and body pitch response.
+
+    Uses cross-spectral density at the dominant frequency of the terrain
+    slope signal.  Returns phase in degrees (positive = pitch lags slope).
+
+    Parameters
+    ----------
+    terrain_slope_ts : 1D array — terrain slope (dz/dx) at body COM over time
+    body_pitch_ts    : 1D array — mean body pitch angle (rad) over time
+    dt_sample        : float — sample interval (seconds)
+
+    Returns
+    -------
+    dict with: phase_lag_deg, coherence, dominant_freq_hz
+    """
+    n = len(terrain_slope_ts)
+    if n < 16:
+        return {'phase_lag_deg': float('nan'), 'coherence': 0.0,
+                'dominant_freq_hz': 0.0}
+
+    # Remove DC
+    slope = terrain_slope_ts - np.mean(terrain_slope_ts)
+    pitch = body_pitch_ts - np.mean(body_pitch_ts)
+
+    # FFT
+    S = np.fft.rfft(slope)
+    P = np.fft.rfft(pitch)
+    freqs = np.fft.rfftfreq(n, d=dt_sample)
+
+    # Cross-spectral density
+    Sxy = S * np.conj(P)
+
+    # Auto-spectral densities
+    Sxx = np.abs(S) ** 2
+    Syy = np.abs(P) ** 2
+
+    # Find dominant frequency of the terrain slope signal (skip DC at idx 0)
+    if len(Sxx) < 2:
+        return {'phase_lag_deg': float('nan'), 'coherence': 0.0,
+                'dominant_freq_hz': 0.0}
+    peak_idx = np.argmax(Sxx[1:]) + 1
+
+    # Phase at dominant frequency
+    phase_rad = np.angle(Sxy[peak_idx])
+    phase_deg = float(np.degrees(phase_rad))
+
+    # Coherence at dominant frequency (γ² = |Sxy|² / (Sxx × Syy))
+    denom = Sxx[peak_idx] * Syy[peak_idx]
+    if denom > 1e-30:
+        coherence = float(np.abs(Sxy[peak_idx]) ** 2 / denom)
+    else:
+        coherence = 0.0
+
+    return {
+        'phase_lag_deg':    phase_deg,
+        'coherence':        coherence,
+        'dominant_freq_hz': float(freqs[peak_idx]),
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Video helper
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _try_make_renderer(model):
+    """Try to create a MuJoCo offscreen renderer. Returns (renderer, True) or (None, False)."""
+    try:
+        import mediapy  # noqa: F401 — just check it's importable
+        renderer = mujoco.Renderer(model, height=VID_H, width=VID_W)
+        return renderer, True
+    except (ImportError, Exception):
+        return None, False
+
+
+def _make_tracking_camera(idx, data):
+    cam = mujoco.MjvCamera()
+    com = idx.com_pos(data)
+    cam.lookat[:] = com
+    cam.distance  = CAM_DISTANCE
+    cam.azimuth   = CAM_AZIMUTH
+    cam.elevation = CAM_ELEVATION
+    return cam
+
+
+def _save_video(frames, path, fps=VID_FPS):
+    import mediapy
+    dirname = os.path.dirname(path)
+    if dirname:
+        os.makedirs(dirname, exist_ok=True)
+    mediapy.write_video(path, frames, fps=fps)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # XML patching (in-memory)
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -161,17 +314,27 @@ def patch_xml_terrain(xml_path, png_path, z_max):
 # Simulation + metrics
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def run_simulation(xml_path, config_path, duration):
+def run_simulation(xml_path, config_path, duration, video_path=None):
     """
-    Run one simulation and return locomotion metrics.
+    Run one simulation and return locomotion metrics + phase data.
+
+    Parameters
+    ----------
+    xml_path    : path to patched XML
+    config_path : path to controller YAML
+    duration    : simulation seconds
+    video_path  : if not None, save MP4 here
 
     Returns dict with: survived, forward_speed, cot, max_pitch_deg,
-                       mean_pitch_deg, max_roll_deg, mean_roll_deg, sim_time
+        mean_pitch_deg, max_roll_deg, mean_roll_deg, sim_time,
+        phase_lag_deg, phase_coherence, phase_freq_hz
     """
     model = mujoco.MjModel.from_xml_path(xml_path)
     data  = mujoco.MjData(model)
 
     ctrl = ImpedanceTravelingWaveController(model, config_path)
+    idx  = FARMSModelIndex(model)
+    terrain = TerrainSampler(model)
 
     # Resolve joint/actuator IDs
     pitch_jnt_ids = []
@@ -183,19 +346,17 @@ def run_simulation(xml_path, config_path, duration):
         if nm and 'joint_roll_body' in nm:
             roll_jnt_ids.append(j)
 
-    # Get all actuator IDs for energy computation
     n_actuators = model.nu
 
-    # Get total mass for CoT
-    total_mass = 0.0
-    for i in range(model.nbody):
-        total_mass += model.body_mass[i]
-    gravity = abs(model.opt.gravity[2])  # typically 9.81
+    # Total mass for CoT
+    total_mass = sum(model.body_mass[i] for i in range(model.nbody))
+    gravity = abs(model.opt.gravity[2])
 
     n_steps = int(duration / model.opt.timestep)
     dt = model.opt.timestep
+    SETTLE_STEPS = 200
 
-    # Find root body (freejoint) once before the loop
+    # Find root body (freejoint)
     root_body = None
     for b in range(model.nbody):
         if model.body(b).name and 'root' in model.body(b).name.lower():
@@ -208,35 +369,74 @@ def run_simulation(xml_path, config_path, duration):
                 root_body = b
                 break
 
-    # Storage
-    energy_sum = 0.0       # Σ |τ·ω| · dt
+    # ── Video setup ───────────────────────────────────────────────────────
+    renderer = None
+    frames = []
+    vid_cam = None
+    vid_dt = 1.0 / VID_FPS
+    last_frame_t = -1.0
+
+    if video_path:
+        renderer, ok = _try_make_renderer(model)
+        if ok:
+            vid_cam = _make_tracking_camera(idx, data)
+        else:
+            video_path = None  # silently skip
+
+    # ── Storage ───────────────────────────────────────────────────────────
+    energy_sum = 0.0
     pitch_angles = []
     roll_angles  = []
     start_pos = None
     buckled = False
     buckle_reason = ""
 
+    # Phase measurement time-series (sampled at ~100 Hz)
+    PHASE_SAMPLE_INTERVAL = 50  # every 50 physics steps
+    terrain_slope_ts = []
+    body_pitch_ts    = []
+    phase_sample_dt  = PHASE_SAMPLE_INTERVAL * dt
+
     for step_i in range(n_steps):
         ctrl.step(model, data)
         mujoco.mj_step(model, data)
 
-        # Record start position (after a few settling steps)
-        if step_i == 200 and root_body is not None:
+        # Record start position after settling
+        if step_i == SETTLE_STEPS and root_body is not None:
             start_pos = data.xpos[root_body].copy()
 
-        # Energy: Σ |τ_i · ω_i| · dt for all actuators
-        if step_i > 200:  # skip transient
+        # Energy: Σ |τ_i · ω_i| · dt  (skip transient)
+        if step_i > SETTLE_STEPS:
             for a in range(n_actuators):
-                # actuator_force is the force/torque applied
-                # For general actuators: force = gain * ctrl
-                # Joint velocity from the actuator's transmission
                 tau = abs(data.actuator_force[a])
-                # Get the joint this actuator acts on
                 jnt_id = model.actuator_trnid[a, 0]
-                if jnt_id >= 0 and jnt_id < model.njnt:
+                if 0 <= jnt_id < model.njnt:
                     dof_adr = model.jnt_dofadr[jnt_id]
                     omega = abs(data.qvel[dof_adr])
                     energy_sum += tau * omega * dt
+
+        # ── Phase sampling ────────────────────────────────────────────────
+        if step_i > SETTLE_STEPS and step_i % PHASE_SAMPLE_INTERVAL == 0:
+            # Terrain slope under body COM (forward direction)
+            com = idx.com_pos(data)
+            slope_x = terrain.get_slope_along(com[0], com[1])
+            terrain_slope_ts.append(slope_x)
+
+            # Mean body pitch angle (average across all pitch joints)
+            if pitch_jnt_ids:
+                mean_pitch = np.mean([
+                    data.qpos[model.jnt_qposadr[jid]] for jid in pitch_jnt_ids
+                ])
+            else:
+                mean_pitch = 0.0
+            body_pitch_ts.append(mean_pitch)
+
+        # ── Video frame capture ───────────────────────────────────────────
+        if renderer and video_path and data.time - last_frame_t >= vid_dt - 1e-6:
+            vid_cam.lookat[:] = idx.com_pos(data)
+            renderer.update_scene(data, camera=vid_cam)
+            frames.append(renderer.render().copy())
+            last_frame_t = data.time
 
         # Failure check every 200 steps
         if step_i % 200 == 0 and step_i > 0:
@@ -244,19 +444,19 @@ def run_simulation(xml_path, config_path, duration):
                 q_deg = abs(math.degrees(data.qpos[model.jnt_qposadr[jid]]))
                 if q_deg > MAX_PITCH_DEG:
                     buckled = True
-                    buckle_reason = f"pitch({q_deg:.1f}° t={data.time:.1f}s)"
+                    buckle_reason = f"pitch({q_deg:.1f} t={data.time:.1f}s)"
                     break
             if not buckled:
                 for jid in roll_jnt_ids:
                     q_deg = abs(math.degrees(data.qpos[model.jnt_qposadr[jid]]))
                     if q_deg > MAX_ROLL_DEG:
                         buckled = True
-                        buckle_reason = f"roll({q_deg:.1f}° t={data.time:.1f}s)"
+                        buckle_reason = f"roll({q_deg:.1f} t={data.time:.1f}s)"
                         break
             if buckled:
                 break
 
-        # Record pitch/roll every 100 steps
+        # Record pitch/roll extremes every 100 steps
         if step_i % 100 == 0:
             for jid in pitch_jnt_ids:
                 pitch_angles.append(abs(math.degrees(
@@ -265,41 +465,53 @@ def run_simulation(xml_path, config_path, duration):
                 roll_angles.append(abs(math.degrees(
                     data.qpos[model.jnt_qposadr[jid]])))
 
-    # Compute metrics
-    end_pos = None
-    if root_body is not None:
-        end_pos = data.xpos[root_body].copy()
+    # ── Save video ────────────────────────────────────────────────────────
+    if video_path and frames:
+        _save_video(frames, video_path)
+
+    # ── Compute locomotion metrics ────────────────────────────────────────
+    end_pos = data.xpos[root_body].copy() if root_body is not None else None
 
     if start_pos is not None and end_pos is not None:
         dx = end_pos[0] - start_pos[0]
         dy = end_pos[1] - start_pos[1]
-        distance = math.sqrt(dx**2 + dy**2)
+        distance = math.sqrt(dx ** 2 + dy ** 2)
     else:
         distance = 0.0
 
-    settle_time = 200 * dt
+    settle_time = SETTLE_STEPS * dt
     effective_time = max(data.time - settle_time, 0.01)
     forward_speed = distance / effective_time
 
-    # CoT = total_energy / (m * g * distance)
     if distance > 0.001:
         cot = energy_sum / (total_mass * gravity * distance)
     else:
         cot = float('inf')
 
+    # ── Compute phase lag ─────────────────────────────────────────────────
+    phase_info = compute_phase_lag(
+        np.array(terrain_slope_ts),
+        np.array(body_pitch_ts),
+        phase_sample_dt,
+    )
+
     return {
-        'survived':       not buckled,
-        'buckle_reason':  buckle_reason,
-        'sim_time':       float(data.time),
-        'distance_m':     float(distance),
-        'forward_speed':  float(forward_speed),
-        'cot':            float(min(cot, 1e6)),
-        'energy_J':       float(energy_sum),
-        'max_pitch_deg':  float(max(pitch_angles)) if pitch_angles else 0,
-        'mean_pitch_deg': float(np.mean(pitch_angles)) if pitch_angles else 0,
-        'max_roll_deg':   float(max(roll_angles)) if roll_angles else 0,
-        'mean_roll_deg':  float(np.mean(roll_angles)) if roll_angles else 0,
-        'total_mass_kg':  float(total_mass),
+        'survived':         not buckled,
+        'buckle_reason':    buckle_reason,
+        'sim_time':         float(data.time),
+        'distance_m':       float(distance),
+        'forward_speed':    float(forward_speed),
+        'cot':              float(min(cot, 1e6)),
+        'energy_J':         float(energy_sum),
+        'max_pitch_deg':    float(max(pitch_angles)) if pitch_angles else 0,
+        'mean_pitch_deg':   float(np.mean(pitch_angles)) if pitch_angles else 0,
+        'max_roll_deg':     float(max(roll_angles)) if roll_angles else 0,
+        'mean_roll_deg':    float(np.mean(roll_angles)) if roll_angles else 0,
+        'total_mass_kg':    float(total_mass),
+        'phase_lag_deg':    float(phase_info['phase_lag_deg']),
+        'phase_coherence':  float(phase_info['coherence']),
+        'phase_freq_hz':    float(phase_info['dominant_freq_hz']),
+        'video_path':       video_path or '',
     }
 
 
@@ -321,6 +533,8 @@ def main():
                         help="Min wavelength (m). Default: L_ell / 2")
     parser.add_argument("--wl-max",    type=float, default=None,
                         help="Max wavelength (m). Default: L_w")
+    parser.add_argument("--video",     action="store_true",
+                        help="Save an MP4 video for each wavelength trial")
     args = parser.parse_args()
 
     # Load morphology
@@ -341,17 +555,28 @@ def main():
     run_dir = os.path.join(OUTPUT_DIR, f"sweep_{timestamp}")
     os.makedirs(run_dir, exist_ok=True)
 
+    # Check video capability once
+    can_video = False
+    if args.video:
+        try:
+            import mediapy  # noqa: F401
+            can_video = True
+        except ImportError:
+            print("  WARNING: mediapy not installed — skipping video recording.")
+            print("           Install with: pip install mediapy")
+
     print("=" * 70)
-    print("Wavelength Sweep — Centipede Frequency Response")
+    print("Wavelength Sweep — Centipede Frequency Response (Bode plot)")
     print("=" * 70)
     print(f"  Morphology: L_w={lengths['L_w']*1000:.0f}mm  "
           f"L_b={lengths['L_b']*1000:.1f}mm  "
           f"L_s={lengths['L_s']*1000:.1f}mm  "
           f"L_ell={lengths['L_ell']*1000:.1f}mm")
-    print(f"  Wavelength range: {wl_max*1000:.0f}mm → {wl_min*1000:.1f}mm  "
+    print(f"  Wavelength range: {wl_max*1000:.0f}mm -> {wl_min*1000:.1f}mm  "
           f"({args.n_points} points, log-spaced)")
     print(f"  Fixed amplitude: {args.amplitude*1000:.1f}mm RMS")
     print(f"  Duration: {args.duration}s per trial")
+    print(f"  Video: {'ON' if can_video else 'OFF'}")
     print(f"  Output: {run_dir}")
     print()
 
@@ -393,16 +618,26 @@ def main():
         # Patch XML
         tmp_xml = patch_xml_terrain(XML_PATH, png_path, z_max)
 
+        # Video path for this trial
+        vid_path = None
+        if can_video:
+            vid_dir = os.path.join(run_dir, "videos")
+            os.makedirs(vid_dir, exist_ok=True)
+            vid_path = os.path.join(vid_dir, f"wl_{wl*1000:.0f}mm.mp4")
+
         # Run simulation
         try:
-            metrics = run_simulation(tmp_xml, CONFIG_PATH, args.duration)
+            metrics = run_simulation(tmp_xml, CONFIG_PATH, args.duration,
+                                     video_path=vid_path)
         except Exception as e:
             print(f"    ERROR: {e}")
             metrics = {'survived': False, 'buckle_reason': str(e),
                        'cot': 1e6, 'forward_speed': 0, 'distance_m': 0,
                        'max_pitch_deg': 0, 'mean_pitch_deg': 0,
                        'max_roll_deg': 0, 'mean_roll_deg': 0,
-                       'energy_J': 0, 'sim_time': 0, 'total_mass_kg': 0}
+                       'energy_J': 0, 'sim_time': 0, 'total_mass_kg': 0,
+                       'phase_lag_deg': float('nan'), 'phase_coherence': 0,
+                       'phase_freq_hz': 0, 'video_path': ''}
         finally:
             # Clean up temp XML
             if os.path.exists(tmp_xml):
@@ -420,12 +655,16 @@ def main():
         results.append(entry)
 
         if metrics['survived']:
-            print(f"    → CoT={metrics['cot']:.2f}  "
+            phase_str = (f"  phase={metrics['phase_lag_deg']:.1f}deg"
+                         if not math.isnan(metrics.get('phase_lag_deg', float('nan')))
+                         else "  phase=N/A")
+            print(f"    -> CoT={metrics['cot']:.2f}  "
                   f"speed={metrics['forward_speed']*1000:.1f}mm/s  "
-                  f"pitch={metrics['max_pitch_deg']:.1f}°  "
+                  f"pitch={metrics['max_pitch_deg']:.1f}deg"
+                  f"{phase_str}  "
                   f"dist={metrics['distance_m']*1000:.0f}mm")
         else:
-            print(f"    → FAIL: {metrics['buckle_reason']}")
+            print(f"    -> FAIL: {metrics['buckle_reason']}")
 
     elapsed = time.time() - t0
 
@@ -449,7 +688,8 @@ def main():
     with open(out_csv, 'w') as f:
         headers = ['wavelength_mm', 'frequency', 'cot', 'forward_speed',
                     'max_pitch_deg', 'mean_pitch_deg', 'max_roll_deg',
-                    'mean_roll_deg', 'distance_m', 'energy_J', 'survived']
+                    'mean_roll_deg', 'distance_m', 'energy_J', 'survived',
+                    'phase_lag_deg', 'phase_coherence', 'phase_freq_hz']
         f.write(','.join(headers) + '\n')
         for r in results:
             vals = [str(r.get(h, '')) for h in headers]
@@ -471,10 +711,20 @@ def main():
     if survived:
         # Find critical transitions
         by_wl = sorted(survived, key=lambda r: r['wavelength_m'], reverse=True)
-        print(f"\n  CoT range: {min(r['cot'] for r in survived):.2f} – "
+        print(f"\n  CoT range: {min(r['cot'] for r in survived):.2f} - "
               f"{max(r['cot'] for r in survived):.2f}")
-        print(f"  Speed range: {min(r['forward_speed'] for r in survived)*1000:.1f} – "
+        print(f"  Speed range: {min(r['forward_speed'] for r in survived)*1000:.1f} - "
               f"{max(r['forward_speed'] for r in survived)*1000:.1f} mm/s")
+
+        # Phase summary
+        phase_valid = [r for r in survived if not math.isnan(r.get('phase_lag_deg', float('nan')))]
+        if phase_valid:
+            print(f"\n  Phase lag range: "
+                  f"{min(r['phase_lag_deg'] for r in phase_valid):.1f}deg - "
+                  f"{max(r['phase_lag_deg'] for r in phase_valid):.1f}deg")
+            hi_coh = [r for r in phase_valid if r['phase_coherence'] > 0.3]
+            if hi_coh:
+                print(f"  High-coherence trials (gamma^2 > 0.3): {len(hi_coh)}/{len(phase_valid)}")
 
         # Mark morphology scales
         print(f"\n  Morphology reference lines for plotting:")
@@ -483,9 +733,12 @@ def main():
 
     print(f"\n  Results: {out_json}")
     print(f"  CSV:     {out_csv}")
-    print(f"\n  To plot: use wavelength_mm as x-axis (log scale),")
-    print(f"           CoT / speed / pitch as y-axis.")
-    print(f"           Draw vertical lines at L_w, L_b, L_s, L_ell.")
+    if can_video:
+        print(f"  Videos:  {os.path.join(run_dir, 'videos')}/")
+    print(f"\n  Bode plot guide:")
+    print(f"    Magnitude: plot CoT(lam)/CoT_flat vs wavelength (log-x)")
+    print(f"    Phase:     plot phase_lag_deg vs wavelength (log-x)")
+    print(f"    Draw vertical lines at L_w, L_b, L_s, L_ell.")
 
 
 if __name__ == "__main__":
