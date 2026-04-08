@@ -8,15 +8,19 @@ Fixed cost function from v1:
   - Direct pitch angle penalty: prevents the optimizer from exploiting soft gains
     that let head/tail pitch up wildly
 
-Cost = terrain_conformity + pitch_penalty
+Cost = terrain_conformity + pitch_penalty + softness_penalty
   terrain_conformity: for each segment, measure clearance above terrain.
-    If clearance > nominal → body is lifting off → HARD penalty (10× weight)
+    If clearance > nominal → body is lifting off → HARD penalty (√10× weight ≈ 3.16×)
     If clearance < nominal → body dipping toward terrain → SOFT penalty (1× weight)
     Take 90th percentile across segments (worst-case, not mean)
 
   pitch_penalty: max pitch angle across all joints and all time
     Quadratic penalty: (max_pitch_deg / 20)²
     This directly prevents the head/tail lift-off problem.
+
+  softness_penalty: explicitly rewards LOWER kp (softer joints)
+    log10(kp / kp_min) → 0 at softest, 2 at stiffest
+    This ensures the optimizer seeks the softest gains that still conform.
 
   FAIL: any pitch > 35° or roll > 60° → cost = 1e6
 
@@ -200,12 +204,13 @@ def evaluate(pitch_kp, pitch_kv, duration):
                     clearance = body_z - terrain_z
                     deviation = clearance - NOMINAL_CLEARANCE
 
-                    # ASYMMETRIC: body ABOVE nominal (lifting off) penalized 10×
+                    # ASYMMETRIC: body ABOVE nominal (lifting off) penalized ~10×
                     # body BELOW nominal (dipping into terrain) penalized 1×
+                    # Using sqrt(10)≈3.16 multiplier so after squaring → 10× ratio
                     if deviation > 0:
-                        devs[si] = (deviation * 10.0) ** 2  # lifting off → harsh
+                        devs[si] = (deviation * 3.16) ** 2   # lifting off → ~10× after sq
                     else:
-                        devs[si] = deviation ** 2            # dipping → mild
+                        devs[si] = deviation ** 2             # dipping → mild
 
                 seg_deviations_over_time.append(devs)
 
@@ -254,15 +259,21 @@ def evaluate(pitch_kp, pitch_kv, duration):
     else:
         trend = 1.0
 
+    # Softness reward: explicitly prefer lower kp (softer joints)
+    # log10(kp/0.001) → 0 at kp=0.001 (softest), 2.0 at kp=0.1 (stiffest)
+    softness_penalty = math.log10(pitch_kp / 0.001)  # range [0, 2]
+
     # Total cost: weighted sum
-    # conformity_cost is ~0.0003-0.001 range, pitch_penalty is ~0.1-2 range
-    # Scale conformity up so both terms matter
-    total_cost = conformity_cost * 1000.0 + pitch_penalty * 0.5
+    # conformity_cost is ~0.0003-0.001 range → ×1000 → 0.3-1.0
+    # pitch_penalty is ~0.1-2 range → ×0.5 → 0.05-1.0
+    # softness_penalty is 0-2 range → ×0.3 → 0-0.6
+    total_cost = conformity_cost * 1000.0 + pitch_penalty * 0.5 + softness_penalty * 0.3
 
     result['cost'] = float(total_cost)
     result['conformity_cost'] = float(conformity_cost)
     result['conformity_rmse_mm'] = float(np.sqrt(conformity_cost) * 1000)
     result['pitch_penalty'] = float(pitch_penalty)
+    result['softness_penalty'] = float(softness_penalty)
     result['max_pitch_deg'] = float(max_pitch_deg)
     result['mean_pitch_deg'] = float(mean_pitch_deg)
     result['max_roll_deg'] = float(math.degrees(max(max_roll_over_time))) if max_roll_over_time else 0
@@ -296,6 +307,7 @@ def make_objective(duration):
             'max_pitch_deg': r.get('max_pitch_deg', 0),
             'max_roll_deg': r.get('max_roll_deg', 0),
             'pitch_penalty': r.get('pitch_penalty', 0),
+            'softness_penalty': r.get('softness_penalty', 0),
             'buckle_reason': r.get('buckle_reason', ''),
         }
         trial_history.append(entry)
@@ -306,7 +318,7 @@ def make_objective(duration):
                   f"→ cost={r['cost']:.4f} "
                   f"conf={r.get('conformity_rmse_mm',0):.1f}mm "
                   f"pitch={r.get('max_pitch_deg',0):.1f}° "
-                  f"p_pen={r.get('pitch_penalty',0):.2f}")
+                  f"soft={r.get('softness_penalty',0):.2f}")
         else:
             print(f"  Trial {trial.number:3d}: kp={pitch_kp:.5f} kv={pitch_kv:.5f} "
                   f"→ FAIL {r.get('buckle_reason','')}")
@@ -336,11 +348,12 @@ def main():
     print("=" * 70)
     print("Pitch Compliance Optimization v2 (Bayesian / Optuna)")
     print("=" * 70)
-    print(f"FIXED cost function:")
-    print(f"  - Asymmetric: body lifting OFF terrain penalized 10×")
+    print(f"FIXED cost function (v2.1):")
+    print(f"  - Asymmetric: body lifting OFF terrain penalized ~10×")
     print(f"  - 90th percentile across segments (worst drives cost)")
     print(f"  - Direct pitch angle penalty: (max_pitch/20°)²")
     print(f"  - Trend penalty: growing pitch amplified")
+    print(f"  - Softness reward: log10(kp/0.001) penalizes stiff gains")
     print(f"")
     print(f"Search: pitch_kp=[0.001,0.1], pitch_kv=[0.0003,0.05] (log)")
     print(f"Fixed: body_kp={FIXED_BODY_KP}, roll_kp={FIXED_ROLL_KP}")
@@ -396,12 +409,12 @@ def main():
 
     print(f"\n  Top 10:")
     print(f"  {'#':<5} {'kp':<10} {'kv':<10} {'ratio':<7} {'cost':<10} "
-          f"{'rmse_mm':<9} {'pitch°':<8} {'p_pen':<7}")
+          f"{'rmse_mm':<9} {'pitch°':<8} {'soft':<6}")
     for t in survived[:10]:
         print(f"  {t['trial']:<5} {t['pitch_kp']:<10.5f} {t['pitch_kv']:<10.5f} "
               f"{t['kv_ratio']:<7.2f} {t['cost']:<10.4f} "
               f"{t['conformity_rmse_mm']:<9.1f} {t['max_pitch_deg']:<8.1f} "
-              f"{t['pitch_penalty']:<7.2f}")
+              f"{t.get('softness_penalty',0):<6.2f}")
 
     n_survived = sum(1 for t in trial_history if t['survived'])
     print(f"\n  Survival: {n_survived}/{len(trial_history)}")
