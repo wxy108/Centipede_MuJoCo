@@ -1,34 +1,69 @@
-world:
-  size:                 0.5     # metres, square arena (was 1.0 — halved for 2x resolution)
-  image_size:           1024    # pixels per side → ~0.5mm/pixel at 0.5m terrain
-  terrain_world_height: 0.05   # metres, encoding range +/-25 mm, enough for all levels
-  smooth_sigma:         8.0     # Gaussian blur sigma in pixels (~4mm on 0.5m/1024px terrain)
+# ═══════════════════════════════════════════════════════════════════════════════
+# Terrain Configuration — Morphology-Driven Exact Wavelength Bands
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Four spectral bands, each at EXACTLY the robot's characteristic wavelength:
+#   World   → λ = L_w (arena half-extent)     — base terrain shape
+#   Body    → λ = L_b (body length)            — whole-body interaction
+#   Segment → λ = L_s = L_b / n_wave           — body-wave segment scale
+#   Leg     → λ = L_ℓ (leg length)             — foothold geometry
+#
+# To adapt to a different robot: change ONLY the morphology section.
+#
+# ═══════════════════════════════════════════════════════════════════════════════
 
-# Flat pad centred at world origin (0,0) = image pixel (512,512).
+# ── Robot morphology ─────────────────────────────────────────────────────────
+# Change ONLY this section when switching to a different robot model.
+morphology:
+  L_b:     0.1025    # Total body length (m) — head to tail
+  n_wave:  3         # Traveling wave number → L_s = L_b / n_wave
+  L_ell:   0.0074    # Leg length (m) — hip to foot tip
+
+# ── World setup ──────────────────────────────────────────────────────────────
+world:
+  size:                 0.5     # Half-extent (m). Total arena = 1m × 1m
+  image_size:           1024    # Pixels per side
+  terrain_world_height: 0.05   # Encoding range (m)
+  smooth_sigma:         1.5     # Gaussian blur in pixels (~1.5mm). Must be < L_ell/4 to preserve leg features.
+
 centering:
   enabled:          false
 
-# Three non-overlapping spectral bands.
-# Frequencies increase: low -> mid -> high  (body-scale -> segment-scale -> leg-scale)
-# Each band amplitude is set independently via CLI: --low-amp, --mid-amp, --high-amp
+# ── Spectral bands ───────────────────────────────────────────────────────────
+# Each band generates terrain at EXACTLY its characteristic wavelength.
+# Amplitudes are defaults — override via CLI:
+#   --world-amp, --body-amp, --segment-amp, --leg-amp
+
 spectral_bands:
-  low:
-    n_components:   6
-    freq_min:       1.0      # wavelength 1.0 m = 2x terrain, gentle curvature
-    freq_max:       5.0      # wavelength 0.2 m = body-scale undulation (~2x body length)
-    amplitude:      0.0010   # default (overridden by --low-amp)
-    orientation_spread: 1.0
 
-  mid:
-    n_components:   6
-    freq_min:       5.0      # wavelength 0.2 m
-    freq_max:       20.0     # wavelength 0.05 m = segment-scale mounds (~1 segment)
-    amplitude:      0.0005   # default (overridden by --mid-amp)
-    orientation_spread: 1.0
+  world:
+    # λ = L_w = world.size (arena half-extent = 500mm)
+    # Generates broad base terrain shape — slopes, large undulations
+    anchor: "L_w"
+    n_components:        4
+    amplitude:           0.006
+    orientation_spread:  1.0
 
-  high:
-    n_components:   12
-    freq_min:       20.0     # wavelength 0.05 m = leg-scale bumps
-    freq_max:       40.0     # wavelength 0.025 m — capped to avoid staircase aliasing
-    amplitude:      0.0002   # default (overridden by --high-amp)
-    orientation_spread: 1.0
+  body:
+    # λ = L_b = 102.5mm (total body length)
+    # Terrain features at body scale — whole-body pitch/roll
+    anchor: "L_b"
+    n_components:        6
+    amplitude:           0.003
+    orientation_spread:  1.0
+
+  segment:
+    # λ = L_s = L_b / n_wave = 34.2mm (body-wave segment scale)
+    # Terrain features at segment scale — inter-segment bending
+    anchor: "L_s"
+    n_components:        8
+    amplitude:           0.002
+    orientation_spread:  1.0
+
+  leg:
+    # λ = L_ℓ = 7.4mm (leg length)
+    # Terrain features at leg scale — foothold geometry, contact timing
+    anchor: "L_ell"
+    n_components:        12
+    amplitude:           0.001
+    orientation_spread:  1.0
