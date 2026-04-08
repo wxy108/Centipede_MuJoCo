@@ -40,8 +40,10 @@ simulation:
 impedance:
   body_kp:      0.5     # yaw proportional gain
   body_kv:      0.10    # yaw velocity damping (0.2 * body_kp)
-  pitch_kp:     0.003   # pitch proportional gain — softest stable (fold boundary at 0.001)
-  pitch_kv:     0.0012  # pitch velocity damping (0.4 * pitch_kp)
+  pitch_kp:     0.00151 # Bayesian optimized — best terrain conformity (rmse=19.3mm)
+  pitch_kv:     0.00180 # kv_ratio=1.19 — high damping prevents oscillation near fold
+  # Bayesian opt: 55/60 survived, cost=0.000344, worst pitch=29°
+  # Safer alternatives: kp=0.004/kv=0.0005 (same cost, more margin)
   roll_kp:      0.005   # roll proportional gain — very soft, just prevent flop
   roll_kv:      0.002   # roll velocity damping (0.4 * roll_kp)
   # Optimized: 5/5 robustness (amp=0.2-0.6, freq=0.5-2Hz), avg_cost=0.0468
