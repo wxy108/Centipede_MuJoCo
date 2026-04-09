@@ -2,26 +2,23 @@
 """
 plot_bode.py — Bode-plot analysis of wavelength sweep results.
 
-Reads a wavelength sweep results.json and produces publication-quality plots:
+Handles both single-trial and batch (multi-trial) sweep formats.
+For batch data: plots mean +/- std error bands and individual trial scatter.
 
-  1. Magnitude plot  — CoT vs wavelength (log-x)
-  2. Phase plot      — terrain-slope → body-pitch phase lag vs wavelength
-  3. Speed plot      — forward speed vs wavelength
-  4. Pitch/Roll plot — max pitch & roll angles vs wavelength
-  5. Combined Bode   — magnitude + phase stacked (the main figure)
-
-Vertical dashed lines mark morphology reference wavelengths:
-  L_w (world), L_b (body), L_s (segment), L_ell (leg)
+Figures produced:
+  1. bode_combined   — CoT + Speed + Phase stacked (main figure)
+  2. cot_vs_wavelength
+  3. phase_vs_wavelength
+  4. speed_vs_wavelength
+  5. pitch_roll_vs_wavelength
 
 Usage
 -----
-  python analysis/wavelength_sweep/plot_bode.py                    # auto-find latest sweep
-  python analysis/wavelength_sweep/plot_bode.py --sweep-dir outputs/wavelength_sweep/sweep_20260408_163221
-  python analysis/wavelength_sweep/plot_bode.py --all              # plot all sweeps found
+  python analysis/wavelength_sweep/plot_bode.py                    # latest sweep
+  python analysis/wavelength_sweep/plot_bode.py --sweep-dir outputs/wavelength_sweep/sweep_XXX
+  python analysis/wavelength_sweep/plot_bode.py --all
 
-Output
-------
-  outputs/figures/wavelength_sweep/  (PNG + PDF for each figure)
+Output: outputs/figures/wavelength_sweep/  (PNG + PDF)
 """
 
 import argparse
@@ -33,7 +30,7 @@ from glob import glob
 
 import numpy as np
 import matplotlib
-matplotlib.use("Agg")  # headless-safe
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 
@@ -45,28 +42,21 @@ FIG_DIR      = os.path.join(PROJECT_ROOT, "outputs", "figures", "wavelength_swee
 
 # ── Style ─────────────────────────────────────────────────────────────────────
 MORPH_COLORS = {
-    "L_w":   "#888888",
-    "L_b":   "#2196F3",
-    "L_s":   "#FF9800",
-    "L_ell": "#4CAF50",
+    "L_w": "#888888", "L_b": "#2196F3", "L_s": "#FF9800", "L_ell": "#4CAF50",
 }
 MORPH_LABELS = {
-    "L_w":   "$L_w$ (world)",
-    "L_b":   "$L_b$ (body)",
-    "L_s":   "$L_s$ (segment)",
-    "L_ell": "$L_{\\ell}$ (leg)",
+    "L_w": "$L_w$ (world)", "L_b": "$L_b$ (body)",
+    "L_s": "$L_s$ (segment)", "L_ell": "$L_{\\ell}$ (leg)",
 }
 
 
 def load_sweep(sweep_dir):
-    """Load results.json from a sweep directory."""
     path = os.path.join(sweep_dir, "results.json")
     with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
 def find_latest_sweep():
-    """Find the most recently created sweep directory."""
     dirs = sorted(glob(os.path.join(SWEEP_DIR, "sweep_*")))
     if not dirs:
         print(f"ERROR: No sweep directories found in {SWEEP_DIR}")
@@ -74,8 +64,12 @@ def find_latest_sweep():
     return dirs[-1]
 
 
-def _add_morphology_lines(ax, morphology, y_range=None):
-    """Draw vertical dashed lines at morphology wavelengths."""
+def is_batch(data):
+    """Check if this is a batch (multi-trial) sweep."""
+    return 'wavelength_results' in data
+
+
+def _add_morphology_lines(ax, morphology):
     for key in ["L_w", "L_b", "L_s", "L_ell"]:
         val_mm = morphology[key] * 1000
         ax.axvline(val_mm, color=MORPH_COLORS[key], linestyle="--",
@@ -83,16 +77,14 @@ def _add_morphology_lines(ax, morphology, y_range=None):
 
 
 def _configure_log_x(ax, label="Wavelength (mm)"):
-    """Configure log-scale x-axis with nice formatting."""
     ax.set_xscale("log")
     ax.set_xlabel(label, fontsize=11)
     ax.xaxis.set_major_formatter(ScalarFormatter())
     ax.tick_params(axis="both", labelsize=10)
-    ax.invert_xaxis()  # long wavelengths (low freq) on left, short on right
+    ax.invert_xaxis()
 
 
 def _save_fig(fig, name, out_dir):
-    """Save figure as both PNG and PDF."""
     os.makedirs(out_dir, exist_ok=True)
     for ext in ("png", "pdf"):
         path = os.path.join(out_dir, f"{name}.{ext}")
@@ -101,22 +93,77 @@ def _save_fig(fig, name, out_dir):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Extract data (handles both single and batch format)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def extract_agg(data):
+    """
+    Extract aggregated per-wavelength data.
+    Returns list of dicts with: wavelength_mm, cot_mean, cot_std, speed_mean, ...
+    For single-trial data, std = 0.
+    """
+    if is_batch(data):
+        return data['wavelength_results']
+    else:
+        # Old single-trial format: wrap each result as an "aggregated" entry
+        out = []
+        for r in data['results']:
+            if not r.get('survived', True):
+                continue
+            out.append({
+                'wavelength_mm': r['wavelength_mm'],
+                'frequency': r['frequency'],
+                'n_survived': 1, 'n_trials': 1, 'survival_rate': 1.0,
+                'cot_mean': r['cot'], 'cot_std': 0,
+                'cot_median': r['cot'], 'cot_min': r['cot'], 'cot_max': r['cot'],
+                'speed_mean': r['forward_speed'], 'speed_std': 0,
+                'max_pitch_mean': r['max_pitch_deg'], 'max_pitch_std': 0,
+                'max_roll_mean': r['max_roll_deg'], 'max_roll_std': 0,
+                'phase_lag_mean': r.get('phase_lag_deg', float('nan')),
+                'phase_lag_std': 0,
+            })
+        return out
+
+
+def extract_trials(data):
+    """Extract raw per-trial data (batch only). Returns list of dicts or None."""
+    if is_batch(data):
+        return data.get('all_trials', [])
+    return None
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Individual plots
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def plot_cot(results, morphology, out_dir, tag):
-    """CoT magnitude plot."""
-    survived = [r for r in results if r["survived"]]
-    if not survived:
-        print("  No surviving trials — skipping CoT plot")
+def plot_cot(agg, trials, morphology, out_dir, tag):
+    valid = [r for r in agg if r.get('n_survived', 1) > 0]
+    if not valid:
         return
 
-    wl = [r["wavelength_mm"] for r in survived]
-    cot = [r["cot"] for r in survived]
+    wl = [r['wavelength_mm'] for r in valid]
+    cot_mean = [r['cot_mean'] for r in valid]
+    cot_std = [r.get('cot_std', 0) for r in valid]
 
-    fig, ax = plt.subplots(figsize=(9, 4.5))
-    ax.plot(wl, cot, "o-", color="#E53935", markersize=6, linewidth=1.8,
-            label="CoT", zorder=5)
+    fig, ax = plt.subplots(figsize=(10, 5))
+
+    # Scatter individual trials if available
+    if trials:
+        survived_trials = [t for t in trials if t.get('survived', True)]
+        t_wl = [t['wavelength_mm'] for t in survived_trials]
+        t_cot = [t['cot'] for t in survived_trials]
+        ax.scatter(t_wl, t_cot, s=12, alpha=0.25, color="#E53935",
+                   zorder=3, label="Individual trials")
+
+    # Mean + error band
+    ax.plot(wl, cot_mean, "o-", color="#E53935", markersize=7, linewidth=2,
+            label="Mean CoT", zorder=5)
+    if any(s > 0 for s in cot_std):
+        cot_lo = [m - s for m, s in zip(cot_mean, cot_std)]
+        cot_hi = [m + s for m, s in zip(cot_mean, cot_std)]
+        ax.fill_between(wl, cot_lo, cot_hi, alpha=0.15, color="#E53935",
+                        label="$\\pm 1\\sigma$")
+
     _add_morphology_lines(ax, morphology)
     _configure_log_x(ax)
     ax.set_ylabel("Cost of Transport", fontsize=11)
@@ -127,61 +174,72 @@ def plot_cot(results, morphology, out_dir, tag):
     plt.close(fig)
 
 
-def plot_phase(results, morphology, out_dir, tag):
-    """Phase lag plot."""
-    survived = [r for r in results if r["survived"]]
-    valid = [r for r in survived
-             if not math.isnan(r.get("phase_lag_deg", float("nan")))]
+def plot_phase(agg, trials, morphology, out_dir, tag):
+    valid = [r for r in agg
+             if r.get('n_survived', 1) > 0
+             and not math.isnan(r.get('phase_lag_mean', float('nan')))]
     if not valid:
-        print("  No valid phase data — skipping phase plot")
+        print("  No valid phase data -- skipping")
         return
 
-    wl = [r["wavelength_mm"] for r in valid]
-    phase = [r["phase_lag_deg"] for r in valid]
-    coherence = [r["phase_coherence"] for r in valid]
+    wl = [r['wavelength_mm'] for r in valid]
+    phase_mean = [r['phase_lag_mean'] for r in valid]
+    phase_std = [r.get('phase_lag_std', 0) for r in valid]
 
-    fig, ax1 = plt.subplots(figsize=(9, 4.5))
+    fig, ax = plt.subplots(figsize=(10, 5))
 
-    # Phase lag
-    ax1.plot(wl, phase, "s-", color="#1565C0", markersize=6, linewidth=1.8,
-             label="Phase lag", zorder=5)
-    ax1.axhline(0, color="black", linewidth=0.5, alpha=0.5)
-    ax1.axhline(90, color="red", linewidth=0.8, alpha=0.4, linestyle=":")
-    ax1.axhline(-90, color="red", linewidth=0.8, alpha=0.4, linestyle=":")
-    _add_morphology_lines(ax1, morphology)
-    _configure_log_x(ax1)
-    ax1.set_ylabel("Phase lag (degrees)", fontsize=11, color="#1565C0")
-    ax1.set_title("Phase: Terrain Slope → Body Pitch Phase Lag", fontsize=13)
+    if trials:
+        valid_trials = [t for t in trials
+                        if t.get('survived', True)
+                        and not math.isnan(t.get('phase_lag_deg', float('nan')))]
+        t_wl = [t['wavelength_mm'] for t in valid_trials]
+        t_ph = [t['phase_lag_deg'] for t in valid_trials]
+        ax.scatter(t_wl, t_ph, s=12, alpha=0.25, color="#1565C0", zorder=3)
 
-    # Coherence on secondary axis
-    ax2 = ax1.twinx()
-    ax2.fill_between(wl, coherence, alpha=0.15, color="#4CAF50")
-    ax2.plot(wl, coherence, "^", color="#4CAF50", markersize=4, alpha=0.6,
-             label="Coherence")
-    ax2.set_ylabel("Coherence ($\\gamma^2$)", fontsize=10, color="#4CAF50")
-    ax2.set_ylim(-0.05, 1.15)
+    ax.plot(wl, phase_mean, "s-", color="#1565C0", markersize=7, linewidth=2,
+            label="Mean phase lag", zorder=5)
+    if any(s > 0 for s in phase_std):
+        ph_lo = [m - s for m, s in zip(phase_mean, phase_std)]
+        ph_hi = [m + s for m, s in zip(phase_mean, phase_std)]
+        ax.fill_between(wl, ph_lo, ph_hi, alpha=0.15, color="#1565C0")
 
-    # Combined legend
-    lines1, labels1 = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(lines1 + lines2, labels1 + labels2, fontsize=9, loc="best", ncol=2)
-    ax1.grid(True, alpha=0.3, which="both")
+    ax.axhline(0, color="black", linewidth=0.5, alpha=0.5)
+    ax.axhline(90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
+    ax.axhline(-90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
+    _add_morphology_lines(ax, morphology)
+    _configure_log_x(ax)
+    ax.set_ylabel("Phase lag (degrees)", fontsize=11)
+    ax.set_title("Phase: Terrain Slope -> Body Pitch Phase Lag", fontsize=13)
+    ax.legend(fontsize=9, loc="best", ncol=2)
+    ax.grid(True, alpha=0.3, which="both")
     _save_fig(fig, f"phase_vs_wavelength_{tag}", out_dir)
     plt.close(fig)
 
 
-def plot_speed(results, morphology, out_dir, tag):
-    """Forward speed plot."""
-    survived = [r for r in results if r["survived"]]
-    if not survived:
+def plot_speed(agg, trials, morphology, out_dir, tag):
+    valid = [r for r in agg if r.get('n_survived', 1) > 0]
+    if not valid:
         return
 
-    wl = [r["wavelength_mm"] for r in survived]
-    speed = [r["forward_speed"] * 1000 for r in survived]  # mm/s
+    wl = [r['wavelength_mm'] for r in valid]
+    spd_mean = [r['speed_mean'] * 1000 for r in valid]
+    spd_std = [r.get('speed_std', 0) * 1000 for r in valid]
 
-    fig, ax = plt.subplots(figsize=(9, 4.5))
-    ax.plot(wl, speed, "D-", color="#7B1FA2", markersize=6, linewidth=1.8,
-            label="Forward speed", zorder=5)
+    fig, ax = plt.subplots(figsize=(10, 5))
+
+    if trials:
+        survived_trials = [t for t in trials if t.get('survived', True)]
+        t_wl = [t['wavelength_mm'] for t in survived_trials]
+        t_spd = [t['forward_speed'] * 1000 for t in survived_trials]
+        ax.scatter(t_wl, t_spd, s=12, alpha=0.25, color="#7B1FA2", zorder=3)
+
+    ax.plot(wl, spd_mean, "D-", color="#7B1FA2", markersize=6, linewidth=1.8,
+            label="Mean speed", zorder=5)
+    if any(s > 0 for s in spd_std):
+        lo = [m - s for m, s in zip(spd_mean, spd_std)]
+        hi = [m + s for m, s in zip(spd_mean, spd_std)]
+        ax.fill_between(wl, lo, hi, alpha=0.15, color="#7B1FA2")
+
     _add_morphology_lines(ax, morphology)
     _configure_log_x(ax)
     ax.set_ylabel("Forward speed (mm/s)", fontsize=11)
@@ -192,21 +250,29 @@ def plot_speed(results, morphology, out_dir, tag):
     plt.close(fig)
 
 
-def plot_pitch_roll(results, morphology, out_dir, tag):
-    """Max pitch and roll angles."""
-    survived = [r for r in results if r["survived"]]
-    if not survived:
+def plot_pitch_roll(agg, trials, morphology, out_dir, tag):
+    valid = [r for r in agg if r.get('n_survived', 1) > 0]
+    if not valid:
         return
 
-    wl = [r["wavelength_mm"] for r in survived]
-    pitch = [r["max_pitch_deg"] for r in survived]
-    roll = [r["max_roll_deg"] for r in survived]
+    wl = [r['wavelength_mm'] for r in valid]
+    pitch_mean = [r['max_pitch_mean'] for r in valid]
+    roll_mean = [r['max_roll_mean'] for r in valid]
 
-    fig, ax = plt.subplots(figsize=(9, 4.5))
-    ax.plot(wl, pitch, "o-", color="#E53935", markersize=5, linewidth=1.5,
-            label="Max pitch")
-    ax.plot(wl, roll, "s-", color="#1565C0", markersize=5, linewidth=1.5,
-            label="Max roll")
+    fig, ax = plt.subplots(figsize=(10, 5))
+
+    if trials:
+        survived_trials = [t for t in trials if t.get('survived', True)]
+        t_wl = [t['wavelength_mm'] for t in survived_trials]
+        ax.scatter(t_wl, [t['max_pitch_deg'] for t in survived_trials],
+                   s=10, alpha=0.2, color="#E53935", zorder=3)
+        ax.scatter(t_wl, [t['max_roll_deg'] for t in survived_trials],
+                   s=10, alpha=0.2, color="#1565C0", zorder=3)
+
+    ax.plot(wl, pitch_mean, "o-", color="#E53935", markersize=5, linewidth=1.5,
+            label="Mean max pitch")
+    ax.plot(wl, roll_mean, "s-", color="#1565C0", markersize=5, linewidth=1.5,
+            label="Mean max roll")
     _add_morphology_lines(ax, morphology)
     _configure_log_x(ax)
     ax.set_ylabel("Angle (degrees)", fontsize=11)
@@ -218,80 +284,111 @@ def plot_pitch_roll(results, morphology, out_dir, tag):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Combined Bode plot (the main figure)
+# Combined Bode plot
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def plot_bode_combined(results, morphology, out_dir, tag, meta=None):
-    """
-    Stacked Bode plot: magnitude (CoT) on top, phase on bottom.
-    Shared log-x axis.
-    """
-    survived = [r for r in results if r["survived"]]
-    if not survived:
-        print("  No surviving trials — skipping Bode plot")
+def plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=None):
+    valid = [r for r in agg if r.get('n_survived', 1) > 0]
+    if not valid:
+        print("  No surviving trials -- skipping Bode plot")
         return
 
-    wl = np.array([r["wavelength_mm"] for r in survived])
-    cot = np.array([r["cot"] for r in survived])
-    speed = np.array([r["forward_speed"] * 1000 for r in survived])
+    wl = np.array([r['wavelength_mm'] for r in valid])
+    cot_mean = np.array([r['cot_mean'] for r in valid])
+    cot_std = np.array([r.get('cot_std', 0) for r in valid])
+    spd_mean = np.array([r['speed_mean'] * 1000 for r in valid])
+    spd_std = np.array([r.get('speed_std', 0) * 1000 for r in valid])
 
-    # Phase (may have NaN)
-    has_phase = any(
-        not math.isnan(r.get("phase_lag_deg", float("nan")))
-        for r in survived
-    )
+    has_phase = any(not math.isnan(r.get('phase_lag_mean', float('nan')))
+                    for r in valid)
 
-    fig, axes = plt.subplots(3, 1, figsize=(10, 10), sharex=True)
+    fig, axes = plt.subplots(3, 1, figsize=(11, 11), sharex=True)
     fig.suptitle("Centipede Frequency Response (Bode Plot)", fontsize=14, y=0.98)
 
-    # ── Top: CoT magnitude ────────────────────────────────────────────────
-    ax_cot = axes[0]
-    ax_cot.plot(wl, cot, "o-", color="#E53935", markersize=6, linewidth=2,
-                label="CoT", zorder=5)
-    _add_morphology_lines(ax_cot, morphology)
-    ax_cot.set_ylabel("Cost of Transport", fontsize=11)
-    ax_cot.set_title("Magnitude", fontsize=12, loc="left", pad=4)
-    ax_cot.legend(fontsize=8, loc="upper right", ncol=3)
-    ax_cot.grid(True, alpha=0.3, which="both")
+    # Scatter helper
+    def scatter_trials(ax, key, color):
+        if not trials:
+            return
+        survived_t = [t for t in trials if t.get('survived', True)]
+        t_wl = [t['wavelength_mm'] for t in survived_t]
+        t_val = [t[key] for t in survived_t]
+        ax.scatter(t_wl, t_val, s=10, alpha=0.2, color=color, zorder=3)
+
+    # ── Top: CoT ──────────────────────────────────────────────────────────
+    ax = axes[0]
+    scatter_trials(ax, 'cot', '#E53935')
+    ax.plot(wl, cot_mean, "o-", color="#E53935", markersize=7, linewidth=2,
+            label="Mean CoT", zorder=5)
+    if np.any(cot_std > 0):
+        ax.fill_between(wl, cot_mean - cot_std, cot_mean + cot_std,
+                        alpha=0.15, color="#E53935", label="$\\pm 1\\sigma$")
+    _add_morphology_lines(ax, morphology)
+    ax.set_ylabel("Cost of Transport", fontsize=11)
+    ax.set_title("Magnitude", fontsize=12, loc="left", pad=4)
+    ax.legend(fontsize=8, loc="upper right", ncol=3)
+    ax.grid(True, alpha=0.3, which="both")
 
     # ── Middle: Speed ─────────────────────────────────────────────────────
-    ax_spd = axes[1]
-    ax_spd.plot(wl, speed, "D-", color="#7B1FA2", markersize=5, linewidth=1.8,
-                label="Speed", zorder=5)
-    _add_morphology_lines(ax_spd, morphology)
-    ax_spd.set_ylabel("Speed (mm/s)", fontsize=11)
-    ax_spd.set_title("Forward Speed", fontsize=12, loc="left", pad=4)
-    ax_spd.legend(fontsize=8, loc="upper right", ncol=3)
-    ax_spd.grid(True, alpha=0.3, which="both")
+    ax = axes[1]
+    if trials:
+        survived_t = [t for t in trials if t.get('survived', True)]
+        ax.scatter([t['wavelength_mm'] for t in survived_t],
+                   [t['forward_speed'] * 1000 for t in survived_t],
+                   s=10, alpha=0.2, color="#7B1FA2", zorder=3)
+    ax.plot(wl, spd_mean, "D-", color="#7B1FA2", markersize=5, linewidth=1.8,
+            label="Mean speed", zorder=5)
+    if np.any(spd_std > 0):
+        ax.fill_between(wl, spd_mean - spd_std, spd_mean + spd_std,
+                        alpha=0.15, color="#7B1FA2")
+    _add_morphology_lines(ax, morphology)
+    ax.set_ylabel("Speed (mm/s)", fontsize=11)
+    ax.set_title("Forward Speed", fontsize=12, loc="left", pad=4)
+    ax.legend(fontsize=8, loc="upper right", ncol=3)
+    ax.grid(True, alpha=0.3, which="both")
 
     # ── Bottom: Phase ─────────────────────────────────────────────────────
-    ax_ph = axes[2]
+    ax = axes[2]
     if has_phase:
-        valid = [r for r in survived
-                 if not math.isnan(r.get("phase_lag_deg", float("nan")))]
-        wl_ph = [r["wavelength_mm"] for r in valid]
-        phase = [r["phase_lag_deg"] for r in valid]
-        ax_ph.plot(wl_ph, phase, "s-", color="#1565C0", markersize=6,
-                   linewidth=2, label="Phase lag", zorder=5)
-        ax_ph.axhline(0, color="black", linewidth=0.5, alpha=0.5)
-        ax_ph.axhline(90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
-        ax_ph.axhline(-90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
-    _add_morphology_lines(ax_ph, morphology)
-    ax_ph.set_ylabel("Phase lag (deg)", fontsize=11)
-    ax_ph.set_title("Phase: terrain slope → body pitch", fontsize=12,
-                     loc="left", pad=4)
-    ax_ph.legend(fontsize=8, loc="upper right", ncol=3)
-    ax_ph.grid(True, alpha=0.3, which="both")
+        ph_valid = [r for r in valid
+                    if not math.isnan(r.get('phase_lag_mean', float('nan')))]
+        wl_ph = [r['wavelength_mm'] for r in ph_valid]
+        ph_mean = [r['phase_lag_mean'] for r in ph_valid]
+        ph_std = [r.get('phase_lag_std', 0) for r in ph_valid]
 
-    # Shared x-axis config
-    ax_ph.set_xscale("log")
-    ax_ph.set_xlabel("Terrain Wavelength (mm)  [long → short]", fontsize=11)
-    ax_ph.xaxis.set_major_formatter(ScalarFormatter())
-    ax_ph.invert_xaxis()
+        if trials:
+            vt = [t for t in trials
+                  if t.get('survived', True)
+                  and not math.isnan(t.get('phase_lag_deg', float('nan')))]
+            ax.scatter([t['wavelength_mm'] for t in vt],
+                       [t['phase_lag_deg'] for t in vt],
+                       s=10, alpha=0.2, color="#1565C0", zorder=3)
 
-    # Annotation: sweep parameters
+        ax.plot(wl_ph, ph_mean, "s-", color="#1565C0", markersize=7,
+                linewidth=2, label="Mean phase lag", zorder=5)
+        if any(s > 0 for s in ph_std):
+            lo = [m - s for m, s in zip(ph_mean, ph_std)]
+            hi = [m + s for m, s in zip(ph_mean, ph_std)]
+            ax.fill_between(wl_ph, lo, hi, alpha=0.15, color="#1565C0")
+        ax.axhline(0, color="black", linewidth=0.5, alpha=0.5)
+        ax.axhline(90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
+        ax.axhline(-90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
+
+    _add_morphology_lines(ax, morphology)
+    ax.set_ylabel("Phase lag (deg)", fontsize=11)
+    ax.set_title("Phase: terrain slope -> body pitch", fontsize=12,
+                 loc="left", pad=4)
+    ax.legend(fontsize=8, loc="upper right", ncol=3)
+    ax.grid(True, alpha=0.3, which="both")
+
+    # Shared x
+    ax.set_xscale("log")
+    ax.set_xlabel("Terrain Wavelength (mm)  [long -> short]", fontsize=11)
+    ax.xaxis.set_major_formatter(ScalarFormatter())
+    ax.invert_xaxis()
+
     if meta:
-        info = (f"n={meta.get('n_points','?')} pts, "
+        n_trials = meta.get('n_trials', 1)
+        info = (f"n={meta.get('n_points','?')} wl x {n_trials} trials, "
                 f"dur={meta.get('duration','?')}s, "
                 f"amp={meta.get('amplitude',0)*1000:.1f}mm")
         fig.text(0.99, 0.01, info, fontsize=8, ha="right", va="bottom",
@@ -307,35 +404,34 @@ def plot_bode_combined(results, morphology, out_dir, tag, meta=None):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def analyze_sweep(sweep_dir, out_dir):
-    """Run all analyses on one sweep directory."""
     data = load_sweep(sweep_dir)
     tag = data["timestamp"]
     morphology = data["morphology"]
-    results = data["results"]
+
+    agg = extract_agg(data)
+    trials = extract_trials(data)
+
+    n_wl = len(agg)
+    n_trials = data.get('n_trials', 1)
+    batch_str = f" x {n_trials} trials" if n_trials > 1 else ""
 
     print(f"\nAnalyzing sweep: {sweep_dir}")
-    print(f"  {len(results)} wavelengths, "
-          f"{sum(1 for r in results if r['survived'])} survived")
+    print(f"  {n_wl} wavelengths{batch_str}")
 
-    sweep_fig_dir = out_dir
+    plot_cot(agg, trials, morphology, out_dir, tag)
+    plot_phase(agg, trials, morphology, out_dir, tag)
+    plot_speed(agg, trials, morphology, out_dir, tag)
+    plot_pitch_roll(agg, trials, morphology, out_dir, tag)
+    plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=data)
 
-    plot_cot(results, morphology, sweep_fig_dir, tag)
-    plot_phase(results, morphology, sweep_fig_dir, tag)
-    plot_speed(results, morphology, sweep_fig_dir, tag)
-    plot_pitch_roll(results, morphology, sweep_fig_dir, tag)
-    plot_bode_combined(results, morphology, sweep_fig_dir, tag, meta=data)
-
-    print(f"  All figures saved to: {sweep_fig_dir}")
+    print(f"  All figures saved to: {out_dir}")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Plot Bode-plot analysis from wavelength sweep results.",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
+        description="Plot Bode-plot analysis from wavelength sweep results.")
     parser.add_argument("--sweep-dir", default=None,
-                        help="Path to a specific sweep_* directory. "
-                             "Default: auto-detect latest.")
+                        help="Path to a specific sweep_* directory.")
     parser.add_argument("--all", action="store_true",
                         help="Analyze all sweep directories found.")
     parser.add_argument("--out-dir", default=FIG_DIR,

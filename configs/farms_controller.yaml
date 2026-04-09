@@ -42,7 +42,7 @@ impedance:
   body_kv:      0.10    # yaw velocity damping (0.2 * body_kp)
   pitch_kp:     0.008692 # v2 sweep best — 59/60 survival, cost=0.8652
   pitch_kv:     0.002285 # kv_ratio=0.26 — conformity rmse=22.8mm, max_pitch=7.1°
-  # Previous: kp=0.00151/kv=0.00180 (Bayesian opt, rmse=19.3mm but 55/60 survival)
+  # v2.1 Bayesian (kp=0.0706/kv=0.0482) rejected: optimizer cheated (rigid body)
   # v2 sweep top-5 all within cost 0.8652–0.8671, kp range 0.007–0.009
   roll_kp:      0.005   # roll proportional gain — very soft, just prevent flop
   roll_kv:      0.002   # roll velocity damping (0.4 * roll_kp)
