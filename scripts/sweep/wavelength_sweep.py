@@ -74,7 +74,7 @@ CAM_ELEVATION = -35
 
 def generate_single_wavelength_terrain(wavelength_m, amplitude_m, seed,
                                        image_size=1024, world_half=0.5,
-                                       sigma=1.5, n_components=8):
+                                       n_components=8):
     rng = np.random.default_rng(seed)
     world_size = world_half * 2.0
     freq = 1.0 / wavelength_m
@@ -89,8 +89,18 @@ def generate_single_wavelength_terrain(wavelength_m, amplitude_m, seed,
         orientation_spread=1.0,
         rng=rng,
     )
+
+    # Adaptive Gaussian smooth: sigma = 0.25× pixels-per-cycle
+    # Removes sub-wavelength pixelation without attenuating the signal.
+    px_per_cycle = wavelength_m / world_size * image_size
+    sigma = max(0.25 * px_per_cycle, 0.5)
     h = gaussian_filter(h, sigma=sigma)
     h -= h.mean()
+
+    # Rescale so peak amplitude matches the requested amplitude exactly
+    cur_peak = max(abs(h.min()), abs(h.max()))
+    if cur_peak > 1e-12:
+        h = h * (amplitude_m / cur_peak)
 
     rms_m  = float(np.std(h))
     peak_m = float(max(abs(h.min()), abs(h.max())))
@@ -330,14 +340,16 @@ def run_simulation(xml_path, config_path, duration, yaw_rad=0.0, video_path=None
                 root_body = b
                 break
 
-    # Video
+    # Video — set camera azimuth once from spawn yaw (not every frame)
     renderer, frames, vid_cam = None, [], None
     vid_dt = 1.0 / VID_FPS
     last_frame_t = -1.0
+    cam_azimuth_fixed = CAM_AZIMUTH + math.degrees(yaw_rad)
     if video_path:
         renderer, ok = _try_make_renderer(model)
         if ok:
             vid_cam = _make_tracking_camera(idx, data)
+            vid_cam.azimuth = cam_azimuth_fixed
         else:
             video_path = None
 
@@ -388,9 +400,6 @@ def run_simulation(xml_path, config_path, duration, yaw_rad=0.0, video_path=None
         # Video
         if renderer and video_path and data.time - last_frame_t >= vid_dt - 1e-6:
             vid_cam.lookat[:] = idx.com_pos(data)
-            # Rotate camera to follow heading
-            heading_deg = math.degrees(get_body_heading(model, data))
-            vid_cam.azimuth = CAM_AZIMUTH + heading_deg
             renderer.update_scene(data, camera=vid_cam)
             frames.append(renderer.render().copy())
             last_frame_t = data.time
@@ -536,6 +545,9 @@ def main():
                         help="Max wavelength (m). Default: L_w")
     parser.add_argument("--video",     action="store_true",
                         help="Save an MP4 video for each trial")
+    parser.add_argument("--wavelengths", type=str, default=None,
+                        help="Explicit wavelengths in mm, comma-separated "
+                             "(e.g. '4,7,10,20,50'). Overrides --n-points/wl-min/wl-max.")
     args = parser.parse_args()
 
     # Load morphology
@@ -546,10 +558,16 @@ def main():
     world_half = float(t_cfg["world"]["size"])
     sigma = float(t_cfg["world"]["smooth_sigma"])
 
-    wl_min = args.wl_min if args.wl_min else lengths["L_ell"] / 2.0
-    wl_max = args.wl_max if args.wl_max else lengths["L_w"]
-
-    wavelengths = np.logspace(np.log10(wl_max), np.log10(wl_min), args.n_points)
+    if args.wavelengths:
+        # Explicit wavelength list (mm → m), sorted long-to-short
+        wavelengths = sorted([float(w.strip()) / 1000.0
+                              for w in args.wavelengths.split(",")], reverse=True)
+        wavelengths = np.array(wavelengths)
+        args.n_points = len(wavelengths)
+    else:
+        wl_min = args.wl_min if args.wl_min else lengths["L_ell"] / 2.0
+        wl_max = args.wl_max if args.wl_max else lengths["L_w"]
+        wavelengths = np.logspace(np.log10(wl_max), np.log10(wl_min), args.n_points)
 
     # Pre-generate random yaw angles for all trials (reproducible)
     rng = np.random.default_rng(args.seed + 9999)
@@ -577,7 +595,7 @@ def main():
           f"L_s={lengths['L_s']*1000:.1f}mm  "
           f"L_ell={lengths['L_ell']*1000:.1f}mm")
     print(f"  Wavelengths: {args.n_points} points, "
-          f"{wl_max*1000:.0f}mm -> {wl_min*1000:.1f}mm (log-spaced)")
+          f"{wavelengths[0]*1000:.1f}mm -> {wavelengths[-1]*1000:.1f}mm")
     print(f"  Trials per wavelength: {args.n_trials} (random yaw 0-360)")
     print(f"  Total simulations: {total_sims}")
     print(f"  Duration: {args.duration}s each, amplitude: {args.amplitude*1000:.1f}mm")
@@ -608,7 +626,7 @@ def main():
         h_m, rms_m, peak_m = generate_single_wavelength_terrain(
             wavelength_m=wl, amplitude_m=args.amplitude,
             seed=args.seed + i, image_size=img_size,
-            world_half=world_half, sigma=sigma,
+            world_half=world_half,
         )
         png_path = save_wavelength_terrain(h_m, wl, args.seed + i, run_dir)
         z_max = max(2.0 * peak_m, 0.005)
@@ -688,8 +706,8 @@ def main():
             'n_trials':     args.n_trials,
             'duration':     args.duration,
             'amplitude':    args.amplitude,
-            'wl_min':       float(wl_min),
-            'wl_max':       float(wl_max),
+            'wl_min':       float(wavelengths[-1]),
+            'wl_max':       float(wavelengths[0]),
             'morphology':   {k: float(v) for k, v in lengths.items()},
             'elapsed_s':    elapsed,
             'wavelength_results': wavelength_results,

@@ -93,19 +93,112 @@ def _save_fig(fig, name, out_dir):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Extract data (handles both single and batch format)
+# Outlier filtering + data extraction
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def extract_agg(data):
+def iqr_filter(values, k=1.5):
+    """
+    Return a boolean mask: True = inlier, False = outlier.
+    Uses the 1.5×IQR rule (standard box-plot whisker method).
+    """
+    arr = np.array(values, dtype=float)
+    if len(arr) < 4:
+        return np.ones(len(arr), dtype=bool)
+    q1 = np.percentile(arr, 25)
+    q3 = np.percentile(arr, 75)
+    iqr = q3 - q1
+    lo = q1 - k * iqr
+    hi = q3 + k * iqr
+    return (arr >= lo) & (arr <= hi)
+
+
+def filter_and_reaggregate(all_trials, iqr_k=1.5):
+    """
+    Given raw trial data, remove outliers per wavelength (based on CoT)
+    and re-compute aggregated stats.
+
+    Returns (clean_agg, clean_trials, n_removed_total).
+    """
+    if not all_trials:
+        return [], [], 0
+
+    # Group by wavelength
+    from collections import defaultdict
+    by_wl = defaultdict(list)
+    for t in all_trials:
+        by_wl[t['wavelength_mm']].append(t)
+
+    clean_agg = []
+    clean_trials = []
+    n_removed = 0
+
+    for wl_mm in sorted(by_wl.keys(), reverse=True):
+        trials = by_wl[wl_mm]
+        survived = [t for t in trials if t.get('survived', True)]
+
+        if len(survived) < 3:
+            # Too few to filter — keep all
+            clean_trials.extend(survived)
+            n_kept = len(survived)
+        else:
+            cots = [t['cot'] for t in survived]
+            mask = iqr_filter(cots, k=iqr_k)
+            kept = [t for t, m in zip(survived, mask) if m]
+            removed = [t for t, m in zip(survived, mask) if not m]
+            n_removed += len(removed)
+            clean_trials.extend(kept)
+            survived = kept
+
+        if not survived:
+            continue
+
+        cots = [t['cot'] for t in survived]
+        speeds = [t['forward_speed'] for t in survived]
+        pitches = [t['max_pitch_deg'] for t in survived]
+        rolls = [t['max_roll_deg'] for t in survived]
+        phases = [t['phase_lag_deg'] for t in survived
+                  if not math.isnan(t.get('phase_lag_deg', float('nan')))]
+
+        clean_agg.append({
+            'wavelength_mm':  wl_mm,
+            'frequency':      1000.0 / wl_mm,
+            'n_trials':       len(trials),
+            'n_survived':     len(survived),
+            'n_removed':      len(trials) - len(survived),
+            'survival_rate':  len(survived) / len(trials),
+            'cot_mean':       float(np.mean(cots)),
+            'cot_std':        float(np.std(cots)),
+            'cot_median':     float(np.median(cots)),
+            'cot_min':        float(np.min(cots)),
+            'cot_max':        float(np.max(cots)),
+            'speed_mean':     float(np.mean(speeds)),
+            'speed_std':      float(np.std(speeds)),
+            'max_pitch_mean': float(np.mean(pitches)),
+            'max_pitch_std':  float(np.std(pitches)),
+            'max_roll_mean':  float(np.mean(rolls)),
+            'max_roll_std':   float(np.std(rolls)),
+            'phase_lag_mean': float(np.mean(phases)) if phases else float('nan'),
+            'phase_lag_std':  float(np.std(phases)) if phases else float('nan'),
+        })
+
+    return clean_agg, clean_trials, n_removed
+
+
+def extract_agg(data, iqr_k=1.5):
     """
     Extract aggregated per-wavelength data.
-    Returns list of dicts with: wavelength_mm, cot_mean, cot_std, speed_mean, ...
-    For single-trial data, std = 0.
+    For batch data: re-aggregates after IQR outlier removal.
+    For single-trial data: wraps as-is (no filtering possible).
     """
     if is_batch(data):
+        all_trials = data.get('all_trials', [])
+        if all_trials and iqr_k > 0:
+            agg, _, n_removed = filter_and_reaggregate(all_trials, iqr_k)
+            if n_removed > 0:
+                print(f"  Outlier filter (IQR k={iqr_k}): removed {n_removed} trials")
+            return agg
         return data['wavelength_results']
     else:
-        # Old single-trial format: wrap each result as an "aggregated" entry
         out = []
         for r in data['results']:
             if not r.get('survived', True):
@@ -125,10 +218,14 @@ def extract_agg(data):
         return out
 
 
-def extract_trials(data):
-    """Extract raw per-trial data (batch only). Returns list of dicts or None."""
+def extract_trials(data, iqr_k=1.5):
+    """Extract filtered per-trial data (batch only). Returns list or None."""
     if is_batch(data):
-        return data.get('all_trials', [])
+        all_trials = data.get('all_trials', [])
+        if all_trials and iqr_k > 0:
+            _, clean, _ = filter_and_reaggregate(all_trials, iqr_k)
+            return clean
+        return all_trials
     return None
 
 
@@ -136,7 +233,7 @@ def extract_trials(data):
 # Individual plots
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def plot_cot(agg, trials, morphology, out_dir, tag):
+def plot_cot(agg, trials, morphology, out_dir, tag, clean=False):
     valid = [r for r in agg if r.get('n_survived', 1) > 0]
     if not valid:
         return
@@ -164,17 +261,19 @@ def plot_cot(agg, trials, morphology, out_dir, tag):
         ax.fill_between(wl, cot_lo, cot_hi, alpha=0.15, color="#E53935",
                         label="$\\pm 1\\sigma$")
 
-    _add_morphology_lines(ax, morphology)
+    if not clean:
+        _add_morphology_lines(ax, morphology)
     _configure_log_x(ax)
     ax.set_ylabel("Cost of Transport", fontsize=11)
     ax.set_title("Magnitude: CoT vs Terrain Wavelength", fontsize=13)
     ax.legend(fontsize=9, loc="best", ncol=2)
     ax.grid(True, alpha=0.3, which="both")
-    _save_fig(fig, f"cot_vs_wavelength_{tag}", out_dir)
+    suffix = "_clean" if clean else ""
+    _save_fig(fig, f"cot_vs_wavelength_{tag}{suffix}", out_dir)
     plt.close(fig)
 
 
-def plot_phase(agg, trials, morphology, out_dir, tag):
+def plot_phase(agg, trials, morphology, out_dir, tag, clean=False):
     valid = [r for r in agg
              if r.get('n_survived', 1) > 0
              and not math.isnan(r.get('phase_lag_mean', float('nan')))]
@@ -206,17 +305,19 @@ def plot_phase(agg, trials, morphology, out_dir, tag):
     ax.axhline(0, color="black", linewidth=0.5, alpha=0.5)
     ax.axhline(90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
     ax.axhline(-90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
-    _add_morphology_lines(ax, morphology)
+    if not clean:
+        _add_morphology_lines(ax, morphology)
     _configure_log_x(ax)
     ax.set_ylabel("Phase lag (degrees)", fontsize=11)
     ax.set_title("Phase: Terrain Slope -> Body Pitch Phase Lag", fontsize=13)
     ax.legend(fontsize=9, loc="best", ncol=2)
     ax.grid(True, alpha=0.3, which="both")
-    _save_fig(fig, f"phase_vs_wavelength_{tag}", out_dir)
+    suffix = "_clean" if clean else ""
+    _save_fig(fig, f"phase_vs_wavelength_{tag}{suffix}", out_dir)
     plt.close(fig)
 
 
-def plot_speed(agg, trials, morphology, out_dir, tag):
+def plot_speed(agg, trials, morphology, out_dir, tag, clean=False):
     valid = [r for r in agg if r.get('n_survived', 1) > 0]
     if not valid:
         return
@@ -240,17 +341,19 @@ def plot_speed(agg, trials, morphology, out_dir, tag):
         hi = [m + s for m, s in zip(spd_mean, spd_std)]
         ax.fill_between(wl, lo, hi, alpha=0.15, color="#7B1FA2")
 
-    _add_morphology_lines(ax, morphology)
+    if not clean:
+        _add_morphology_lines(ax, morphology)
     _configure_log_x(ax)
     ax.set_ylabel("Forward speed (mm/s)", fontsize=11)
     ax.set_title("Speed vs Terrain Wavelength", fontsize=13)
     ax.legend(fontsize=9, loc="best", ncol=2)
     ax.grid(True, alpha=0.3, which="both")
-    _save_fig(fig, f"speed_vs_wavelength_{tag}", out_dir)
+    suffix = "_clean" if clean else ""
+    _save_fig(fig, f"speed_vs_wavelength_{tag}{suffix}", out_dir)
     plt.close(fig)
 
 
-def plot_pitch_roll(agg, trials, morphology, out_dir, tag):
+def plot_pitch_roll(agg, trials, morphology, out_dir, tag, clean=False):
     valid = [r for r in agg if r.get('n_survived', 1) > 0]
     if not valid:
         return
@@ -273,13 +376,15 @@ def plot_pitch_roll(agg, trials, morphology, out_dir, tag):
             label="Mean max pitch")
     ax.plot(wl, roll_mean, "s-", color="#1565C0", markersize=5, linewidth=1.5,
             label="Mean max roll")
-    _add_morphology_lines(ax, morphology)
+    if not clean:
+        _add_morphology_lines(ax, morphology)
     _configure_log_x(ax)
     ax.set_ylabel("Angle (degrees)", fontsize=11)
     ax.set_title("Body Pitch & Roll vs Terrain Wavelength", fontsize=13)
     ax.legend(fontsize=9, loc="best", ncol=2)
     ax.grid(True, alpha=0.3, which="both")
-    _save_fig(fig, f"pitch_roll_vs_wavelength_{tag}", out_dir)
+    suffix = "_clean" if clean else ""
+    _save_fig(fig, f"pitch_roll_vs_wavelength_{tag}{suffix}", out_dir)
     plt.close(fig)
 
 
@@ -287,7 +392,7 @@ def plot_pitch_roll(agg, trials, morphology, out_dir, tag):
 # Combined Bode plot
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=None):
+def plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=None, clean=False):
     valid = [r for r in agg if r.get('n_survived', 1) > 0]
     if not valid:
         print("  No surviving trials -- skipping Bode plot")
@@ -322,7 +427,8 @@ def plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=None):
     if np.any(cot_std > 0):
         ax.fill_between(wl, cot_mean - cot_std, cot_mean + cot_std,
                         alpha=0.15, color="#E53935", label="$\\pm 1\\sigma$")
-    _add_morphology_lines(ax, morphology)
+    if not clean:
+        _add_morphology_lines(ax, morphology)
     ax.set_ylabel("Cost of Transport", fontsize=11)
     ax.set_title("Magnitude", fontsize=12, loc="left", pad=4)
     ax.legend(fontsize=8, loc="upper right", ncol=3)
@@ -340,7 +446,8 @@ def plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=None):
     if np.any(spd_std > 0):
         ax.fill_between(wl, spd_mean - spd_std, spd_mean + spd_std,
                         alpha=0.15, color="#7B1FA2")
-    _add_morphology_lines(ax, morphology)
+    if not clean:
+        _add_morphology_lines(ax, morphology)
     ax.set_ylabel("Speed (mm/s)", fontsize=11)
     ax.set_title("Forward Speed", fontsize=12, loc="left", pad=4)
     ax.legend(fontsize=8, loc="upper right", ncol=3)
@@ -373,7 +480,8 @@ def plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=None):
         ax.axhline(90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
         ax.axhline(-90, color="red", linewidth=0.8, alpha=0.3, linestyle=":")
 
-    _add_morphology_lines(ax, morphology)
+    if not clean:
+        _add_morphology_lines(ax, morphology)
     ax.set_ylabel("Phase lag (deg)", fontsize=11)
     ax.set_title("Phase: terrain slope -> body pitch", fontsize=12,
                  loc="left", pad=4)
@@ -395,7 +503,8 @@ def plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=None):
                  color="gray", style="italic")
 
     fig.tight_layout(rect=[0, 0.02, 1, 0.96])
-    _save_fig(fig, f"bode_combined_{tag}", out_dir)
+    suffix = "_clean" if clean else ""
+    _save_fig(fig, f"bode_combined_{tag}{suffix}", out_dir)
     plt.close(fig)
 
 
@@ -403,13 +512,13 @@ def plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=None):
 # Entry point
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def analyze_sweep(sweep_dir, out_dir):
+def analyze_sweep(sweep_dir, out_dir, iqr_k=1.5):
     data = load_sweep(sweep_dir)
     tag = data["timestamp"]
     morphology = data["morphology"]
 
-    agg = extract_agg(data)
-    trials = extract_trials(data)
+    agg = extract_agg(data, iqr_k=iqr_k)
+    trials = extract_trials(data, iqr_k=iqr_k)
 
     n_wl = len(agg)
     n_trials = data.get('n_trials', 1)
@@ -418,11 +527,13 @@ def analyze_sweep(sweep_dir, out_dir):
     print(f"\nAnalyzing sweep: {sweep_dir}")
     print(f"  {n_wl} wavelengths{batch_str}")
 
-    plot_cot(agg, trials, morphology, out_dir, tag)
-    plot_phase(agg, trials, morphology, out_dir, tag)
-    plot_speed(agg, trials, morphology, out_dir, tag)
-    plot_pitch_roll(agg, trials, morphology, out_dir, tag)
-    plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=data)
+    # Generate both annotated (with morphology lines) and clean versions
+    for clean in (False, True):
+        plot_cot(agg, trials, morphology, out_dir, tag, clean=clean)
+        plot_phase(agg, trials, morphology, out_dir, tag, clean=clean)
+        plot_speed(agg, trials, morphology, out_dir, tag, clean=clean)
+        plot_pitch_roll(agg, trials, morphology, out_dir, tag, clean=clean)
+        plot_bode_combined(agg, trials, morphology, out_dir, tag, meta=data, clean=clean)
 
     print(f"  All figures saved to: {out_dir}")
 
@@ -436,6 +547,8 @@ def main():
                         help="Analyze all sweep directories found.")
     parser.add_argument("--out-dir", default=FIG_DIR,
                         help=f"Output directory for figures. Default: {FIG_DIR}")
+    parser.add_argument("--iqr-k", type=float, default=1.5,
+                        help="IQR multiplier for outlier removal (0 = no filter). Default: 1.5")
     args = parser.parse_args()
 
     if args.all:
@@ -444,12 +557,12 @@ def main():
             print(f"No sweep directories found in {SWEEP_DIR}")
             sys.exit(1)
         for d in dirs:
-            analyze_sweep(d, args.out_dir)
+            analyze_sweep(d, args.out_dir, iqr_k=args.iqr_k)
     else:
         sweep_dir = args.sweep_dir or find_latest_sweep()
         if not os.path.isabs(sweep_dir):
             sweep_dir = os.path.join(PROJECT_ROOT, sweep_dir)
-        analyze_sweep(sweep_dir, args.out_dir)
+        analyze_sweep(sweep_dir, args.out_dir, iqr_k=args.iqr_k)
 
     print(f"\nDone. Figures in: {args.out_dir}")
 
