@@ -38,16 +38,19 @@ simulation:
 # Used by ImpedanceTravelingWaveController (replaces stiff position control).
 # Body yaw actuators must be <general> type (see add_compliance.py).
 impedance:
-  body_kp:      0.5     # yaw proportional gain
-  body_kv:      0.10    # yaw velocity damping (0.2 * body_kp)
-  pitch_kp:     0.008692 # v2 sweep best — 59/60 survival, cost=0.8652
-  pitch_kv:     0.002285 # kv_ratio=0.26 — conformity rmse=22.8mm, max_pitch=7.1°
-  # v2.1 Bayesian (kp=0.0706/kv=0.0482) rejected: optimizer cheated (rigid body)
-  # v2 sweep top-5 all within cost 0.8652–0.8671, kp range 0.007–0.009
-  roll_kp:      0.005   # roll proportional gain — very soft, just prevent flop
-  roll_kv:      0.002   # roll velocity damping (0.4 * roll_kp)
-  # Optimized: 5/5 robustness (amp=0.2-0.6, freq=0.5-2Hz), avg_cost=0.0468
-  # max_pitch=1.3°, max_roll=6.1° at 10s across all challenges
+  body_kp:      0.05    # yaw (prev × 0.8)
+  body_kv:      0.01    # yaw (prev × 0.8)
+  pitch_kp:     0.0017385 # pitch (prev × 0.5, best from gain sweep)
+  pitch_kv:     0.000457  # pitch (prev × 0.5, best from gain sweep)
+  roll_kp:      0.004   # roll (prev × 0.8)
+  roll_kv:      0.0016  # roll (prev × 0.8)
+  settle_time:  1.0    # seconds — hold neutral before gait starts
+  ramp_time:    1.0    # seconds — smooth cosine ramp from 0 to full gait amplitude
+  # Leg impedance gains — per-DOF [hip_yaw, hip_pitch, tibia, tarsus]
+  # All × 0.8 from previous
+  leg:
+    kp: [0.1270, 0.0147, 0.1270, 0.1270]
+    kv: [0.00056, 0.000114, 0.0000436, 0.000910]
 
 # ── Joint control summary ────────────────────────────────────────────────────
 # Pitch (joint_pitch_body_0..19): impedance + online grav comp
