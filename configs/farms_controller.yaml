@@ -61,6 +61,10 @@ impedance:
   # pitches nose down on positive q in your MJCF.  ~0.14 rad = 8 deg.
   head_pitch_offset: 0.14
   head_pitch_joints: 1
+  # Stiffer gains just on the head pitch joint(s) so they actually hold the
+  # offset target against gravity.  ~20× the soft global pitch gains.
+  head_pitch_kp:     0.174
+  head_pitch_kv:     0.046
   roll_kp:        0.003
   roll_kv:        0.0012
   settle_time:    1.0

@@ -199,6 +199,11 @@ class ImpedanceTravelingWaveController:
             # if your terrain collision suggests otherwise.
             self.head_pitch_offset = float(imp.get("head_pitch_offset", 0.0))
             self.head_pitch_joints = int(imp.get("head_pitch_joints", 1))
+            # Stiffer gains for the head pitch joint(s) so they actually hold
+            # the offset against gravity and contact loads, instead of
+            # sagging back toward 0 like the soft global pitch_kp would.
+            self.head_pitch_kp = float(imp.get("head_pitch_kp", self.pitch_kp * 20.0))
+            self.head_pitch_kv = float(imp.get("head_pitch_kv", self.pitch_kv * 20.0))
 
             pitch_seg_order = []
             for j in self.idx.pitch_jnt_ids:
@@ -208,13 +213,17 @@ class ImpedanceTravelingWaveController:
                 except ValueError:
                     seg = 10**9
                 pitch_seg_order.append(seg)
-            # targets indexed in the same order as pitch_jnt_ids
+            # Per-joint targets and gains, indexed same as pitch_jnt_ids.
             self.pitch_targets = np.zeros(n_pitch, dtype=float)
+            self.pitch_kp_vec  = np.full(n_pitch, self.pitch_kp, dtype=float)
+            self.pitch_kv_vec  = np.full(n_pitch, self.pitch_kv, dtype=float)
             # Sort pitch_ids by segment index to find the N head-end joints
             order = np.argsort(pitch_seg_order)
             for rank, k in enumerate(order):
                 if rank < max(self.head_pitch_joints, 0):
                     self.pitch_targets[k] = self.head_pitch_offset
+                    self.pitch_kp_vec[k]  = self.head_pitch_kp
+                    self.pitch_kv_vec[k]  = self.head_pitch_kv
 
             # Gravity compensation is computed ONLINE each step using
             # data.qfrc_bias (gravity + Coriolis at current configuration).
@@ -512,11 +521,13 @@ class ImpedanceTravelingWaveController:
                 q    = data.qpos[self.pitch_qpos_adr[i]]
                 qdot = data.qvel[self.pitch_dof_adr[i]]
 
-                # Head-end joints use a non-zero target (nose pitched up) so
-                # the head clears terrain crests instead of plowing into them.
+                # Head-end joints use a non-zero target (nose pitched up) and
+                # stiffer per-joint gains so the nose actually holds that
+                # offset against gravity + ground reaction, instead of
+                # sagging back to 0 like the soft global pitch_kp would.
                 tgt = self.pitch_targets[i]
-                torque = (self.pitch_kp * (tgt - q)
-                          - self.pitch_kv * qdot)
+                torque = (self.pitch_kp_vec[i] * (tgt - q)
+                          - self.pitch_kv_vec[i] * qdot)
 
                 data.ctrl[self.idx.pitch_act_ids[i]] = torque
 
