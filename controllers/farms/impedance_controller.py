@@ -52,10 +52,59 @@ class ImpedanceTravelingWaveController:
         self.speed    = float(bw["speed"])
         self.omega    = 2.0 * math.pi * self.freq
 
+        # ── head-end spatial amplitude envelope (body yaw only) ──
+        # Shape: [hold zone] → [cosine taper] → [full wave]
+        #   indices 0 .. head_hold_joints-1              → amplitude 0 (rigid)
+        #   next head_ramp_joints joints                 → cosine from
+        #                                                  head_ramp_min up to 1
+        #   remaining joints                             → amplitude 1
+        # Example with head_hold_joints=2, head_ramp_joints=2, head_ramp_min=0:
+        #     i=0,1 → 0.00   (fully held straight)
+        #     i=2   → 0.25   (taper)
+        #     i=3   → 0.75   (taper)
+        #     i≥4   → 1.00   (full wave)
+        self.head_hold_joints = int(bw.get("head_hold_joints", 0))
+        self.head_ramp_joints = int(bw.get("head_ramp_joints", 2))
+        self.head_ramp_min    = float(bw.get("head_ramp_min", 0.0))
+        self._build_body_amp_scale()
+
+        # ── CPG oscillator network (Kuramoto-style chain) ───────────────────
+        # Each body-yaw joint owns a phase φ_i integrated locally with
+        # nearest-neighbor coupling.  The target becomes sin(φ_i) rather than
+        # sin(ω·t − k·s_i), so a perturbation at the head propagates down the
+        # chain one segment at a time instead of being absorbed by a global
+        # clock.  Each leg has its own phase coupled to the body segment above
+        # it (segment n → leg n), so legs "follow" their body segment.
+        cpg_cfg = cfg.get("cpg", {})
+        self.use_cpg = bool(cpg_cfg.get("enabled", True))
+        # Negative value → restoring coupling that pulls φ_i toward its
+        # preferred neighbor relation.  |Ω| small → slow relaxation, visible
+        # follow-the-leader behavior.  FARMS uses −20.
+        self.cpg_omega        = float(cpg_cfg.get("coupling_omega", -5.0))
+        self.cpg_leg_omega    = float(cpg_cfg.get("leg_coupling_omega",
+                                                  self.cpg_omega))
+        # Desired inter-segment phase lag: 2π · wave_number / (N − 1)
+        self.cpg_delta = (2.0 * math.pi * self.n_wave * self.speed
+                          / max(N_BODY_JOINTS - 1, 1))
+        # Phase states (initialized lazily on first step so they match the
+        # traveling wave at t=settle_time).
+        self.body_phases = None    # shape (N_BODY_JOINTS,)
+        self.leg_phases  = None    # shape (N_LEGS,)
+        self._cpg_initialized = False
+
         # ── yaw impedance gains ──
         imp = cfg.get("impedance", {})
         self.body_kp = body_kp if body_kp is not None else float(imp.get("body_kp", 5.0))
         self.body_kv = body_kv if body_kv is not None else float(imp.get("body_kv", 0.05))
+
+        # Per-joint kp: held head joints get a stiffer kp so they behave like a
+        # rigid nose cone pulled by the rest of the body's momentum, rather
+        # than a compliant link that wags under the traveling wave.  The
+        # number of stiffened joints matches head_hold_joints; joints beyond
+        # that use the standard body_kp.
+        self.body_kp_head = float(imp.get("body_kp_head", self.body_kp))
+        self.body_kv_head = float(imp.get("body_kv_head", self.body_kv))
+        self._build_body_kp_vec()
 
         # ── pitch impedance gains ──
         self.pitch_kp = pitch_kp if pitch_kp is not None else float(imp.get("pitch_kp", 0.005))
@@ -80,6 +129,28 @@ class ImpedanceTravelingWaveController:
         self.leg_phase_offsets = np.array(lw["phase_offsets"], dtype=float)
         self.leg_dc_offsets    = np.array(lw["dc_offsets"], dtype=float)
         self.active_dofs       = set(lw["active_dofs"])
+
+        # ── head heading servo (world-space yaw tracking) ──
+        # Instead of driving joint_body_1 with the travelling-wave sin, we use
+        # it as a heading servo: drive its impedance target to counter-rotate
+        # link_body_1 so the reaction torque on the head (link_body_0) steers
+        # the head back toward its INITIAL world yaw (the "forward" direction,
+        # whatever it is in the XML — the FARMS MJCF uses a non-identity
+        # initial rotation).  The rest of the chain entrains to the head
+        # through the CPG.
+        self.head_yaw_gain = float(imp.get("head_yaw_gain", 1.0))
+        # Clamp on the servo's q_target so it never asks joint_body_1 to go
+        # past its hinge range (±0.628 rad in the FARMS model); without a
+        # clamp, a large transient error would saturate against the joint
+        # limit, wasting servo authority into the constraint solver.
+        self.head_yaw_target_clip = float(imp.get("head_yaw_target_clip", 0.5))
+        self.head_body_id = mujoco.mj_name2id(
+            model, mujoco.mjtObj.mjOBJ_BODY, "link_body_0")
+        if self.head_body_id < 0:
+            raise ValueError("Body 'link_body_0' not found — heading servo disabled")
+        # Reference yaw latched on the first call to step() (not at __init__
+        # time — the freejoint's xmat is only valid after mj_forward/mj_step).
+        self.head_yaw_ref = None
 
         # ── index resolution ──
         self.idx = FARMSModelIndex(model)
@@ -146,17 +217,149 @@ class ImpedanceTravelingWaveController:
                     self.leg_jnt_dof_adr[n, si, dof]  = model.jnt_dofadr[jid]
 
         print(f"[ImpedanceController] body_kp={self.body_kp:.4f} "
-              f"body_kv={self.body_kv:.4f}  "
+              f"body_kv={self.body_kv:.4f}  (head kp={self.body_kp_head:.4f}, "
+              f"kv={self.body_kv_head:.4f} on first {self.head_hold_joints} joints)  "
               f"A={self.body_amp:.3f} f={self.freq:.2f}Hz")
+        n_show = max(self.head_hold_joints + self.head_ramp_joints + 1, 4)
+        head_scales = ", ".join(f"{s:.2f}" for s in self.body_amp_scale[:n_show])
+        print(f"[ImpedanceController] body yaw envelope: hold={self.head_hold_joints} "
+              f"taper={self.head_ramp_joints}  min={self.head_ramp_min:.2f}  "
+              f"first scales=[{head_scales}...]")
         print(f"[ImpedanceController] leg_kp={self.leg_kp.tolist()} "
               f"leg_kv={self.leg_kv.tolist()}")
+        print(f"[ImpedanceController] CPG={'ON' if self.use_cpg else 'OFF'}  "
+              f"Ω_body={self.cpg_omega:.2f}  Ω_leg={self.cpg_leg_omega:.2f}  "
+              f"Δ={self.cpg_delta:.3f} rad/seg")
         print(f"[ImpedanceController] settle={self.settle_time:.1f}s  "
               f"ramp={self.ramp_time:.1f}s  "
               f"(head→tail sequential: per-seg={self.ramp_time/2:.2f}s, "
               f"stagger={self.ramp_time/(2*max(N_BODY_JOINTS-1,1)):.3f}s)")
 
+    def _build_body_amp_scale(self):
+        """Precompute per-joint amplitude scale for the body yaw only.
+
+        Shape: hold zone → cosine taper → full.
+          indices 0..H-1               → 0                (H = head_hold_joints)
+          indices H..H+R-1             → cosine amin → 1  (R = head_ramp_joints)
+          remaining                    → 1
+        """
+        n = N_BODY_JOINTS
+        scale = np.ones(n, dtype=float)
+
+        H = max(int(self.head_hold_joints), 0)
+        R = max(int(self.head_ramp_joints), 0)
+        amin = float(self.head_ramp_min)
+
+        # Hold zone: zero amplitude
+        for i in range(min(H, n)):
+            scale[i] = 0.0
+
+        # Taper zone: cosine evaluated at the R interior points
+        #     k/(R+1) * pi   for k = 1..R
+        # so that R=1 -> [0.5], R=2 -> [0.25, 0.75], R=3 -> [~0.146, 0.5, ~0.854],
+        # R=4 -> [~0.095, ~0.345, ~0.655, ~0.905].  The endpoints (full hold and
+        # full wave) are handled by the surrounding regions, so we never emit
+        # exactly 0 or 1 inside the taper band.  amin linearly biases the floor.
+        if R > 0:
+            for k in range(1, R + 1):
+                i = H + k - 1
+                if i >= n:
+                    break
+                s = amin + (1.0 - amin) * 0.5 * (
+                    1.0 - math.cos(math.pi * k / (R + 1))
+                )
+                scale[i] = s
+
+        self.body_amp_scale = scale
+
+    def _build_body_kp_vec(self):
+        """Per-joint body-yaw kp/kv vector.
+
+        First `head_hold_joints` entries use (body_kp_head, body_kv_head);
+        the rest use (body_kp, body_kv).  This stiffens the rigid head zone
+        so it actually tracks q_target=0 instead of being dragged by the wave.
+        """
+        n = N_BODY_JOINTS
+        kp_vec = np.full(n, self.body_kp, dtype=float)
+        kv_vec = np.full(n, self.body_kv, dtype=float)
+        H = max(int(self.head_hold_joints), 0)
+        for i in range(min(H, n)):
+            kp_vec[i] = self.body_kp_head
+            kv_vec[i] = self.body_kv_head
+        self.body_kp_vec = kp_vec
+        self.body_kv_vec = kv_vec
+
     def _spatial_phase(self, i):
         return 2.0 * math.pi * self.n_wave * self.speed * i / max(N_BODY_JOINTS - 1, 1)
+
+    # ──────────────────────────────────────────────────────────────────────
+    # CPG (Kuramoto chain) helpers
+    # ──────────────────────────────────────────────────────────────────────
+
+    def _init_cpg_phases(self, t0):
+        """Seed each oscillator to match the open-loop traveling wave at t0.
+
+        Using φ_i(0) = ω·t0 − k·s_i makes the CPG start in its locked
+        steady-state, so the first gait cycle is indistinguishable from the
+        original global-clock controller.  Any subsequent perturbation
+        (heading bias at the head, contact disturbance, etc.) is what the
+        coupling then redistributes down the chain.
+        """
+        body = np.zeros(N_BODY_JOINTS, dtype=float)
+        for i in range(N_BODY_JOINTS):
+            body[i] = self.omega * t0 - self._spatial_phase(i)
+        legs = np.zeros(N_LEGS, dtype=float)
+        for n in range(N_LEGS):
+            # Legs share their segment's body phase; DOF-specific offsets
+            # are applied at target-computation time, not stored in the phase.
+            legs[n] = body[n]
+        self.body_phases = body
+        self.leg_phases  = legs
+        self._cpg_initialized = True
+
+    def _integrate_cpg_phases(self, dt):
+        """One forward-Euler step of the Kuramoto chain.
+
+        Body chain:
+            φ_dot_0   = ω + A·Ω·sin(φ_0   − (φ_1 + Δ))                   # head
+            φ_dot_i   = ω + A·Ω·[sin(φ_i − (φ_{i-1} − Δ))
+                                + sin(φ_i − (φ_{i+1} + Δ))]              # interior
+            φ_dot_N-1 = ω + A·Ω·sin(φ_{N-1} − (φ_{N-2} − Δ))             # tail
+
+        Legs (one phase per segment; L/R and per-DOF offsets added at output):
+            φ_leg_dot_n = ω + A_leg·Ω_leg·sin(φ_leg_n − φ_body_n)
+        """
+        phi = self.body_phases
+        d   = self.cpg_delta
+        N   = N_BODY_JOINTS
+        gain_body = self.body_amp * self.cpg_omega
+        new_phi = np.empty_like(phi)
+        for i in range(N):
+            if N == 1:
+                fdot = self.omega
+            elif i == 0:
+                fdot = self.omega + gain_body * math.sin(phi[0] - (phi[1] + d))
+            elif i == N - 1:
+                fdot = self.omega + gain_body * math.sin(phi[i] - (phi[i - 1] - d))
+            else:
+                fdot = self.omega + gain_body * (
+                    math.sin(phi[i] - (phi[i - 1] - d)) +
+                    math.sin(phi[i] - (phi[i + 1] + d))
+                )
+            new_phi[i] = phi[i] + fdot * dt
+        self.body_phases = new_phi
+
+        # Leg phases: each leg is pulled toward its body segment's phase.
+        # Amplitude scale uses hip-yaw (DOF 0) amplitude as a representative
+        # gain magnitude.
+        leg_amp_ref = float(self.leg_amps[0]) if len(self.leg_amps) > 0 else 1.0
+        gain_leg = leg_amp_ref * self.cpg_leg_omega
+        lphi = self.leg_phases
+        new_lphi = np.empty_like(lphi)
+        for n in range(N_LEGS):
+            fdot = self.omega + gain_leg * math.sin(lphi[n] - new_phi[n])
+            new_lphi[n] = lphi[n] + fdot * dt
+        self.leg_phases = new_lphi
 
     def _seg_blend(self, t, i, n_seg=None):
         """Per-segment gait blend for head→tail sequential activation.
@@ -198,19 +401,58 @@ class ImpedanceTravelingWaveController:
         if t is None:
             t = data.time
 
+        # ── CPG phase integration (once per step, before any targets) ──
+        # Defer init + integration until the gait actually turns on.  This
+        # removes a subtle timing bug: seeding at t0=settle_time while the
+        # integrator runs from t=0 previously caused phases to over-advance
+        # by omega*settle_time before the first gait step.  Now we wait and
+        # seed right at t=settle_time so phase(settle_time)=omega*settle_time
+        # - d*i, matching the open-loop formula exactly.
+        if self.use_cpg and t >= self.settle_time:
+            if not self._cpg_initialized:
+                self._init_cpg_phases(t)
+            dt_int = model.opt.timestep
+            self._integrate_cpg_phases(dt_int)
+
         # ── body yaw: impedance control, head→tail sequential activation ──
         for i in range(N_BODY_JOINTS):
-            blend_i = self._seg_blend(t, i)
-            if blend_i > 0:
-                phase  = self.omega * t - self._spatial_phase(i)
-                target = blend_i * self.body_amp * math.sin(phase)
+            if i == 0:
+                # Heading servo on the head: always on (no blend/ramp), driven
+                # by world-yaw error of link_body_0 relative to its initial
+                # yaw (latched on the first step).  q_target = K · err pulls
+                # joint_body_1 to counter-rotate link_body_1; the reaction
+                # torque on the head steers ψ → ψ_ref.
+                R_head = data.xmat[self.head_body_id].reshape(3, 3)
+                yaw_world = math.atan2(R_head[1, 0], R_head[0, 0])
+                if self.head_yaw_ref is None:
+                    self.head_yaw_ref = yaw_world
+                err = yaw_world - self.head_yaw_ref
+                # Wrap to [-π, π]
+                if err >  math.pi: err -= 2.0 * math.pi
+                if err < -math.pi: err += 2.0 * math.pi
+                target = self.head_yaw_gain * err
+                # Clamp to joint-range-safe interval
+                c = self.head_yaw_target_clip
+                if target >  c: target =  c
+                if target < -c: target = -c
             else:
-                target = 0.0
+                blend_i = self._seg_blend(t, i)
+                if blend_i > 0:
+                    if self.use_cpg and self._cpg_initialized:
+                        phase = self.body_phases[i]
+                    else:
+                        phase = self.omega * t - self._spatial_phase(i)
+                    target = (blend_i
+                              * self.body_amp_scale[i]
+                              * self.body_amp
+                              * math.sin(phase))
+                else:
+                    target = 0.0
 
             q    = data.qpos[self.body_jnt_qpos_adr[i]]
             qdot = data.qvel[self.body_jnt_dof_adr[i]]
 
-            torque = self.body_kp * (target - q) - self.body_kv * qdot
+            torque = self.body_kp_vec[i] * (target - q) - self.body_kv_vec[i] * qdot
 
             data.ctrl[self.idx.body_act_ids[i]] = torque
 
@@ -243,15 +485,19 @@ class ImpedanceTravelingWaveController:
 
         # ── legs: impedance control, ramp follows body segment index n ──
         for n in range(N_LEGS):
-            phi_s   = self._spatial_phase(n)
             blend_n = self._seg_blend(t, n, n_seg=N_LEGS)
+            if self.use_cpg and self._cpg_initialized:
+                # Leg oscillator already tracks its body segment.
+                leg_base_phase = self.leg_phases[n]
+            else:
+                leg_base_phase = self.omega * t - self._spatial_phase(n)
             for si, side in enumerate(('L', 'R')):
                 for dof in range(N_LEG_DOF):
                     act_id = self.idx.leg_act_ids[n, si, dof]
                     if blend_n <= 0 or dof not in self.active_dofs:
                         target = self.leg_dc_offsets[dof]
                     else:
-                        phase  = self.omega * t - phi_s + self.leg_phase_offsets[dof]
+                        phase  = leg_base_phase + self.leg_phase_offsets[dof]
                         wave   = math.sin(phase)
                         sign   = 1.0 if si == 0 else -1.0
                         target = (blend_n * sign * self.leg_amps[dof] * wave

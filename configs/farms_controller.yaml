@@ -1,74 +1,66 @@
-# farms_config.yaml — Control parameters for the FARMS centipede model
+# farms_config.yaml - Control parameters for the FARMS centipede model
 # Edit this file to change locomotion parameters; no code changes needed.
-# Values sourced from animat.yaml (Base_exp) via extract_animat_params.py
 
-# ── Body travelling wave ──────────────────────────────────────────────────────
+# Body travelling wave
 body_wave:
-  amplitude:    0.6       # rad — peak body yaw angle
-  frequency:    1.0       # Hz  — locomotion frequency (start low for stability)
-  wave_number:  3.0       # spatial waves along body (n_wave)
-  speed:        1.0       # wave speed multiplier (1.0 = normal)
-  # Head-end spatial amplitude ramp (body yaw only).
-  #   head_ramp_joints = R  → joints 0..R-1 scaled < 1.0, joint R+ = 1.0
-  #   head_ramp_min    = amin  → scale at joint 0 (0.0 = no oscillation)
-  # Current (R=3, amin=0): i=0 → 0.00, i=1 → 0.25, i=2 → 0.75, i≥3 → 1.0
+  amplitude:    0.6
+  frequency:    1.0
+  wave_number:  3.0
+  speed:        1.0
+  # Head-end spatial amplitude envelope (body yaw only).
+  #   head_hold_joints = 1 -> only joint 0 (the world-heading servo) is held
+  #   head_ramp_joints = 3 -> joints 1,2,3 cosine taper from amin up to 1
+  #   With amin=0, R=3 produces scales ~ [0.146, 0.500, 0.854] at i=1,2,3.
+  head_hold_joints: 1
   head_ramp_joints: 3
   head_ramp_min:    0.0
-  # FARMS original: frequency=6 Hz, wave_number=5
-  # Reduced here for initial stability testing; increase gradually
 
-# ── Leg wave ─────────────────────────────────────────────────────────────────
+# Leg wave
 leg_wave:
-  # Per-DOF amplitudes [DOF0, DOF1, DOF2, DOF3]
-  # DOF0 = hip yaw, DOF1 = hip pitch (elevation), DOF2/3 ≈ 0 in FARMS
-  amplitudes:     [0.6, 0.2, 0.0, 0.0]   # DOF0=hip_yaw, DOF1=hip_pitch (was 0.25 → 0.2)
-
-  # Per-DOF phase offsets relative to body wave [rad]
-  # DOF0: -π/2 → leg leads body by 90° (cosine coupling)
-  # DOF1:  π   → antiphase to body (leg up when body bends)
+  amplitudes:     [0.6, 0.2, 0.0, 0.0]
   phase_offsets:  [-1.5707963, 3.1415926, 0.0, 3.1415926]
-
-  # DC offsets added to each DOF (zero = symmetric swing)
   dc_offsets:     [0.0, 0.0, 0.0, 0.5235987755982988]
-
-  # Which DOFs are actively driven (others held at dc_offset)
   active_dofs:    [0, 1]
 
-# ── Simulation ───────────────────────────────────────────────────────────────
-simulation:
-  duration:     10.0    # seconds
-  timestep:     0.0005  # must match <option timestep="0.0005"> in centipede.xml
+# CPG oscillator network (Kuramoto chain).
+# Softer (|Omega| smaller) -> slower relaxation, visible follow-the-leader.
+# Was -5.0; lowered to -2.5 so each segment clearly chases the one ahead.
+cpg:
+  enabled:            true
+  coupling_omega:     -2.5
+  leg_coupling_omega: -2.5
 
-# ── Recording ────────────────────────────────────────────────────────────────
-# ── Impedance control (body yaw) ─────────────────────────────────────────────
-# Used by ImpedanceTravelingWaveController (replaces stiff position control).
-# Body yaw actuators must be <general> type (see add_compliance.py).
+# Simulation
+simulation:
+  duration:     10.0
+  timestep:     0.0005
+
+# Impedance control.
+#   - body_kp_head / body_kv_head drive the heading-servo joint 0 (large gains
+#     because all downstream joints entrain to joint 0 via the CPG).
+#   - body_kp / body_kv are the normal per-segment impedance for joints 1..18.
+#   - pitch_* softer (halved) so transition joints (former passive 3,7,11,15)
+#     don't overshoot.
+#   - roll_* soft: roll now has its own <general> actuators (20 of them) added
+#     in centipede.xml, so these gains are no longer dead code.
+#   - head_yaw_gain maps world yaw error (rad) of link_body_0 to a q_target
+#     on joint_body_1.  ~1.0 is a good starting point.
 impedance:
-  body_kp:      0.05    # yaw (prev × 0.8)
-  body_kv:      0.01    # yaw (prev × 0.8)
-  pitch_kp:     0.0017385 # pitch (prev × 0.5, best from gain sweep)
-  pitch_kv:     0.000457  # pitch (prev × 0.5, best from gain sweep)
-  roll_kp:      0.004   # roll (prev × 0.8)
-  roll_kv:      0.0016  # roll (prev × 0.8)
-  settle_time:  0.0    # no settle — gait starts at t=0
-  ramp_time:    0.0    # no ramp — all segments active at full amplitude from t=0
-                       # Each body segment/leg ramps over half the window, with a
-                       # linear stagger so segment 0 finishes at t=settle+ramp/2
-                       # and segment N-1 finishes at t=settle+ramp.
-  # Leg impedance gains — per-DOF [hip_yaw, hip_pitch, tibia, tarsus]
-  # All × 0.8 from previous
+  body_kp:        0.05
+  body_kv:        0.01
+  body_kp_head:   2.0
+  body_kv_head:   0.20
+  head_yaw_gain:  1.0
+  pitch_kp:       0.0087
+  pitch_kv:       0.0023
+  roll_kp:        0.003
+  roll_kv:        0.0012
+  settle_time:    1.0
+  ramp_time:      1.0
   leg:
     kp: [0.1270, 0.0147, 0.1270, 0.1270]
     kv: [0.00056, 0.000114, 0.0000436, 0.000910]
 
-# ── Joint control summary ────────────────────────────────────────────────────
-# Pitch (joint_pitch_body_0..19): impedance + online grav comp
-#   Indices 3,7,11,15 are transition joints between body modules
-#   XML springs zeroed, controlled by pitch_kp/pitch_kv in impedance section
-# Body roll (joint_roll_body_0..19): impedance + grav comp
-#   XML springs zeroed, controlled by roll_kp/roll_kv in impedance section
-# Leg roll (joint_roll_leg_N_L/R): passive springs in XML (stiffness=5e-2)
-# Body yaw (joint_body_N): impedance, controlled by body_kp/body_kv
-
+# Recording
 recording:
-  dt_record:    0.01    # seconds between saved frames
+  dt_record:    0.01
