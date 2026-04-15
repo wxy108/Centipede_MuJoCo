@@ -325,7 +325,7 @@ def run_simulation(xml_path, config_path, duration, yaw_rad=0.0, video_path=None
     gravity = abs(model.opt.gravity[2])
     n_steps = int(duration / model.opt.timestep)
     dt = model.opt.timestep
-    SETTLE_STEPS = 200
+    SETTLE_STEPS = 4000   # 2.0 s at dt=0.0005 — matches controller settle_time
 
     # Find root body
     root_body = None
@@ -534,8 +534,9 @@ def main():
                         help="Number of wavelengths to test (log-spaced)")
     parser.add_argument("--n-trials",  type=int,   default=15,
                         help="Number of random-rotation trials per wavelength")
-    parser.add_argument("--duration",  type=float, default=5.0,
-                        help="Simulation duration per trial (seconds)")
+    parser.add_argument("--duration",  type=float, default=7.0,
+                        help="Simulation duration per trial (seconds). "
+                             "Includes 2 s settle + ~5 s active gait.")
     parser.add_argument("--amplitude", type=float, default=0.004,
                         help="Fixed terrain height amplitude (metres)")
     parser.add_argument("--seed",      type=int,   default=42)

@@ -180,7 +180,7 @@ def run_simulation(xml_path, config_path, duration,
     gravity = abs(model.opt.gravity[2])
     n_steps = int(duration / model.opt.timestep)
     dt = model.opt.timestep
-    SETTLE_STEPS = 200
+    SETTLE_STEPS = 4000   # 2.0 s at dt=0.0005 — matches controller settle_time
 
     root_body = None
     for b in range(model.nbody):
@@ -367,7 +367,8 @@ def main():
                    default=",".join(str(x) for x in DEFAULT_WAVELENGTHS_MM),
                    help="Comma-separated terrain wavelengths in mm")
     p.add_argument("--n-trials",   type=int,   default=20)
-    p.add_argument("--duration",   type=float, default=5.0)
+    p.add_argument("--duration",   type=float, default=7.0,
+                   help="Seconds per trial. Includes 2 s settle + ~5 s active gait.")
     p.add_argument("--amplitude",  type=float, default=0.010,
                    help="Terrain peak amplitude in metres (current default: 10 mm)")
     p.add_argument("--seed",       type=int,   default=42)

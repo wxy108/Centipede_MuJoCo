@@ -70,9 +70,13 @@ DEFAULT_WAVE_NUMBERS = [1.5, 2.0, 2.5, 3.0, 3.5]
 # Flat terrain PNG
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def make_flat_png(path, image_size=1024, gray=128):
-    """Write a constant-grayscale PNG that, combined with a tiny z_max,
-    creates effectively flat ground for the hfield."""
+def make_flat_png(path, image_size=1024, gray=0):
+    """Write a constant-grayscale PNG for the hfield.
+
+    gray=0 means every hfield cell has normalised height 0, so the ground
+    surface sits exactly at world z=0 regardless of z_max. This avoids the
+    ~0.5 mm offset you'd get with gray=128.
+    """
     os.makedirs(os.path.dirname(path), exist_ok=True)
     arr = np.full((image_size, image_size), int(gray), dtype=np.uint8)
     Image.fromarray(arr, mode="L").save(path)
@@ -90,7 +94,8 @@ def main():
                    help="Comma-separated list of body-wave wave_numbers to test")
     p.add_argument("--n-trials",   type=int,   default=1,
                    help="Trials per wave-number (yaw=0 for trial 0, random after)")
-    p.add_argument("--duration",   type=float, default=8.0)
+    p.add_argument("--duration",   type=float, default=10.0,
+                   help="Seconds per trial. Includes 2 s settle + ~8 s active gait.")
     p.add_argument("--seed",       type=int,   default=42)
     p.add_argument("--video",      action="store_true")
     p.add_argument("--no-sensors", action="store_true")

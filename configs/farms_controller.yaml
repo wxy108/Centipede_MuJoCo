@@ -44,7 +44,7 @@ impedance:
   pitch_kv:     0.000457  # pitch (prev × 0.5, best from gain sweep)
   roll_kp:      0.004   # roll (prev × 0.8)
   roll_kv:      0.0016  # roll (prev × 0.8)
-  settle_time:  1.0    # seconds — hold neutral before gait starts
+  settle_time:  2.0    # seconds — hold neutral before gait starts (extra 1 s lets the solver resolve contact penetration)
   ramp_time:    1.0    # seconds — smooth cosine ramp from 0 to full gait amplitude
   # Leg impedance gains — per-DOF [hip_yaw, hip_pitch, tibia, tarsus]
   # All × 0.8 from previous
