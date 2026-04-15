@@ -8,6 +8,12 @@ body_wave:
   frequency:    1.0       # Hz  — locomotion frequency (start low for stability)
   wave_number:  3.0       # spatial waves along body (n_wave)
   speed:        1.0       # wave speed multiplier (1.0 = normal)
+  # Head-end spatial amplitude ramp (body yaw only).
+  #   head_ramp_joints = R  → joints 0..R-1 scaled < 1.0, joint R+ = 1.0
+  #   head_ramp_min    = amin  → scale at joint 0 (0.0 = no oscillation)
+  # Current (R=3, amin=0): i=0 → 0.00, i=1 → 0.25, i=2 → 0.75, i≥3 → 1.0
+  head_ramp_joints: 3
+  head_ramp_min:    0.0
   # FARMS original: frequency=6 Hz, wave_number=5
   # Reduced here for initial stability testing; increase gradually
 
@@ -15,7 +21,7 @@ body_wave:
 leg_wave:
   # Per-DOF amplitudes [DOF0, DOF1, DOF2, DOF3]
   # DOF0 = hip yaw, DOF1 = hip pitch (elevation), DOF2/3 ≈ 0 in FARMS
-  amplitudes:     [0.6, 0.25, 0.0, 0.0]   # DOF0=hip_yaw, DOF1=hip_pitch (was 0.3 → 0.25)
+  amplitudes:     [0.6, 0.2, 0.0, 0.0]   # DOF0=hip_yaw, DOF1=hip_pitch (was 0.25 → 0.2)
 
   # Per-DOF phase offsets relative to body wave [rad]
   # DOF0: -π/2 → leg leads body by 90° (cosine coupling)
@@ -44,8 +50,8 @@ impedance:
   pitch_kv:     0.000457  # pitch (prev × 0.5, best from gain sweep)
   roll_kp:      0.004   # roll (prev × 0.8)
   roll_kv:      0.0016  # roll (prev × 0.8)
-  settle_time:  1.0    # seconds — hold neutral before gait starts
-  ramp_time:    2.0    # seconds — total head→tail activation window
+  settle_time:  0.0    # no settle — gait starts at t=0
+  ramp_time:    0.0    # no ramp — all segments active at full amplitude from t=0
                        # Each body segment/leg ramps over half the window, with a
                        # linear stagger so segment 0 finishes at t=settle+ramp/2
                        # and segment N-1 finishes at t=settle+ramp.
