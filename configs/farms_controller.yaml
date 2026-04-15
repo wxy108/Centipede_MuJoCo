@@ -15,7 +15,7 @@ body_wave:
 leg_wave:
   # Per-DOF amplitudes [DOF0, DOF1, DOF2, DOF3]
   # DOF0 = hip yaw, DOF1 = hip pitch (elevation), DOF2/3 ≈ 0 in FARMS
-  amplitudes:     [0.6, 0.3, 0.0, 0.0]
+  amplitudes:     [0.6, 0.25, 0.0, 0.0]   # DOF0=hip_yaw, DOF1=hip_pitch (was 0.3 → 0.25)
 
   # Per-DOF phase offsets relative to body wave [rad]
   # DOF0: -π/2 → leg leads body by 90° (cosine coupling)
@@ -44,8 +44,11 @@ impedance:
   pitch_kv:     0.000457  # pitch (prev × 0.5, best from gain sweep)
   roll_kp:      0.004   # roll (prev × 0.8)
   roll_kv:      0.0016  # roll (prev × 0.8)
-  settle_time:  2.0    # seconds — hold neutral before gait starts (extra 1 s lets the solver resolve contact penetration)
-  ramp_time:    1.0    # seconds — smooth cosine ramp from 0 to full gait amplitude
+  settle_time:  1.0    # seconds — hold neutral before gait starts
+  ramp_time:    2.0    # seconds — total head→tail activation window
+                       # Each body segment/leg ramps over half the window, with a
+                       # linear stagger so segment 0 finishes at t=settle+ramp/2
+                       # and segment N-1 finishes at t=settle+ramp.
   # Leg impedance gains — per-DOF [hip_yaw, hip_pitch, tibia, tarsus]
   # All × 0.8 from previous
   leg:

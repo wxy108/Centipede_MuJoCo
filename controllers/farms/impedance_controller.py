@@ -150,33 +150,60 @@ class ImpedanceTravelingWaveController:
               f"A={self.body_amp:.3f} f={self.freq:.2f}Hz")
         print(f"[ImpedanceController] leg_kp={self.leg_kp.tolist()} "
               f"leg_kv={self.leg_kv.tolist()}")
-        print(f"[ImpedanceController] settle={self.settle_time:.1f}s "
-              f"ramp={self.ramp_time:.1f}s")
+        print(f"[ImpedanceController] settle={self.settle_time:.1f}s  "
+              f"ramp={self.ramp_time:.1f}s  "
+              f"(head→tail sequential: per-seg={self.ramp_time/2:.2f}s, "
+              f"stagger={self.ramp_time/(2*max(N_BODY_JOINTS-1,1)):.3f}s)")
 
     def _spatial_phase(self, i):
         return 2.0 * math.pi * self.n_wave * self.speed * i / max(N_BODY_JOINTS - 1, 1)
 
-    def _gait_blend(self, t):
-        """Return 0.0 during settle, ramp 0→1 over ramp_time, then 1.0."""
+    def _seg_blend(self, t, i, n_seg=None):
+        """Per-segment gait blend for head→tail sequential activation.
+
+        Segment i ramps from 0 to 1 over a window of length ``per_seg``, with
+        each segment's start staggered by ``stagger``:
+
+            per_seg = ramp_time / 2
+            stagger = per_seg / (N - 1)
+            start_i = settle_time + i * stagger
+            end_i   = start_i + per_seg
+
+        Segment 0 (head) starts at t=settle_time and finishes at
+        t=settle_time+per_seg.  Segment N-1 (tail) starts at
+        t=settle_time+per_seg and finishes exactly at t=settle_time+ramp_time.
+        A smooth cosine is used for each segment's individual ramp.
+        """
+        if n_seg is None:
+            n_seg = N_BODY_JOINTS
         if t < self.settle_time:
             return 0.0
-        elapsed = t - self.settle_time
-        if elapsed >= self.ramp_time:
+
+        # Degenerate: zero ramp → step activation for everyone at settle_time
+        if self.ramp_time <= 0.0:
             return 1.0
-        # Smooth cosine ramp: 0 → 1
-        return 0.5 * (1.0 - math.cos(math.pi * elapsed / self.ramp_time))
+
+        per_seg = self.ramp_time * 0.5
+        stagger = per_seg / max(n_seg - 1, 1)
+
+        start_i = self.settle_time + i * stagger
+        if t <= start_i:
+            return 0.0
+        elapsed = t - start_i
+        if elapsed >= per_seg:
+            return 1.0
+        return 0.5 * (1.0 - math.cos(math.pi * elapsed / per_seg))
 
     def step(self, model, data, t=None):
         if t is None:
             t = data.time
 
-        blend = self._gait_blend(t)
-
-        # ── body yaw: impedance control ──
+        # ── body yaw: impedance control, head→tail sequential activation ──
         for i in range(N_BODY_JOINTS):
-            if blend > 0:
+            blend_i = self._seg_blend(t, i)
+            if blend_i > 0:
                 phase  = self.omega * t - self._spatial_phase(i)
-                target = blend * self.body_amp * math.sin(phase)
+                target = blend_i * self.body_amp * math.sin(phase)
             else:
                 target = 0.0
 
@@ -214,19 +241,20 @@ class ImpedanceTravelingWaveController:
 
                 data.ctrl[self.idx.roll_act_ids[i]] = torque
 
-        # ── legs: impedance control ──
+        # ── legs: impedance control, ramp follows body segment index n ──
         for n in range(N_LEGS):
-            phi_s = self._spatial_phase(n)
+            phi_s   = self._spatial_phase(n)
+            blend_n = self._seg_blend(t, n, n_seg=N_LEGS)
             for si, side in enumerate(('L', 'R')):
                 for dof in range(N_LEG_DOF):
                     act_id = self.idx.leg_act_ids[n, si, dof]
-                    if blend <= 0 or dof not in self.active_dofs:
+                    if blend_n <= 0 or dof not in self.active_dofs:
                         target = self.leg_dc_offsets[dof]
                     else:
                         phase  = self.omega * t - phi_s + self.leg_phase_offsets[dof]
                         wave   = math.sin(phase)
                         sign   = 1.0 if si == 0 else -1.0
-                        target = (blend * sign * self.leg_amps[dof] * wave
+                        target = (blend_n * sign * self.leg_amps[dof] * wave
                                   + self.leg_dc_offsets[dof])
 
                     q    = data.qpos[self.leg_jnt_qpos_adr[n, si, dof]]
