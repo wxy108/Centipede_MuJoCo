@@ -1,23 +1,15 @@
 """
 impedance_controller.py — Impedance-based traveling wave controller
 ====================================================================
-Torque-based impedance control for body yaw AND pitch joints:
+ALL joints use torque-based impedance control:
 
-    Body yaw:   tau = kp * (q_target - q) - kv * q_dot
-    Body pitch: tau = pitch_kp * (0 - q) - pitch_kv * q_dot
+    Body yaw:   tau = body_kp * (target - q) - body_kv * qdot
+    Body pitch: tau = pitch_kp * (0 - q) - pitch_kv * qdot
+    Body roll:  tau = roll_kp  * (0 - q) - roll_kv  * qdot
+    Leg joints: tau = leg_kp[dof] * (target - q) - leg_kv[dof] * qdot
 
-The yaw impedance makes the body compliant laterally: it follows the
-traveling wave command but yields to external forces.
-
-The pitch impedance keeps the body straight while remaining soft enough
-to conform to terrain. At 2.5g total mass, gravitational pitch torques
-are negligible vs ground reaction forces, so gravity compensation is
-not used — pure impedance control is sufficient.
-
-Leg joints remain position-actuated (their gains are already low).
-
-Usage: drop-in replacement for FARMSTravelingWaveController after
-the XML has been patched with add_compliance.py --add-pitch-actuators.
+All actuators must be <general> type in the XML (see add_compliance.py).
+Usage: drop-in replacement for FARMSTravelingWaveController.
 """
 
 import math
@@ -40,10 +32,10 @@ class ImpedanceTravelingWaveController:
     """
     Impedance-based traveling wave controller.
 
-    Body yaw joints:   torque = kp*(target - q) - kv*qdot
+    Body yaw joints:   torque = body_kp*(target - q) - body_kv*qdot
     Body pitch joints: torque = pitch_kp*(0 - q) - pitch_kv*qdot
     Body roll joints:  torque = roll_kp*(0 - q) - roll_kv*qdot
-    Leg joints:        position control (unchanged)
+    Leg joints:        torque = leg_kp[dof]*(target - q) - leg_kv[dof]*qdot
     """
 
     def __init__(self, model, config_path="farms_config.yaml",
@@ -72,6 +64,15 @@ class ImpedanceTravelingWaveController:
         # ── roll impedance gains ──
         self.roll_kp = roll_kp if roll_kp is not None else float(imp.get("roll_kp", 0.005))
         self.roll_kv = roll_kv if roll_kv is not None else float(imp.get("roll_kv", 0.002))
+
+        # ── settling ──
+        self.settle_time = float(imp.get("settle_time", 1.0))  # seconds
+        self.ramp_time   = float(imp.get("ramp_time", 1.0))    # seconds to ramp gait in
+
+        # ── leg impedance gains (per-DOF arrays) ──
+        leg_imp = imp.get("leg", {})
+        self.leg_kp = np.array(leg_imp.get("kp", [0.25, 0.25, 0.25, 0.25]), dtype=float)
+        self.leg_kv = np.array(leg_imp.get("kv", [0.05, 0.05, 0.05, 0.05]), dtype=float)
 
         # ── leg wave params ──
         lw = cfg["leg_wave"]
@@ -134,26 +135,54 @@ class ImpedanceTravelingWaveController:
         else:
             print(f"[ImpedanceController] No roll actuators found — roll is passive")
 
-        print(f"[ImpedanceController] body_kp={self.body_kp:.2f} "
+        # ── leg joint addresses (for reading q and qdot) ──
+        self.leg_jnt_qpos_adr = np.zeros((N_LEGS, 2, N_LEG_DOF), dtype=int)
+        self.leg_jnt_dof_adr  = np.zeros((N_LEGS, 2, N_LEG_DOF), dtype=int)
+        for n in range(N_LEGS):
+            for si in range(2):
+                for dof in range(N_LEG_DOF):
+                    jid = self.idx.leg_jnt_ids[n, si, dof]
+                    self.leg_jnt_qpos_adr[n, si, dof] = model.jnt_qposadr[jid]
+                    self.leg_jnt_dof_adr[n, si, dof]  = model.jnt_dofadr[jid]
+
+        print(f"[ImpedanceController] body_kp={self.body_kp:.4f} "
               f"body_kv={self.body_kv:.4f}  "
               f"A={self.body_amp:.3f} f={self.freq:.2f}Hz")
+        print(f"[ImpedanceController] leg_kp={self.leg_kp.tolist()} "
+              f"leg_kv={self.leg_kv.tolist()}")
+        print(f"[ImpedanceController] settle={self.settle_time:.1f}s "
+              f"ramp={self.ramp_time:.1f}s")
 
     def _spatial_phase(self, i):
         return 2.0 * math.pi * self.n_wave * self.speed * i / max(N_BODY_JOINTS - 1, 1)
+
+    def _gait_blend(self, t):
+        """Return 0.0 during settle, ramp 0→1 over ramp_time, then 1.0."""
+        if t < self.settle_time:
+            return 0.0
+        elapsed = t - self.settle_time
+        if elapsed >= self.ramp_time:
+            return 1.0
+        # Smooth cosine ramp: 0 → 1
+        return 0.5 * (1.0 - math.cos(math.pi * elapsed / self.ramp_time))
 
     def step(self, model, data, t=None):
         if t is None:
             t = data.time
 
+        blend = self._gait_blend(t)
+
         # ── body yaw: impedance control ──
         for i in range(N_BODY_JOINTS):
-            phase  = self.omega * t - self._spatial_phase(i)
-            target = self.body_amp * math.sin(phase)
+            if blend > 0:
+                phase  = self.omega * t - self._spatial_phase(i)
+                target = blend * self.body_amp * math.sin(phase)
+            else:
+                target = 0.0
 
             q    = data.qpos[self.body_jnt_qpos_adr[i]]
             qdot = data.qvel[self.body_jnt_dof_adr[i]]
 
-            # Impedance torque: spring toward target + viscous damping
             torque = self.body_kp * (target - q) - self.body_kv * qdot
 
             data.ctrl[self.idx.body_act_ids[i]] = torque
@@ -185,17 +214,22 @@ class ImpedanceTravelingWaveController:
 
                 data.ctrl[self.idx.roll_act_ids[i]] = torque
 
-        # ── legs: position control (unchanged) ──
+        # ── legs: impedance control ──
         for n in range(N_LEGS):
             phi_s = self._spatial_phase(n)
             for si, side in enumerate(('L', 'R')):
                 for dof in range(N_LEG_DOF):
                     act_id = self.idx.leg_act_ids[n, si, dof]
-                    if dof not in self.active_dofs:
-                        data.ctrl[act_id] = self.leg_dc_offsets[dof]
-                        continue
-                    phase  = self.omega * t - phi_s + self.leg_phase_offsets[dof]
-                    wave   = math.sin(phase)
-                    sign   = 1.0 if si == 0 else -1.0
-                    target = sign * self.leg_amps[dof] * wave + self.leg_dc_offsets[dof]
-                    data.ctrl[act_id] = target
+                    if blend <= 0 or dof not in self.active_dofs:
+                        target = self.leg_dc_offsets[dof]
+                    else:
+                        phase  = self.omega * t - phi_s + self.leg_phase_offsets[dof]
+                        wave   = math.sin(phase)
+                        sign   = 1.0 if si == 0 else -1.0
+                        target = (blend * sign * self.leg_amps[dof] * wave
+                                  + self.leg_dc_offsets[dof])
+
+                    q    = data.qpos[self.leg_jnt_qpos_adr[n, si, dof]]
+                    qdot = data.qvel[self.leg_jnt_dof_adr[n, si, dof]]
+                    torque = self.leg_kp[dof] * (target - q) - self.leg_kv[dof] * qdot
+                    data.ctrl[act_id] = torque
