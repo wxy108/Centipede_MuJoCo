@@ -24,7 +24,7 @@ Usage
   python scripts/sweep/wave_number_sweep.py \\
       --wave-numbers 1.5,2,2.5,3,3.5 \\
       --wavelengths 350,130,90,65,36,30,24,18,16,15,14,13,12,10,8,7,6,5,4,3 \\
-      --n-trials 20 --duration 5 --amplitude 0.008 --video
+      --n-trials 20 --duration 5 --amplitude 0.01 --video
 
 Notes
 -----
@@ -368,8 +368,8 @@ def main():
                    help="Comma-separated terrain wavelengths in mm")
     p.add_argument("--n-trials",   type=int,   default=20)
     p.add_argument("--duration",   type=float, default=5.0)
-    p.add_argument("--amplitude",  type=float, default=0.008,
-                   help="Terrain peak amplitude in metres")
+    p.add_argument("--amplitude",  type=float, default=0.010,
+                   help="Terrain peak amplitude in metres (current default: 10 mm)")
     p.add_argument("--seed",       type=int,   default=42)
     p.add_argument("--video",      action="store_true")
     p.add_argument("--no-sensors", action="store_true",
