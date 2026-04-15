@@ -51,6 +51,10 @@ impedance:
   body_kp_head:   2.0
   body_kv_head:   0.20
   head_yaw_gain:  1.0
+  # Circle trajectory: rate (rad/s) at which head_yaw_ref rotates after settle.
+  # 0 -> straight line (default). Negative -> clockwise (yaw decreasing).
+  # For a circle of radius R at forward speed v: head_yaw_rate = v/R.
+  head_yaw_rate:  0.0
   pitch_kp:       0.0087
   pitch_kv:       0.0023
   roll_kp:        0.003

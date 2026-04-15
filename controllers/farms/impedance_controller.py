@@ -144,12 +144,20 @@ class ImpedanceTravelingWaveController:
         # clamp, a large transient error would saturate against the joint
         # limit, wasting servo authority into the constraint solver.
         self.head_yaw_target_clip = float(imp.get("head_yaw_target_clip", 0.5))
+        # Reference yaw rate (rad/s): if nonzero, head_yaw_ref advances with
+        # time after settle.  This converts the "straight-line" heading servo
+        # into a "circle" trajectory — the robot steers along a constantly
+        # rotating heading.  omega = v/R for radius R at forward speed v.
+        # Negative → clockwise (yaw decreasing), positive → counter-clockwise.
+        self.head_yaw_rate = float(imp.get("head_yaw_rate", 0.0))
         self.head_body_id = mujoco.mj_name2id(
             model, mujoco.mjtObj.mjOBJ_BODY, "link_body_0")
         if self.head_body_id < 0:
             raise ValueError("Body 'link_body_0' not found — heading servo disabled")
         # Reference yaw latched on the first call to step() (not at __init__
         # time — the freejoint's xmat is only valid after mj_forward/mj_step).
+        # When head_yaw_rate != 0, this reference is advanced each step after
+        # the gait has switched on (t >= settle_time).
         self.head_yaw_ref = None
 
         # ── index resolution ──
@@ -426,6 +434,11 @@ class ImpedanceTravelingWaveController:
                 yaw_world = math.atan2(R_head[1, 0], R_head[0, 0])
                 if self.head_yaw_ref is None:
                     self.head_yaw_ref = yaw_world
+                # Advance reference yaw (circle trajectory) once the gait has
+                # switched on. Keeping ref fixed during settle avoids steering
+                # against an un-activated gait.
+                if self.head_yaw_rate != 0.0 and t >= self.settle_time:
+                    self.head_yaw_ref += self.head_yaw_rate * model.opt.timestep
                 err = yaw_world - self.head_yaw_ref
                 # Wrap to [-π, π]
                 if err >  math.pi: err -= 2.0 * math.pi
