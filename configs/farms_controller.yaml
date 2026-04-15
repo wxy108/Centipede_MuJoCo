@@ -51,15 +51,23 @@ impedance:
   body_kp_head:   2.0
   body_kv_head:   0.20
   head_yaw_gain:  1.0
+  # Max |q_target| (rad) on joint_body_1 from the heading servo. Hinge range
+  # is ±0.628 rad, so 0.5 leaves headroom before the joint limit. Raise if the
+  # circle trajectory lacks steering authority; lower if the head chatters
+  # against the clamp.
+  head_yaw_target_clip: 0.5
   # Circle trajectory: rate (rad/s) at which head_yaw_ref rotates after settle.
   # 0 -> straight line (default). Negative -> clockwise (yaw decreasing).
   # For a circle of radius R at forward speed v: head_yaw_rate = v/R.
   head_yaw_rate:  0.0
   pitch_kp:       0.0087
   pitch_kv:       0.0023
-  # Active head pitch-up target (rad). Flip sign if the first pitch joint
-  # pitches nose down on positive q in your MJCF.  ~0.14 rad = 8 deg.
-  head_pitch_offset: 0.14
+  # Active head pitch-up target (rad). Negative q on axis (0,1,0) pitches the
+  # nose UP in the FARMS MJCF convention (verified visually 2026-04). Flip
+  # sign if your MJCF uses the opposite convention. ~|0.14| rad = 8 deg.
+  # This target is now cosine-ramped with the same settle+ramp profile used
+  # for the body wave, so there is no startup torque step.
+  head_pitch_offset: -0.14
   head_pitch_joints: 1
   # Stiffer gains just on the head pitch joint(s) so they actually hold the
   # offset target against gravity.  ~20× the soft global pitch gains.

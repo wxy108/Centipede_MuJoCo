@@ -214,16 +214,25 @@ class ImpedanceTravelingWaveController:
                     seg = 10**9
                 pitch_seg_order.append(seg)
             # Per-joint targets and gains, indexed same as pitch_jnt_ids.
+            # `pitch_target_final` holds the post-ramp steady-state target;
+            # `pitch_targets` is what the controller actually commands (it gets
+            # rebuilt each step by scaling pitch_target_final with the head
+            # segment's blend factor, so the head-pitch offset fades in with
+            # the same cosine profile as the body wave).
+            self.pitch_target_final = np.zeros(n_pitch, dtype=float)
             self.pitch_targets = np.zeros(n_pitch, dtype=float)
             self.pitch_kp_vec  = np.full(n_pitch, self.pitch_kp, dtype=float)
             self.pitch_kv_vec  = np.full(n_pitch, self.pitch_kv, dtype=float)
+            # Mask of which pitch entries are head-end (ramped) vs body (0).
+            self.pitch_is_head = np.zeros(n_pitch, dtype=bool)
             # Sort pitch_ids by segment index to find the N head-end joints
             order = np.argsort(pitch_seg_order)
             for rank, k in enumerate(order):
                 if rank < max(self.head_pitch_joints, 0):
-                    self.pitch_targets[k] = self.head_pitch_offset
-                    self.pitch_kp_vec[k]  = self.head_pitch_kp
-                    self.pitch_kv_vec[k]  = self.head_pitch_kv
+                    self.pitch_target_final[k] = self.head_pitch_offset
+                    self.pitch_is_head[k]      = True
+                    self.pitch_kp_vec[k]       = self.head_pitch_kp
+                    self.pitch_kv_vec[k]       = self.head_pitch_kv
 
             # Gravity compensation is computed ONLINE each step using
             # data.qfrc_bias (gravity + Coriolis at current configuration).
@@ -517,13 +526,22 @@ class ImpedanceTravelingWaveController:
         # holds neutral; adding qfrc_bias (either sign) only creates a
         # static pitch offset that fights the controller.
         if self.has_pitch:
+            # Ramp the head-end pitch offset in with the same cosine blend the
+            # head body-yaw segment uses (segment index 0).  During settle
+            # (t < settle_time) the blend is 0 so the nose target is 0 and no
+            # startup torque step fires; during ramp it fades to the full
+            # offset; after ramp it sits at head_pitch_offset.  Non-head pitch
+            # joints always see target 0.
+            head_blend = self._seg_blend(t, 0)
+            np.multiply(self.pitch_target_final, head_blend,
+                        out=self.pitch_targets)
             for i in range(len(self.idx.pitch_act_ids)):
                 q    = data.qpos[self.pitch_qpos_adr[i]]
                 qdot = data.qvel[self.pitch_dof_adr[i]]
 
-                # Head-end joints use a non-zero target (nose pitched up) and
-                # stiffer per-joint gains so the nose actually holds that
-                # offset against gravity + ground reaction, instead of
+                # Head-end joints use a non-zero, ramped target (nose pitched
+                # up) and stiffer per-joint gains so the nose actually holds
+                # that offset against gravity + ground reaction, instead of
                 # sagging back to 0 like the soft global pitch_kp would.
                 tgt = self.pitch_targets[i]
                 torque = (self.pitch_kp_vec[i] * (tgt - q)
