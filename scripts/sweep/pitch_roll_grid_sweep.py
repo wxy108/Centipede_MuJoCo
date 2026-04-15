@@ -5,13 +5,15 @@ two fixed terrain wavelengths (default 80 mm and 40 mm).
 
 Design
 ------
-- 2D grid over (pitch_kp, roll_kp).  kv is "bonded" to kp with the ratio
-  used in the current tuned config:
-      pitch_kv = pitch_kp * (0.0023 / 0.0087) ≈ pitch_kp * 0.2644
-      roll_kv  = roll_kp  * (0.0012 / 0.0030) = roll_kp  * 0.4000
-  Override ratios with --pitch-ratio / --roll-ratio if desired, or switch to
-  kv = kp with --equal-ratio.
-- Grid values are log-spaced between --kp-min and --kp-max (default 1e-4 to 1e-2).
+- 2D grid over (pitch_kp, roll_kp), log-spaced around user-confirmed centres:
+      pitch_kp centre = 0.004       (range = ±0.6 decades → [0.001, 0.016])
+      roll_kp  centre = 0.002       (range = ±0.6 decades → [0.0005, 0.008])
+  kv is "bonded" to kp via fixed ratios at those centres:
+      pitch_kv = pitch_kp × 0.25    (so 0.004 → 0.001)
+      roll_kv  = roll_kp  × 0.50    (so 0.002 → 0.001)
+  Override centres with --pitch-center / --roll-center, span with
+  --range-decades, ratios with --pitch-ratio / --roll-ratio, or set
+  kv == kp with --equal-ratio.
 - Default grid is 5×5 → 25 combos × 2 wavelengths = 50 simulations.
 - Each combo runs 1 trial per wavelength (fixed yaw = 0) with the current
   config otherwise unchanged (soft CPG, heading servo, H=1/R=3 taper, etc.).
@@ -57,9 +59,16 @@ from wavelength_sweep import (  # noqa: E402
     OUTPUT_DIR,
 )
 
-# Default "bonded" ratios = kv/kp from the current tuned config
-DEFAULT_PITCH_RATIO = 0.0023 / 0.0087   # ≈ 0.2644
-DEFAULT_ROLL_RATIO  = 0.0012 / 0.0030   # = 0.4
+# Current "good" centre values (user-confirmed):
+#     pitch_kp=0.004  pitch_kv=0.001  → ratio 0.25
+#     roll_kp =0.002  roll_kv =0.001  → ratio 0.5
+# The grid is built relative to these centres with a multiplicative span
+# (±RANGE_DECADES around the centre, log-spaced).
+DEFAULT_PITCH_CENTER = 0.004
+DEFAULT_ROLL_CENTER  = 0.002
+DEFAULT_PITCH_RATIO  = 0.001 / 0.004   # = 0.25
+DEFAULT_ROLL_RATIO   = 0.001 / 0.002   # = 0.5
+DEFAULT_RANGE_DECADES = 0.6            # ±0.6 decades → ×0.25 .. ×4
 
 
 def make_temp_config(pitch_kp, pitch_kv, roll_kp, roll_kv):
@@ -139,10 +148,13 @@ def main():
     )
     p.add_argument("--grid",      type=int,   default=5,
                    help="Grid size per axis (pitch_kp × roll_kp). Default 5.")
-    p.add_argument("--kp-min",    type=float, default=1e-4,
-                   help="Min kp (log-spaced). Default 0.0001.")
-    p.add_argument("--kp-max",    type=float, default=1e-2,
-                   help="Max kp (log-spaced). Default 0.01.")
+    p.add_argument("--pitch-center", type=float, default=DEFAULT_PITCH_CENTER,
+                   help=f"pitch_kp centre (default {DEFAULT_PITCH_CENTER}).")
+    p.add_argument("--roll-center",  type=float, default=DEFAULT_ROLL_CENTER,
+                   help=f"roll_kp centre (default {DEFAULT_ROLL_CENTER}).")
+    p.add_argument("--range-decades", type=float, default=DEFAULT_RANGE_DECADES,
+                   help=f"Log-span per side in decades (default "
+                        f"{DEFAULT_RANGE_DECADES}, i.e. ×0.25 to ×4 about centre).")
     p.add_argument("--pitch-ratio", type=float, default=DEFAULT_PITCH_RATIO,
                    help=f"pitch_kv / pitch_kp (default {DEFAULT_PITCH_RATIO:.4f}).")
     p.add_argument("--roll-ratio",  type=float, default=DEFAULT_ROLL_RATIO,
@@ -167,12 +179,20 @@ def main():
         args.pitch_ratio = 1.0
         args.roll_ratio  = 1.0
 
-    # ── Build log-spaced grid ────────────────────────────────────────────────
-    kp_vals = np.logspace(math.log10(args.kp_min),
-                          math.log10(args.kp_max),
-                          args.grid)
-    pitch_kps = [float(v) for v in kp_vals]
-    roll_kps  = [float(v) for v in kp_vals]
+    # ── Build log-spaced grid centred on the "good" values ───────────────────
+    d = float(args.range_decades)
+    pitch_vals = np.logspace(
+        math.log10(args.pitch_center) - d,
+        math.log10(args.pitch_center) + d,
+        args.grid,
+    )
+    roll_vals = np.logspace(
+        math.log10(args.roll_center) - d,
+        math.log10(args.roll_center) + d,
+        args.grid,
+    )
+    pitch_kps = [float(v) for v in pitch_vals]
+    roll_kps  = [float(v) for v in roll_vals]
 
     wl_mm = [float(w.strip()) for w in args.wavelengths.split(",") if w.strip()]
     wavelengths = np.array(sorted(wl_mm, reverse=True)) / 1000.0
@@ -202,7 +222,11 @@ def main():
     print("Pitch × Roll Grid Sweep")
     print("=" * 70)
     print(f"  grid: {args.grid} × {args.grid}  "
-          f"(kp in [{args.kp_min:.0e}, {args.kp_max:.0e}], log-spaced)")
+          f"(±{d:.2f} decades, log-spaced)")
+    print(f"  pitch_kp centre = {args.pitch_center:.4f}  "
+          f"range: [{pitch_kps[0]:.5f}, {pitch_kps[-1]:.5f}]")
+    print(f"  roll_kp  centre = {args.roll_center:.4f}  "
+          f"range: [{roll_kps[0]:.5f}, {roll_kps[-1]:.5f}]")
     print(f"  pitch_kv = pitch_kp × {args.pitch_ratio:.4f}")
     print(f"  roll_kv  = roll_kp  × {args.roll_ratio:.4f}")
     print(f"  wavelengths (mm): {wl_mm}")
@@ -303,8 +327,9 @@ def main():
         json.dump({
             'timestamp':    timestamp,
             'grid':         args.grid,
-            'kp_min':       args.kp_min,
-            'kp_max':       args.kp_max,
+            'pitch_center': args.pitch_center,
+            'roll_center':  args.roll_center,
+            'range_decades': args.range_decades,
             'pitch_ratio':  args.pitch_ratio,
             'roll_ratio':   args.roll_ratio,
             'duration':     args.duration,
