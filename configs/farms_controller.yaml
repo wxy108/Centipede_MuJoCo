@@ -57,6 +57,10 @@ impedance:
   head_yaw_rate:  0.0
   pitch_kp:       0.0087
   pitch_kv:       0.0023
+  # Active head pitch-up target (rad). Flip sign if the first pitch joint
+  # pitches nose down on positive q in your MJCF.  ~0.14 rad = 8 deg.
+  head_pitch_offset: 0.14
+  head_pitch_joints: 1
   roll_kp:        0.003
   roll_kv:        0.0012
   settle_time:    1.0

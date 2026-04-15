@@ -188,6 +188,34 @@ class ImpedanceTravelingWaveController:
             self.pitch_dof_adr = np.array(
                 [model.jnt_dofadr[j] for j in self.idx.pitch_jnt_ids], dtype=int)
 
+            # ── Head-end pitch offset (keep the nose up off the terrain) ──
+            # Parse the segment index from each pitch joint's name
+            # ("joint_pitch_body_N") so we know which joints are head-end.
+            # The first `head_pitch_joints` (in segment order) get a
+            # non-zero target of `head_pitch_offset` (rad); the rest stay
+            # at 0.  Positive offset here pitches the nose up in the model
+            # convention used by the FARMS MJCF (hinge axis pointing so that
+            # +q rotates the nose toward +z).  Flip the sign via the config
+            # if your terrain collision suggests otherwise.
+            self.head_pitch_offset = float(imp.get("head_pitch_offset", 0.0))
+            self.head_pitch_joints = int(imp.get("head_pitch_joints", 1))
+
+            pitch_seg_order = []
+            for j in self.idx.pitch_jnt_ids:
+                nm = model.joint(int(j)).name
+                try:
+                    seg = int(nm.rsplit("_", 1)[-1])
+                except ValueError:
+                    seg = 10**9
+                pitch_seg_order.append(seg)
+            # targets indexed in the same order as pitch_jnt_ids
+            self.pitch_targets = np.zeros(n_pitch, dtype=float)
+            # Sort pitch_ids by segment index to find the N head-end joints
+            order = np.argsort(pitch_seg_order)
+            for rank, k in enumerate(order):
+                if rank < max(self.head_pitch_joints, 0):
+                    self.pitch_targets[k] = self.head_pitch_offset
+
             # Gravity compensation is computed ONLINE each step using
             # data.qfrc_bias (gravity + Coriolis at current configuration).
             # This handles the fact that gravity torques on pitch joints
@@ -196,6 +224,11 @@ class ImpedanceTravelingWaveController:
             print(f"[ImpedanceController] pitch_kp={self.pitch_kp:.4f} "
                   f"pitch_kv={self.pitch_kv:.4f}  "
                   f"({n_pitch} pitch joints, online grav_comp)")
+            if abs(self.head_pitch_offset) > 1e-9 and self.head_pitch_joints > 0:
+                print(f"[ImpedanceController] head_pitch_offset="
+                      f"{self.head_pitch_offset:+.3f} rad "
+                      f"({math.degrees(self.head_pitch_offset):+.1f} deg)  "
+                      f"on first {self.head_pitch_joints} pitch joint(s)")
         else:
             print(f"[ImpedanceController] No pitch actuators found — pitch is passive")
 
@@ -479,7 +512,10 @@ class ImpedanceTravelingWaveController:
                 q    = data.qpos[self.pitch_qpos_adr[i]]
                 qdot = data.qvel[self.pitch_dof_adr[i]]
 
-                torque = (self.pitch_kp * (0.0 - q)
+                # Head-end joints use a non-zero target (nose pitched up) so
+                # the head clears terrain crests instead of plowing into them.
+                tgt = self.pitch_targets[i]
+                torque = (self.pitch_kp * (tgt - q)
                           - self.pitch_kv * qdot)
 
                 data.ctrl[self.idx.pitch_act_ids[i]] = torque
