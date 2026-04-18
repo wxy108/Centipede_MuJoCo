@@ -49,8 +49,8 @@ simulation:
 impedance:
   body_kp:        0.05
   body_kv:        0.01
-  body_kp_head:   0.10
-  body_kv_head:   0.02
+  body_kp_head:   2.0
+  body_kv_head:   0.20
   head_yaw_gain:  1.0
   # Max |q_target| (rad) on joint_body_1 from the heading servo. Hinge range
   # is ±0.628 rad, so 0.5 leaves headroom before the joint limit. Raise if the
