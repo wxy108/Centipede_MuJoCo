@@ -48,7 +48,7 @@
       <geom type="sphere" size="0.001" pos="0.00075 0.0015 0.00075" contype="0" conaffinity="0" group="2" name="eye_right_visual" rgba="0.0 0.0 0.0 1.0"/>
       <body name="link_pitch_body_0" pos="0.0075000003 0 0">
         <joint name="joint_pitch_body_0" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_0" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_0" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
         <body name="link_body_1" pos="0 0 0">
           <inertial pos="0.00071585539 8.9238797e-07 1.1906437e-05" mass="0.00010887424" fullinertia="4.455731e-10 4.838302e-10 6.135550e-10 9.113191e-13 -1.100852e-12 -2.252316e-12"/>
@@ -122,7 +122,7 @@
           </body>
           <body name="link_pitch_body_1" pos="0.0049999997 0 0">
             <joint name="joint_pitch_body_1" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
             <body name="link_body_2" pos="0 0 0">
               <joint name="joint_body_1" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -197,7 +197,7 @@
               </body>
               <body name="link_pitch_body_2" pos="0.0049999997 0 0">
                 <joint name="joint_pitch_body_2" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_2" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_2" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                 <body name="link_body_3" pos="0 0 0">
                   <joint name="joint_body_2" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -272,7 +272,7 @@
                   </body>
                   <body name="link_pitch_body_3" pos="0.0049999997 0 0">
                     <joint name="joint_pitch_body_3" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_3" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_3" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                     <body name="link_body_4" pos="0 0 0">
                       <joint name="joint_body_3" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -347,7 +347,7 @@
                       </body>
                       <body name="link_pitch_body_4" pos="0.0050000012 0 0">
                         <joint name="joint_pitch_body_4" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_4" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_4" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                         <body name="link_body_5" pos="0 0 0">
                           <joint name="joint_body_4" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -422,7 +422,7 @@
                           </body>
                           <body name="link_pitch_body_5" pos="0.0049999982 0 0">
                             <joint name="joint_pitch_body_5" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_5" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_5" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                             <body name="link_body_6" pos="0 0 0">
                               <joint name="joint_body_5" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -497,7 +497,7 @@
                               </body>
                               <body name="link_pitch_body_6" pos="0.0050000012 0 0">
                                 <joint name="joint_pitch_body_6" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_6" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_6" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                 <body name="link_body_7" pos="0 0 0">
                                   <joint name="joint_body_6" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -572,7 +572,7 @@
                                   </body>
                                   <body name="link_pitch_body_7" pos="0.0050000012 0 0">
                                     <joint name="joint_pitch_body_7" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_7" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_7" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                     <body name="link_body_8" pos="0 0 0">
                                       <joint name="joint_body_7" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -647,7 +647,7 @@
                                       </body>
                                       <body name="link_pitch_body_8" pos="0.0049999982 0 0">
                                         <joint name="joint_pitch_body_8" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_8" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_8" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                         <body name="link_body_9" pos="0 0 0">
                                           <joint name="joint_body_8" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -722,7 +722,7 @@
                                           </body>
                                           <body name="link_pitch_body_9" pos="0.0049999982 0 0">
                                             <joint name="joint_pitch_body_9" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_9" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_9" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                             <body name="link_body_10" pos="0 0 0">
                                               <joint name="joint_body_9" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -797,7 +797,7 @@
                                               </body>
                                               <body name="link_pitch_body_10" pos="0.0050000012 0 0">
                                                 <joint name="joint_pitch_body_10" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_10" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_10" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                 <body name="link_body_11" pos="0 0 0">
                                                   <joint name="joint_body_10" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -872,7 +872,7 @@
                                                   </body>
                                                   <body name="link_pitch_body_11" pos="0.0050000012 0 0">
                                                     <joint name="joint_pitch_body_11" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_11" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_11" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                     <body name="link_body_12" pos="0 0 0">
                                                       <joint name="joint_body_11" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -947,7 +947,7 @@
                                                       </body>
                                                       <body name="link_pitch_body_12" pos="0.0050000012 0 0">
                                                         <joint name="joint_pitch_body_12" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_12" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_12" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                         <body name="link_body_13" pos="0 0 0">
                                                           <joint name="joint_body_12" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1022,7 +1022,7 @@
                                                           </body>
                                                           <body name="link_pitch_body_13" pos="0.0050000012 0 0">
                                                             <joint name="joint_pitch_body_13" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_13" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_13" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                             <body name="link_body_14" pos="0 0 0">
                                                               <joint name="joint_body_13" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1097,7 +1097,7 @@
                                                               </body>
                                                               <body name="link_pitch_body_14" pos="0.0049999952 0 0">
                                                                 <joint name="joint_pitch_body_14" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_14" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_14" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                 <body name="link_body_15" pos="0 0 0">
                                                                   <joint name="joint_body_14" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1172,7 +1172,7 @@
                                                                   </body>
                                                                   <body name="link_pitch_body_15" pos="0.0050000012 0 0">
                                                                     <joint name="joint_pitch_body_15" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_15" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_15" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                     <body name="link_body_16" pos="0 0 0">
                                                                       <joint name="joint_body_15" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1247,7 +1247,7 @@
                                                                       </body>
                                                                       <body name="link_pitch_body_16" pos="0.0050000012 0 0">
                                                                         <joint name="joint_pitch_body_16" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_16" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_16" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                         <body name="link_body_17" pos="0 0 0">
                                                                           <joint name="joint_body_16" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1322,7 +1322,7 @@
                                                                           </body>
                                                                           <body name="link_pitch_body_17" pos="0.0050000012 0 0">
                                                                             <joint name="joint_pitch_body_17" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_17" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_17" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                             <body name="link_body_18" pos="0 0 0">
                                                                               <joint name="joint_body_17" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1397,7 +1397,7 @@
                                                                               </body>
                                                                               <body name="link_pitch_body_18" pos="0.0050000012 0 0">
                                                                                 <joint name="joint_pitch_body_18" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_18" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_18" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                                 <body name="link_body_19" pos="0 0 0">
                                                                                   <joint name="joint_body_18" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1472,7 +1472,7 @@
                                                                                   </body>
                                                                                   <body name="link_pitch_body_19" pos="0.0049999952 0 0">
                                                                                     <joint name="joint_pitch_body_19" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
-        <joint name="joint_roll_body_19" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="0" damping="0"/>
+        <joint name="joint_roll_body_19" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                                     <body name="link_body_20" pos="0 0 0">
                                                                                       <joint name="joint_body_19" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1524,255 +1524,255 @@
   <!-- terrain_geom is added at runtime by sweep scripts (patch_xml_terrain) -->
   </worldbody>
   <actuator>
-    <general name="act_joint_pitch_body_3" joint="joint_pitch_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_7" joint="joint_pitch_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_11" joint="joint_pitch_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_15" joint="joint_pitch_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_roll_body_0" joint="joint_roll_body_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_1" joint="joint_roll_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_2" joint="joint_roll_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_3" joint="joint_roll_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_4" joint="joint_roll_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_5" joint="joint_roll_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_6" joint="joint_roll_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_7" joint="joint_roll_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_8" joint="joint_roll_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_9" joint="joint_roll_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_10" joint="joint_roll_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_11" joint="joint_roll_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_12" joint="joint_roll_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_13" joint="joint_roll_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_14" joint="joint_roll_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_15" joint="joint_roll_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_16" joint="joint_roll_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_17" joint="joint_roll_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_18" joint="joint_roll_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_roll_body_19" joint="joint_roll_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.002 0.002"/>
-    <general name="act_joint_leg_0_L_0" joint="joint_leg_0_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_0_L_1" joint="joint_leg_0_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_0_L_2" joint="joint_leg_0_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_0_L_3" joint="joint_leg_0_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_0_0" joint="joint_foot_0_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_0_R_0" joint="joint_leg_0_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_0_R_1" joint="joint_leg_0_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_0_R_2" joint="joint_leg_0_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_0_R_3" joint="joint_leg_0_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_0_1" joint="joint_foot_0_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_1" joint="joint_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_1_L_0" joint="joint_leg_1_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_1_L_1" joint="joint_leg_1_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_1_L_2" joint="joint_leg_1_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_1_L_3" joint="joint_leg_1_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_1_0" joint="joint_foot_1_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_1_R_0" joint="joint_leg_1_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_1_R_1" joint="joint_leg_1_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_1_R_2" joint="joint_leg_1_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_1_R_3" joint="joint_leg_1_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_1_1" joint="joint_foot_1_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_2" joint="joint_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_2_L_0" joint="joint_leg_2_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_2_L_1" joint="joint_leg_2_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_2_L_2" joint="joint_leg_2_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_2_L_3" joint="joint_leg_2_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_2_0" joint="joint_foot_2_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_2_R_0" joint="joint_leg_2_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_2_R_1" joint="joint_leg_2_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_2_R_2" joint="joint_leg_2_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_2_R_3" joint="joint_leg_2_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_2_1" joint="joint_foot_2_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_3" joint="joint_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_3_L_0" joint="joint_leg_3_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_3_L_1" joint="joint_leg_3_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_3_L_2" joint="joint_leg_3_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_3_L_3" joint="joint_leg_3_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_3_0" joint="joint_foot_3_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_3_R_0" joint="joint_leg_3_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_3_R_1" joint="joint_leg_3_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_3_R_2" joint="joint_leg_3_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_3_R_3" joint="joint_leg_3_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_3_1" joint="joint_foot_3_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_4" joint="joint_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_4_L_0" joint="joint_leg_4_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_4_L_1" joint="joint_leg_4_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_4_L_2" joint="joint_leg_4_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_4_L_3" joint="joint_leg_4_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_4_0" joint="joint_foot_4_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_4_R_0" joint="joint_leg_4_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_4_R_1" joint="joint_leg_4_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_4_R_2" joint="joint_leg_4_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_4_R_3" joint="joint_leg_4_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_4_1" joint="joint_foot_4_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_5" joint="joint_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_5_L_0" joint="joint_leg_5_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_5_L_1" joint="joint_leg_5_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_5_L_2" joint="joint_leg_5_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_5_L_3" joint="joint_leg_5_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_5_0" joint="joint_foot_5_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_5_R_0" joint="joint_leg_5_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_5_R_1" joint="joint_leg_5_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_5_R_2" joint="joint_leg_5_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_5_R_3" joint="joint_leg_5_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_5_1" joint="joint_foot_5_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_6" joint="joint_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_6_L_0" joint="joint_leg_6_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_6_L_1" joint="joint_leg_6_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_6_L_2" joint="joint_leg_6_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_6_L_3" joint="joint_leg_6_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_6_0" joint="joint_foot_6_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_6_R_0" joint="joint_leg_6_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_6_R_1" joint="joint_leg_6_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_6_R_2" joint="joint_leg_6_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_6_R_3" joint="joint_leg_6_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_6_1" joint="joint_foot_6_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_7" joint="joint_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_7_L_0" joint="joint_leg_7_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_7_L_1" joint="joint_leg_7_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_7_L_2" joint="joint_leg_7_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_7_L_3" joint="joint_leg_7_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_7_0" joint="joint_foot_7_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_7_R_0" joint="joint_leg_7_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_7_R_1" joint="joint_leg_7_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_7_R_2" joint="joint_leg_7_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_7_R_3" joint="joint_leg_7_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_7_1" joint="joint_foot_7_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_8" joint="joint_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_8_L_0" joint="joint_leg_8_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_8_L_1" joint="joint_leg_8_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_8_L_2" joint="joint_leg_8_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_8_L_3" joint="joint_leg_8_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_8_0" joint="joint_foot_8_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_8_R_0" joint="joint_leg_8_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_8_R_1" joint="joint_leg_8_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_8_R_2" joint="joint_leg_8_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_8_R_3" joint="joint_leg_8_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_8_1" joint="joint_foot_8_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_9" joint="joint_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_9_L_0" joint="joint_leg_9_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_9_L_1" joint="joint_leg_9_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_9_L_2" joint="joint_leg_9_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_9_L_3" joint="joint_leg_9_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_9_0" joint="joint_foot_9_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_9_R_0" joint="joint_leg_9_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_9_R_1" joint="joint_leg_9_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_9_R_2" joint="joint_leg_9_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_9_R_3" joint="joint_leg_9_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_9_1" joint="joint_foot_9_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_10" joint="joint_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_10_L_0" joint="joint_leg_10_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_10_L_1" joint="joint_leg_10_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_10_L_2" joint="joint_leg_10_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_10_L_3" joint="joint_leg_10_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_10_0" joint="joint_foot_10_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_10_R_0" joint="joint_leg_10_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_10_R_1" joint="joint_leg_10_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_10_R_2" joint="joint_leg_10_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_10_R_3" joint="joint_leg_10_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_10_1" joint="joint_foot_10_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_11" joint="joint_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_11_L_0" joint="joint_leg_11_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_11_L_1" joint="joint_leg_11_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_11_L_2" joint="joint_leg_11_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_11_L_3" joint="joint_leg_11_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_11_0" joint="joint_foot_11_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_11_R_0" joint="joint_leg_11_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_11_R_1" joint="joint_leg_11_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_11_R_2" joint="joint_leg_11_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_11_R_3" joint="joint_leg_11_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_11_1" joint="joint_foot_11_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_12" joint="joint_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_12_L_0" joint="joint_leg_12_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_12_L_1" joint="joint_leg_12_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_12_L_2" joint="joint_leg_12_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_12_L_3" joint="joint_leg_12_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_12_0" joint="joint_foot_12_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_12_R_0" joint="joint_leg_12_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_12_R_1" joint="joint_leg_12_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_12_R_2" joint="joint_leg_12_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_12_R_3" joint="joint_leg_12_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_12_1" joint="joint_foot_12_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_13" joint="joint_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_13_L_0" joint="joint_leg_13_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_13_L_1" joint="joint_leg_13_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_13_L_2" joint="joint_leg_13_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_13_L_3" joint="joint_leg_13_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_13_0" joint="joint_foot_13_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_13_R_0" joint="joint_leg_13_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_13_R_1" joint="joint_leg_13_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_13_R_2" joint="joint_leg_13_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_13_R_3" joint="joint_leg_13_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_13_1" joint="joint_foot_13_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_14" joint="joint_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_14_L_0" joint="joint_leg_14_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_14_L_1" joint="joint_leg_14_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_14_L_2" joint="joint_leg_14_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_14_L_3" joint="joint_leg_14_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_14_0" joint="joint_foot_14_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_14_R_0" joint="joint_leg_14_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_14_R_1" joint="joint_leg_14_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_14_R_2" joint="joint_leg_14_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_14_R_3" joint="joint_leg_14_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_14_1" joint="joint_foot_14_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_15" joint="joint_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_15_L_0" joint="joint_leg_15_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_15_L_1" joint="joint_leg_15_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_15_L_2" joint="joint_leg_15_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_15_L_3" joint="joint_leg_15_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_15_0" joint="joint_foot_15_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_15_R_0" joint="joint_leg_15_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_15_R_1" joint="joint_leg_15_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_15_R_2" joint="joint_leg_15_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_15_R_3" joint="joint_leg_15_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_15_1" joint="joint_foot_15_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_16" joint="joint_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_16_L_0" joint="joint_leg_16_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_16_L_1" joint="joint_leg_16_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_16_L_2" joint="joint_leg_16_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_16_L_3" joint="joint_leg_16_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_16_0" joint="joint_foot_16_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_16_R_0" joint="joint_leg_16_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_16_R_1" joint="joint_leg_16_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_16_R_2" joint="joint_leg_16_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_16_R_3" joint="joint_leg_16_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_16_1" joint="joint_foot_16_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_17" joint="joint_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_17_L_0" joint="joint_leg_17_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_17_L_1" joint="joint_leg_17_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_17_L_2" joint="joint_leg_17_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_17_L_3" joint="joint_leg_17_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_17_0" joint="joint_foot_17_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_17_R_0" joint="joint_leg_17_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_17_R_1" joint="joint_leg_17_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_17_R_2" joint="joint_leg_17_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_17_R_3" joint="joint_leg_17_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_17_1" joint="joint_foot_17_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_18" joint="joint_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_18_L_0" joint="joint_leg_18_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_18_L_1" joint="joint_leg_18_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_18_L_2" joint="joint_leg_18_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_18_L_3" joint="joint_leg_18_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_18_0" joint="joint_foot_18_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_18_R_0" joint="joint_leg_18_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_18_R_1" joint="joint_leg_18_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_18_R_2" joint="joint_leg_18_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_leg_18_R_3" joint="joint_leg_18_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_foot_18_1" joint="joint_foot_18_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-    <general name="act_joint_body_19" joint="joint_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.005 0.005"/>
-      <general name="act_joint_pitch_body_0" joint="joint_pitch_body_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_1" joint="joint_pitch_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_2" joint="joint_pitch_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_4" joint="joint_pitch_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_5" joint="joint_pitch_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_6" joint="joint_pitch_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_8" joint="joint_pitch_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_9" joint="joint_pitch_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_10" joint="joint_pitch_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_12" joint="joint_pitch_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_13" joint="joint_pitch_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_14" joint="joint_pitch_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_16" joint="joint_pitch_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_17" joint="joint_pitch_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_18" joint="joint_pitch_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
-    <general name="act_joint_pitch_body_19" joint="joint_pitch_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" forcelimited="true" forcerange="-0.003 0.003"/>
+    <general name="act_joint_pitch_body_3" joint="joint_pitch_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_7" joint="joint_pitch_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_11" joint="joint_pitch_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_15" joint="joint_pitch_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_0" joint="joint_roll_body_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_1" joint="joint_roll_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_2" joint="joint_roll_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_3" joint="joint_roll_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_4" joint="joint_roll_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_5" joint="joint_roll_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_6" joint="joint_roll_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_7" joint="joint_roll_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_8" joint="joint_roll_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_9" joint="joint_roll_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_10" joint="joint_roll_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_11" joint="joint_roll_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_12" joint="joint_roll_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_13" joint="joint_roll_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_14" joint="joint_roll_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_15" joint="joint_roll_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_16" joint="joint_roll_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_17" joint="joint_roll_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_18" joint="joint_roll_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_19" joint="joint_roll_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_0_L_0" joint="joint_leg_0_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_0_L_1" joint="joint_leg_0_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_0_L_2" joint="joint_leg_0_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_0_L_3" joint="joint_leg_0_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_0_0" joint="joint_foot_0_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_0_R_0" joint="joint_leg_0_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_0_R_1" joint="joint_leg_0_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_0_R_2" joint="joint_leg_0_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_0_R_3" joint="joint_leg_0_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_0_1" joint="joint_foot_0_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_1" joint="joint_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_1_L_0" joint="joint_leg_1_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_1_L_1" joint="joint_leg_1_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_1_L_2" joint="joint_leg_1_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_1_L_3" joint="joint_leg_1_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_1_0" joint="joint_foot_1_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_1_R_0" joint="joint_leg_1_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_1_R_1" joint="joint_leg_1_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_1_R_2" joint="joint_leg_1_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_1_R_3" joint="joint_leg_1_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_1_1" joint="joint_foot_1_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_2" joint="joint_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_2_L_0" joint="joint_leg_2_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_2_L_1" joint="joint_leg_2_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_2_L_2" joint="joint_leg_2_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_2_L_3" joint="joint_leg_2_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_2_0" joint="joint_foot_2_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_2_R_0" joint="joint_leg_2_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_2_R_1" joint="joint_leg_2_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_2_R_2" joint="joint_leg_2_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_2_R_3" joint="joint_leg_2_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_2_1" joint="joint_foot_2_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_3" joint="joint_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_3_L_0" joint="joint_leg_3_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_3_L_1" joint="joint_leg_3_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_3_L_2" joint="joint_leg_3_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_3_L_3" joint="joint_leg_3_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_3_0" joint="joint_foot_3_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_3_R_0" joint="joint_leg_3_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_3_R_1" joint="joint_leg_3_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_3_R_2" joint="joint_leg_3_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_3_R_3" joint="joint_leg_3_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_3_1" joint="joint_foot_3_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_4" joint="joint_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_4_L_0" joint="joint_leg_4_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_4_L_1" joint="joint_leg_4_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_4_L_2" joint="joint_leg_4_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_4_L_3" joint="joint_leg_4_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_4_0" joint="joint_foot_4_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_4_R_0" joint="joint_leg_4_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_4_R_1" joint="joint_leg_4_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_4_R_2" joint="joint_leg_4_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_4_R_3" joint="joint_leg_4_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_4_1" joint="joint_foot_4_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_5" joint="joint_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_5_L_0" joint="joint_leg_5_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_5_L_1" joint="joint_leg_5_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_5_L_2" joint="joint_leg_5_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_5_L_3" joint="joint_leg_5_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_5_0" joint="joint_foot_5_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_5_R_0" joint="joint_leg_5_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_5_R_1" joint="joint_leg_5_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_5_R_2" joint="joint_leg_5_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_5_R_3" joint="joint_leg_5_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_5_1" joint="joint_foot_5_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_6" joint="joint_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_6_L_0" joint="joint_leg_6_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_6_L_1" joint="joint_leg_6_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_6_L_2" joint="joint_leg_6_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_6_L_3" joint="joint_leg_6_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_6_0" joint="joint_foot_6_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_6_R_0" joint="joint_leg_6_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_6_R_1" joint="joint_leg_6_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_6_R_2" joint="joint_leg_6_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_6_R_3" joint="joint_leg_6_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_6_1" joint="joint_foot_6_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_7" joint="joint_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_7_L_0" joint="joint_leg_7_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_7_L_1" joint="joint_leg_7_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_7_L_2" joint="joint_leg_7_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_7_L_3" joint="joint_leg_7_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_7_0" joint="joint_foot_7_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_7_R_0" joint="joint_leg_7_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_7_R_1" joint="joint_leg_7_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_7_R_2" joint="joint_leg_7_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_7_R_3" joint="joint_leg_7_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_7_1" joint="joint_foot_7_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_8" joint="joint_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_8_L_0" joint="joint_leg_8_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_8_L_1" joint="joint_leg_8_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_8_L_2" joint="joint_leg_8_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_8_L_3" joint="joint_leg_8_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_8_0" joint="joint_foot_8_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_8_R_0" joint="joint_leg_8_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_8_R_1" joint="joint_leg_8_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_8_R_2" joint="joint_leg_8_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_8_R_3" joint="joint_leg_8_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_8_1" joint="joint_foot_8_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_9" joint="joint_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_9_L_0" joint="joint_leg_9_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_9_L_1" joint="joint_leg_9_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_9_L_2" joint="joint_leg_9_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_9_L_3" joint="joint_leg_9_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_9_0" joint="joint_foot_9_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_9_R_0" joint="joint_leg_9_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_9_R_1" joint="joint_leg_9_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_9_R_2" joint="joint_leg_9_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_9_R_3" joint="joint_leg_9_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_9_1" joint="joint_foot_9_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_10" joint="joint_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_10_L_0" joint="joint_leg_10_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_10_L_1" joint="joint_leg_10_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_10_L_2" joint="joint_leg_10_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_10_L_3" joint="joint_leg_10_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_10_0" joint="joint_foot_10_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_10_R_0" joint="joint_leg_10_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_10_R_1" joint="joint_leg_10_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_10_R_2" joint="joint_leg_10_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_10_R_3" joint="joint_leg_10_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_10_1" joint="joint_foot_10_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_11" joint="joint_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_11_L_0" joint="joint_leg_11_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_11_L_1" joint="joint_leg_11_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_11_L_2" joint="joint_leg_11_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_11_L_3" joint="joint_leg_11_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_11_0" joint="joint_foot_11_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_11_R_0" joint="joint_leg_11_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_11_R_1" joint="joint_leg_11_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_11_R_2" joint="joint_leg_11_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_11_R_3" joint="joint_leg_11_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_11_1" joint="joint_foot_11_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_12" joint="joint_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_12_L_0" joint="joint_leg_12_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_12_L_1" joint="joint_leg_12_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_12_L_2" joint="joint_leg_12_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_12_L_3" joint="joint_leg_12_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_12_0" joint="joint_foot_12_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_12_R_0" joint="joint_leg_12_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_12_R_1" joint="joint_leg_12_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_12_R_2" joint="joint_leg_12_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_12_R_3" joint="joint_leg_12_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_12_1" joint="joint_foot_12_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_13" joint="joint_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_13_L_0" joint="joint_leg_13_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_13_L_1" joint="joint_leg_13_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_13_L_2" joint="joint_leg_13_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_13_L_3" joint="joint_leg_13_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_13_0" joint="joint_foot_13_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_13_R_0" joint="joint_leg_13_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_13_R_1" joint="joint_leg_13_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_13_R_2" joint="joint_leg_13_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_13_R_3" joint="joint_leg_13_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_13_1" joint="joint_foot_13_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_14" joint="joint_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_14_L_0" joint="joint_leg_14_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_14_L_1" joint="joint_leg_14_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_14_L_2" joint="joint_leg_14_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_14_L_3" joint="joint_leg_14_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_14_0" joint="joint_foot_14_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_14_R_0" joint="joint_leg_14_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_14_R_1" joint="joint_leg_14_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_14_R_2" joint="joint_leg_14_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_14_R_3" joint="joint_leg_14_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_14_1" joint="joint_foot_14_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_15" joint="joint_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_15_L_0" joint="joint_leg_15_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_15_L_1" joint="joint_leg_15_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_15_L_2" joint="joint_leg_15_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_15_L_3" joint="joint_leg_15_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_15_0" joint="joint_foot_15_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_15_R_0" joint="joint_leg_15_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_15_R_1" joint="joint_leg_15_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_15_R_2" joint="joint_leg_15_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_15_R_3" joint="joint_leg_15_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_15_1" joint="joint_foot_15_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_16" joint="joint_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_16_L_0" joint="joint_leg_16_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_16_L_1" joint="joint_leg_16_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_16_L_2" joint="joint_leg_16_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_16_L_3" joint="joint_leg_16_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_16_0" joint="joint_foot_16_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_16_R_0" joint="joint_leg_16_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_16_R_1" joint="joint_leg_16_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_16_R_2" joint="joint_leg_16_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_16_R_3" joint="joint_leg_16_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_16_1" joint="joint_foot_16_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_17" joint="joint_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_17_L_0" joint="joint_leg_17_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_17_L_1" joint="joint_leg_17_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_17_L_2" joint="joint_leg_17_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_17_L_3" joint="joint_leg_17_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_17_0" joint="joint_foot_17_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_17_R_0" joint="joint_leg_17_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_17_R_1" joint="joint_leg_17_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_17_R_2" joint="joint_leg_17_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_17_R_3" joint="joint_leg_17_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_17_1" joint="joint_foot_17_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_18" joint="joint_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_18_L_0" joint="joint_leg_18_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_18_L_1" joint="joint_leg_18_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_18_L_2" joint="joint_leg_18_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_18_L_3" joint="joint_leg_18_L_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_18_0" joint="joint_foot_18_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_18_R_0" joint="joint_leg_18_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_18_R_1" joint="joint_leg_18_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_18_R_2" joint="joint_leg_18_R_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_leg_18_R_3" joint="joint_leg_18_R_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_foot_18_1" joint="joint_foot_18_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_body_19" joint="joint_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+      <general name="act_joint_pitch_body_0" joint="joint_pitch_body_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_1" joint="joint_pitch_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_2" joint="joint_pitch_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_4" joint="joint_pitch_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_5" joint="joint_pitch_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_6" joint="joint_pitch_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_8" joint="joint_pitch_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_9" joint="joint_pitch_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_10" joint="joint_pitch_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_12" joint="joint_pitch_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_13" joint="joint_pitch_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_14" joint="joint_pitch_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_16" joint="joint_pitch_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_17" joint="joint_pitch_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_18" joint="joint_pitch_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_19" joint="joint_pitch_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
   </actuator>
   <sensor>
     <jointpos name="sp_joint_body_1" joint="joint_body_1"/>
