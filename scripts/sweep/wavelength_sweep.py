@@ -221,17 +221,45 @@ def _save_video(frames, path, fps=VID_FPS):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def patch_xml_terrain(xml_path, png_path, z_max):
+    """Patch the base XML to include a heightfield terrain.
+
+    The base centipede.xml ships with NO hfield (flat plane only) so that
+    ``run.py`` works out-of-the-box.  This function adds (or updates) the
+    hfield asset + geom, sets spawn height, and writes a temp XML.
+    """
     from lxml import etree
     parser = etree.XMLParser(remove_blank_text=False)
     tree = etree.parse(xml_path, parser)
     root = tree.getroot()
 
+    abs_png = os.path.abspath(png_path).replace("\\", "/")
+
+    # ── hfield asset ──────────────────────────────────────────────────────
     asset = root.find("asset")
     hfield = asset.find("hfield[@name='terrain']")
     if hfield is not None:
-        hfield.set("file", os.path.abspath(png_path).replace("\\", "/"))
+        hfield.set("file", abs_png)
         hfield.set("size", f"0.500 0.500 {z_max:.4f} 0.001")
+    else:
+        etree.SubElement(asset, "hfield", {
+            "name": "terrain",
+            "file": abs_png,
+            "size": f"0.500 0.500 {z_max:.4f} 0.001",
+            "nrow": "1024", "ncol": "1024",
+        })
 
+    # ── hfield geom in worldbody ──────────────────────────────────────────
+    worldbody = root.find("worldbody")
+    terrain_geom = worldbody.find("geom[@name='terrain_geom']")
+    if terrain_geom is None:
+        etree.SubElement(worldbody, "geom", {
+            "type": "hfield", "name": "terrain_geom",
+            "hfield": "terrain", "pos": "0 0 0",
+            "conaffinity": "1", "condim": "3",
+            "friction": "1.6 0.005 0.0001",
+        })
+
+    # ── spawn height ──────────────────────────────────────────────────────
     arr = np.array(Image.open(png_path).convert("L"), dtype=np.float32)
     nrow, ncol = arr.shape
     cy, cx = nrow // 2, ncol // 2
