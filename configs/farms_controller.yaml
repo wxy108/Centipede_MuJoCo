@@ -78,11 +78,12 @@ impedance:
   roll_kv:        0.0016
   settle_time:    1.0
   ramp_time:      1.0
-  # Leg gains scaled ~40× down from original to match biological force range
-  # (~1–10 mN per leg, torques ~0.05 mN·m). Old kp=[0.127,0.015,0.127,0.127].
+  # Leg gains tuned for good tracking with biological force limits.
+  # kp=0.02 gives leg tracking error ~0.14 rad (vs 0.59 at kp=0.003)
+  # and forward speed ~22 mm/s on flat ground.
   leg:
-    kp: [0.003, 0.0005, 0.003, 0.003]
-    kv: [0.000013, 0.000004, 0.000001, 0.000022]
+    kp: [0.020, 0.003, 0.020, 0.020]
+    kv: [0.000088, 0.000013, 0.000006, 0.000144]
 
 # Recording
 recording:
