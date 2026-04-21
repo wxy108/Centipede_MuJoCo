@@ -1,24 +1,25 @@
 #!/usr/bin/env python3
 """
-gain_sweep.py — Grid search for softest stable impedance gains.
+gain_sweep.py — Separate 1-D sweeps of body and leg impedance scale factors.
 
-Generates a single terrain (fixed wavelength), then sweeps over a 2D grid
-of gain scale factors:  body_scale × leg_scale.
+Generates a single terrain (fixed wavelength), then runs two 1-D sweeps:
+  1. Body sweep: scale body_kp/kv, pitch_kp/kv, roll_kp/kv  (legs at 1.0×)
+  2. Leg sweep:  scale leg.kp/kv                              (body at 1.0×)
 
-Each scale factor multiplies ALL gains in that group:
-  body_scale → body_kp, body_kv, pitch_kp, pitch_kv, roll_kp, roll_kv
-  leg_scale  → leg.kp[0..3], leg.kv[0..3]
+Each cell runs N trials with random spawn yaw (0-360°) for statistical
+robustness on rough terrain.
 
 Outputs:
-  - Per-trial MP4 video:  videos/body{B}_leg{L}.mp4
-  - results.json with CoT, survival, max_pitch/roll for every combo
-  - summary CSV sorted by softness (lowest scale product first)
+  - Per-trial MP4 video:  videos/{label}/trial{T}_yaw{Y}.mp4
+  - results.json with CoT, survival, max_pitch/roll for every trial
+  - summary CSV aggregated per cell
 
 Usage:
-  python scripts/sweep/gain_sweep.py --wavelength 18 --duration 8 --video
-  python scripts/sweep/gain_sweep.py --wavelength 18 --duration 8 --video \
-      --body-scales 1.0,0.7,0.5,0.3,0.2,0.1 \
-      --leg-scales 1.0,0.7,0.5,0.3,0.2,0.1
+  python scripts/sweep/gain_sweep.py --wavelength 18 --duration 10 --video --n-trials 3
+  python scripts/sweep/gain_sweep.py --wavelength 18 --duration 10 --video --n-trials 3 --sweep body
+  python scripts/sweep/gain_sweep.py --wavelength 18 --duration 10 --video --n-trials 3 --sweep leg
+  python scripts/sweep/gain_sweep.py --wavelength 18 --duration 10 --video --n-trials 3 \
+      --scales "1.0,0.9,0.7,0.5,0.3,0.1,0.05,0.01"
 """
 
 import argparse
@@ -55,12 +56,21 @@ TERRAIN_CFG = os.path.join(PROJECT_ROOT, "configs", "terrain.yaml")
 OUTPUT_DIR  = os.path.join(PROJECT_ROOT, "outputs", "gain_sweep")
 
 VID_FPS  = 30
-VID_W    = 640
-VID_H    = 480
+VID_W    = 1280
+VID_H    = 720
 CAM_DISTANCE  = 0.20
 CAM_AZIMUTH   = 60
 CAM_ELEVATION = -35
-MAX_PITCH_DEG = 60
+MAX_PITCH_DEG = 35
+MAX_ROLL_DEG  = 60
+
+# Default scale factors
+DEFAULT_SCALES = [1.0, 0.9, 0.7, 0.5, 0.3, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 0.0001]
+
+# Quality thresholds for early-skip and final ranking
+MIN_SPEED_MM_S   = 1.0     # Below this = "doesn't move" (mm/s)
+MIN_DISTANCE_MM  = 5.0     # Below this = stuck (mm, over full duration)
+QUALITY_TAG_SKIP = "SKIP"  # Tag for cells skipped after trial-1 check
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -211,10 +221,25 @@ def _save_video(frames, path, fps=VID_FPS):
 # Simulation
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def run_simulation(xml_path, config_path, duration, video_path=None):
-    """Run one simulation. Returns dict of metrics."""
+def set_initial_yaw(model, data, yaw_rad):
+    """Rotate the centipede's initial orientation around z-axis."""
+    for j in range(model.njnt):
+        if model.jnt_type[j] == mujoco.mjtJoint.mjJNT_FREE:
+            qadr = model.jnt_qposadr[j]
+            data.qpos[qadr + 3] = math.cos(yaw_rad / 2.0)
+            data.qpos[qadr + 4] = 0.0
+            data.qpos[qadr + 5] = 0.0
+            data.qpos[qadr + 6] = math.sin(yaw_rad / 2.0)
+            break
+    mujoco.mj_forward(model, data)
+
+
+def run_simulation(xml_path, config_path, duration, yaw_rad=0.0, video_path=None):
+    """Run one simulation with optional initial yaw. Returns dict of metrics."""
     model = mujoco.MjModel.from_xml_path(xml_path)
     data  = mujoco.MjData(model)
+
+    set_initial_yaw(model, data, yaw_rad)
 
     ctrl = ImpedanceTravelingWaveController(model, config_path)
     idx  = FARMSModelIndex(model)
@@ -253,10 +278,12 @@ def run_simulation(xml_path, config_path, duration, video_path=None):
     renderer, frames, vid_cam = None, [], None
     vid_dt = 1.0 / VID_FPS
     last_frame_t = -1.0
+    cam_azimuth_fixed = CAM_AZIMUTH + math.degrees(yaw_rad)
     if video_path:
         renderer, ok = _try_make_renderer(model)
         if ok:
             vid_cam = _make_camera(idx, data)
+            vid_cam.azimuth = cam_azimuth_fixed
         else:
             video_path = None
 
@@ -267,6 +294,8 @@ def run_simulation(xml_path, config_path, duration, video_path=None):
     start_pos = None
     buckled = False
     buckle_reason = ""
+    max_body_torque = 0.0
+    max_leg_torque  = 0.0
 
     for step_i in range(n_steps):
         ctrl.step(model, data)
@@ -279,14 +308,23 @@ def run_simulation(xml_path, config_path, duration, video_path=None):
         # Energy + angles (after settling)
         if data.time >= settle_time:
             for a in range(n_actuators):
+                tau = abs(data.actuator_force[a])
                 jid = model.actuator_trnid[a, 0]
-                dof = model.jnt_dofadr[jid]
-                energy_sum += abs(data.ctrl[a] * data.qvel[dof]) * dt
+                if 0 <= jid < model.njnt:
+                    dof = model.jnt_dofadr[jid]
+                    energy_sum += tau * abs(data.qvel[dof]) * dt
+                # Track peak torques
+                act_name = model.actuator(a).name
+                if 'leg' in act_name or 'hip' in act_name or 'tibia' in act_name or 'tarsus' in act_name:
+                    max_leg_torque = max(max_leg_torque, tau)
+                else:
+                    max_body_torque = max(max_body_torque, tau)
 
-            for jid in pitch_jnt_ids:
-                pitch_angles.append(abs(math.degrees(data.qpos[model.jnt_qposadr[jid]])))
-            for jid in roll_jnt_ids:
-                roll_angles.append(abs(math.degrees(data.qpos[model.jnt_qposadr[jid]])))
+            if step_i % 100 == 0:
+                for jid in pitch_jnt_ids:
+                    pitch_angles.append(abs(math.degrees(data.qpos[model.jnt_qposadr[jid]])))
+                for jid in roll_jnt_ids:
+                    roll_angles.append(abs(math.degrees(data.qpos[model.jnt_qposadr[jid]])))
 
         # Video
         if renderer and video_path and data.time - last_frame_t >= vid_dt - 1e-6:
@@ -303,6 +341,13 @@ def run_simulation(xml_path, config_path, duration, video_path=None):
                     buckled = True
                     buckle_reason = f"pitch({q_deg:.1f} t={data.time:.1f}s)"
                     break
+            if not buckled:
+                for jid in roll_jnt_ids:
+                    q_deg = abs(math.degrees(data.qpos[model.jnt_qposadr[jid]]))
+                    if q_deg > MAX_ROLL_DEG:
+                        buckled = True
+                        buckle_reason = f"roll({q_deg:.1f} t={data.time:.1f}s)"
+                        break
             if buckled:
                 break
 
@@ -334,16 +379,19 @@ def run_simulation(xml_path, config_path, duration, video_path=None):
         cot = energy_sum / (total_mass * gravity * distance)
 
     return {
-        'survived':       not buckled,
-        'buckle_reason':  buckle_reason,
-        'cot':            float(cot),
-        'forward_speed':  float(distance / effective_time),
-        'distance':       float(distance),
-        'max_pitch_deg':  float(max(pitch_angles)) if pitch_angles else 0.0,
-        'max_roll_deg':   float(max(roll_angles)) if roll_angles else 0.0,
-        'mean_pitch_deg': float(np.mean(pitch_angles)) if pitch_angles else 0.0,
-        'mean_roll_deg':  float(np.mean(roll_angles)) if roll_angles else 0.0,
-        'sim_time':       float(data.time),
+        'survived':         not buckled,
+        'buckle_reason':    buckle_reason,
+        'yaw_deg':          float(math.degrees(yaw_rad)),
+        'cot':              float(cot),
+        'forward_speed':    float(distance / effective_time),
+        'distance':         float(distance),
+        'max_pitch_deg':    float(max(pitch_angles)) if pitch_angles else 0.0,
+        'max_roll_deg':     float(max(roll_angles)) if roll_angles else 0.0,
+        'mean_pitch_deg':   float(np.mean(pitch_angles)) if pitch_angles else 0.0,
+        'mean_roll_deg':    float(np.mean(roll_angles)) if roll_angles else 0.0,
+        'max_body_torque':  float(max_body_torque),
+        'max_leg_torque':   float(max_leg_torque),
+        'sim_time':         float(data.time),
     }
 
 
@@ -351,45 +399,76 @@ def run_simulation(xml_path, config_path, duration, video_path=None):
 # Main sweep
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def aggregate_trials(trial_results):
+    """Compute mean/std/median of key metrics across trials."""
+    survived = [r for r in trial_results if r['survived']]
+    n_survived = len(survived)
+    n_total = len(trial_results)
+
+    if not survived:
+        return {
+            'n_trials': n_total, 'n_survived': 0, 'survival_rate': 0.0,
+            'cot_mean': float('inf'), 'cot_std': 0,
+            'speed_mean': 0, 'speed_std': 0,
+            'max_pitch_mean': 0, 'max_roll_mean': 0,
+            'max_body_torque_mean': 0, 'max_leg_torque_mean': 0,
+        }
+
+    cots   = [r['cot'] for r in survived]
+    speeds = [r['forward_speed'] for r in survived]
+    pitches = [r['max_pitch_deg'] for r in survived]
+    rolls   = [r['max_roll_deg'] for r in survived]
+    body_taus = [r['max_body_torque'] for r in survived]
+    leg_taus  = [r['max_leg_torque'] for r in survived]
+
+    return {
+        'n_trials':       n_total,
+        'n_survived':     n_survived,
+        'survival_rate':  n_survived / n_total,
+        'cot_mean':       float(np.mean(cots)),
+        'cot_std':        float(np.std(cots)),
+        'speed_mean':     float(np.mean(speeds)),
+        'speed_std':      float(np.std(speeds)),
+        'max_pitch_mean': float(np.mean(pitches)),
+        'max_pitch_std':  float(np.std(pitches)),
+        'max_roll_mean':  float(np.mean(rolls)),
+        'max_roll_std':   float(np.std(rolls)),
+        'max_body_torque_mean': float(np.mean(body_taus)),
+        'max_leg_torque_mean':  float(np.mean(leg_taus)),
+    }
+
+
 def main():
-    parser = argparse.ArgumentParser(description=__doc__,
-                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--wavelength", type=float, default=18.0,
                         help="Terrain wavelength in mm (default: 18)")
-    parser.add_argument("--amplitude", type=float, default=0.008,
-                        help="Terrain amplitude in metres (default: 0.008)")
-    parser.add_argument("--duration", type=float, default=8.0,
+    parser.add_argument("--amplitude", type=float, default=0.01,
+                        help="Terrain amplitude in metres (default: 0.01)")
+    parser.add_argument("--duration", type=float, default=10.0,
                         help="Simulation duration in seconds")
+    parser.add_argument("--n-trials", type=int, default=3,
+                        help="Trials per scale factor (random yaw, default: 3)")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--video", action="store_true",
-                        help="Save MP4 video for each combo")
-    parser.add_argument("--body-scales", type=str,
-                        default="1.0,0.8,0.6,0.4,0.3,0.2,0.1",
-                        help="Comma-separated body gain scale factors (yaw+roll)")
-    parser.add_argument("--leg-scales", type=str,
-                        default="1.0,0.8,0.6,0.4,0.3,0.2,0.1",
-                        help="Comma-separated leg gain scale factors")
-    parser.add_argument("--pitch-scales", type=str, default=None,
-                        help="Pitch-only sweep: comma-separated scale factors. "
-                             "When set, body+leg stay at 1.0× and only pitch varies.")
+                        help="Save MP4 video for every trial")
+    parser.add_argument("--sweep", type=str, default="both",
+                        choices=["body", "leg", "both"],
+                        help="Which sweep to run (default: both)")
+    parser.add_argument("--scales", type=str, default=None,
+                        help="Custom scale factors, comma-separated "
+                             "(e.g. '1.0,0.5,0.1'). Default: built-in list")
     args = parser.parse_args()
 
-    baseline = load_baseline_config()
-
-    # ── Determine sweep mode ──────────────────────────────────────────────
-    if args.pitch_scales:
-        # Pitch-only 1D sweep
-        pitch_scales = sorted([float(x) for x in args.pitch_scales.split(",")], reverse=True)
-        sweep_mode = "pitch"
-        sweep_combos = [(1.0, 1.0, ps) for ps in pitch_scales]  # (body, leg, pitch)
-        n_combos = len(pitch_scales)
+    # Parse scales
+    if args.scales:
+        scales = sorted([float(s.strip()) for s in args.scales.split(",")],
+                        reverse=True)
     else:
-        # Body × Leg 2D grid (pitch tied to body)
-        body_scales = sorted([float(x) for x in args.body_scales.split(",")], reverse=True)
-        leg_scales  = sorted([float(x) for x in args.leg_scales.split(",")], reverse=True)
-        sweep_mode = "body_leg"
-        sweep_combos = [(bs, ls, bs) for bs in body_scales for ls in leg_scales]
-        n_combos = len(sweep_combos)
+        scales = DEFAULT_SCALES
+
+    baseline = load_baseline_config()
 
     # ── Generate terrain ──────────────────────────────────────────────────
     with open(TERRAIN_CFG, encoding="utf-8") as f:
@@ -417,22 +496,52 @@ def main():
 
     tmp_xml = patch_xml_terrain(XML_PATH, png_path, z_max)
 
+    # ── Build sweep plan ──────────────────────────────────────────────────
+    # Each entry: (label, body_scale, leg_scale)
+    sweep_plan = []
+
+    if args.sweep in ("body", "both"):
+        for s in scales:
+            sweep_plan.append((f"body_x{s}", s, 1.0))
+
+    if args.sweep in ("leg", "both"):
+        for s in scales:
+            # Skip (1.0, 1.0) duplicate if body sweep already has it
+            if args.sweep == "both" and s == 1.0:
+                continue
+            sweep_plan.append((f"leg_x{s}", 1.0, s))
+
+    n_cells = len(sweep_plan)
+    total_sims = n_cells * args.n_trials
+
+    # Pre-generate random yaw angles (reproducible)
+    rng = np.random.default_rng(args.seed + 9999)
+    all_yaws = rng.uniform(0, 2 * math.pi, size=(n_cells, args.n_trials))
+
+    # Video check
+    can_video = False
+    if args.video:
+        try:
+            import mediapy  # noqa
+            can_video = True
+        except ImportError:
+            print("  WARNING: mediapy not installed — skipping video.")
+
     # ── Print header ──────────────────────────────────────────────────────
-    print("=" * 70)
-    print("Gain Sweep — Finding Softest Stable Parameters")
-    print("=" * 70)
-    print(f"  Terrain: wavelength={args.wavelength}mm  amplitude={args.amplitude*1000:.1f}mm")
-    print(f"  Duration: {args.duration}s  (settle={baseline['settle_time']}s + ramp={baseline['ramp_time']}s)")
-    if sweep_mode == "pitch":
-        print(f"  Mode: PITCH-ONLY sweep (body+leg fixed at 1.0×)")
-        print(f"  Pitch scales: {pitch_scales}")
-    else:
-        print(f"  Mode: Body × Leg grid")
-        print(f"  Body scales: {body_scales}")
-        print(f"  Leg scales:  {leg_scales}")
-    print(f"  Total combos: {n_combos}")
-    print(f"  Video: {'ON' if args.video else 'OFF'}")
-    print(f"  Output: {run_dir}")
+    print("=" * 72)
+    print("Gain Sweep — Body & Leg Impedance Scale Factors")
+    print("=" * 72)
+    print(f"  Terrain:     wavelength={args.wavelength:.0f}mm  "
+          f"amplitude={args.amplitude*1000:.1f}mm")
+    print(f"  Duration:    {args.duration}s  "
+          f"(settle={baseline['settle_time']}s + ramp={baseline['ramp_time']}s)")
+    print(f"  Sweep:       {args.sweep}")
+    print(f"  Scales:      {scales}")
+    print(f"  Cells:       {n_cells}")
+    print(f"  Trials/cell: {args.n_trials} (random yaw 0-360°)")
+    print(f"  Total sims:  {total_sims}")
+    print(f"  Video:       {'ON' if can_video else 'OFF'}")
+    print(f"  Output:      {run_dir}")
     print()
     print(f"  Baseline gains:")
     print(f"    body  kp={baseline['body_kp']:.4f}  kv={baseline['body_kv']:.4f}")
@@ -440,64 +549,115 @@ def main():
     print(f"    roll  kp={baseline['roll_kp']:.4f}  kv={baseline['roll_kv']:.4f}")
     print(f"    leg   kp={baseline['leg_kp']}")
     print(f"    leg   kv={baseline['leg_kv']}")
-    print("=" * 70)
+    print("=" * 72)
+    print()
 
-    results = []
-    combo_i = 0
+    # ── Run sweep ─────────────────────────────────────────────────────────
+    all_results = []
+    cell_aggregates = []
     t_start = time.time()
+    sim_count = 0
 
-    for bs, ls, ps in sweep_combos:
-        combo_i += 1
+    for cell_i, (label, bs, ls) in enumerate(sweep_plan):
+        actual_body_kp = baseline['body_kp'] * bs
+        actual_leg_kp0 = baseline['leg_kp'][0] * ls
+        print(f"[{cell_i+1:2d}/{n_cells}] {label:15s}  "
+              f"(body_kp={actual_body_kp:.6f}, leg_kp[0]={actual_leg_kp0:.6f})")
 
-        if sweep_mode == "pitch":
-            tag = f"pitch{ps:.2f}"
-            label = f"pitch×{ps:.2f}"
-        else:
-            tag = f"body{bs:.2f}_leg{ls:.2f}"
-            label = f"body×{bs:.2f} leg×{ls:.2f}"
+        # Write temp config (pitch tied to body)
+        tmp_cfg = os.path.join(run_dir, f"config_{label}.yaml")
+        write_scaled_config(baseline, bs, ls, tmp_cfg, pitch_scale=bs)
 
-        # Write temp config
-        tmp_cfg = os.path.join(run_dir, f"config_{tag}.yaml")
-        write_scaled_config(baseline, bs, ls, tmp_cfg, pitch_scale=ps)
+        cell_trials = []
+        cell_skipped = False
 
-        # Video path
-        vid_path = None
-        if args.video:
-            vid_path = os.path.join(run_dir, "videos", f"{tag}.mp4")
+        for t in range(args.n_trials):
+            sim_count += 1
+            yaw = float(all_yaws[cell_i, t])
+            yaw_deg = math.degrees(yaw)
 
-        # ETA
-        elapsed = time.time() - t_start
-        if combo_i > 1:
-            eta_s = elapsed / (combo_i - 1) * (n_combos - combo_i + 1)
-            eta_str = f"ETA {eta_s/60:.0f}min"
-        else:
-            eta_str = ""
+            vid_path = None
+            if can_video:
+                vid_dir = os.path.join(run_dir, "videos", label)
+                os.makedirs(vid_dir, exist_ok=True)
+                vid_path = os.path.join(vid_dir,
+                                        f"trial{t:02d}_yaw{yaw_deg:.0f}.mp4")
 
-        print(f"[{combo_i:3d}/{n_combos}] {label:25s}  ", end="", flush=True)
+            try:
+                metrics = run_simulation(tmp_xml, tmp_cfg, args.duration,
+                                         yaw_rad=yaw, video_path=vid_path)
+            except Exception as e:
+                metrics = {
+                    'survived': False, 'buckle_reason': str(e),
+                    'yaw_deg': yaw_deg, 'cot': 1e6, 'forward_speed': 0,
+                    'distance': 0, 'max_pitch_deg': 0, 'mean_pitch_deg': 0,
+                    'max_roll_deg': 0, 'mean_roll_deg': 0,
+                    'max_body_torque': 0, 'max_leg_torque': 0,
+                    'sim_time': 0,
+                }
 
-        metrics = run_simulation(tmp_xml, tmp_cfg, args.duration, video_path=vid_path)
+            metrics['label'] = label
+            metrics['body_scale'] = bs
+            metrics['leg_scale'] = ls
+            metrics['trial_idx'] = t
+            metrics['body_kp'] = actual_body_kp
+            metrics['body_kv'] = baseline['body_kv'] * bs
+            metrics['leg_kp'] = [v * ls for v in baseline['leg_kp']]
+            cell_trials.append(metrics)
+            all_results.append(metrics)
 
-        status = "OK" if metrics['survived'] else f"FAIL({metrics['buckle_reason']})"
-        print(f"  {status:30s}  CoT={metrics['cot']:10.2f}  "
-              f"speed={metrics['forward_speed']*1000:.1f}mm/s  "
-              f"pitch={metrics['max_pitch_deg']:.1f}°  "
-              f"roll={metrics['max_roll_deg']:.1f}°  {eta_str}")
+            status = ("OK" if metrics['survived']
+                      else f"FAIL:{metrics['buckle_reason']}")
+            elapsed_total = time.time() - t_start
+            eta = (elapsed_total / sim_count) * (total_sims - sim_count)
+            print(f"    [{sim_count:3d}/{total_sims}] "
+                  f"yaw={yaw_deg:5.1f}°  "
+                  f"CoT={metrics['cot']:8.1f}  "
+                  f"speed={metrics['forward_speed']*1000:5.1f}mm/s  "
+                  f"body_tau={metrics['max_body_torque']*1000:.2f}mNm  "
+                  f"leg_tau={metrics['max_leg_torque']*1000:.2f}mNm  "
+                  f"{status}  "
+                  f"(ETA {eta/60:.0f}min)", flush=True)
 
-        result = {
-            'body_scale':  bs,
-            'leg_scale':   ls,
-            'pitch_scale': ps,
-            'body_kp':     baseline['body_kp'] * bs,
-            'body_kv':     baseline['body_kv'] * bs,
-            'pitch_kp':    baseline['pitch_kp'] * ps,
-            'pitch_kv':    baseline['pitch_kv'] * ps,
-            'roll_kp':     baseline['roll_kp'] * bs,
-            'roll_kv':     baseline['roll_kv'] * bs,
-            'leg_kp':      [v * ls for v in baseline['leg_kp']],
-            'leg_kv':      [v * ls for v in baseline['leg_kv']],
-            **metrics,
-        }
-        results.append(result)
+            # ── Early-skip check after first trial ────────────────────
+            # If trial 0 already buckled OR is completely immobile,
+            # skip remaining trials — this scale is clearly bad.
+            if t == 0:
+                t0_failed  = not metrics['survived']
+                t0_stuck   = (metrics['distance'] * 1000 < MIN_DISTANCE_MM
+                              and metrics['survived'])
+                if t0_failed or t0_stuck:
+                    reason = ("UNSTABLE" if t0_failed
+                              else f"STUCK({metrics['distance']*1000:.1f}mm)")
+                    skipped_count = args.n_trials - 1
+                    sim_count += skipped_count  # account for skipped sims in ETA
+                    print(f"    !! {reason} on trial 0 — "
+                          f"skipping {skipped_count} remaining trials")
+                    cell_skipped = True
+                    # Fill in dummy results for skipped trials
+                    for skip_t in range(1, args.n_trials):
+                        skip_m = metrics.copy()
+                        skip_m['trial_idx'] = skip_t
+                        skip_m['yaw_deg'] = float(math.degrees(all_yaws[cell_i, skip_t]))
+                        skip_m['buckle_reason'] = f"skipped({reason})"
+                        skip_m['video_path'] = ''
+                        cell_trials.append(skip_m)
+                        all_results.append(skip_m)
+                    break
+
+        # Aggregate this cell
+        agg = aggregate_trials(cell_trials)
+        agg['label'] = label
+        agg['body_scale'] = bs
+        agg['leg_scale'] = ls
+        agg['skipped'] = cell_skipped
+        cell_aggregates.append(agg)
+
+        tag_str = f" [{QUALITY_TAG_SKIP}]" if cell_skipped else ""
+        print(f"    => CoT={agg['cot_mean']:.1f}±{agg['cot_std']:.1f}  "
+              f"speed={agg['speed_mean']*1000:.1f}±{agg['speed_std']*1000:.1f}mm/s  "
+              f"survived={agg['n_survived']}/{agg['n_trials']}{tag_str}")
+        print()
 
         # Clean up temp config
         try:
@@ -505,100 +665,170 @@ def main():
         except OSError:
             pass
 
-    # ── Save results ──────────────────────────────────────────────────────
-    output = {
-        'timestamp':     timestamp,
-        'sweep_mode':    sweep_mode,
-        'wavelength_mm': args.wavelength,
-        'amplitude_m':   args.amplitude,
-        'duration':      args.duration,
-        'baseline':      baseline,
-        'results':       results,
-    }
-    if sweep_mode == "pitch":
-        output['pitch_scales'] = pitch_scales
-    else:
-        output['body_scales'] = body_scales
-        output['leg_scales']  = leg_scales
+    total_time = time.time() - t_start
 
+    # ── Save results ──────────────────────────────────────────────────────
     json_path = os.path.join(run_dir, "results.json")
     with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, default=str)
+        json.dump({
+            'timestamp':     timestamp,
+            'sweep_type':    args.sweep,
+            'wavelength_mm': args.wavelength,
+            'amplitude_m':   args.amplitude,
+            'duration':      args.duration,
+            'n_trials':      args.n_trials,
+            'scales':        scales,
+            'baseline':      baseline,
+            'all_trials':    all_results,
+            'elapsed_s':     total_time,
+        }, f, indent=2, default=str)
 
-    # ── Summary CSV ───────────────────────────────────────────────────────
-    csv_path = os.path.join(run_dir, "summary.csv")
-    with open(csv_path, "w", encoding="utf-8") as f:
-        headers = ['body_scale', 'leg_scale', 'pitch_scale', 'survived', 'cot',
-                    'forward_speed_mm_s', 'max_pitch_deg', 'max_roll_deg',
-                    'mean_pitch_deg', 'mean_roll_deg', 'distance_mm',
-                    'body_kp', 'pitch_kp', 'roll_kp']
+    # Raw CSV — one row per trial
+    raw_csv = os.path.join(run_dir, "results_all_trials.csv")
+    with open(raw_csv, "w", encoding="utf-8") as f:
+        headers = ['label', 'body_scale', 'leg_scale', 'trial_idx', 'yaw_deg',
+                   'survived', 'cot', 'forward_speed', 'distance',
+                   'max_pitch_deg', 'mean_pitch_deg',
+                   'max_roll_deg', 'mean_roll_deg',
+                   'max_body_torque', 'max_leg_torque', 'sim_time']
         f.write(",".join(headers) + "\n")
-        # Sort: pitch mode → by pitch_scale ascending; body_leg → by product ascending
-        if sweep_mode == "pitch":
-            sort_key = lambda x: x['pitch_scale']
-        else:
-            sort_key = lambda x: x['body_scale'] * x['leg_scale']
-        for r in sorted(results, key=sort_key):
-            f.write(f"{r['body_scale']:.2f},{r['leg_scale']:.2f},{r['pitch_scale']:.2f},"
-                    f"{r['survived']},{r['cot']:.4f},"
-                    f"{r['forward_speed']*1000:.2f},"
-                    f"{r['max_pitch_deg']:.2f},{r['max_roll_deg']:.2f},"
-                    f"{r['mean_pitch_deg']:.2f},{r['mean_roll_deg']:.2f},"
-                    f"{r['distance']*1000:.2f},"
-                    f"{r['body_kp']:.6f},{r['pitch_kp']:.6f},{r['roll_kp']:.6f}\n")
+        for r in all_results:
+            vals = [str(r.get(h, '')) for h in headers]
+            f.write(",".join(vals) + "\n")
 
-    # ── Print summary ─────────────────────────────────────────────────────
+    # Aggregated CSV — one row per cell
+    agg_csv = os.path.join(run_dir, "results_aggregated.csv")
+    with open(agg_csv, "w", encoding="utf-8") as f:
+        f.write("label,body_scale,leg_scale,n_survived,survival_rate,"
+                "cot_mean,cot_std,speed_mean,speed_std,"
+                "max_pitch_mean,max_roll_mean,"
+                "max_body_torque_mean,max_leg_torque_mean\n")
+        for agg in cell_aggregates:
+            f.write(f"{agg['label']},{agg['body_scale']},{agg['leg_scale']},"
+                    f"{agg['n_survived']},{agg['survival_rate']:.2f},"
+                    f"{agg['cot_mean']:.2f},{agg['cot_std']:.2f},"
+                    f"{agg['speed_mean']:.6f},{agg['speed_std']:.6f},"
+                    f"{agg.get('max_pitch_mean',0):.2f},"
+                    f"{agg.get('max_roll_mean',0):.2f},"
+                    f"{agg.get('max_body_torque_mean',0):.6f},"
+                    f"{agg.get('max_leg_torque_mean',0):.6f}\n")
+
+    # ── Classify each cell ───────────────────────────────────────────────
+    # Categories:
+    #   GOOD     = survived all trials, mean speed > threshold
+    #   MARGINAL = survived some trials, or low speed
+    #   STUCK    = survived but barely moves
+    #   UNSTABLE = buckled in all trials
+    #   SKIPPED  = early-skipped (unstable or stuck on trial 0)
+    for agg in cell_aggregates:
+        if agg.get('skipped', False):
+            if agg['n_survived'] == 0:
+                agg['quality'] = 'UNSTABLE'
+            else:
+                agg['quality'] = 'STUCK'
+        elif agg['n_survived'] == 0:
+            agg['quality'] = 'UNSTABLE'
+        elif agg['speed_mean'] * 1000 < MIN_SPEED_MM_S:
+            agg['quality'] = 'STUCK'
+        elif agg['survival_rate'] < 1.0:
+            agg['quality'] = 'MARGINAL'
+        else:
+            agg['quality'] = 'GOOD'
+
+    # ── Print full table ──────────────────────────────────────────────────
     print()
-    print("=" * 70)
-    print("RESULTS SUMMARY")
-    print("=" * 70)
+    print("=" * 72)
+    print(f"DONE  ({total_time/60:.1f} min, {total_sims} simulations, "
+          f"{sum(1 for a in cell_aggregates if a.get('skipped'))} cells skipped)")
+    print("=" * 72)
 
-    survived = [r for r in results if r['survived']]
-    failed   = [r for r in results if not r['survived']]
-    print(f"  Survived: {len(survived)}/{n_combos}")
-    print(f"  Failed:   {len(failed)}/{n_combos}")
+    for sweep_label, filter_prefix in [("BODY SWEEP", "body_x"),
+                                        ("LEG SWEEP", "leg_x")]:
+        cells = [a for a in cell_aggregates if a['label'].startswith(filter_prefix)]
+        if not cells:
+            continue
+        print(f"\n  {sweep_label}:")
+        print(f"  {'Scale':>8s}  {'Surv':>5s}  {'Quality':>9s}  {'CoT':>8s}  "
+              f"{'Speed mm/s':>10s}  {'Pitch°':>7s}  {'Roll°':>7s}  "
+              f"{'BodyTau':>8s}  {'LegTau':>8s}")
+        for c in cells:
+            scale = c['body_scale'] if 'body' in c['label'] else c['leg_scale']
+            surv = f"{c['n_survived']}/{c['n_trials']}"
+            cot_s = f"{c['cot_mean']:.1f}" if c['cot_mean'] < 1e5 else "INF"
+            q = c['quality']
+            print(f"  {scale:>8.4f}  {surv:>5s}  {q:>9s}  {cot_s:>8s}  "
+                  f"{c['speed_mean']*1000:>10.1f}  "
+                  f"{c.get('max_pitch_mean',0):>7.1f}  "
+                  f"{c.get('max_roll_mean',0):>7.1f}  "
+                  f"{c.get('max_body_torque_mean',0)*1000:>8.2f}  "
+                  f"{c.get('max_leg_torque_mean',0)*1000:>8.2f}")
 
-    if survived:
-        if sweep_mode == "pitch":
-            # Find softest surviving pitch scale
-            softest = min(survived, key=lambda r: r['pitch_scale'])
-            print(f"\n  SOFTEST STABLE PITCH:")
-            print(f"    pitch_scale={softest['pitch_scale']:.2f}  (body+leg fixed at 1.0×)")
-            print(f"    pitch_kp={softest['pitch_kp']:.6f}  pitch_kv={softest['pitch_kv']:.6f}")
-            print(f"    CoT={softest['cot']:.2f}  speed={softest['forward_speed']*1000:.1f}mm/s")
-            print(f"    max_pitch={softest['max_pitch_deg']:.1f}°  max_roll={softest['max_roll_deg']:.1f}°")
-        else:
-            # Find softest surviving combo
-            softest = min(survived, key=lambda r: r['body_scale'] * r['leg_scale'])
-            print(f"\n  SOFTEST STABLE:")
-            print(f"    body_scale={softest['body_scale']:.2f}  leg_scale={softest['leg_scale']:.2f}")
-            print(f"    body_kp={softest['body_kp']:.6f}  pitch_kp={softest['pitch_kp']:.6f}  roll_kp={softest['roll_kp']:.6f}")
-            print(f"    leg_kp={softest['leg_kp']}")
-            print(f"    CoT={softest['cot']:.2f}  speed={softest['forward_speed']*1000:.1f}mm/s")
-            print(f"    max_pitch={softest['max_pitch_deg']:.1f}°  max_roll={softest['max_roll_deg']:.1f}°")
+    # ── Recommended parameter ranges & videos to check ────────────────────
+    good_cells = [a for a in cell_aggregates if a['quality'] == 'GOOD']
+    marginal_cells = [a for a in cell_aggregates if a['quality'] == 'MARGINAL']
+    worth_checking = good_cells + marginal_cells
 
-        # Best CoT among survived
-        best_cot = min(survived, key=lambda r: r['cot'])
-        print(f"\n  BEST CoT:")
-        if sweep_mode == "pitch":
-            print(f"    pitch_scale={best_cot['pitch_scale']:.2f}")
-        else:
-            print(f"    body_scale={best_cot['body_scale']:.2f}  leg_scale={best_cot['leg_scale']:.2f}")
-        print(f"    CoT={best_cot['cot']:.2f}  speed={best_cot['forward_speed']*1000:.1f}mm/s")
+    print()
+    print("=" * 72)
+    print("RECOMMENDED PARAMETER RANGES")
+    print("=" * 72)
 
-    print(f"\n  Results: {json_path}")
-    print(f"  Summary: {csv_path}")
-    if args.video:
-        print(f"  Videos:  {os.path.join(run_dir, 'videos')}/")
+    if not worth_checking:
+        print("\n  No cells passed quality check! All were UNSTABLE or STUCK.")
+        print("  Consider narrowing the scale range or checking baseline config.")
+    else:
+        # Rank by a composite score: speed (higher=better) / CoT (lower=better)
+        # Simple ranking: sort by speed descending among GOOD cells
+        for sweep_label, filter_prefix in [("BODY", "body_x"),
+                                            ("LEG", "leg_x")]:
+            sw_good = sorted(
+                [c for c in worth_checking if c['label'].startswith(filter_prefix)],
+                key=lambda c: c['speed_mean'], reverse=True)
+            if not sw_good:
+                continue
 
-    total_time = time.time() - t_start
+            scales_good = [c['body_scale'] if 'body' in c['label'] else c['leg_scale']
+                           for c in sw_good]
+            best = sw_good[0]
+            best_scale = scales_good[0]
+            lo = min(scales_good)
+            hi = max(scales_good)
+
+            print(f"\n  {sweep_label} gains:")
+            print(f"    Viable range:  ×{lo} — ×{hi}")
+            print(f"    Best speed:    ×{best_scale}  "
+                  f"({best['speed_mean']*1000:.1f} mm/s, "
+                  f"CoT={best['cot_mean']:.1f})")
+
+            # Lowest CoT among viable
+            best_cot = min(sw_good, key=lambda c: c['cot_mean'])
+            bc_scale = (best_cot['body_scale'] if 'body' in best_cot['label']
+                        else best_cot['leg_scale'])
+            print(f"    Best CoT:      ×{bc_scale}  "
+                  f"({best_cot['speed_mean']*1000:.1f} mm/s, "
+                  f"CoT={best_cot['cot_mean']:.1f})")
+
+        # ── List specific video folders to check ──────────────────────
+        if can_video:
+            print(f"\n  ▸ VIDEOS TO CHECK (GOOD + MARGINAL only):")
+            vid_base = os.path.join(run_dir, "videos")
+            for c in sorted(worth_checking,
+                            key=lambda c: c['speed_mean'], reverse=True):
+                scale = (c['body_scale'] if 'body' in c['label']
+                         else c['leg_scale'])
+                q_tag = f"[{c['quality']}]"
+                print(f"    {q_tag:>12s}  {c['label']:15s}  "
+                      f"speed={c['speed_mean']*1000:.1f}mm/s  "
+                      f"CoT={c['cot_mean']:.1f}  "
+                      f"→ {os.path.join(vid_base, c['label'])}/")
+
+    # ── File locations ────────────────────────────────────────────────────
+    print(f"\n  Results JSON:     {json_path}")
+    print(f"  All trials CSV:   {raw_csv}")
+    print(f"  Aggregated CSV:   {agg_csv}")
+    if can_video:
+        print(f"  Videos:           {os.path.join(run_dir, 'videos')}/")
     print(f"\n  Total time: {total_time/60:.1f} min")
-
-    # Clean up tmp XML
-    try:
-        os.remove(tmp_xml)
-    except OSError:
-        pass
 
 
 if __name__ == "__main__":
