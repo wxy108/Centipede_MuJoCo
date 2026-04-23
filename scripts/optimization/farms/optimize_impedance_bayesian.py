@@ -301,14 +301,14 @@ def compute_cost(metrics, recorder, weights, limits, settle_s):
                               "reason": metrics["buckle_reason"]}
 
     if recorder is None or len(recorder.times) < 10:
-        return BUCKLED_COST, {"buckled": False,
+        return BUCKLED_COST, {"buckled": True,
                               "reason": "no recorder data"}
 
     # Assemble arrays from the recorder lists (we don't save yet)
     t   = np.asarray(recorder.times, dtype=float)
     mask = t >= settle_s
     if mask.sum() < 5:
-        return BUCKLED_COST, {"buckled": False,
+        return BUCKLED_COST, {"buckled": True,
                               "reason": "trial too short post-settle"}
 
     body_q   = np.asarray(recorder.body_yaw_q)[mask]
@@ -415,15 +415,15 @@ def make_objective(args, base_cfg, tmp_dir, csv_path, weights, limits):
 
         dt = time.time() - t0
         if parts.get("buckled", False):
-            print(f"  [trial {trial.number:4d}] BUCKLE  {parts['reason']}  "
+            print(f"  [trial {trial.number:4d}] BUCKLE  {parts.get('reason','?')}  "
                   f"({dt:.1f}s)  cost={cost:.1f}")
         else:
             print(f"  [trial {trial.number:4d}] cost={cost:8.3f}  "
-                  f"speed={parts['speed_mps']*1000:5.1f}mm/s  "
-                  f"F/W={parts['peak_force_over_weight']:4.1f}  "
-                  f"rmse_b={parts['rmse_body_yaw_deg']:4.1f}° "
-                  f"rmse_l={parts['rmse_leg_deg']:4.1f}° "
-                  f"rpy_rate={parts['rpy_rate_rms_rad_s']:4.2f}  "
+                  f"speed={parts.get('speed_mps',0.0)*1000:5.1f}mm/s  "
+                  f"F/W={parts.get('peak_force_over_weight',0.0):4.1f}  "
+                  f"rmse_b={parts.get('rmse_body_yaw_deg',0.0):4.1f}° "
+                  f"rmse_l={parts.get('rmse_leg_deg',0.0):4.1f}° "
+                  f"rpy_rate={parts.get('rpy_rate_rms_rad_s',0.0):4.2f}  "
                   f"({dt:.1f}s)")
 
         # Drop temp yaml to keep things tidy
