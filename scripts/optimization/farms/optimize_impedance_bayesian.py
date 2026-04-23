@@ -177,9 +177,16 @@ def write_tmp_yaml(cfg, tmp_dir, tag):
 # ══════════════════════════════════════════════════════════════════════════════
 
 def setup_terrain(run_dir, wavelength_mm, amplitude_m, seed, base_xml):
-    """Generate a heightfield + patched XML once, copied into run_dir for
-    reproducibility.  Returns the path of the patched XML to use for every
-    trial."""
+    """Generate a heightfield + patched XML once.  The patched XML is left
+    IN PLACE next to the original model so the existing
+    ``<compiler meshdir="meshes">`` relative-path reference still resolves
+    correctly on any machine (Windows or Lab PC).
+
+    A reference copy of the patched XML and the heightfield PNG are
+    saved inside ``run_dir`` for reproducibility, but those are NOT the
+    ones used for simulation.  Regenerating with the same ``seed``
+    reproduces the terrain deterministically.
+    """
     wavelength_m = wavelength_mm * 1e-3
     h, rms_m, peak_m = generate_single_wavelength_terrain(
         wavelength_m=wavelength_m,
@@ -188,24 +195,27 @@ def setup_terrain(run_dir, wavelength_mm, amplitude_m, seed, base_xml):
     )
     png_path = save_wavelength_terrain(h, wavelength_m, seed, run_dir)
     z_max = max(2.0 * amplitude_m, 1e-3)
-    tmp_xml = patch_xml_terrain(base_xml, png_path, z_max=z_max)
 
-    # Copy the patched XML into run_dir so the study is self-contained
-    final_xml = os.path.join(run_dir, "patched_model.xml")
+    # patch_xml_terrain writes to `<base_xml>.sweep_tmp.xml` which sits
+    # next to the original model -> the relative meshdir="meshes"
+    # reference still resolves.  We use THIS path for every trial.
+    patched_xml = patch_xml_terrain(base_xml, png_path, z_max=z_max)
+
+    # Reference snapshot inside run_dir (NOT used for simulation — purely
+    # for reproducibility / post-hoc inspection).  It will have a broken
+    # meshdir if opened stand-alone, which is fine: the heightfield PNG
+    # is also saved here and the seed is in best_params.json, so the
+    # terrain can be regenerated deterministically.
     try:
-        shutil.copy(tmp_xml, final_xml)
-        try:
-            os.remove(tmp_xml)
-        except Exception:
-            pass
+        shutil.copy(patched_xml, os.path.join(run_dir, "patched_model.reference.xml"))
     except Exception:
-        final_xml = tmp_xml  # fallback: leave where patch_xml_terrain put it
+        pass
 
     print(f"[terrain] wavelength={wavelength_mm:.1f}mm  "
           f"amplitude={amplitude_m*1000:.1f}mm  seed={seed}")
     print(f"[terrain] rms={rms_m*1000:.2f}mm  peak={peak_m*1000:.2f}mm")
-    print(f"[terrain] patched xml -> {final_xml}")
-    return final_xml
+    print(f"[terrain] simulation xml -> {patched_xml}")
+    return patched_xml
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -778,11 +788,11 @@ def main():
         base_cfg = yaml.safe_load(f)
 
     # ── Terrain setup (happens once per study) ──────────────────────────
-    if args.resume and os.path.exists(os.path.join(run_dir, "patched_model.xml")):
-        # On resume, reuse the patched XML that was saved with the original run
-        xml_to_use = os.path.join(run_dir, "patched_model.xml")
-        print(f"[terrain] resume: reusing {xml_to_use}")
-    elif args.flat:
+    # The patched XML lives next to the original model (relative meshdir
+    # reference).  On both fresh runs and resumes we regenerate it from
+    # the seed — generation is deterministic so this is a no-op in effect
+    # but keeps the XML fresh after any repo refresh on the Lab PC.
+    if args.flat:
         xml_to_use = args.model
         print("[terrain] --flat: using base XML (no heightfield)")
     else:
