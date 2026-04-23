@@ -94,8 +94,8 @@ def main():
                    help="Comma-separated list of body-wave wave_numbers to test")
     p.add_argument("--n-trials",   type=int,   default=1,
                    help="Trials per wave-number (yaw=0 for trial 0, random after)")
-    p.add_argument("--duration",   type=float, default=11.0,
-                   help="Seconds per trial. Includes 1 s settle + 2 s head→tail ramp + ~8 s active gait.")
+    p.add_argument("--duration",   type=float, default=8.0,
+                   help="Seconds per trial. Gait is active from t=0 (no settle/ramp).")
     p.add_argument("--seed",       type=int,   default=42)
     p.add_argument("--video",      action="store_true")
     p.add_argument("--no-sensors", action="store_true")

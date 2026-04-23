@@ -8,7 +8,7 @@
   </visual>
   <default>
     <joint damping="4.0754e-06" armature="0.0001" frictionloss="0.0"/>
-    <geom condim="3" friction="1.6 0.02 0.001" solref="0.01 1.5" solimp="0.9 0.95 0.001"/>
+    <geom condim="3" friction="1.6 0.02 0.001" solref="0.005 1.5" solimp="0.9 0.95 0.001"/>
   </default>
   <asset>
     <texture name="groundplane" type="2d" builtin="checker" rgb1="0.3 0.4 0.3" rgb2="0.25 0.35 0.25" width="512" height="512"/>
@@ -34,11 +34,12 @@
     <mesh name="link_7" file="link_7.obj" scale="0.05 0.05 0.05"/>
     <mesh name="link_8" file="link_8.obj" scale="0.05 0.05 0.05"/>
     <mesh name="link_9" file="link_9.obj" scale="0.05 0.05 0.05"/>
-  <hfield name="terrain" file="C:/Users/wxy22/Documents/Centipede_MUJOCO-main/outputs/flat_ground_tune/tune_20260415_150144/flat.png" size="0.500 0.500 0.0010 0.001" nrow="1024" ncol="1024"/></asset>
+  <!-- hfield is patched in at runtime by sweep scripts (patch_xml_terrain) -->
+  <hfield name="terrain" file="/sessions/lucid-amazing-cerf/mnt/Centipede_MUJOCO-main/outputs/wave_number_sweep/sweep_20260422_170504/terrains/wl18.0mm_s42/1.png" size="0.500 0.500 0.0200 0.001" nrow="1024" ncol="1024"/></asset>
   <worldbody>
     <light name="light_main" pos="0.2 -0.1 0.3" dir="-0.2 0.1 -0.3" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" directional="true" castshadow="true"/>
     <light name="light_fill" pos="-0.1 0.1 0.1" dir="0.1 -0.1 -0.1" diffuse="0.3 0.3 0.35" specular="0.0 0.0 0.0" directional="true" castshadow="false"/>
-    <body name="link_body_0" pos="0 0 0.0155" euler="0 0 97.12">
+    <body name="link_body_0" pos="0 0 0.0289" euler="0 0 0">
       <freejoint name="root"/>
       <inertial pos="0.0034859071 2.6599856e-06 0.00022589701" mass="0.00012018274" fullinertia="5.928697e-10 4.856396e-10 6.798664e-10 -2.228661e-12 4.544452e-12 -3.742921e-13"/>
       <geom type="mesh" mesh="link_0" pos="0 0 0" group="0" name="link_0_collision"/>
@@ -46,8 +47,8 @@
       <geom type="sphere" size="0.001" pos="0.00075 -0.0015 0.00075" contype="0" conaffinity="0" group="2" name="eye_left_visual" rgba="0.0 0.0 0.0 1.0"/>
       <geom type="sphere" size="0.001" pos="0.00075 0.0015 0.00075" contype="0" conaffinity="0" group="2" name="eye_right_visual" rgba="0.0 0.0 0.0 1.0"/>
       <body name="link_pitch_body_0" pos="0.0075000003 0 0">
-        <joint name="joint_pitch_body_0" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_0" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+        <joint name="joint_pitch_body_0" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_0" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
         <body name="link_body_1" pos="0 0 0">
           <inertial pos="0.00071585539 8.9238797e-07 1.1906437e-05" mass="0.00010887424" fullinertia="4.455731e-10 4.838302e-10 6.135550e-10 9.113191e-13 -1.100852e-12 -2.252316e-12"/>
@@ -120,8 +121,8 @@
             </body>
           </body>
           <body name="link_pitch_body_1" pos="0.0049999997 0 0">
-            <joint name="joint_pitch_body_1" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+            <joint name="joint_pitch_body_1" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
             <body name="link_body_2" pos="0 0 0">
               <joint name="joint_body_1" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -195,8 +196,8 @@
                 </body>
               </body>
               <body name="link_pitch_body_2" pos="0.0049999997 0 0">
-                <joint name="joint_pitch_body_2" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_2" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                <joint name="joint_pitch_body_2" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_2" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                 <body name="link_body_3" pos="0 0 0">
                   <joint name="joint_body_2" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -269,9 +270,9 @@
                       </body>
                     </body>
                   </body>
-                  <body name="link_passive_0" pos="0.0049999997 0 0">
-                    <joint name="joint_passive_0" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_passive_0" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                  <body name="link_pitch_body_3" pos="0.0049999997 0 0">
+                    <joint name="joint_pitch_body_3" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_3" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                     <body name="link_body_4" pos="0 0 0">
                       <joint name="joint_body_3" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -345,8 +346,8 @@
                         </body>
                       </body>
                       <body name="link_pitch_body_4" pos="0.0050000012 0 0">
-                        <joint name="joint_pitch_body_4" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_4" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                        <joint name="joint_pitch_body_4" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_4" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                         <body name="link_body_5" pos="0 0 0">
                           <joint name="joint_body_4" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -420,8 +421,8 @@
                             </body>
                           </body>
                           <body name="link_pitch_body_5" pos="0.0049999982 0 0">
-                            <joint name="joint_pitch_body_5" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_5" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                            <joint name="joint_pitch_body_5" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_5" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                             <body name="link_body_6" pos="0 0 0">
                               <joint name="joint_body_5" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -495,8 +496,8 @@
                                 </body>
                               </body>
                               <body name="link_pitch_body_6" pos="0.0050000012 0 0">
-                                <joint name="joint_pitch_body_6" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_6" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                <joint name="joint_pitch_body_6" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_6" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                 <body name="link_body_7" pos="0 0 0">
                                   <joint name="joint_body_6" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -569,9 +570,9 @@
                                       </body>
                                     </body>
                                   </body>
-                                  <body name="link_passive_1" pos="0.0050000012 0 0">
-                                    <joint name="joint_passive_1" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_passive_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                  <body name="link_pitch_body_7" pos="0.0050000012 0 0">
+                                    <joint name="joint_pitch_body_7" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_7" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                     <body name="link_body_8" pos="0 0 0">
                                       <joint name="joint_body_7" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -645,8 +646,8 @@
                                         </body>
                                       </body>
                                       <body name="link_pitch_body_8" pos="0.0049999982 0 0">
-                                        <joint name="joint_pitch_body_8" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_8" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                        <joint name="joint_pitch_body_8" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_8" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                         <body name="link_body_9" pos="0 0 0">
                                           <joint name="joint_body_8" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -720,8 +721,8 @@
                                             </body>
                                           </body>
                                           <body name="link_pitch_body_9" pos="0.0049999982 0 0">
-                                            <joint name="joint_pitch_body_9" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_9" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                            <joint name="joint_pitch_body_9" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_9" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                             <body name="link_body_10" pos="0 0 0">
                                               <joint name="joint_body_9" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -795,8 +796,8 @@
                                                 </body>
                                               </body>
                                               <body name="link_pitch_body_10" pos="0.0050000012 0 0">
-                                                <joint name="joint_pitch_body_10" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_10" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                <joint name="joint_pitch_body_10" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_10" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                 <body name="link_body_11" pos="0 0 0">
                                                   <joint name="joint_body_10" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -869,9 +870,9 @@
                                                       </body>
                                                     </body>
                                                   </body>
-                                                  <body name="link_passive_2" pos="0.0050000012 0 0">
-                                                    <joint name="joint_passive_2" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_passive_2" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                  <body name="link_pitch_body_11" pos="0.0050000012 0 0">
+                                                    <joint name="joint_pitch_body_11" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_11" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                     <body name="link_body_12" pos="0 0 0">
                                                       <joint name="joint_body_11" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -945,8 +946,8 @@
                                                         </body>
                                                       </body>
                                                       <body name="link_pitch_body_12" pos="0.0050000012 0 0">
-                                                        <joint name="joint_pitch_body_12" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_12" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                        <joint name="joint_pitch_body_12" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_12" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                         <body name="link_body_13" pos="0 0 0">
                                                           <joint name="joint_body_12" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1020,8 +1021,8 @@
                                                             </body>
                                                           </body>
                                                           <body name="link_pitch_body_13" pos="0.0050000012 0 0">
-                                                            <joint name="joint_pitch_body_13" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_13" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                            <joint name="joint_pitch_body_13" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_13" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                             <body name="link_body_14" pos="0 0 0">
                                                               <joint name="joint_body_13" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1095,8 +1096,8 @@
                                                                 </body>
                                                               </body>
                                                               <body name="link_pitch_body_14" pos="0.0049999952 0 0">
-                                                                <joint name="joint_pitch_body_14" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_14" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                                <joint name="joint_pitch_body_14" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_14" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                 <body name="link_body_15" pos="0 0 0">
                                                                   <joint name="joint_body_14" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1169,9 +1170,9 @@
                                                                       </body>
                                                                     </body>
                                                                   </body>
-                                                                  <body name="link_passive_3" pos="0.0050000012 0 0">
-                                                                    <joint name="joint_passive_3" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_passive_3" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                                  <body name="link_pitch_body_15" pos="0.0050000012 0 0">
+                                                                    <joint name="joint_pitch_body_15" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_15" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                     <body name="link_body_16" pos="0 0 0">
                                                                       <joint name="joint_body_15" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1245,8 +1246,8 @@
                                                                         </body>
                                                                       </body>
                                                                       <body name="link_pitch_body_16" pos="0.0050000012 0 0">
-                                                                        <joint name="joint_pitch_body_16" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_16" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                                        <joint name="joint_pitch_body_16" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_16" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                         <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                         <body name="link_body_17" pos="0 0 0">
                                                                           <joint name="joint_body_16" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1320,8 +1321,8 @@
                                                                             </body>
                                                                           </body>
                                                                           <body name="link_pitch_body_17" pos="0.0050000012 0 0">
-                                                                            <joint name="joint_pitch_body_17" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_17" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                                            <joint name="joint_pitch_body_17" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_17" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                             <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                             <body name="link_body_18" pos="0 0 0">
                                                                               <joint name="joint_body_17" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1395,8 +1396,8 @@
                                                                                 </body>
                                                                               </body>
                                                                               <body name="link_pitch_body_18" pos="0.0050000012 0 0">
-                                                                                <joint name="joint_pitch_body_18" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_18" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                                                <joint name="joint_pitch_body_18" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_18" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                                 <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                                 <body name="link_body_19" pos="0 0 0">
                                                                                   <joint name="joint_body_18" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1470,8 +1471,8 @@
                                                                                     </body>
                                                                                   </body>
                                                                                   <body name="link_pitch_body_19" pos="0.0049999952 0 0">
-                                                                                    <joint name="joint_pitch_body_19" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="5.000000e-04" stiffness="1.000000e-03"/>
-        <joint name="joint_roll_body_19" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5.000000e-03" damping="2.000000e-03"/>
+                                                                                    <joint name="joint_pitch_body_19" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0"/>
+        <joint name="joint_roll_body_19" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.5236 0.5236" stiffness="5e-3" damping="2e-3"/>
                                                                                     <inertial pos="0 0 0" mass="1e-9" diaginertia="1e-15 1e-15 1e-15"/>
                                                                                     <body name="link_body_20" pos="0 0 0">
                                                                                       <joint name="joint_body_19" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="4.075e-06"/>
@@ -1519,8 +1520,34 @@
         </body>
       </body>
     </body>
-  <geom name="floor" type="plane" size="0 0 0.01" pos="0 0 0" conaffinity="1" condim="3" friction="1.6 0.005 0.0001"/><geom type="hfield" name="terrain_geom" hfield="terrain" pos="0 0 0" conaffinity="1" condim="3" friction="1.6 0.005 0.0001"/></worldbody>
+  <geom name="floor" type="plane" size="0 0 0.01" pos="0 0 0" conaffinity="1" condim="3" friction="1.6 0.005 0.0001"/>
+  <!-- terrain_geom is added at runtime by sweep scripts (patch_xml_terrain) -->
+  <geom type="hfield" name="terrain_geom" hfield="terrain" pos="0 0 0" conaffinity="1" condim="3" friction="1.6 0.005 0.0001"/></worldbody>
   <actuator>
+    <general name="act_joint_pitch_body_3" joint="joint_pitch_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_7" joint="joint_pitch_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_11" joint="joint_pitch_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_pitch_body_15" joint="joint_pitch_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_0" joint="joint_roll_body_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_1" joint="joint_roll_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_2" joint="joint_roll_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_3" joint="joint_roll_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_4" joint="joint_roll_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_5" joint="joint_roll_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_6" joint="joint_roll_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_7" joint="joint_roll_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_8" joint="joint_roll_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_9" joint="joint_roll_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_10" joint="joint_roll_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_11" joint="joint_roll_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_12" joint="joint_roll_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_13" joint="joint_roll_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_14" joint="joint_roll_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_15" joint="joint_roll_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_16" joint="joint_roll_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_17" joint="joint_roll_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_18" joint="joint_roll_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
+    <general name="act_joint_roll_body_19" joint="joint_roll_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
     <general name="act_joint_leg_0_L_0" joint="joint_leg_0_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
     <general name="act_joint_leg_0_L_1" joint="joint_leg_0_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
     <general name="act_joint_leg_0_L_2" joint="joint_leg_0_L_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false"/>
@@ -1786,14 +1813,14 @@
     <jointvel name="sv_joint_body_18" joint="joint_body_18"/>
     <jointpos name="sp_joint_body_19" joint="joint_body_19"/>
     <jointvel name="sv_joint_body_19" joint="joint_body_19"/>
-    <jointpos name="sp_joint_passive_0" joint="joint_passive_0"/>
-    <jointvel name="sv_joint_passive_0" joint="joint_passive_0"/>
-    <jointpos name="sp_joint_passive_1" joint="joint_passive_1"/>
-    <jointvel name="sv_joint_passive_1" joint="joint_passive_1"/>
-    <jointpos name="sp_joint_passive_2" joint="joint_passive_2"/>
-    <jointvel name="sv_joint_passive_2" joint="joint_passive_2"/>
-    <jointpos name="sp_joint_passive_3" joint="joint_passive_3"/>
-    <jointvel name="sv_joint_passive_3" joint="joint_passive_3"/>
+    <jointpos name="sp_joint_pitch_body_3" joint="joint_pitch_body_3"/>
+    <jointvel name="sv_joint_pitch_body_3" joint="joint_pitch_body_3"/>
+    <jointpos name="sp_joint_pitch_body_7" joint="joint_pitch_body_7"/>
+    <jointvel name="sv_joint_pitch_body_7" joint="joint_pitch_body_7"/>
+    <jointpos name="sp_joint_pitch_body_11" joint="joint_pitch_body_11"/>
+    <jointvel name="sv_joint_pitch_body_11" joint="joint_pitch_body_11"/>
+    <jointpos name="sp_joint_pitch_body_15" joint="joint_pitch_body_15"/>
+    <jointvel name="sv_joint_pitch_body_15" joint="joint_pitch_body_15"/>
     <jointpos name="sp_joint_pitch_body_0" joint="joint_pitch_body_0"/>
     <jointvel name="sv_joint_pitch_body_0" joint="joint_pitch_body_0"/>
     <jointpos name="sp_joint_pitch_body_1" joint="joint_pitch_body_1"/>

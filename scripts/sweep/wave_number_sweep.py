@@ -79,6 +79,7 @@ from wavelength_sweep import (  # noqa: E402
 import mujoco  # noqa: E402
 from impedance_controller import ImpedanceTravelingWaveController  # noqa: E402
 from kinematics import FARMSModelIndex  # noqa: E402
+from sensor_recorder import SensorRecorder  # noqa: E402
 
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, "outputs", "wave_number_sweep")
 
@@ -153,7 +154,22 @@ SENSOR_DECIMATE = 20  # save one row every 20 physics steps (~100 Hz @ dt=0.5ms)
 
 
 def run_simulation(xml_path, config_path, duration,
-                   yaw_rad=0.0, video_path=None, sensor_csv_path=None):
+                   yaw_rad=0.0, video_path=None, sensor_csv_path=None,
+                   sensor_npz_path=None, sensor_record_dt=0.005):
+    """Run one trial.
+
+    Parameters
+    ----------
+    sensor_csv_path : str or None
+        If set, write the legacy compact CSV (mean/max body/pitch/roll + slope).
+    sensor_npz_path : str or None
+        If set, write a rich SensorRecorder .npz with per-timestep per-joint
+        angles, commanded + actual torques, per-segment pose, and per-foot
+        contact forces.  Both outputs can be written simultaneously.
+    sensor_record_dt : float
+        Decimation for the rich recorder (default 200 Hz).  Ignored if
+        ``sensor_npz_path`` is None.
+    """
     model = mujoco.MjModel.from_xml_path(xml_path)
     data  = mujoco.MjData(model)
 
@@ -162,6 +178,16 @@ def run_simulation(xml_path, config_path, duration,
     ctrl = ImpedanceTravelingWaveController(model, config_path)
     idx  = FARMSModelIndex(model)
     terrain = TerrainSampler(model)
+
+    # Rich sensor recorder (optional)
+    rich_recorder = None
+    if sensor_npz_path:
+        rich_recorder = SensorRecorder(
+            model, data, ctrl,
+            dt_record=sensor_record_dt,
+            terrain_sampler=terrain,
+            settle_time=ctrl.settle_time,
+        )
 
     body_yaw_qposadr = []
     pitch_qposadr    = []
@@ -229,6 +255,10 @@ def run_simulation(xml_path, config_path, duration,
         for step_i in range(n_steps):
             ctrl.step(model, data)
             mujoco.mj_step(model, data)
+
+            # Rich per-timestep sensor capture (decimated internally)
+            if rich_recorder is not None:
+                rich_recorder.maybe_record(model, data, ctrl)
 
             if step_i == SETTLE_STEPS and root_body is not None:
                 start_pos = data.xpos[root_body].copy()
@@ -305,6 +335,11 @@ def run_simulation(xml_path, config_path, duration,
     finally:
         if sensor_f:
             sensor_f.close()
+        if rich_recorder is not None and sensor_npz_path:
+            try:
+                rich_recorder.save(sensor_npz_path)
+            except Exception as e:
+                print(f"  [sensor-data] WARN: failed to save {sensor_npz_path}: {e}")
 
     if video_path and frames:
         _save_video(frames, video_path)
@@ -345,6 +380,7 @@ def run_simulation(xml_path, config_path, duration,
         "phase_freq_hz":   float(phase_info["dominant_freq_hz"]),
         "video_path":      video_path or "",
         "sensor_csv":      sensor_csv_path or "",
+        "sensor_npz":      sensor_npz_path or "",
     }
 
 
@@ -375,6 +411,13 @@ def main():
     p.add_argument("--video",      action="store_true")
     p.add_argument("--no-sensors", action="store_true",
                    help="Disable per-trial sensor CSV dumping")
+    p.add_argument("--sensor-data", action="store_true",
+                   help="Enable rich per-timestep sensor capture "
+                        "(per-joint angles, targets, cmd/actual torques, "
+                        "contact forces, link orientations) as .npz files "
+                        "under sensors_rich/k{k}/wl_{λ}mm/trial_{t}.npz")
+    p.add_argument("--sensor-data-hz", type=float, default=200.0,
+                   help="Rich-sensor capture rate in Hz (default 200 Hz)")
     p.add_argument("--body-amps",  type=str, default=None,
                    help="Per-k body yaw amplitudes, e.g. '1.5:0.6,2:0.55,...'")
     p.add_argument("--leg-amps",   type=str, default=None,
@@ -429,6 +472,8 @@ def main():
     print(f"  total sims    : {total_sims}")
     print(f"  video         : {'ON' if can_video else 'OFF'}")
     print(f"  sensors       : {'ON' if not args.no_sensors else 'OFF'}")
+    print(f"  sensor_data   : {'ON' if args.sensor_data else 'OFF'}  "
+          f"({args.sensor_data_hz:.0f} Hz)")
     print(f"  output        : {run_dir}")
     print()
 
@@ -477,11 +522,21 @@ def main():
                                          f"k{k}", f"wl_{wl*1000:.0f}mm")
                     sensor_path = os.path.join(s_dir, f"trial_{t:02d}.csv")
 
+                sensor_npz_path = None
+                if args.sensor_data:
+                    s_rich_dir = os.path.join(run_dir, "sensors_rich",
+                                              f"k{k}", f"wl_{wl*1000:.0f}mm")
+                    os.makedirs(s_rich_dir, exist_ok=True)
+                    sensor_npz_path = os.path.join(s_rich_dir,
+                                                   f"trial_{t:02d}.npz")
+
                 try:
                     metrics = run_simulation(
                         tmp_xml, cfg_tmp_path, args.duration,
                         yaw_rad=yaw, video_path=vid_path,
-                        sensor_csv_path=sensor_path)
+                        sensor_csv_path=sensor_path,
+                        sensor_npz_path=sensor_npz_path,
+                        sensor_record_dt=1.0/max(args.sensor_data_hz, 1.0))
                 except Exception as e:
                     metrics = {
                         "survived": False, "buckle_reason": str(e),
@@ -491,6 +546,7 @@ def main():
                         "sim_time": 0, "total_mass_kg": 0,
                         "phase_lag_deg": float("nan"), "phase_coherence": 0,
                         "phase_freq_hz": 0, "video_path": "", "sensor_csv": "",
+                        "sensor_npz": "",
                     }
                 metrics["wave_number"]  = float(k)
                 metrics["wavelength_m"] = float(wl)
@@ -592,6 +648,8 @@ def main():
         print(f"  Videos       : {os.path.join(run_dir, 'videos')}/")
     if not args.no_sensors:
         print(f"  Sensors      : {os.path.join(run_dir, 'sensors')}/")
+    if args.sensor_data:
+        print(f"  Sensors rich : {os.path.join(run_dir, 'sensors_rich')}/")
 
 
 if __name__ == "__main__":

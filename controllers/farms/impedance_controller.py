@@ -275,6 +275,22 @@ class ImpedanceTravelingWaveController:
                     self.leg_jnt_qpos_adr[n, si, dof] = model.jnt_qposadr[jid]
                     self.leg_jnt_dof_adr[n, si, dof]  = model.jnt_dofadr[jid]
 
+        # ── Target caches (populated each step() — used by SensorRecorder) ──
+        # These expose the impedance controller's commanded q_target so an
+        # external recorder can compute per-joint tracking error (q - q_target)
+        # without having to recompute the wave internally.
+        self.last_body_yaw_targets = np.zeros(N_BODY_JOINTS, dtype=float)
+        # pitch targets are already stored in self.pitch_targets when has_pitch
+        if not self.has_pitch:
+            self.pitch_targets = np.zeros(0, dtype=float)
+        # roll targets are always 0 in the current controller, but we expose
+        # the vector shape so downstream code can treat pitch/roll uniformly.
+        if self.has_roll:
+            self.last_roll_targets = np.zeros(len(self.idx.roll_act_ids), dtype=float)
+        else:
+            self.last_roll_targets = np.zeros(0, dtype=float)
+        self.last_leg_targets = np.zeros((N_LEGS, 2, N_LEG_DOF), dtype=float)
+
         print(f"[ImpedanceController] body_kp={self.body_kp:.4f} "
               f"body_kv={self.body_kv:.4f}  (head kp={self.body_kp_head:.4f}, "
               f"kv={self.body_kv_head:.4f} on first {self.head_hold_joints} joints)  "
@@ -519,6 +535,7 @@ class ImpedanceTravelingWaveController:
             torque = self.body_kp_vec[i] * (target - q) - self.body_kv_vec[i] * qdot
 
             data.ctrl[self.idx.body_act_ids[i]] = torque
+            self.last_body_yaw_targets[i] = target
 
         # ── body pitch: pure impedance (no gravity compensation) ──
         # At 2.5g total mass, gravitational pitch torques (~0.001 Nm) are
@@ -585,3 +602,4 @@ class ImpedanceTravelingWaveController:
                     qdot = data.qvel[self.leg_jnt_dof_adr[n, si, dof]]
                     torque = self.leg_kp[dof] * (target - q) - self.leg_kv[dof] * qdot
                     data.ctrl[act_id] = torque
+                    self.last_leg_targets[n, si, dof] = target
