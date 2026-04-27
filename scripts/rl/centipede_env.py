@@ -254,9 +254,14 @@ class CentipedeEnv(gym.Env):
         self._cur_step     = 0
         self._v_cmd        = 0.02
 
-        # Optional renderer (only if enable_video)
-        self._renderer = None
-        self._frames   = []
+        # Optional renderer (only if enable_video).
+        # `_frames` is the IN-PROGRESS episode buffer; `_last_episode_frames`
+        # holds the COMPLETED previous episode for retrieval after a vec env
+        # auto-reset.  This avoids losing frames when SB3's DummyVecEnv calls
+        # reset() automatically on done.
+        self._renderer             = None
+        self._frames               = []
+        self._last_episode_frames  = []
         if self.cfg.enable_video:
             self._renderer = mujoco.Renderer(
                 self.model,
@@ -405,6 +410,10 @@ class CentipedeEnv(gym.Env):
         # Sample velocity command for this episode
         self._v_cmd = float(rng.uniform(self.cfg.v_cmd_lo, self.cfg.v_cmd_hi))
         self._cur_step = 0
+        # Stash the previous episode's frames so they survive SB3 auto-reset,
+        # then start a fresh in-progress buffer for the new episode.
+        if self._frames:
+            self._last_episode_frames = list(self._frames)
         self._frames = []
 
         # Run settle phase: hold action zero for cfg.settle_seconds so the
@@ -619,8 +628,15 @@ class CentipedeEnv(gym.Env):
         return obs.astype(np.float32)
 
     def get_video_frames(self):
-        """Return frames recorded since last reset (only if enable_video)."""
-        return list(self._frames)
+        """Return the most recent episode's recorded frames.
+
+        If we're in the middle of an episode, return the in-progress buffer.
+        After SB3's DummyVecEnv auto-reset, the in-progress buffer is empty
+        but the previous episode's frames live in `_last_episode_frames`.
+        """
+        if self._frames:
+            return list(self._frames)
+        return list(self._last_episode_frames)
 
 
 # ════════════════════════════════════════════════════════════════════════════
