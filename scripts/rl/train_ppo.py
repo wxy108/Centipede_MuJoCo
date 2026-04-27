@@ -85,6 +85,11 @@ def parse_args():
                    help="Path to a previous ppo_policy.zip to resume from")
     p.add_argument("--episode-seconds", type=float, default=10.0)
     p.add_argument("--rl-step-dt",      type=float, default=0.02)
+    p.add_argument("--device", default="cpu",
+                   help="Torch device for the policy (default 'cpu').  "
+                        "PPO with a small MLP runs FASTER on CPU than GPU "
+                        "due to per-step transfer overhead — use 'cuda' "
+                        "only for big nets or CNN policies.")
     return p.parse_args()
 
 
@@ -128,7 +133,12 @@ def main():
     if args.no_subproc:
         vec_env = DummyVecEnv(env_fns)
     else:
-        vec_env = SubprocVecEnv(env_fns, start_method="spawn")
+        # On Linux use fork — much lower IPC overhead than spawn (3-5x faster).
+        # On Windows fork is unsupported, fall back to spawn.
+        import platform
+        start_method = "fork" if platform.system() == "Linux" else "spawn"
+        print(f"[vec_env] SubprocVecEnv start_method={start_method}")
+        vec_env = SubprocVecEnv(env_fns, start_method=start_method)
     vec_env = VecMonitor(vec_env)
     vec_env = VecNormalize(vec_env, norm_obs=True, norm_reward=True,
                            clip_obs=10.0, clip_reward=10.0,
@@ -152,7 +162,7 @@ def main():
     if args.resume_from and os.path.exists(args.resume_from):
         print(f"[resume] Loading {args.resume_from}")
         model = PPO.load(args.resume_from, env=vec_env,
-                         tensorboard_log=tb_dir)
+                         tensorboard_log=tb_dir, device=args.device)
     else:
         model = PPO(
             "MlpPolicy", vec_env,
@@ -168,6 +178,7 @@ def main():
             tensorboard_log=tb_dir,
             verbose=1,
             seed=args.seed,
+            device=args.device,
         )
 
     # ── Callbacks ───────────────────────────────────────────────────────
