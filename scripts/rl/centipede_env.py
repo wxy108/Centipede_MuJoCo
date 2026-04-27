@@ -165,16 +165,14 @@ class CentipedeEnvConfig:
     # Episode timing
     rl_step_dt: float  = 0.02            # 20 ms between policy decisions
     episode_seconds: float = 10.0        # 500 RL steps / episode
-    settle_seconds: float  = 1.5         # impact + part of controller's own
-                                         # ramp; if shorter, NaN can occur
-                                         # during the initial drop onto terrain
-    # Controller frame-skip during step(): call ImpedanceController.step()
-    # every Kth MuJoCo substep; the torques are held constant in between.
-    # K=4 → 10 controller calls per 40-substep RL step → ~4x speedup.
-    # NOTE: during the settle phase (impact-heavy), control_skip is
-    # FORCED to 1 — frame-skipping during settle causes diverging
-    # accelerations as kv damping isn't applied fast enough.
-    control_skip: int = 4
+    settle_seconds: float  = 2.0         # 1 s settle + 1 s ramp (matches
+                                         # ctrl YAML).  Don't shorten; NaN
+                                         # divergence during the initial
+                                         # impact onto rough terrain otherwise.
+    # control_skip kept at 1 for stability — frame-skipping caused diverging
+    # accelerations during impact and didn't materially improve throughput
+    # (the parent controller's pure-Python loop is the bottleneck regardless).
+    control_skip: int = 1
 
     # Velocity command
     v_cmd_lo:  float = 0.005             # 5 mm/s
@@ -424,15 +422,11 @@ class CentipedeEnv(gym.Env):
         self.ctrl.set_action(action)
 
         # Run all MuJoCo substeps with this action held constant.
-        # Controller is called every `control_skip`-th substep (default 4) —
-        # the impedance torques are held between calls.  This is the dominant
-        # perf optimization: the parent ImpedanceController.step() is ~5 ms
-        # of Python per call, so calling it 10x instead of 40x per RL step
-        # gives ~4x throughput improvement at negligible tracking cost.
-        skip = max(1, self.cfg.control_skip)
-        for sub_i in range(self._n_substeps):
-            if sub_i % skip == 0:
-                self.ctrl.step(self.model, self.data)
+        # Controller is called every substep — frame-skipping the controller
+        # caused divergent simulations on impact-heavy terrain and didn't
+        # measurably improve throughput.
+        for _ in range(self._n_substeps):
+            self.ctrl.step(self.model, self.data)
             mujoco.mj_step(self.model, self.data)
 
         # Compute contact forces once at the end of the RL step
