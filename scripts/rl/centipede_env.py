@@ -260,12 +260,20 @@ class CentipedeEnv(gym.Env):
         # auto-reset.  This avoids losing frames when SB3's DummyVecEnv calls
         # reset() automatically on done.
         self._renderer             = None
+        self._cam                  = None
         self._frames               = []
         self._last_episode_frames  = []
         if self.cfg.enable_video:
             self._renderer = mujoco.Renderer(
                 self.model,
                 height=self.cfg.video_height, width=self.cfg.video_width)
+            # Tracking camera — copies the constants from run.py so videos
+            # match the look you've been seeing from run_rough.py.
+            self._cam = mujoco.MjvCamera()
+            self._cam.distance  = 0.20    # m — tight framing on ~10 cm centipede
+            self._cam.azimuth   = 60.0    # deg
+            self._cam.elevation = -35.0   # deg
+            self._cam.lookat[:] = self.idx.com_pos(self.data)
 
     # ------------------------------------------------------------------ #
     # Setup helpers                                                      #
@@ -399,6 +407,12 @@ class CentipedeEnv(gym.Env):
                     self.model,
                     height=self.cfg.video_height,
                     width=self.cfg.video_width)
+                # Re-create tracking camera bound to new model
+                self._cam = mujoco.MjvCamera()
+                self._cam.distance  = 0.20
+                self._cam.azimuth   = 60.0
+                self._cam.elevation = -35.0
+                self._cam.lookat[:] = self.idx.com_pos(self.data)
         else:
             mujoco.mj_resetData(self.model, self.data)
 
@@ -481,7 +495,12 @@ class CentipedeEnv(gym.Env):
             ) / max(self._body_weight, 1e-9)
 
         if self.cfg.enable_video and self._renderer is not None:
-            self._renderer.update_scene(self.data)
+            # Track the centipede's COM each frame (matches run_rough.py).
+            if self._cam is not None:
+                self._cam.lookat[:] = self.idx.com_pos(self.data)
+                self._renderer.update_scene(self.data, camera=self._cam)
+            else:
+                self._renderer.update_scene(self.data)
             self._frames.append(self._renderer.render().copy())
 
         self._cur_step += 1
