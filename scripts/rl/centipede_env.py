@@ -165,7 +165,14 @@ class CentipedeEnvConfig:
     # Episode timing
     rl_step_dt: float  = 0.02            # 20 ms between policy decisions
     episode_seconds: float = 10.0        # 500 RL steps / episode
-    settle_seconds: float  = 2.0         # 1 s settle + 1 s ramp (matches yaml)
+    settle_seconds: float  = 0.5         # was 2.0 — controller is the bottleneck;
+                                         # 0.5s is enough to relax onto terrain
+    # Controller frame-skip: call ImpedanceController.step() every Kth MuJoCo
+    # substep instead of every one.  The torques are held constant in between.
+    # K=4 means 10 controller calls per 40-substep RL step → ~4x speedup.
+    # CPG phase advances by only ~0.013 rad in 4 substeps at 1 Hz, so torque
+    # tracking is essentially unaffected.
+    control_skip: int = 4
 
     # Velocity command
     v_cmd_lo:  float = 0.005             # 5 mm/s
@@ -396,9 +403,12 @@ class CentipedeEnv(gym.Env):
 
         # Run settle phase: hold action zero for cfg.settle_seconds so the
         # body relaxes onto the heightfield before the policy takes over.
+        # Apply control_skip here too — settle was a major reset cost.
         n_settle_substeps = int(self.cfg.settle_seconds / self.model.opt.timestep)
-        for _ in range(n_settle_substeps):
-            self.ctrl.step(self.model, self.data)
+        skip = max(1, self.cfg.control_skip)
+        for sub_i in range(n_settle_substeps):
+            if sub_i % skip == 0:
+                self.ctrl.step(self.model, self.data)
             mujoco.mj_step(self.model, self.data)
 
         obs = self._get_obs()
@@ -411,10 +421,15 @@ class CentipedeEnv(gym.Env):
         self.ctrl.set_action(action)
 
         # Run all MuJoCo substeps with this action held constant.
-        # Contact-force evaluation (mj_rnePostConstraint) happens ONCE at
-        # the end — calling it every substep was a 5-10x perf bug.
-        for _ in range(self._n_substeps):
-            self.ctrl.step(self.model, self.data)
+        # Controller is called every `control_skip`-th substep (default 4) —
+        # the impedance torques are held between calls.  This is the dominant
+        # perf optimization: the parent ImpedanceController.step() is ~5 ms
+        # of Python per call, so calling it 10x instead of 40x per RL step
+        # gives ~4x throughput improvement at negligible tracking cost.
+        skip = max(1, self.cfg.control_skip)
+        for sub_i in range(self._n_substeps):
+            if sub_i % skip == 0:
+                self.ctrl.step(self.model, self.data)
             mujoco.mj_step(self.model, self.data)
 
         # Compute contact forces once at the end of the RL step
