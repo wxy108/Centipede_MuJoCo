@@ -177,7 +177,10 @@ class CentipedeEnvConfig:
     # Velocity command
     v_cmd_lo:  float = 0.005             # 5 mm/s
     v_cmd_hi:  float = 0.040             # 40 mm/s
-    v_cmd_sigma: float = 0.012           # ±12 mm/s tolerance for tracking
+    v_cmd_sigma: float = 0.025           # was 0.012 — wider tolerance so the
+                                         # speed_match reward is positive across
+                                         # a larger range of behaviors during
+                                         # exploration
 
     # Terrain randomization (per env worker; pool resampled every N resets)
     terrain_wavelength_lo: float = 10.0  # mm
@@ -191,7 +194,10 @@ class CentipedeEnvConfig:
     w_speed_match: float = 5.0
     w_alive:       float = 0.05
     w_action_l2:   float = 0.05
-    w_force:       float = 0.5
+    w_force:       float = 0.1           # was 0.5 — when policy explored extreme
+                                         # actions early on, this was producing
+                                         # ~−10 reward/step from saturated joints
+                                         # and choking the value function
     force_limit:   float = 4.0           # F/W ratio
     w_buckle:      float = 50.0
 

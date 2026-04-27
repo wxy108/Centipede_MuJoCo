@@ -27,10 +27,17 @@ from impedance_controller import ImpedanceTravelingWaveController
 from kinematics import N_BODY_JOINTS
 
 
-# Action scaling (matches what the env exposes to the policy)
-PHASE_NUDGE_MAX_RAD = math.pi / 4.0       # ±45°
-AMP_SCALE_LO        = 0.5
-AMP_SCALE_HI        = 1.5
+# Action scaling (matches what the env exposes to the policy).
+# These were originally PHASE=π/4, AMP∈[0.5,1.5] but that lets the policy
+# saturate body yaw joints (range ±0.628 rad).  With A_body=0.6 and
+# AMP_HI=1.5 the target hits ±0.9 rad, slamming joints into limits and
+# producing huge contact forces.  Tightened to keep targets safely within
+# joint range and let exploration converge faster.
+PHASE_NUDGE_MAX_RAD = math.pi / 8.0       # ±22.5°  (was ±45°)
+AMP_SCALE_LO        = 0.7                 # was 0.5
+AMP_SCALE_HI        = 1.0                 # was 1.5 — policy can ONLY
+                                          # attenuate, never amplify (so
+                                          # 0.6·1.0 = 0.6 rad < joint limit)
 
 # Segment 0 (joint_body_1) is the heading servo — never modulated
 MODULATED_START = 1
