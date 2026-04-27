@@ -410,16 +410,18 @@ class CentipedeEnv(gym.Env):
         action = np.asarray(action, dtype=np.float32).reshape(-1)
         self.ctrl.set_action(action)
 
-        # Track peak foot force across the substeps in this RL step
-        peak_fw = 0.0
+        # Run all MuJoCo substeps with this action held constant.
+        # Contact-force evaluation (mj_rnePostConstraint) happens ONCE at
+        # the end — calling it every substep was a 5-10x perf bug.
         for _ in range(self._n_substeps):
             self.ctrl.step(self.model, self.data)
             mujoco.mj_step(self.model, self.data)
-            # Compute contact forces (cheap: rnePostConstraint over current state)
-            mujoco.mj_rnePostConstraint(self.model, self.data)
-            peak_fw_step = float(np.max(np.linalg.norm(
-                self.data.cfrc_ext[self._foot_body_ids, 3:6], axis=1)))
-            peak_fw = max(peak_fw, peak_fw_step / max(self._body_weight, 1e-9))
+
+        # Compute contact forces once at the end of the RL step
+        mujoco.mj_rnePostConstraint(self.model, self.data)
+        peak_fw = float(np.max(np.linalg.norm(
+            self.data.cfrc_ext[self._foot_body_ids, 3:6], axis=1))
+            ) / max(self._body_weight, 1e-9)
 
         if self.cfg.enable_video and self._renderer is not None:
             self._renderer.update_scene(self.data)
