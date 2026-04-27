@@ -47,8 +47,14 @@ simulation:
 #   - head_yaw_gain maps world yaw error (rad) of link_body_0 to a q_target
 #     on joint_body_1.  ~1.0 is a good starting point.
 impedance:
-  body_kp:        0.05
-  body_kv:        0.01
+  # Updated 2026-04-24 from Bayesian optimizer v3 (rough terrain wl18, 12-D).
+  # Cost function was straightness-dominated with a pitch-compliance reward;
+  # search space added pitch_kp/kv and tibia/tarsus kp/kv on top of the
+  # original 6 body+hip params.  Body yaw softened further (0.0272 -> 0.0179)
+  # for terrain compliance.  Body is intentionally underdamped — body_kp is
+  # what we sweep next.
+  body_kp:        0.017915648750902756
+  body_kv:        0.012269819351813625
   body_kp_head:   2.0
   body_kv_head:   0.20
   head_yaw_gain:  1.0
@@ -61,8 +67,12 @@ impedance:
   # 0 -> straight line (default). Negative -> clockwise (yaw decreasing).
   # For a circle of radius R at forward speed v: head_yaw_rate = v/R.
   head_yaw_rate:  0.0
-  pitch_kp:       0.04
-  pitch_kv:       0.01
+  # Pitch tuning from rough-terrain optimizer.  pitch_kv driven to floor
+  # (~4e-5) and pitch_kp barely moved — gives nearly-undamped, compliant
+  # pitch joints so the body drapes over terrain.  pitch_kp is the second
+  # knob we'll sweep next.
+  pitch_kp:       0.04453705868445866
+  pitch_kv:       0.00004102431399331478
   # Active head pitch-up target (rad). Negative q on axis (0,1,0) pitches the
   # nose UP in the FARMS MJCF convention (verified visually 2026-04). Flip
   # sign if your MJCF uses the opposite convention. ~|0.25| rad ≈ 14 deg.
@@ -79,8 +89,19 @@ impedance:
   settle_time:    1.0
   ramp_time:      1.0
   leg:
-    kp: [0.1270, 0.0147, 0.1270, 0.1270]
-    kv: [0.00056, 0.000114, 0.0000436, 0.000910]
+    # Updated 2026-04-24 from Bayesian optimizer v3 (rough wl18, 12-D).
+    #   Inverted from the flat-ground winner: legs are MUCH softer in kp
+    #   and the distal joints (tibia/tarsus) gained heavy damping.
+    #
+    #   hip_yaw   (DOF 0): kp 0.558  -> 0.0326   (17x SOFTER)  | kv 0.000650 -> 0.000452
+    #   hip_pitch (DOF 1): kp 0.0587 -> 0.00886  (6.6x SOFTER) | kv 0.00264   -> 0.000147
+    #   tibia     (DOF 2): kp 0.127  -> 0.0572   (2.2x softer) | kv 4.36e-5   -> 0.00442  (101x more damped)
+    #   tarsus    (DOF 3): kp 0.127  -> 0.1064   (similar)     | kv 0.000910  -> 0.00546  (6x more damped)
+    #
+    # Architecture: soft proximal joints (let body conform to terrain),
+    # well-damped distal joints (kill foot ringing on ground contact).
+    kp: [0.0325748618494269,    0.008862678204519891, 0.057191322069614206, 0.1063669821713091]
+    kv: [0.00045210699849367367, 0.00014673695171707596, 0.004417111611561173, 0.005463954516638024]
 
 # Recording
 recording:

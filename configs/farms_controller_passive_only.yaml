@@ -1,0 +1,86 @@
+# farms_controller_passive_only.yaml
+# ==============================================================
+# Pure-passive ablation config for PassiveAxialController.
+#
+# The body yaw joints receive ONLY the inter-segmental flexural
+# spring + rotational damper torques from Dionne et al. 2026 (Eqs.
+# 6-8).  The CPG-driven active sine-wave drive on body yaw is
+# completely zeroed out (except the head-yaw servo on joint 0, so
+# the centipede can still steer — set keep_head_servo: false to
+# drop that too).
+#
+# Leg controllers, pitch impedance, roll impedance, head-pitch
+# servo and the CPG for legs are all UNCHANGED — the legs keep
+# their normal gait exactly as in farms_controller.yaml.  This
+# isolates the paper's question: can coordinated body locomotion
+# emerge from leg forcing alone filtered through a passive body,
+# with no active body-bending?
+
+body_wave:
+  amplitude:    0.6
+  frequency:    1.0
+  wave_number:  3.0
+  speed:        1.0
+  head_hold_joints: 1
+  head_ramp_joints: 2
+  head_ramp_min:    0.0
+
+# Legs — UNCHANGED from farms_controller.yaml
+leg_wave:
+  amplitudes:     [0.6, 0.2, 0.0, 0.0]
+  phase_offsets:  [-1.5707963, 3.1415926, 0.0, 3.1415926]
+  dc_offsets:     [0.0, 0.0, 0.0, 0.5235987755982988]
+  active_dofs:    [0, 1]
+
+cpg:
+  enabled:            true
+  coupling_omega:     -2.5
+  leg_coupling_omega: -2.5
+
+simulation:
+  duration:     10.0
+  timestep:     0.0005
+
+impedance:
+  body_kp:        0.0272413     # ignored for body yaw in "passive" mode
+  body_kv:        0.00979287    # (except the head servo, see below)
+  body_kp_head:   2.0
+  body_kv_head:   0.20
+  head_yaw_gain:  1.0
+  head_yaw_target_clip: 0.5
+  head_yaw_rate:  0.0
+  pitch_kp:       0.04
+  pitch_kv:       0.01
+  head_pitch_offset: -0.25
+  head_pitch_joints: 1
+  head_pitch_kp:     0.20
+  head_pitch_kv:     0.05
+  roll_kp:        0.004
+  roll_kv:        0.0016
+  settle_time:    1.0
+  ramp_time:      1.0
+  leg:
+    kp: [0.558126, 0.0587167, 0.1270, 0.1270]
+    kv: [0.000649507, 0.00264014, 0.0000436, 0.000910]
+
+# ------------------------------------------------------------------
+# Pure passive axial muscle (paper Eqs. 6-8)
+# ------------------------------------------------------------------
+passive_axial:
+  mode:             "passive"    # body yaw is PURELY passive spring + damper
+  # Softened another 4x (was k=0.002).  At this level k is near the paper's
+  # theoretical lower bound for the "coordinated" regime at 1 Hz stepping.
+  # Tune further:
+  #   - halve k again if body still too rigid
+  #   - raise eta 3-5x if body starts flopping / oscillating
+  k:                0.0005       # flexural stiffness  (Nm/rad)
+  eta:              0.0001       # rotational damping  (Nm·s/rad)
+  # The head yaw servo has body_kp_head=2.0 — about 4000x stiffer than
+  # `k`.  With keep_head_servo=true the centipede curls into a static
+  # S-shape as the head servo fights heading drift and that torque
+  # propagates through the soft spring chain.  Set to `false` for a
+  # purely passive body with no heading correction (paper-faithful).
+  keep_head_servo:  false
+
+recording:
+  dt_record:    0.01
