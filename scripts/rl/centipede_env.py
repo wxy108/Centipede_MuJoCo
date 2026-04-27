@@ -165,13 +165,15 @@ class CentipedeEnvConfig:
     # Episode timing
     rl_step_dt: float  = 0.02            # 20 ms between policy decisions
     episode_seconds: float = 10.0        # 500 RL steps / episode
-    settle_seconds: float  = 0.5         # was 2.0 — controller is the bottleneck;
-                                         # 0.5s is enough to relax onto terrain
-    # Controller frame-skip: call ImpedanceController.step() every Kth MuJoCo
-    # substep instead of every one.  The torques are held constant in between.
-    # K=4 means 10 controller calls per 40-substep RL step → ~4x speedup.
-    # CPG phase advances by only ~0.013 rad in 4 substeps at 1 Hz, so torque
-    # tracking is essentially unaffected.
+    settle_seconds: float  = 1.5         # impact + part of controller's own
+                                         # ramp; if shorter, NaN can occur
+                                         # during the initial drop onto terrain
+    # Controller frame-skip during step(): call ImpedanceController.step()
+    # every Kth MuJoCo substep; the torques are held constant in between.
+    # K=4 → 10 controller calls per 40-substep RL step → ~4x speedup.
+    # NOTE: during the settle phase (impact-heavy), control_skip is
+    # FORCED to 1 — frame-skipping during settle causes diverging
+    # accelerations as kv damping isn't applied fast enough.
     control_skip: int = 4
 
     # Velocity command
@@ -403,12 +405,13 @@ class CentipedeEnv(gym.Env):
 
         # Run settle phase: hold action zero for cfg.settle_seconds so the
         # body relaxes onto the heightfield before the policy takes over.
-        # Apply control_skip here too — settle was a major reset cost.
+        # FULL control rate here — frame-skipping during impact-heavy settle
+        # leads to inadequate damping and diverging joint accelerations (NaN
+        # in qvel/qacc at the freejoint).  Settle is rare (once per episode)
+        # so the cost is acceptable.
         n_settle_substeps = int(self.cfg.settle_seconds / self.model.opt.timestep)
-        skip = max(1, self.cfg.control_skip)
-        for sub_i in range(n_settle_substeps):
-            if sub_i % skip == 0:
-                self.ctrl.step(self.model, self.data)
+        for _ in range(n_settle_substeps):
+            self.ctrl.step(self.model, self.data)
             mujoco.mj_step(self.model, self.data)
 
         obs = self._get_obs()
