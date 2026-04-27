@@ -413,14 +413,44 @@ class CentipedeEnv(gym.Env):
         # leads to inadequate damping and diverging joint accelerations (NaN
         # in qvel/qacc at the freejoint).  Settle is rare (once per episode)
         # so the cost is acceptable.
+        #
+        # We also use the settle phase to AUTO-DETECT the centipede's natural
+        # forward locomotion direction, since the gait may propel it in
+        # ±body_x depending on body-wave direction and leg phase offsets.
+        # COM displacement during the second half of settle (after the gait
+        # has fully ramped on) gives us a robust direction unit vector that
+        # we then use as "forward" in the reward.
         n_settle_substeps = int(self.cfg.settle_seconds / self.model.opt.timestep)
-        for _ in range(n_settle_substeps):
+        n_half = n_settle_substeps // 2
+
+        # First half of settle — let the gait ramp on
+        for _ in range(n_half):
             self.ctrl.step(self.model, self.data)
             mujoco.mj_step(self.model, self.data)
 
+        # Mark COM at the start of the "calibration window"
+        com_calib_start = self.idx.com_pos(self.data).copy()
+
+        # Second half — record displacement to find natural direction
+        for _ in range(n_settle_substeps - n_half):
+            self.ctrl.step(self.model, self.data)
+            mujoco.mj_step(self.model, self.data)
+
+        com_calib_end = self.idx.com_pos(self.data).copy()
+        disp_xy = (com_calib_end - com_calib_start)[:2]
+        disp_norm = float(np.linalg.norm(disp_xy))
+        if disp_norm > 1e-4:                          # at least 0.1 mm
+            self._forward_dir_world = disp_xy / disp_norm
+        else:
+            # Fallback: use root body's body-x in world frame
+            R = self.data.xmat[self._root_body_id].reshape(3, 3)
+            self._forward_dir_world = np.asarray(R[:2, 0], dtype=float)
+            self._forward_dir_world /= max(np.linalg.norm(self._forward_dir_world), 1e-9)
+
         obs = self._get_obs()
         info = {"v_cmd": self._v_cmd,
-                "terrain_idx": self._cur_terrain_idx}
+                "terrain_idx": self._cur_terrain_idx,
+                "forward_dir": tuple(self._forward_dir_world.tolist())}
         return obs, info
 
     def step(self, action):
@@ -449,9 +479,15 @@ class CentipedeEnv(gym.Env):
         obs = self._get_obs()
 
         # ── Reward components ─────────────────────────────────────────
-        v_body_x = self._root_body_lin_vel()[0]   # m/s, body-frame fwd
+        # Forward speed = projection of world-frame COM velocity onto the
+        # direction the centipede was moving naturally during settle.  This
+        # eliminates the sign-convention bug where the unmodulated CPG
+        # propelled the body in -body_x: regardless of which direction the
+        # gait drives the centipede, "forward" is always positive.
+        v_world = self.data.cvel[self._root_body_id, 3:6]
+        v_along_forward = float(np.dot(v_world[:2], self._forward_dir_world))
         # Saturating tracking reward: 1.0 at command, 0.0 when |err| > 3σ
-        err = (v_body_x - self._v_cmd) / max(self.cfg.v_cmd_sigma, 1e-9)
+        err = (v_along_forward - self._v_cmd) / max(self.cfg.v_cmd_sigma, 1e-9)
         speed_match = max(0.0, 1.0 - (err * err) ** 0.5)   # |err| / σ saturating
 
         action_l2 = float(np.mean(action * action))
@@ -476,9 +512,9 @@ class CentipedeEnv(gym.Env):
         truncated = (self._cur_step >= self._max_steps)
 
         info = {
-            "v_body_x":    v_body_x,
+            "v_body_x":    v_along_forward,    # now: speed along auto-detected fwd dir
             "v_cmd":       self._v_cmd,
-            "speed_err":   v_body_x - self._v_cmd,
+            "speed_err":   v_along_forward - self._v_cmd,
             "peak_fw":     peak_fw,
             "buckled":     buckled,
             "action_l2":   action_l2,
