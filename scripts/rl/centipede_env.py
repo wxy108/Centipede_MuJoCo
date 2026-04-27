@@ -190,14 +190,15 @@ class CentipedeEnvConfig:
     terrain_pool_size:     int   = 8     # patched XMLs cached per env
     terrain_pool_resample_episodes: int = 200  # regenerate pool every N episodes
 
-    # Reward weights
-    w_speed_match: float = 5.0
+    # Reward weights — 2026-04-27 retune:
+    #   speed-match doubled (5 → 10) so PPO prioritises forward velocity
+    #   force penalty tripled (0.1 → 0.3) for moderate stability boost
+    #   action_l2 halved (0.05 → 0.025) so policy isn't over-penalised for
+    #     using its modulation budget when it actually helps speed
+    w_speed_match: float = 10.0          # was 5.0 — PRIORITY
     w_alive:       float = 0.05
-    w_action_l2:   float = 0.05
-    w_force:       float = 0.1           # was 0.5 — when policy explored extreme
-                                         # actions early on, this was producing
-                                         # ~−10 reward/step from saturated joints
-                                         # and choking the value function
+    w_action_l2:   float = 0.025         # was 0.05 — softer ‖a‖² penalty
+    w_force:       float = 0.3           # was 0.1 — moderate stability bump
     force_limit:   float = 4.0           # F/W ratio
     w_buckle:      float = 50.0
 

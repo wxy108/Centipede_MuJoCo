@@ -53,7 +53,7 @@ impedance:
   # original 6 body+hip params.  Body yaw softened further (0.0272 -> 0.0179)
   # for terrain compliance.  Body is intentionally underdamped — body_kp is
   # what we sweep next.
-  body_kp:        0.017915648750902756
+  body_kp:        0.027915648750902756    # 2026-04-27: bumped +0.01 from 0.017915 — slightly stiffer body
   body_kv:        0.012269819351813625
   body_kp_head:   2.0
   body_kv_head:   0.20
