@@ -145,7 +145,10 @@ def main():
         try:
             import mediapy
             os.makedirs(os.path.dirname(args.video) or ".", exist_ok=True)
-            fps = int(round(1.0 / args.rl_step_dt))
+            # Use the env's video_dt (frame-capture interval) for fps so
+            # the mp4 plays back at real-time.  Default 0.01 s -> 100 fps,
+            # matching run_rough.py.
+            fps = int(round(1.0 / base_env.cfg.video_dt))
             mediapy.write_video(args.video, frames, fps=fps)
             print(f"[eval] video → {args.video}  ({len(frames)} frames @ {fps} fps)")
         except Exception as e:

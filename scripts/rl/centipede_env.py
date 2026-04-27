@@ -206,9 +206,11 @@ class CentipedeEnvConfig:
     max_root_roll_deg:  float = 45.0
 
     # Logging / video
-    enable_video: bool = False           # if True, render frames every RL step
+    enable_video: bool = False           # if True, capture frames during step()
     video_width:  int  = 1280
     video_height: int  = 720
+    video_dt:     float = 0.01           # seconds between captured frames (100 fps)
+                                         # — matches run_rough.py's recorder rate
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -263,6 +265,7 @@ class CentipedeEnv(gym.Env):
         self._cam                  = None
         self._frames               = []
         self._last_episode_frames  = []
+        self._last_frame_t         = -np.inf    # for video_dt-paced sampling
         if self.cfg.enable_video:
             self._renderer = mujoco.Renderer(
                 self.model,
@@ -429,6 +432,7 @@ class CentipedeEnv(gym.Env):
         if self._frames:
             self._last_episode_frames = list(self._frames)
         self._frames = []
+        self._last_frame_t = -np.inf       # force first frame to capture
 
         # Run settle phase: hold action zero for cfg.settle_seconds so the
         # body relaxes onto the heightfield before the policy takes over.
@@ -484,24 +488,30 @@ class CentipedeEnv(gym.Env):
         # Controller is called every substep — frame-skipping the controller
         # caused divergent simulations on impact-heavy terrain and didn't
         # measurably improve throughput.
+        #
+        # Video frames are captured INSIDE the substep loop at the configured
+        # `video_dt` rate (default 0.01 s = 100 fps), matching run_rough.py.
+        # This avoids the choppy 50 fps that 1-frame-per-RL-step produced.
         for _ in range(self._n_substeps):
             self.ctrl.step(self.model, self.data)
             mujoco.mj_step(self.model, self.data)
+
+            if (self.cfg.enable_video and self._renderer is not None
+                    and (self.data.time - self._last_frame_t)
+                        >= self.cfg.video_dt - 1e-10):
+                if self._cam is not None:
+                    self._cam.lookat[:] = self.idx.com_pos(self.data)
+                    self._renderer.update_scene(self.data, camera=self._cam)
+                else:
+                    self._renderer.update_scene(self.data)
+                self._frames.append(self._renderer.render().copy())
+                self._last_frame_t = self.data.time
 
         # Compute contact forces once at the end of the RL step
         mujoco.mj_rnePostConstraint(self.model, self.data)
         peak_fw = float(np.max(np.linalg.norm(
             self.data.cfrc_ext[self._foot_body_ids, 3:6], axis=1))
             ) / max(self._body_weight, 1e-9)
-
-        if self.cfg.enable_video and self._renderer is not None:
-            # Track the centipede's COM each frame (matches run_rough.py).
-            if self._cam is not None:
-                self._cam.lookat[:] = self.idx.com_pos(self.data)
-                self._renderer.update_scene(self.data, camera=self._cam)
-            else:
-                self._renderer.update_scene(self.data)
-            self._frames.append(self._renderer.render().copy())
 
         self._cur_step += 1
         obs = self._get_obs()
