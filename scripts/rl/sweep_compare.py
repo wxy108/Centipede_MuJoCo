@@ -85,10 +85,13 @@ def parse_args():
                    help="Where to write CSV/JSON/PNG. Default: <rl-run>/sweep_compare/")
     p.add_argument("--no-plot", action="store_true",
                    help="Skip matplotlib plotting (CSV/JSON still written)")
+    p.add_argument("--video", action="store_true",
+                   help="Save mp4 videos for both baseline and RL at each wavelength "
+                        "(into <output-dir>/videos/). Slower and writes ~2 mp4 per wl.")
     return p.parse_args()
 
 
-def make_env(wavelength_mm, amplitude_m, args):
+def make_env(wavelength_mm, amplitude_m, args, enable_video=False):
     cfg = CentipedeEnvConfig(
         rl_step_dt=0.02,
         episode_seconds=args.duration,
@@ -100,9 +103,35 @@ def make_env(wavelength_mm, amplitude_m, args):
         terrain_pool_resample_episodes=10**9,
         v_cmd_lo=args.v_cmd,
         v_cmd_hi=args.v_cmd,
-        enable_video=False,
+        enable_video=enable_video,
     )
     return CentipedeEnv(cfg, worker_id=0)
+
+
+def save_episode_video(env, mp4_path):
+    """Pull frames from a finished episode and write an mp4. Returns True on
+    success, False otherwise.  Tries `_last_episode_frames` first (in case the
+    env auto-reset between the last step and now), then `get_video_frames()`.
+    """
+    frames = []
+    if hasattr(env, "_last_episode_frames") and env._last_episode_frames:
+        frames = env._last_episode_frames
+    if not frames:
+        try:
+            frames = env.get_video_frames()
+        except Exception:
+            frames = []
+    if not frames:
+        return False
+    try:
+        import mediapy
+        os.makedirs(os.path.dirname(mp4_path) or ".", exist_ok=True)
+        fps = int(round(1.0 / env.cfg.video_dt))
+        mediapy.write_video(mp4_path, frames, fps=fps)
+        return True
+    except Exception as e:
+        print(f"        [video] save failed for {mp4_path}: {e}")
+        return False
 
 
 # Metrics we extract from each run_episode summary into the per-row CSV
@@ -158,6 +187,10 @@ def run_sweep(args):
     os.makedirs(out_dir, exist_ok=True)
     csv_path  = os.path.join(out_dir, "sweep_compare.csv")
     json_path = os.path.join(out_dir, "sweep_compare.json")
+    vid_dir   = os.path.join(out_dir, "videos") if args.video else None
+    if vid_dir:
+        os.makedirs(vid_dir, exist_ok=True)
+        print(f"[sweep] videos → {vid_dir}")
 
     # ── Run sweep ───────────────────────────────────────────────────────
     rows = []   # list of dicts (one per (wavelength, controller))
@@ -169,17 +202,19 @@ def run_sweep(args):
         print(f"[{i+1:>2}/{len(wls)}] wavelength = {wl:.0f} mm")
 
         # ----- BASELINE (unmodulated CPG) -----
-        env_b = make_env(wl, args.amplitude, args)
+        env_b = make_env(wl, args.amplitude, args, enable_video=bool(vid_dir))
         baseline = run_episode(
             env_b,
             action_fn=lambda _obs: BASELINE_ACTION,
             duration=args.duration,
             warmup=args.warmup,
         )
+        if vid_dir:
+            save_episode_video(env_b, os.path.join(vid_dir, f"wl{int(wl)}_baseline.mp4"))
         env_b.close()
 
         # ----- RL POLICY -----
-        env_r = make_env(wl, args.amplitude, args)
+        env_r = make_env(wl, args.amplitude, args, enable_video=bool(vid_dir))
         vec_env = DummyVecEnv([lambda: env_r])
         if os.path.exists(vec_path):
             vec_env = VecNormalize.load(vec_path, vec_env)
@@ -198,6 +233,8 @@ def run_sweep(args):
             duration=args.duration,
             warmup=args.warmup,
         )
+        if vid_dir:
+            save_episode_video(env_r, os.path.join(vid_dir, f"wl{int(wl)}_rl.mp4"))
         env_r.close()
 
         # ----- Print mini summary -----
