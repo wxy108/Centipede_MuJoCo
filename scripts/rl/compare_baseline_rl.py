@@ -49,6 +49,7 @@ except ImportError:
     sys.exit(1)
 
 from centipede_env import CentipedeEnv, CentipedeEnvConfig
+from kinematics import N_BODY_JOINTS
 from modulation_controller import ACTION_DIM, AMP_SCALE_LO, AMP_SCALE_HI
 
 
@@ -66,14 +67,24 @@ BASELINE_ACTION = np.concatenate([
 
 
 def run_episode(env, action_fn, duration, warmup):
-    """Run one episode collecting per-step metrics; skip pre-warmup samples.
+    """Run one episode collecting per-step metrics + raw sensor trajectories;
+    skip pre-warmup samples for both.
 
     `action_fn(obs) -> np.ndarray` is called every RL step to produce an
     action.  For the baseline this returns BASELINE_ACTION ignoring obs;
     for the RL policy it calls model.predict.
 
-    Returns a dict of per-step metric arrays (post-warmup only) plus
-    aggregated scalars.
+    Returns a dict containing:
+      - aggregate scalar metrics (v_mean_mm_s, peak_fw_p99, …)
+      - per-step scalar metrics (`per_step` sub-dict, post-warmup)
+      - raw trajectory arrays (`trajectory` sub-dict, post-warmup):
+            t        (T,)            time (s)
+            q_yaw    (T, N_BODY)     body yaw joint angles (rad)
+            q_pitch  (T, N_PITCH)    body pitch joint angles (rad), if model has them
+            qd_yaw   (T, N_BODY)     body yaw joint velocities (rad/s)
+            action   (T, A)          action issued each step
+            com      (T, 3)          COM xyz (m)
+            dt       float           RL step dt (s)
     """
     obs, info = env.reset()
     n_steps   = int(duration / env.cfg.rl_step_dt)
@@ -87,6 +98,17 @@ def run_episode(env, action_fn, duration, warmup):
     com_path = []           # for path-length / straightness
     com_path.append(env.idx.com_pos(env.data).copy())
 
+    # ── Pre-resolve qpos/qvel addresses for fast vectorized access ──────
+    body_qposadrs = env.model.jnt_qposadr[env.idx.body_jnt_ids]
+    body_qveladrs = env.model.jnt_dofadr[env.idx.body_jnt_ids]
+    has_pitch     = (hasattr(env.idx, "pitch_jnt_ids")
+                     and len(env.idx.pitch_jnt_ids) > 0)
+    if has_pitch:
+        pitch_qposadrs = env.model.jnt_qposadr[env.idx.pitch_jnt_ids]
+
+    traj_t, traj_qy, traj_qp, traj_qdy = [], [], [], []
+    traj_act, traj_com = [], []
+
     for i in range(n_steps):
         action = action_fn(obs)
         obs, reward, terminated, truncated, info = env.step(action)
@@ -98,6 +120,15 @@ def run_episode(env, action_fn, duration, warmup):
                     rec[k].append(float(info[k]))
             rec["reward"].append(float(reward))
             rec["t"].append(env._cur_step * env.cfg.rl_step_dt)
+
+            # Trajectory recordings (vectorized — one numpy slice per step)
+            traj_t.append(env._cur_step * env.cfg.rl_step_dt)
+            traj_qy.append(env.data.qpos[body_qposadrs].copy())
+            traj_qdy.append(env.data.qvel[body_qveladrs].copy())
+            if has_pitch:
+                traj_qp.append(env.data.qpos[pitch_qposadrs].copy())
+            traj_act.append(np.asarray(action, dtype=float).copy())
+            traj_com.append(env.idx.com_pos(env.data).copy())
 
         if terminated or truncated:
             break
@@ -127,7 +158,32 @@ def run_episode(env, action_fn, duration, warmup):
                                    / max(seg_lens.sum(), 1e-9)),
     }
     summary["per_step"] = rec
+    summary["trajectory"] = {
+        "t":       np.asarray(traj_t),
+        "q_yaw":   np.asarray(traj_qy),
+        "q_pitch": np.asarray(traj_qp) if has_pitch else None,
+        "qd_yaw":  np.asarray(traj_qdy),
+        "action":  np.asarray(traj_act),
+        "com":     np.asarray(traj_com),
+        "dt":      float(env.cfg.rl_step_dt),
+    }
     return summary
+
+
+def save_trajectory_npz(traj, path):
+    """Persist a `trajectory` sub-dict (returned by run_episode) to NPZ.
+
+    The analysis script reads this format directly.
+    """
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    np.savez(path,
+             t=traj["t"],
+             q_yaw=traj["q_yaw"],
+             q_pitch=traj["q_pitch"] if traj["q_pitch"] is not None else np.array([]),
+             qd_yaw=traj["qd_yaw"],
+             action=traj["action"],
+             com=traj["com"],
+             dt=np.array([traj["dt"]]))
 
 
 def parse_args():
@@ -147,6 +203,11 @@ def parse_args():
                         "computing metrics, to discard settle-to-policy transients")
     p.add_argument("--output-json", default=None,
                    help="Optional path to dump full metrics JSON")
+    p.add_argument("--output-dir", default=None,
+                   help="Directory to save trajectories + metrics. "
+                        "Defaults to <rl-run>/comparison_wl<W>_v<V>/")
+    p.add_argument("--no-save-trajectories", action="store_true",
+                   help="Skip writing baseline_trajectory.npz / rl_trajectory.npz")
     p.add_argument("--final", action="store_true",
                    help="Use ppo_policy.zip instead of best/best_model.zip")
     return p.parse_args()
@@ -289,15 +350,32 @@ def main():
 
     print_comparison(baseline, rl_summary)
 
-    if args.output_json:
-        with open(args.output_json, "w") as f:
-            json.dump({"baseline": {k: v for k, v in baseline.items() if k != "per_step"},
-                       "rl":       {k: v for k, v in rl_summary.items() if k != "per_step"},
-                       "config":   {k: getattr(args, k) for k in
-                                    ["terrain_wavelength", "terrain_amplitude",
-                                     "terrain_seed", "v_cmd", "duration", "warmup"]}},
-                      f, indent=2)
-        print(f"\n[saved] {args.output_json}")
+    # ── Default output dir ──────────────────────────────────────────────
+    out_dir = args.output_dir or os.path.join(
+        args.rl_run,
+        f"comparison_wl{int(args.terrain_wavelength)}_v{int(args.v_cmd*1000)}")
+    os.makedirs(out_dir, exist_ok=True)
+
+    # ── Always save metrics JSON into out_dir ───────────────────────────
+    metrics_json = args.output_json or os.path.join(out_dir, "metrics.json")
+    skipped_keys = {"per_step", "trajectory"}     # drop bulky arrays from JSON
+    with open(metrics_json, "w") as f:
+        json.dump({"baseline": {k: v for k, v in baseline.items()    if k not in skipped_keys},
+                   "rl":       {k: v for k, v in rl_summary.items() if k not in skipped_keys},
+                   "config":   {k: getattr(args, k) for k in
+                                ["terrain_wavelength", "terrain_amplitude",
+                                 "terrain_seed", "v_cmd", "duration", "warmup"]}},
+                  f, indent=2)
+    print(f"\n[saved] metrics → {metrics_json}")
+
+    # ── Save raw trajectories for downstream analysis ───────────────────
+    if not args.no_save_trajectories:
+        b_npz = os.path.join(out_dir, "baseline_trajectory.npz")
+        r_npz = os.path.join(out_dir, "rl_trajectory.npz")
+        save_trajectory_npz(baseline   ["trajectory"], b_npz)
+        save_trajectory_npz(rl_summary ["trajectory"], r_npz)
+        print(f"[saved] trajectory → {b_npz}")
+        print(f"[saved] trajectory → {r_npz}")
 
 
 if __name__ == "__main__":

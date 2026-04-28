@@ -55,7 +55,7 @@ except ImportError:
     sys.exit(1)
 
 from centipede_env import CentipedeEnv, CentipedeEnvConfig
-from compare_baseline_rl import run_episode, BASELINE_ACTION
+from compare_baseline_rl import run_episode, BASELINE_ACTION, save_trajectory_npz
 
 
 # ── Default sweep grids (override via CLI) ───────────────────────────────
@@ -88,6 +88,9 @@ def parse_args():
     p.add_argument("--video", action="store_true",
                    help="Save mp4 videos for both baseline and RL at each wavelength "
                         "(into <output-dir>/videos/). Slower and writes ~2 mp4 per wl.")
+    p.add_argument("--no-save-trajectories", action="store_true",
+                   help="Skip writing per-(wl,controller) NPZ trajectories. "
+                        "By default trajectories are saved into <output-dir>/trajectories/")
     return p.parse_args()
 
 
@@ -191,6 +194,11 @@ def run_sweep(args):
     if vid_dir:
         os.makedirs(vid_dir, exist_ok=True)
         print(f"[sweep] videos → {vid_dir}")
+    traj_dir  = (None if args.no_save_trajectories
+                 else os.path.join(out_dir, "trajectories"))
+    if traj_dir:
+        os.makedirs(traj_dir, exist_ok=True)
+        print(f"[sweep] trajectories → {traj_dir}")
 
     # ── Run sweep ───────────────────────────────────────────────────────
     rows = []   # list of dicts (one per (wavelength, controller))
@@ -211,6 +219,9 @@ def run_sweep(args):
         )
         if vid_dir:
             save_episode_video(env_b, os.path.join(vid_dir, f"wl{int(wl)}_baseline.mp4"))
+        if traj_dir:
+            save_trajectory_npz(baseline["trajectory"],
+                                os.path.join(traj_dir, f"wl{int(wl)}_baseline.npz"))
         env_b.close()
 
         # ----- RL POLICY -----
@@ -235,6 +246,9 @@ def run_sweep(args):
         )
         if vid_dir:
             save_episode_video(env_r, os.path.join(vid_dir, f"wl{int(wl)}_rl.mp4"))
+        if traj_dir:
+            save_trajectory_npz(rl["trajectory"],
+                                os.path.join(traj_dir, f"wl{int(wl)}_rl.npz"))
         env_r.close()
 
         # ----- Print mini summary -----
