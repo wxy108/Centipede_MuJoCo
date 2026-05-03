@@ -35,6 +35,7 @@ Usage
 import argparse
 import csv
 import json
+import math
 import os
 import sys
 import time
@@ -91,6 +92,13 @@ def parse_args():
     p.add_argument("--no-save-trajectories", action="store_true",
                    help="Skip writing per-(wl,controller) NPZ trajectories. "
                         "By default trajectories are saved into <output-dir>/trajectories/")
+    p.add_argument("--n-trials", type=int, default=1,
+                   help="Number of random-yaw trials per wavelength (default 1). "
+                        "Trials use different starting headings (0–360°) to average "
+                        "out direction-dependent terrain effects, mirroring the "
+                        "scripts/sweep/wavelength_sweep.py protocol.")
+    p.add_argument("--yaw-seed", type=int, default=42,
+                   help="Seed for random yaw generation (reproducible)")
     return p.parse_args()
 
 
@@ -183,7 +191,14 @@ def run_sweep(args):
     print(f"[sweep] amplitude: {args.amplitude*1000:.1f} mm   "
           f"v_cmd: {args.v_cmd*1000:.1f} mm/s   "
           f"duration: {args.duration}s   warmup: {args.warmup}s")
+    print(f"[sweep] n_trials: {args.n_trials} per wavelength "
+          f"(yaw_seed={args.yaw_seed})")
     print()
+
+    # ── Generate per-(wl, trial) random yaws ──────────────────────────────
+    rng = np.random.default_rng(args.yaw_seed)
+    yaw_grid = rng.uniform(0.0, 2.0 * math.pi,
+                           size=(len(wls), args.n_trials))
 
     # ── Output dir ──────────────────────────────────────────────────────
     out_dir = args.output_dir or os.path.join(args.rl_run, "sweep_compare")
@@ -201,84 +216,118 @@ def run_sweep(args):
         print(f"[sweep] trajectories → {traj_dir}")
 
     # ── Run sweep ───────────────────────────────────────────────────────
-    rows = []   # list of dicts (one per (wavelength, controller))
-    structured = []  # for JSON: list of {wl, baseline, rl}
+    rows = []        # one row per (wavelength, trial, controller) — long format
+    structured = []  # for JSON: list of {wl, baseline:{...stats}, rl:{...stats}, trials:[...]}
 
     t_sweep_start = time.time()
     for i, wl in enumerate(wls):
-        t_wl_start = time.time()
-        print(f"[{i+1:>2}/{len(wls)}] wavelength = {wl:.0f} mm")
+        per_wl_baseline = {k: [] for k in METRIC_KEYS}
+        per_wl_rl       = {k: [] for k in METRIC_KEYS}
+        trials_log      = []
 
-        # ----- BASELINE (unmodulated CPG) -----
-        env_b = make_env(wl, args.amplitude, args, enable_video=bool(vid_dir))
-        baseline = run_episode(
-            env_b,
-            action_fn=lambda _obs: BASELINE_ACTION,
-            duration=args.duration,
-            warmup=args.warmup,
-        )
-        if vid_dir:
-            save_episode_video(env_b, os.path.join(vid_dir, f"wl{int(wl)}_baseline.mp4"))
-        if traj_dir:
-            save_trajectory_npz(baseline["trajectory"],
-                                os.path.join(traj_dir, f"wl{int(wl)}_baseline.npz"))
-        env_b.close()
+        for tidx in range(args.n_trials):
+            t_t_start = time.time()
+            yaw_rad = float(yaw_grid[i, tidx])
+            yaw_deg = math.degrees(yaw_rad)
+            tag = (f"wl{int(wl)}_t{tidx}_yaw{int(yaw_deg):03d}"
+                   if args.n_trials > 1 else f"wl{int(wl)}")
+            print(f"[{i+1:>2}/{len(wls)}] wavelength={wl:.0f} mm   "
+                  f"trial {tidx+1}/{args.n_trials}   yaw={yaw_deg:5.1f}°")
 
-        # ----- RL POLICY -----
-        env_r = make_env(wl, args.amplitude, args, enable_video=bool(vid_dir))
-        vec_env = DummyVecEnv([lambda: env_r])
-        if os.path.exists(vec_path):
-            vec_env = VecNormalize.load(vec_path, vec_env)
-            vec_env.training    = False
-            vec_env.norm_reward = False
-        model = PPO.load(model_path, env=vec_env, device="cpu")
+            # ----- BASELINE (unmodulated CPG) -----
+            env_b = make_env(wl, args.amplitude, args, enable_video=bool(vid_dir))
+            baseline = run_episode(
+                env_b,
+                action_fn=lambda _obs: BASELINE_ACTION,
+                duration=args.duration,
+                warmup=args.warmup,
+                initial_yaw_rad=yaw_rad,
+            )
+            if vid_dir:
+                save_episode_video(env_b, os.path.join(vid_dir, f"{tag}_baseline.mp4"))
+            if traj_dir:
+                save_trajectory_npz(baseline["trajectory"],
+                                    os.path.join(traj_dir, f"{tag}_baseline.npz"))
+            env_b.close()
 
-        def rl_action_fn(_inner_obs):
-            norm_obs = vec_env.normalize_obs(np.asarray([_inner_obs]))
-            action, _ = model.predict(norm_obs, deterministic=True)
-            return action[0]
+            # ----- RL POLICY -----
+            env_r = make_env(wl, args.amplitude, args, enable_video=bool(vid_dir))
+            vec_env = DummyVecEnv([lambda: env_r])
+            if os.path.exists(vec_path):
+                vec_env = VecNormalize.load(vec_path, vec_env)
+                vec_env.training    = False
+                vec_env.norm_reward = False
+            model = PPO.load(model_path, env=vec_env, device="cpu")
 
-        rl = run_episode(
-            env_r,
-            action_fn=rl_action_fn,
-            duration=args.duration,
-            warmup=args.warmup,
-        )
-        if vid_dir:
-            save_episode_video(env_r, os.path.join(vid_dir, f"wl{int(wl)}_rl.mp4"))
-        if traj_dir:
-            save_trajectory_npz(rl["trajectory"],
-                                os.path.join(traj_dir, f"wl{int(wl)}_rl.npz"))
-        env_r.close()
+            def rl_action_fn(_inner_obs):
+                norm_obs = vec_env.normalize_obs(np.asarray([_inner_obs]))
+                action, _ = model.predict(norm_obs, deterministic=True)
+                return action[0]
 
-        # ----- Print mini summary -----
-        dv = rl["v_mean_mm_s"] - baseline["v_mean_mm_s"]
-        dpfw = rl["peak_fw_p99"] - baseline["peak_fw_p99"]
-        dpitch = rl["root_pitch_p99"] - baseline["root_pitch_p99"]
-        droll  = rl["root_roll_p99"]  - baseline["root_roll_p99"]
-        wall = time.time() - t_wl_start
-        print(f"        v(B,R)=({baseline['v_mean_mm_s']:6.1f},{rl['v_mean_mm_s']:6.1f}) mm/s   Δ={dv:+5.1f}  "
-              f"|  pFW p99(B,R)=({baseline['peak_fw_p99']:5.2f},{rl['peak_fw_p99']:5.2f}) Δ={dpfw:+5.2f}  "
-              f"|  pitch p99(B,R)=({baseline['root_pitch_p99']:4.2f},{rl['root_pitch_p99']:4.2f}) Δ={dpitch:+5.2f}  "
-              f"[{wall:.1f}s]")
+            rl = run_episode(
+                env_r,
+                action_fn=rl_action_fn,
+                duration=args.duration,
+                warmup=args.warmup,
+                initial_yaw_rad=yaw_rad,
+            )
+            if vid_dir:
+                save_episode_video(env_r, os.path.join(vid_dir, f"{tag}_rl.mp4"))
+            if traj_dir:
+                save_trajectory_npz(rl["trajectory"],
+                                    os.path.join(traj_dir, f"{tag}_rl.npz"))
+            env_r.close()
 
-        # ----- Store rows -----
-        for ctrl_name, summary in (("baseline", baseline), ("rl", rl)):
-            row = {
-                "wavelength_mm": wl,
-                "amplitude_mm":  args.amplitude * 1000,
-                "v_cmd_mm_s":    args.v_cmd * 1000,
-                "controller":    ctrl_name,
-            }
+            # ----- Print mini summary -----
+            dv     = rl["v_mean_mm_s"]    - baseline["v_mean_mm_s"]
+            dpfw   = rl["peak_fw_p99"]    - baseline["peak_fw_p99"]
+            dpitch = rl["root_pitch_p99"] - baseline["root_pitch_p99"]
+            wall   = time.time() - t_t_start
+            print(f"        v(B,R)=({baseline['v_mean_mm_s']:6.1f},"
+                  f"{rl['v_mean_mm_s']:6.1f}) mm/s  Δ={dv:+5.1f}  | "
+                  f"pFW p99=({baseline['peak_fw_p99']:5.2f},"
+                  f"{rl['peak_fw_p99']:5.2f}) Δ={dpfw:+5.2f}  | "
+                  f"pitch p99=({baseline['root_pitch_p99']:4.2f},"
+                  f"{rl['root_pitch_p99']:4.2f}) Δ={dpitch:+5.2f}  [{wall:.1f}s]")
+
+            # ----- Per-trial CSV rows -----
+            for ctrl_name, summary in (("baseline", baseline), ("rl", rl)):
+                row = {
+                    "wavelength_mm": wl,
+                    "amplitude_mm":  args.amplitude * 1000,
+                    "v_cmd_mm_s":    args.v_cmd * 1000,
+                    "trial_idx":     tidx,
+                    "yaw_deg":       yaw_deg,
+                    "controller":    ctrl_name,
+                }
+                for k in METRIC_KEYS:
+                    row[k] = summary[k]
+                rows.append(row)
+
             for k in METRIC_KEYS:
-                row[k] = summary[k]
-            rows.append(row)
+                per_wl_baseline[k].append(baseline[k])
+                per_wl_rl      [k].append(rl[k])
+
+            trials_log.append({
+                "trial_idx": tidx,
+                "yaw_deg":   yaw_deg,
+                "baseline":  {k: baseline[k] for k in METRIC_KEYS},
+                "rl":        {k: rl[k]       for k in METRIC_KEYS},
+            })
+
+        # ----- Aggregate across trials for this wavelength -----
+        agg_b = {f"{k}_mean": float(np.mean(per_wl_baseline[k])) for k in METRIC_KEYS}
+        agg_b.update({f"{k}_std": float(np.std(per_wl_baseline[k])) for k in METRIC_KEYS})
+        agg_r = {f"{k}_mean": float(np.mean(per_wl_rl[k])) for k in METRIC_KEYS}
+        agg_r.update({f"{k}_std": float(np.std(per_wl_rl[k])) for k in METRIC_KEYS})
 
         structured.append({
             "wavelength_mm": wl,
             "amplitude_mm":  args.amplitude * 1000,
-            "baseline":      {k: baseline[k] for k in METRIC_KEYS},
-            "rl":            {k: rl[k] for k in METRIC_KEYS},
+            "n_trials":      args.n_trials,
+            "baseline":      agg_b,
+            "rl":            agg_r,
+            "trials":        trials_log,
         })
 
     t_sweep = time.time() - t_sweep_start
@@ -286,7 +335,7 @@ def run_sweep(args):
 
     # ── Write CSV ───────────────────────────────────────────────────────
     fieldnames = ["wavelength_mm", "amplitude_mm", "v_cmd_mm_s",
-                  "controller"] + METRIC_KEYS
+                  "trial_idx", "yaw_deg", "controller"] + METRIC_KEYS
     with open(csv_path, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
         w.writeheader()
@@ -317,27 +366,34 @@ def run_sweep(args):
 
 
 def print_summary_table(results):
-    print("\n" + "=" * 110)
-    print("Wavelength sweep: BASELINE vs RL (same terrain, same v_cmd, matched warmup)")
-    print("=" * 110)
-    hdr = "{:>6} | {:>14} | {:>14} | {:>13} | {:>13} | {:>13} | {:>13}".format(
-        "wl mm", "v_mean (mm/s)", "Δv (mm/s)", "pFW p99", "ΔpFW p99",
-        "pitch p99 deg", "Δpitch p99")
+    n_trials = results[0].get("n_trials", 1) if results else 1
+    print("\n" + "=" * 130)
+    print(f"Wavelength sweep: BASELINE vs RL  (same terrain, same v_cmd, matched warmup, "
+          f"n_trials={n_trials} per wavelength)")
+    print("=" * 130)
+    hdr = ("{:>6} | {:>20} | {:>9} | {:>20} | {:>9} | {:>20} | {:>9}").format(
+        "wl mm", "v_mean (mm/s) B → R", "Δv mean",
+        "pFW p99 B → R", "Δp99",
+        "pitch p99 B → R", "Δp99")
     print(hdr)
-    print("-" * 110)
+    print("-" * 130)
     for r in results:
         b = r["baseline"]; rl = r["rl"]
-        dv = rl["v_mean_mm_s"] - b["v_mean_mm_s"]
-        dpfw = rl["peak_fw_p99"] - b["peak_fw_p99"]
-        dpitch = rl["root_pitch_p99"] - b["root_pitch_p99"]
-        print("{:>6.0f} | {:>6.1f} → {:>5.1f} | {:>+13.1f} | "
-              "{:>5.2f} → {:>4.2f} | {:>+13.2f} | "
-              "{:>5.2f} → {:>4.2f} | {:>+13.2f}".format(
+        dv     = rl["v_mean_mm_s_mean"]    - b["v_mean_mm_s_mean"]
+        dpfw   = rl["peak_fw_p99_mean"]    - b["peak_fw_p99_mean"]
+        dpitch = rl["root_pitch_p99_mean"] - b["root_pitch_p99_mean"]
+        print("{:>6.0f} | "
+              "{:>6.1f}±{:<4.1f} → {:>5.1f}±{:<3.1f} | {:>+9.1f} | "
+              "{:>5.2f}±{:<4.2f} → {:>4.2f}±{:<3.2f} | {:>+9.2f} | "
+              "{:>5.2f}±{:<4.2f} → {:>4.2f}±{:<3.2f} | {:>+9.2f}".format(
                   r["wavelength_mm"],
-                  b["v_mean_mm_s"], rl["v_mean_mm_s"], dv,
-                  b["peak_fw_p99"], rl["peak_fw_p99"], dpfw,
-                  b["root_pitch_p99"], rl["root_pitch_p99"], dpitch))
-    print("=" * 110)
+                  b["v_mean_mm_s_mean"],    b["v_mean_mm_s_std"],
+                  rl["v_mean_mm_s_mean"],   rl["v_mean_mm_s_std"], dv,
+                  b["peak_fw_p99_mean"],    b["peak_fw_p99_std"],
+                  rl["peak_fw_p99_mean"],   rl["peak_fw_p99_std"], dpfw,
+                  b["root_pitch_p99_mean"], b["root_pitch_p99_std"],
+                  rl["root_pitch_p99_mean"],rl["root_pitch_p99_std"], dpitch))
+    print("=" * 130)
 
 
 def plot_sweep(results, out_dir, args):
@@ -346,25 +402,33 @@ def plot_sweep(results, out_dir, args):
     import matplotlib.pyplot as plt
 
     wls = [r["wavelength_mm"] for r in results]
-    base = {k: [r["baseline"][k] for r in results] for k in METRIC_KEYS}
-    rl   = {k: [r["rl"][k]       for r in results] for k in METRIC_KEYS}
+    # Helpers to pull mean/std for any metric
+    def vals(side, key, suffix):
+        return [r[side][f"{key}_{suffix}"] for r in results]
 
     fig, axes = plt.subplots(2, 2, figsize=(11, 8), sharex=True)
 
     # 1) Forward speed
     ax = axes[0, 0]
-    ax.plot(wls, base["v_mean_mm_s"], "o-", label="baseline (CPG)", color="#888")
-    ax.plot(wls, rl["v_mean_mm_s"],   "s-", label="RL policy",      color="#c0392b")
+    ax.errorbar(wls, vals("baseline", "v_mean_mm_s", "mean"),
+                yerr=vals("baseline", "v_mean_mm_s", "std"),
+                fmt="o-", label="baseline (CPG)", color="#888", capsize=3)
+    ax.errorbar(wls, vals("rl", "v_mean_mm_s", "mean"),
+                yerr=vals("rl", "v_mean_mm_s", "std"),
+                fmt="s-", label="RL policy", color="#c0392b", capsize=3)
     ax.axhline(args.v_cmd * 1000, ls="--", color="black", lw=0.8, label="v_cmd")
     ax.set_ylabel("forward speed (mm/s)")
     ax.set_title("Forward speed vs terrain wavelength")
-    ax.legend(fontsize=9)
-    ax.grid(alpha=0.3)
+    ax.legend(fontsize=9); ax.grid(alpha=0.3)
 
     # 2) Peak F/W p99
     ax = axes[0, 1]
-    ax.plot(wls, base["peak_fw_p99"], "o-", label="baseline (CPG)", color="#888")
-    ax.plot(wls, rl["peak_fw_p99"],   "s-", label="RL policy",      color="#c0392b")
+    ax.errorbar(wls, vals("baseline", "peak_fw_p99", "mean"),
+                yerr=vals("baseline", "peak_fw_p99", "std"),
+                fmt="o-", label="baseline (CPG)", color="#888", capsize=3)
+    ax.errorbar(wls, vals("rl", "peak_fw_p99", "mean"),
+                yerr=vals("rl", "peak_fw_p99", "std"),
+                fmt="s-", label="RL policy", color="#c0392b", capsize=3)
     ax.set_ylabel("peak F/W p99 (× body weight)")
     ax.set_title("Peak ground reaction (p99) vs wavelength")
     ax.legend(fontsize=9)
@@ -372,23 +436,29 @@ def plot_sweep(results, out_dir, args):
 
     # 3) Root pitch p99
     ax = axes[1, 0]
-    ax.plot(wls, base["root_pitch_p99"], "o-", label="baseline (CPG)", color="#888")
-    ax.plot(wls, rl["root_pitch_p99"],   "s-", label="RL policy",      color="#c0392b")
+    ax.errorbar(wls, vals("baseline", "root_pitch_p99", "mean"),
+                yerr=vals("baseline", "root_pitch_p99", "std"),
+                fmt="o-", label="baseline (CPG)", color="#888", capsize=3)
+    ax.errorbar(wls, vals("rl", "root_pitch_p99", "mean"),
+                yerr=vals("rl", "root_pitch_p99", "std"),
+                fmt="s-", label="RL policy", color="#c0392b", capsize=3)
     ax.set_ylabel("root pitch p99 (deg)")
     ax.set_xlabel("terrain wavelength (mm)")
     ax.set_title("Body pitch (p99) vs wavelength")
-    ax.legend(fontsize=9)
-    ax.grid(alpha=0.3)
+    ax.legend(fontsize=9); ax.grid(alpha=0.3)
 
     # 4) Root roll p99
     ax = axes[1, 1]
-    ax.plot(wls, base["root_roll_p99"], "o-", label="baseline (CPG)", color="#888")
-    ax.plot(wls, rl["root_roll_p99"],   "s-", label="RL policy",      color="#c0392b")
+    ax.errorbar(wls, vals("baseline", "root_roll_p99", "mean"),
+                yerr=vals("baseline", "root_roll_p99", "std"),
+                fmt="o-", label="baseline (CPG)", color="#888", capsize=3)
+    ax.errorbar(wls, vals("rl", "root_roll_p99", "mean"),
+                yerr=vals("rl", "root_roll_p99", "std"),
+                fmt="s-", label="RL policy", color="#c0392b", capsize=3)
     ax.set_ylabel("root roll p99 (deg)")
     ax.set_xlabel("terrain wavelength (mm)")
     ax.set_title("Body roll (p99) vs wavelength")
-    ax.legend(fontsize=9)
-    ax.grid(alpha=0.3)
+    ax.legend(fontsize=9); ax.grid(alpha=0.3)
 
     # X-axis log-scale (wavelengths span 4–350 mm)
     for ax in axes.ravel():

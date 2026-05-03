@@ -425,6 +425,16 @@ class CentipedeEnv(gym.Env):
         self.ctrl._cpg_initialized = False
         self.ctrl.head_yaw_ref = None
 
+        # Optional: rotate the centipede about z to a chosen initial heading
+        # BEFORE the settle phase.  The auto-detect-direction logic during
+        # settle will then pick up the rotated forward direction, so all
+        # downstream metrics (v_along_forward, peak F/W, etc.) stay aligned.
+        init_yaw = None
+        if options is not None and "initial_yaw_rad" in options:
+            init_yaw = options["initial_yaw_rad"]
+        if init_yaw is not None:
+            self._set_initial_yaw(float(init_yaw))
+
         # Sample velocity command for this episode
         self._v_cmd = float(rng.uniform(self.cfg.v_cmd_lo, self.cfg.v_cmd_hi))
         self._cur_step = 0
@@ -569,6 +579,20 @@ class CentipedeEnv(gym.Env):
                 height=self.cfg.video_height, width=self.cfg.video_width)
         self._renderer.update_scene(self.data)
         return self._renderer.render()
+
+    def _set_initial_yaw(self, yaw_rad: float):
+        """Rotate the freejoint about z so the centipede spawns at heading
+        `yaw_rad` (radians). Quaternion layout for rotation about z by θ is
+        [cos(θ/2), 0, 0, sin(θ/2)]."""
+        for j in range(self.model.njnt):
+            if self.model.jnt_type[j] == mujoco.mjtJoint.mjJNT_FREE:
+                qadr = self.model.jnt_qposadr[j]
+                self.data.qpos[qadr + 3] = math.cos(yaw_rad / 2.0)
+                self.data.qpos[qadr + 4] = 0.0
+                self.data.qpos[qadr + 5] = 0.0
+                self.data.qpos[qadr + 6] = math.sin(yaw_rad / 2.0)
+                break
+        mujoco.mj_forward(self.model, self.data)
 
     def close(self):
         if self._renderer is not None:

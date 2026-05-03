@@ -66,13 +66,17 @@ BASELINE_ACTION = np.concatenate([
 ])
 
 
-def run_episode(env, action_fn, duration, warmup):
+def run_episode(env, action_fn, duration, warmup, initial_yaw_rad=None):
     """Run one episode collecting per-step metrics + raw sensor trajectories;
     skip pre-warmup samples for both.
 
     `action_fn(obs) -> np.ndarray` is called every RL step to produce an
     action.  For the baseline this returns BASELINE_ACTION ignoring obs;
     for the RL policy it calls model.predict.
+
+    `initial_yaw_rad` (optional) — if provided, rotates the centipede about
+    z to that heading before the settle phase. Used by sweep_compare.py for
+    multi-trial random-yaw averaging.
 
     Returns a dict containing:
       - aggregate scalar metrics (v_mean_mm_s, peak_fw_p99, …)
@@ -86,7 +90,9 @@ def run_episode(env, action_fn, duration, warmup):
             com      (T, 3)          COM xyz (m)
             dt       float           RL step dt (s)
     """
-    obs, info = env.reset()
+    reset_options = ({"initial_yaw_rad": float(initial_yaw_rad)}
+                     if initial_yaw_rad is not None else None)
+    obs, info = env.reset(options=reset_options)
     n_steps   = int(duration / env.cfg.rl_step_dt)
     n_warmup  = int(warmup   / env.cfg.rl_step_dt)
 

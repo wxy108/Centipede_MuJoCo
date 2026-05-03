@@ -396,29 +396,44 @@ def main():
     # ── Mode 3: sweep_compare trajectories directory ─────────────────
     if args.sweep_trajectories_dir:
         d = args.sweep_trajectories_dir
-        # Discover all wl<W>_{baseline,rl}.npz pairs
         files = sorted(os.listdir(d))
-        wl_pat = re.compile(r"^wl(\d+)_baseline\.npz$")
-        wls = []
+        # Match BOTH single-trial (wl18_baseline.npz) and multi-trial
+        # (wl18_t0_yaw047_baseline.npz) layouts.
+        pat = re.compile(r"^(wl(\d+)(?:_t(\d+)_yaw(\d+))?)_baseline\.npz$")
+        pairs = []   # list of (wl_mm, trial_idx_or_None, base_path, rl_path, label, sub_name)
         for f in files:
-            m = wl_pat.match(f)
-            if m:
-                wls.append(int(m.group(1)))
-        if not wls:
-            print(f"ERROR: no wl<W>_baseline.npz files in {d}")
-            sys.exit(1)
-        out_root = args.output_dir or os.path.join(os.path.dirname(d.rstrip("/")),
-                                                   "body_motion")
-        for wl in sorted(wls):
-            b = os.path.join(d, f"wl{wl}_baseline.npz")
-            r = os.path.join(d, f"wl{wl}_rl.npz")
-            if not (os.path.exists(b) and os.path.exists(r)):
-                print(f"[skip] wl={wl} missing pair, b? {os.path.exists(b)}  "
-                      f"r? {os.path.exists(r)}")
+            m = pat.match(f)
+            if not m:
                 continue
-            sub = os.path.join(out_root, f"wl{wl}")
-            print(f"\n=== Analyzing wl = {wl} mm ===")
-            analyze_pair(b, r, sub, label=f"wl = {wl} mm")
+            stem, wl_str, t_str, yaw_str = m.groups()
+            wl = int(wl_str)
+            base_path = os.path.join(d, f)
+            rl_path   = os.path.join(d, f"{stem}_rl.npz")
+            if not os.path.exists(rl_path):
+                print(f"[skip] missing rl pair for {stem}")
+                continue
+            if t_str is not None:
+                tidx = int(t_str)
+                label = f"wl = {wl} mm, trial {tidx} (yaw {yaw_str}°)"
+                sub_name = f"wl{wl}/trial{tidx}"
+            else:
+                tidx = None
+                label = f"wl = {wl} mm"
+                sub_name = f"wl{wl}"
+            pairs.append((wl, tidx, base_path, rl_path, label, sub_name))
+
+        if not pairs:
+            print(f"ERROR: no wl<W>(_t<T>_yaw<D>)?_baseline.npz files in {d}")
+            sys.exit(1)
+
+        out_root = args.output_dir or os.path.join(
+            os.path.dirname(d.rstrip("/")), "body_motion")
+        # Sort by (wl, trial) for stable ordering
+        pairs.sort(key=lambda x: (x[0], x[1] if x[1] is not None else -1))
+        for wl, tidx, b, r, label, sub_name in pairs:
+            sub = os.path.join(out_root, sub_name)
+            print(f"\n=== Analyzing {label} ===")
+            analyze_pair(b, r, sub, label=label)
         return
 
 
