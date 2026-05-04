@@ -1033,6 +1033,13 @@ def main():
         w_torque_jerk  = args.w_torque_jerk,
         w_cot          = args.w_cot,
     )
+
+    # ── Load base YAML config (moved earlier so commanded_velocity below
+    # can read body_wave / leg_wave; the second `with open` further down
+    # has been removed to avoid re-loading) ──
+    with open(args.config, "r") as f:
+        base_cfg = yaml.safe_load(f)
+
     # ── Compute commanded velocity from YAML wave params ──
     # Matches Isaac Lab's analytical commanded velocity:
     #   v_cmd = 2 · L_proj · sin(A_yaw) · f
@@ -1105,8 +1112,8 @@ def main():
     print(f"  limits           : {limits}")
     print()
 
-    with open(args.config, "r") as f:
-        base_cfg = yaml.safe_load(f)
+    # base_cfg already loaded above (moved earlier so commanded_velocity
+    # could read body_wave / leg_wave from it).
 
     # ── Terrain setup (happens once per study) ──────────────────────────
     # The patched XML lives next to the original model (relative meshdir
