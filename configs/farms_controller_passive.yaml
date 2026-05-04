@@ -1,0 +1,97 @@
+# farms_controller_passive.yaml
+# ==============================================================
+# Variant config that enables the Dionne-Giardina-Mahadevan (2026)
+# passive axial muscle model on the body yaw joints, in addition to
+# (or INSTEAD of) the current CPG-driven active body bending.
+#
+# Only the `passive_axial:` section at the bottom is new compared to
+# `farms_controller.yaml`.  Everything else is copied verbatim so the
+# same file can be passed directly to PassiveAxialController.
+
+# Body travelling wave
+body_wave:
+  amplitude:    0.6
+  frequency:    1.0
+  wave_number:  3.0
+  speed:        1.0
+  head_hold_joints: 1
+  head_ramp_joints: 2
+  head_ramp_min:    0.0
+
+# Leg wave (UNCHANGED — legs keep their normal CPG gait)
+leg_wave:
+  amplitudes:     [0.6, 0.2, 0.0, 0.0]
+  phase_offsets:  [-1.5707963, 3.1415926, 0.0, 3.1415926]
+  dc_offsets:     [0.0, 0.0, 0.0, 0.5235987755982988]
+  active_dofs:    [0, 1]
+
+# CPG (UNCHANGED — still drives the legs, and optionally the body in
+# `mixed` mode).
+cpg:
+  enabled:            true
+  coupling_omega:     -2.5
+  leg_coupling_omega: -2.5
+
+# Simulation
+simulation:
+  duration:     10.0
+  timestep:     0.0005
+
+# Impedance control (UNCHANGED).  In `mode: passive` these gains on
+# body yaw are effectively bypassed (except head servo).
+impedance:
+  body_kp:        0.0272413
+  body_kv:        0.00979287
+  body_kp_head:   2.0
+  body_kv_head:   0.20
+  head_yaw_gain:  1.0
+  head_yaw_target_clip: 0.5
+  head_yaw_rate:  0.0
+  pitch_kp:       0.04
+  pitch_kv:       0.01
+  head_pitch_offset: -0.25
+  head_pitch_joints: 1
+  head_pitch_kp:     0.20
+  head_pitch_kv:     0.05
+  roll_kp:        0.004
+  roll_kv:        0.0016
+  settle_time:    1.0
+  ramp_time:      1.0
+  leg:
+    kp: [0.558126, 0.0587167, 0.1270, 0.1270]
+    kv: [0.000649507, 0.00264014, 0.0000436, 0.000910]
+
+# ==============================================================
+# NEW: Passive axial muscle model (Dionne et al. 2026, Eqs. 6-8)
+# ==============================================================
+# At every body yaw joint j (with relative angle σ_j = θ_{j+1} - θ_j),
+# the controller applies a torque
+#
+#     τ_j = -k σ_j  -  η σ̇_j
+#
+# which — by MuJoCo's action-reaction between the two segments the
+# joint connects — exactly reproduces the paper's inter-segmental
+# flexural spring (Eq. 6) and rotational damper (Eq. 7).
+#
+# Starting gain guess: the paper's characteristic elastic time
+# τ_k = sqrt((m ℓ_s² + I) / k).  With m ≈ 0.12 kg/segment,
+# ℓ_s ≈ 0.016 m, I ≈ (1/12) m ℓ_s² and a desired τ_k ≈ τ_s ≈ 0.3 s
+# (matching ~1 Hz stepping), k ≈ 4 × 10⁻⁴ Nm/rad.  These starting
+# values are a conservative factor ~100 higher than that minimum —
+# tune empirically.
+passive_axial:
+  mode:             "mixed"    # "mixed" | "passive" | "active"
+                               #   mixed   = CPG drive + passive spring/damper
+                               #   passive = passive only, no CPG body drive
+                               #   active  = disable passive; same as parent
+  # Matched to the pure-passive config's softer gains (was 0.05 / 0.005).
+  k:                0.002      # flexural stiffness  (Nm/rad)
+  eta:              0.0003     # rotational damping  (Nm·s/rad)
+  keep_head_servo:  true       # when mode=="passive", keep the yaw-servo
+                               # on joint 0 so the centipede can still
+                               # steer (set false for pure paper-faithful
+                               # uncontrolled body yaw).
+
+# Recording
+recording:
+  dt_record:    0.01

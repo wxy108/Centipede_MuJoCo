@@ -1,0 +1,27 @@
+# Outputs (generated data, videos, logs, optimization results)
+outputs/
+
+# Generated terrain PNGs
+terrain/output/
+
+# Archive (legacy/deprecated files)
+archive/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Data files
+*.npz
+*.pkl
