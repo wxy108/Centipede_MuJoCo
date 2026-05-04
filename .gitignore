@@ -25,3 +25,9 @@ Thumbs.db
 # Data files
 *.npz
 *.pkl
+  
+# sim temp files 
+*.sweep_tmp.xml 
+*.tmp.usd 
+.~lock.*# 
+*.tmp 
