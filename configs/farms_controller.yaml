@@ -3,7 +3,7 @@
 
 # Body travelling wave
 body_wave:
-  amplitude:    0.6
+  amplitude:    0.4
   frequency:    1.0
   wave_number:  3.0
   speed:        1.0
@@ -53,7 +53,7 @@ impedance:
   # original 6 body+hip params.  Body yaw softened further (0.0272 -> 0.0179)
   # for terrain compliance.  Body is intentionally underdamped — body_kp is
   # what we sweep next.
-  body_kp:        0.027915648750902756    # 2026-04-27: bumped +0.01 from 0.017915 — slightly stiffer body
+  body_kp:        0.047915648750902756    # 2026-04-27: bumped +0.01 from 0.017915 — slightly stiffer body
   body_kv:        0.012269819351813625
   body_kp_head:   2.0
   body_kv_head:   0.20
@@ -71,7 +71,7 @@ impedance:
   # (~4e-5) and pitch_kp barely moved — gives nearly-undamped, compliant
   # pitch joints so the body drapes over terrain.  pitch_kp is the second
   # knob we'll sweep next.
-  pitch_kp:       0.04453705868445866
+  pitch_kp:       0.01453705868445866
   pitch_kv:       0.00004102431399331478
   # Active head pitch-up target (rad). Negative q on axis (0,1,0) pitches the
   # nose UP in the FARMS MJCF convention (verified visually 2026-04). Flip

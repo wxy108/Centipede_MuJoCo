@@ -82,6 +82,11 @@ def parse_args():
                    help="Skip the first N seconds of policy time when computing metrics")
     p.add_argument("--final", action="store_true",
                    help="Use ppo_policy.zip instead of best/best_model.zip")
+    p.add_argument("--model-path", default=None,
+                   help="Direct path to a specific .zip policy file. "
+                        "Overrides --final and the default best/ lookup. "
+                        "Useful for testing midpoint checkpoints "
+                        "(e.g., outputs/rl/<run>/checkpoints/ppo_3000000_steps.zip).")
     p.add_argument("--output-dir", default=None,
                    help="Where to write CSV/JSON/PNG. Default: <rl-run>/sweep_compare/")
     p.add_argument("--no-plot", action="store_true",
@@ -171,7 +176,9 @@ def run_sweep(args):
         wls = [float(w) for w in DEFAULT_WAVELENGTHS_MM]
 
     # ── Load RL model + VecNormalize ONCE (env-independent) ─────────────
-    if args.final:
+    if args.model_path:
+        model_path = args.model_path
+    elif args.final:
         model_path = os.path.join(args.rl_run, "ppo_policy.zip")
     else:
         cand = os.path.join(args.rl_run, "best", "best_model.zip")

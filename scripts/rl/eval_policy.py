@@ -50,6 +50,9 @@ def parse_args():
                    help="Training run directory (contains ppo_policy.zip etc.)")
     p.add_argument("--final",   action="store_true",
                    help="Use ppo_policy.zip (final) instead of best/best_model.zip")
+    p.add_argument("--model-path", default=None,
+                   help="Direct path to a specific .zip policy file (e.g. a "
+                        "midpoint checkpoint). Overrides --final and best/ lookup.")
     p.add_argument("--terrain-wavelength", type=float, default=18.0)
     p.add_argument("--terrain-amplitude",  type=float, default=0.01)
     p.add_argument("--terrain-seed",       type=int,   default=42)
@@ -66,7 +69,9 @@ def main():
     args = parse_args()
 
     # ── Pick which model to load ─────────────────────────────────────
-    if args.final:
+    if args.model_path:
+        model_path = args.model_path
+    elif args.final:
         model_path = os.path.join(args.run_dir, "ppo_policy.zip")
     else:
         candidate = os.path.join(args.run_dir, "best", "best_model.zip")
