@@ -536,16 +536,23 @@ def compute_cost(metrics, recorder, weights, limits, settle_s):
       - weights["w_compliance"]   * compliance_reward_d
     )
 
-    # ── Cost: CONSTRAINT-BASED (PRIMARY — matches Isaac Lab §8.2) ──────────
-    # minimize CoT (J/m) subject to:
+    # ── Cost: CONSTRAINT-BASED (PRIMARY — matches Isaac Lab exactly) ───────
+    # IDENTICAL formula in Isaac Lab and MuJoCo:
+    #   cost = CoT                                  (in feasible region)
+    #   cost = CoT + 100 · Σ(violation_excess)      (outside feasible region)
+    #
+    # Hard constraints (same thresholds in both simulators):
     #   velocity_quality            ≥ 0.30   [§1.11 Pierce 2023]
     #   body_z_rms / nom_clearance  ≤ 0.10   [§1.11 Pierce 2023]
+    #     (Isaac Lab uses terrain-aware clearance_rms instead — same
+    #      threshold, slightly different metric: see BIO_REFERENCES §8.2)
     #   body_roll_rms_deg           ≤ 5.0    [§1.12 Pierce 2026]
     #   peak_F / body_weight        ≤ 8.0    [§1.5 Cocci 2024]
-    # Soft regularizer: + w_torque_jerk · torque_jerk (NOT a hard ceiling —
-    # see BIO_REFERENCES.md §9.1).
-    # If any constraint is violated, cost = CoT + soft + 100·Σ(violation_excess)
-    # so TPE still gets a gradient back to feasibility.
+    #
+    # `w_torque_jerk` is computed and stored in `parts` for diagnostic but
+    # NOT added to the cost (it dominated CoT at default 1e-3 weight; we
+    # don't have a centipede-leg muscle bandwidth measurement to anchor
+    # it as a hard constraint either — see BIO_REFERENCES.md §9.1).
     commanded_velocity = float(limits.get("commanded_velocity_mps", 0.025))
     nominal_clearance  = float(limits.get("nominal_clearance_m", 0.0258))
     min_vel_quality    = float(limits.get("min_velocity_quality", 0.3))
@@ -563,14 +570,13 @@ def compute_cost(metrics, recorder, weights, limits, settle_s):
     total_violation    = (vel_violation + z_violation
                           + roll_violation + force_violation)
 
-    # CoT alone if feasible; CoT + 100·violations if not.
-    # Soft torque-jerk regularizer is always added (NOT a hard constraint —
-    # we don't have a centipede-leg muscle bandwidth measurement; see
-    # BIO_REFERENCES.md §9.1).
-    cost_constraint = (cost_of_transport
-                       + weights["w_torque_jerk"] * torque_jerk)
+    # IDENTICAL to Isaac Lab: CoT alone in feasible region, CoT + 100·violations
+    # if any constraint violated. `w_torque_jerk·torque_jerk` is reported in
+    # parts dict but NOT folded into the cost.
     if total_violation > 0.0:
-        cost_constraint += 100.0 * total_violation
+        cost_constraint = cost_of_transport + 100.0 * total_violation
+    else:
+        cost_constraint = cost_of_transport
 
     # Choose primary cost based on --legacy-cost flag
     use_legacy = bool(limits.get("use_legacy_cost", False))
