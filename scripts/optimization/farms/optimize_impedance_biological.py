@@ -512,29 +512,69 @@ def compute_cost(metrics, recorder, weights, limits, settle_s):
         total_work_J = 0.0
         cost_of_transport = 0.0
 
-    # ── Cost ───────────────────────────────────────────────────────────────
+    # ── Cost: weighted-sum (LEGACY — preserved for diagnostic) ─────────────
     body_excess  = max(0.0, rmse_body_deg - limits["track_tol_body_deg"])
     leg_excess   = max(0.0, rmse_leg_deg  - limits["track_tol_leg_deg"])
     wobble       = 1.0 - straightness
     force_excess = max(0.0, peak_fw - limits["force_limit"])
 
-    # SPEED CAP — match Isaac Lab's bio cost
+    # SPEED CAP — legacy weighted-sum only
     speed_cap = float(limits.get("speed_cap_mps", 1.0))
     speed_capped = min(speed_mps, speed_cap)
 
-    cost = (
+    cost_legacy = (
         weights["w_body_track"]   * body_excess
       + weights["w_leg_track"]    * leg_excess
       + weights["w_wobble"]       * wobble
       + weights["w_force"]        * force_excess
-      + weights["w_body_z"]       * body_z_rms_m              # NEW bio
-      + weights["w_body_roll"]    * body_roll_rms_deg         # NEW bio
-      + weights["w_torque_jerk"]  * torque_jerk               # NEW bio
-      + weights["w_cot"]          * cost_of_transport         # NEW bio
-      - weights["w_speed"]        * speed_capped              # CAPPED
-      - weights.get("w_displacement", 0.0) * displacement_m   # NEW bio
+      + weights["w_body_z"]       * body_z_rms_m
+      + weights["w_body_roll"]    * body_roll_rms_deg
+      + weights["w_torque_jerk"]  * torque_jerk
+      + weights["w_cot"]          * cost_of_transport
+      - weights["w_speed"]        * speed_capped
+      - weights.get("w_displacement", 0.0) * displacement_m
       - weights["w_compliance"]   * compliance_reward_d
     )
+
+    # ── Cost: CONSTRAINT-BASED (PRIMARY — matches Isaac Lab §8.2) ──────────
+    # minimize CoT (J/m) subject to:
+    #   velocity_quality            ≥ 0.30   [§1.11 Pierce 2023]
+    #   body_z_rms / nom_clearance  ≤ 0.10   [§1.11 Pierce 2023]
+    #   body_roll_rms_deg           ≤ 5.0    [§1.12 Pierce 2026]
+    #   peak_F / body_weight        ≤ 8.0    [§1.5 Cocci 2024]
+    # Soft regularizer: + w_torque_jerk · torque_jerk (NOT a hard ceiling —
+    # see BIO_REFERENCES.md §9.1).
+    # If any constraint is violated, cost = CoT + soft + 100·Σ(violation_excess)
+    # so TPE still gets a gradient back to feasibility.
+    commanded_velocity = float(limits.get("commanded_velocity_mps", 0.025))
+    nominal_clearance  = float(limits.get("nominal_clearance_m", 0.0258))
+    min_vel_quality    = float(limits.get("min_velocity_quality", 0.3))
+    max_z_rms_ratio    = float(limits.get("max_z_rms_ratio", 0.10))
+    max_roll_deg       = float(limits.get("max_roll_deg", 5.0))
+    force_limit        = float(limits.get("force_limit", 8.0))
+
+    velocity_quality   = speed_mps / max(commanded_velocity, 1e-9)
+    z_rms_ratio        = body_z_rms_m / max(nominal_clearance, 1e-9)
+
+    vel_violation      = max(0.0, min_vel_quality - velocity_quality)
+    z_violation        = max(0.0, z_rms_ratio - max_z_rms_ratio)
+    roll_violation     = max(0.0, body_roll_rms_deg - max_roll_deg)
+    force_violation    = max(0.0, peak_fw - force_limit)
+    total_violation    = (vel_violation + z_violation
+                          + roll_violation + force_violation)
+
+    # CoT alone if feasible; CoT + 100·violations if not.
+    # Soft torque-jerk regularizer is always added (NOT a hard constraint —
+    # we don't have a centipede-leg muscle bandwidth measurement; see
+    # BIO_REFERENCES.md §9.1).
+    cost_constraint = (cost_of_transport
+                       + weights["w_torque_jerk"] * torque_jerk)
+    if total_violation > 0.0:
+        cost_constraint += 100.0 * total_violation
+
+    # Choose primary cost based on --legacy-cost flag
+    use_legacy = bool(limits.get("use_legacy_cost", False))
+    cost_primary = cost_legacy if use_legacy else cost_constraint
 
     parts = dict(
         buckled=False,
@@ -552,14 +592,24 @@ def compute_cost(metrics, recorder, weights, limits, settle_s):
         force_excess=force_excess,
         pitch_compliance_deg=compliance_deg,
         pitch_compliance_reward_deg=compliance_reward_d,
-        body_z_rms_m=body_z_rms_m,                            # NEW bio
-        body_roll_rms_deg=body_roll_rms_deg,                  # NEW bio
-        torque_jerk=torque_jerk,                              # NEW bio
-        total_work_J=total_work_J,                            # NEW bio
-        cost_of_transport=cost_of_transport,                  # NEW bio
-        cost=cost,
+        body_z_rms_m=body_z_rms_m,
+        body_roll_rms_deg=body_roll_rms_deg,
+        torque_jerk=torque_jerk,
+        total_work_J=total_work_J,
+        cost_of_transport=cost_of_transport,
+        # ── Constraint-based diagnostics (NEW) ──
+        velocity_quality=velocity_quality,
+        z_rms_ratio=z_rms_ratio,
+        vel_violation=vel_violation,
+        z_violation=z_violation,
+        roll_violation=roll_violation,
+        force_violation=force_violation,
+        total_violation=total_violation,
+        cost_legacy=cost_legacy,
+        cost_constraint=cost_constraint,
+        cost=cost_primary,
     )
-    return float(cost), parts
+    return float(cost_primary), parts
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -582,26 +632,36 @@ def make_objective(args, base_cfg, tmp_dir, csv_path, weights, limits,
 
     def obj(trial):
         params = dict(
-            body_kp      = trial.suggest_float("body_kp",      1e-3, 2.0,  log=True),
-            body_kv      = trial.suggest_float("body_kv",      1e-5, 0.5,  log=True),
-            hip_yaw_kp   = trial.suggest_float("hip_yaw_kp",   1e-3, 2.0,  log=True),
-            hip_yaw_kv   = trial.suggest_float("hip_yaw_kv",   1e-6, 1e-1, log=True),
-            hip_pitch_kp = trial.suggest_float("hip_pitch_kp", 1e-4, 1.0,  log=True),
-            hip_pitch_kv = trial.suggest_float("hip_pitch_kv", 1e-7, 1e-2, log=True),
+            # Bounds aligned to Isaac Lab's optimize_impedance_biological.py
+            # — all kp ≤ 0.5 ceiling, kv ranges match. (Earlier MuJoCo
+            # bounds went up to 2.0 on body/hip_yaw kp; tightened to 0.5
+            # for cross-simulator comparability.)
+            body_kp      = trial.suggest_float("body_kp",      1e-4, 0.5,  log=True),
+            body_kv      = trial.suggest_float("body_kv",      1e-6, 1.0,  log=True),
+            hip_yaw_kp   = trial.suggest_float("hip_yaw_kp",   1e-4, 0.5,  log=True),
+            hip_yaw_kv   = trial.suggest_float("hip_yaw_kv",   1e-7, 5e-1, log=True),
+            hip_pitch_kp = trial.suggest_float("hip_pitch_kp", 1e-5, 0.5,  log=True),
+            hip_pitch_kv = trial.suggest_float("hip_pitch_kv", 1e-8, 5e-2, log=True),
         )
         if tune_distal:
             # Narrow bounds — these joints hold posture, they don't drive gait.
-            params["tibia_kp"]  = trial.suggest_float("tibia_kp",  0.02, 0.5,  log=True)
-            params["tibia_kv"]  = trial.suggest_float("tibia_kv",  1e-6, 5e-3, log=True)
-            params["tarsus_kp"] = trial.suggest_float("tarsus_kp", 0.02, 0.5,  log=True)
-            params["tarsus_kv"] = trial.suggest_float("tarsus_kv", 1e-5, 1e-2, log=True)
+            # Bounds aligned to Isaac Lab bio: tibia/tarsus floors lowered
+            # from 0.02 to 1e-3 so the optimizer can find soft-tibia gaits
+            # like Isaac Lab's trial #141 (tibia_kp = 0.038); kv ceilings
+            # widened to 5e-2.
+            params["tibia_kp"]  = trial.suggest_float("tibia_kp",  1e-3, 0.5,  log=True)
+            params["tibia_kv"]  = trial.suggest_float("tibia_kv",  1e-7, 5e-2, log=True)
+            params["tarsus_kp"] = trial.suggest_float("tarsus_kp", 1e-3, 0.5,  log=True)
+            params["tarsus_kv"] = trial.suggest_float("tarsus_kv", 1e-6, 5e-2, log=True)
         if tune_pitch:
             # Body pitch gains — direct knob for compliance.  Range allows
             # very soft (1e-3) up to moderate stiffness (2e-1).  Head pitch
             # gains are intentionally NOT tuned (they need to hold the head
             # against gravity).
-            params["pitch_kp"]  = trial.suggest_float("pitch_kp",  1e-3, 2e-1, log=True)
-            params["pitch_kv"]  = trial.suggest_float("pitch_kv",  1e-5, 1e-1, log=True)
+            # Bounds aligned to Isaac Lab bio: pitch_kp ceiling raised
+            # from 0.2 to 0.5; pitch_kv ceiling raised from 0.1 to 0.5.
+            params["pitch_kp"]  = trial.suggest_float("pitch_kp",  1e-4, 0.5,  log=True)
+            params["pitch_kv"]  = trial.suggest_float("pitch_kv",  1e-6, 5e-1, log=True)
 
         cfg = patch_config(base_cfg, params)
         cfg_path = write_tmp_yaml(cfg, tmp_dir, f"trial_{trial.number:05d}")
@@ -887,16 +947,27 @@ def main():
     p.add_argument("--w-body-roll",  type=float, default=2.0,
                    help="Penalty per degree of body-roll RMS.")
     p.add_argument("--w-torque-jerk", type=float, default=1e-3,
-                   help="Penalty on mean (dτ/dt)² of applied joint torques.")
+                   help="Soft cost-shaping penalty on mean (dτ/dt)² of "
+                        "applied joint torques. NOT a bio-anchored hard "
+                        "constraint — see BIO_REFERENCES.md §8.2 / §9.1. "
+                        "We don't have a direct centipede-leg muscle "
+                        "bandwidth measurement, so this stays soft.")
     p.add_argument("--w-cot",        type=float, default=0.5,
-                   help="Penalty on cost-of-transport (J / m).")
+                   help="(legacy weighted-sum only) Penalty on cost-of-"
+                        "transport. Constraint-based cost uses CoT directly "
+                        "as the primary objective.")
     p.add_argument("--speed-cap-mps", type=float, default=0.025,
-                   help="Cap on speed reward (default 25 mm/s ≈ "
-                        "biological centipede max walking speed).")
+                   help="(legacy weighted-sum only) Cap on speed reward.")
 
     # ── Objective limits / dead-zones ────────────────────────────────────
-    p.add_argument("--force-limit",  type=float, default=4.0,
-                   help="Peak F/W ratio considered 'soft'")
+    # Force-limit raised 4.0 → 8.0 to match BIO_REFERENCES.md §1.5 (Cocci 2024:
+    # real centipedes register peaks ~10× body weight per leg). 8× admits all
+    # biologically observed forces while still excluding numerical contact-
+    # spike pathologies.
+    p.add_argument("--force-limit",  type=float, default=8.0,
+                   help="Peak F/W ratio. BIO_REFERENCES.md §1.5: real "
+                        "centipedes peak at ~10× body weight per leg "
+                        "(Cocci 2024). 8× is conservative.")
     p.add_argument("--body-tol-deg", type=float, default=5.0,
                    help="Body-yaw tracking RMSE dead-zone (deg)")
     p.add_argument("--leg-tol-deg",  type=float, default=3.0,
@@ -906,6 +977,39 @@ def main():
                         "Above this, extra compliance gets no extra reward — "
                         "prevents the optimizer from seeking pathological "
                         "body-folding solutions.")
+
+    # ── Constraint-based cost (NEW — matches Isaac Lab §8.2) ─────────────
+    # The constraint-based cost is now the PRIMARY cost (returned to TPE).
+    # The previous weighted-sum cost is preserved as cost_legacy in the
+    # per-trial CSV for diagnostic comparison. To opt back to the legacy
+    # cost as primary, pass --legacy-cost.
+    p.add_argument("--legacy-cost", action="store_true",
+                   help="Use the legacy weighted-sum cost as primary "
+                        "(for reproducing pre-2026-05-04 results). "
+                        "Default is the constraint-based cost.")
+    p.add_argument("--leg-proj-length-m", type=float, default=0.035,
+                   help="Projected leg length on ground (m), used to "
+                        "compute commanded velocity from YAML wave params. "
+                        "Default 0.035 m matches our 102.5 mm centipede.")
+    p.add_argument("--nominal-clearance-m", type=float, default=0.0258,
+                   help="Nominal body standing height above ground (m). "
+                        "Used to normalize body_z RMS into a dimensionless "
+                        "ratio. Default 0.0258 m = NOMINAL_CLEARANCE.")
+    p.add_argument("--min-velocity-quality", type=float, default=0.3,
+                   help="Hard constraint floor on v_actual / v_commanded. "
+                        "BIO_REFERENCES.md §1.11: real centipedes slow on "
+                        "rough terrain but never stop walking. 0.3 = "
+                        "'still walking, not stuck'.")
+    p.add_argument("--max-z-rms-ratio", type=float, default=0.10,
+                   help="Hard constraint ceiling on body_z_rms / "
+                        "nominal_clearance. BIO_REFERENCES.md §1.11: "
+                        "centipedes drape over rough terrain via passive "
+                        "limb compliance, not bounce. 0.10 = 10%% of "
+                        "standing clearance.")
+    p.add_argument("--max-roll-deg", type=float, default=5.0,
+                   help="Hard constraint ceiling on body_roll RMS (deg). "
+                        "BIO_REFERENCES.md §1.12: level walking is planar; "
+                        "body twisting only seen on narrow obstacles.")
 
     # ── Replay ───────────────────────────────────────────────────────────
     p.add_argument("--rerun-duration",  type=float, default=10.0,
@@ -929,12 +1033,37 @@ def main():
         w_torque_jerk  = args.w_torque_jerk,
         w_cot          = args.w_cot,
     )
+    # ── Compute commanded velocity from YAML wave params ──
+    # Matches Isaac Lab's analytical commanded velocity:
+    #   v_cmd = 2 · L_proj · sin(A_yaw) · f
+    # The optimizer uses this as a normaliser for velocity_quality (the
+    # hard biological constraint from BIO_REFERENCES.md §1.11).
+    bw = base_cfg.get("body_wave", {})
+    lw = base_cfg.get("leg_wave", {})
+    yaml_freq = float(bw.get("frequency", 1.0))
+    leg_amps = lw.get("amplitudes", [0.6, 0.2, 0.0, 0.0])
+    A_yaw = float(leg_amps[0]) if len(leg_amps) > 0 else 0.6
+    commanded_velocity_mps = (2.0 * args.leg_proj_length_m
+                              * math.sin(A_yaw) * yaml_freq)
+    print(f"[bio-opt] commanded velocity (analytical): "
+          f"{commanded_velocity_mps*1000:.1f} mm/s = "
+          f"{commanded_velocity_mps*1000/102.5:.2f} BL/s "
+          f"(at A_yaw={A_yaw:.2f}rad, f={yaml_freq:.2f}Hz, "
+          f"L_proj={args.leg_proj_length_m*1000:.0f}mm)")
+
     limits = dict(
         track_tol_body_deg = args.body_tol_deg,
         track_tol_leg_deg  = args.leg_tol_deg,
         force_limit        = args.force_limit,
         compliance_cap_deg = args.compliance_cap_deg,
-        speed_cap_mps      = args.speed_cap_mps,           # NEW bio
+        speed_cap_mps      = args.speed_cap_mps,           # legacy
+        # ── Constraint-based cost (NEW — matches Isaac Lab §8.2) ──
+        commanded_velocity_mps    = commanded_velocity_mps,
+        nominal_clearance_m       = args.nominal_clearance_m,
+        min_velocity_quality      = args.min_velocity_quality,
+        max_z_rms_ratio           = args.max_z_rms_ratio,
+        max_roll_deg              = args.max_roll_deg,
+        use_legacy_cost           = bool(args.legacy_cost),
     )
 
     # ── Run dir / study storage ─────────────────────────────────────────
@@ -988,21 +1117,42 @@ def main():
         xml_paths = [("flat", args.model)]
         print("[terrain] --flat: using base XML (no heightfield)")
     else:
+        # ── Multi-terrain XML pre-generation ──────────────────────────────
+        # CRITICAL: patch_xml_terrain() inside setup_terrain() always
+        # writes to the SAME path: `<base_xml>.sweep_tmp.xml`. Calling
+        # setup_terrain() three times in a row therefore OVERWRITES the
+        # previous terrain — every call produces the same path, and
+        # only the LAST wavelength actually gets used at runtime.
+        #
+        # Fix: after each setup_terrain() call, COPY the patched XML
+        # to a unique per-wavelength path (still next to the original
+        # model so the relative meshdir="meshes" reference resolves).
+        # We use base_xml.bio_wl{N}.xml as the unique name.
+        import shutil as _shutil
         xml_paths = []
         for wl_mm in args.terrain_wavelengths_mm:
             terrain_seed_for_wl = (args.terrain_seed * 1000
                                    + int(round(wl_mm)))
             wl_run_dir = os.path.join(run_dir, f"wl{int(round(wl_mm))}mm")
             os.makedirs(wl_run_dir, exist_ok=True)
-            wl_xml = setup_terrain(wl_run_dir,
-                                   wl_mm,
-                                   args.terrain_amplitude,
-                                   terrain_seed_for_wl,
-                                   args.model)
-            xml_paths.append((f"wl{int(round(wl_mm))}", wl_xml))
+            shared_xml = setup_terrain(wl_run_dir,
+                                       wl_mm,
+                                       args.terrain_amplitude,
+                                       terrain_seed_for_wl,
+                                       args.model)
+            # Copy to a unique path so the next iteration doesn't trample it.
+            unique_xml = (args.model.replace('.xml', '')
+                          + f'.bio_wl{int(round(wl_mm))}.xml')
+            _shutil.copy(shared_xml, unique_xml)
+            xml_paths.append((f"wl{int(round(wl_mm))}", unique_xml))
             print(f"[terrain] λ={wl_mm:.0f}mm  amp="
                   f"{args.terrain_amplitude*1000:.1f}mm  "
-                  f"seed={terrain_seed_for_wl}  → {wl_xml}")
+                  f"seed={terrain_seed_for_wl}  → {unique_xml}")
+        # Sanity check: all xml_paths must be DIFFERENT files.
+        if len(set(p for _, p in xml_paths)) != len(xml_paths):
+            raise RuntimeError(
+                "Multi-terrain bug: xml_paths contains duplicate paths "
+                "after setup. Aborting before trials begin.")
     xml_to_use = xml_paths[0][1]
 
     # ── Study creation / resume ──────────────────────────────────────────
