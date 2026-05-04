@@ -291,6 +291,25 @@ class ImpedanceTravelingWaveController:
             self.last_roll_targets = np.zeros(0, dtype=float)
         self.last_leg_targets = np.zeros((N_LEGS, 2, N_LEG_DOF), dtype=float)
 
+        # ── PD-tracking caches (2026-05-04 port from Isaac Lab) ──
+        # The original torque law was a position regulator with viscous
+        # damping:  τ = kp·(target − q) − kv·qdot
+        # This is INCORRECT for tracking a moving target (the kv term
+        # opposes the desired motion as well as any error). The corrected
+        # law uses the velocity ERROR:
+        #     τ = kp·(target − q) + kv·(target_dot − qdot)
+        # `target_dot` is computed by finite difference between the
+        # current and previous step's target. On the first step (prev =
+        # None) it's taken as zero — safe; only affects step #1.
+        # See Isaac Lab's controllers/impedance_controller.py for the
+        # parallel implementation. Call `reset_target_history()` between
+        # episodes / Optuna trials to avoid spurious target_dot spikes
+        # at the boundary.
+        self._prev_body_yaw_targets = None
+        self._prev_pitch_targets    = None
+        self._prev_leg_targets      = None
+        # roll target is constant 0 → target_dot = 0 always; no cache needed.
+
         print(f"[ImpedanceController] body_kp={self.body_kp:.4f} "
               f"body_kv={self.body_kv:.4f}  (head kp={self.body_kp_head:.4f}, "
               f"kv={self.body_kv_head:.4f} on first {self.head_hold_joints} joints)  "
@@ -472,6 +491,15 @@ class ImpedanceTravelingWaveController:
             return 1.0
         return 0.5 * (1.0 - math.cos(math.pi * elapsed / per_seg))
 
+    def reset_target_history(self):
+        """Clear cached previous-step targets so the next step starts
+        with target_dot = 0. Call this between episodes / Optuna trials
+        to avoid a spurious target_dot spike from the finite difference
+        across the boundary."""
+        self._prev_body_yaw_targets = None
+        self._prev_pitch_targets    = None
+        self._prev_leg_targets      = None
+
     def step(self, model, data, t=None):
         if t is None:
             t = data.time
@@ -489,7 +517,13 @@ class ImpedanceTravelingWaveController:
             dt_int = model.opt.timestep
             self._integrate_cpg_phases(dt_int)
 
+        # ── PD-tracking helper: dt for finite-difference target velocity ──
+        # See reset_target_history(). target_dot = (target - prev) / dt
+        # is computed inline at each torque-write site below.
+        dt_phys = model.opt.timestep
+
         # ── body yaw: impedance control, head→tail sequential activation ──
+        prev_body_yaw_targets = self._prev_body_yaw_targets
         for i in range(N_BODY_JOINTS):
             if i == 0:
                 # Heading servo on the head: always on (no blend/ramp), driven
@@ -532,10 +566,18 @@ class ImpedanceTravelingWaveController:
             q    = data.qpos[self.body_jnt_qpos_adr[i]]
             qdot = data.qvel[self.body_jnt_dof_adr[i]]
 
-            torque = self.body_kp_vec[i] * (target - q) - self.body_kv_vec[i] * qdot
+            # PD-TRACKING: kv damps velocity ERROR, not absolute velocity
+            if prev_body_yaw_targets is None:
+                target_dot = 0.0
+            else:
+                target_dot = (target - prev_body_yaw_targets[i]) / dt_phys
+            torque = (self.body_kp_vec[i] * (target - q)
+                      + self.body_kv_vec[i] * (target_dot - qdot))
 
             data.ctrl[self.idx.body_act_ids[i]] = torque
             self.last_body_yaw_targets[i] = target
+        # Cache this step's body-yaw targets for next-step finite-diff
+        self._prev_body_yaw_targets = self.last_body_yaw_targets.copy()
 
         # ── body pitch: pure impedance (no gravity compensation) ──
         # At 2.5g total mass, gravitational pitch torques (~0.001 Nm) are
@@ -552,6 +594,7 @@ class ImpedanceTravelingWaveController:
             head_blend = self._seg_blend(t, 0)
             np.multiply(self.pitch_target_final, head_blend,
                         out=self.pitch_targets)
+            prev_pitch_targets = self._prev_pitch_targets
             for i in range(len(self.idx.pitch_act_ids)):
                 q    = data.qpos[self.pitch_qpos_adr[i]]
                 qdot = data.qvel[self.pitch_dof_adr[i]]
@@ -561,10 +604,17 @@ class ImpedanceTravelingWaveController:
                 # that offset against gravity + ground reaction, instead of
                 # sagging back to 0 like the soft global pitch_kp would.
                 tgt = self.pitch_targets[i]
+                # PD-TRACKING: kv damps velocity error
+                if prev_pitch_targets is None:
+                    target_dot = 0.0
+                else:
+                    target_dot = (tgt - prev_pitch_targets[i]) / dt_phys
                 torque = (self.pitch_kp_vec[i] * (tgt - q)
-                          - self.pitch_kv_vec[i] * qdot)
+                          + self.pitch_kv_vec[i] * (target_dot - qdot))
 
                 data.ctrl[self.idx.pitch_act_ids[i]] = torque
+            # Cache this step's pitch targets for next-step finite-diff
+            self._prev_pitch_targets = self.pitch_targets.copy()
 
         # ── body roll: impedance + online gravity compensation ──
         if self.has_roll:
@@ -579,6 +629,7 @@ class ImpedanceTravelingWaveController:
                 data.ctrl[self.idx.roll_act_ids[i]] = torque
 
         # ── legs: impedance control, ramp follows body segment index n ──
+        prev_leg_targets = self._prev_leg_targets
         for n in range(N_LEGS):
             blend_n = self._seg_blend(t, n, n_seg=N_LEGS)
             if self.use_cpg and self._cpg_initialized:
@@ -600,6 +651,14 @@ class ImpedanceTravelingWaveController:
 
                     q    = data.qpos[self.leg_jnt_qpos_adr[n, si, dof]]
                     qdot = data.qvel[self.leg_jnt_dof_adr[n, si, dof]]
-                    torque = self.leg_kp[dof] * (target - q) - self.leg_kv[dof] * qdot
+                    # PD-TRACKING: kv damps velocity error
+                    if prev_leg_targets is None:
+                        target_dot = 0.0
+                    else:
+                        target_dot = (target - prev_leg_targets[n, si, dof]) / dt_phys
+                    torque = (self.leg_kp[dof] * (target - q)
+                              + self.leg_kv[dof] * (target_dot - qdot))
                     data.ctrl[act_id] = torque
                     self.last_leg_targets[n, si, dof] = target
+        # Cache this step's leg targets for next-step finite-diff
+        self._prev_leg_targets = self.last_leg_targets.copy()
