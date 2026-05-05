@@ -500,6 +500,27 @@ class ImpedanceTravelingWaveController:
         self._prev_pitch_targets    = None
         self._prev_leg_targets      = None
 
+    def set_frequency(self, freq: float):
+        """Update the body-wave frequency mid-trial and reset all phase
+        and history state so the new frequency takes effect cleanly.
+
+        Used by the three-evaluation optimizer (optimize_impedance_three_eval.py)
+        to test a single gain set at multiple frequencies (flat-2Hz,
+        rough-1Hz, rough-2Hz) without reloading the model. Without
+        resetting CPG / target-history state, residual phases from the
+        previous frequency would corrupt the first second of the new
+        evaluation. Mirrors the Isaac Lab implementation in
+        controllers/impedance_controller.py."""
+        self.freq  = float(freq)
+        self.omega = 2.0 * math.pi * self.freq
+        # cpg_delta does NOT depend on frequency (it's a spatial inter-
+        # segment phase lag), so it stays the same.
+        self.body_phases       = None
+        self.leg_phases        = None
+        self._cpg_initialized  = False
+        self.head_yaw_ref      = None
+        self.reset_target_history()
+
     def step(self, model, data, t=None):
         if t is None:
             t = data.time
