@@ -47,41 +47,31 @@ simulation:
 #   - head_yaw_gain maps world yaw error (rad) of link_body_0 to a q_target
 #     on joint_body_1.  ~1.0 is a good starting point.
 impedance:
-  # Updated 2026-04-24 from Bayesian optimizer v3 (rough terrain wl18, 12-D).
-  # Cost function was straightness-dominated with a pitch-compliance reward;
-  # search space added pitch_kp/kv and tibia/tarsus kp/kv on top of the
-  # original 6 body+hip params.  Body yaw softened further (0.0272 -> 0.0179)
-  # for terrain compliance.  Body is intentionally underdamped — body_kp is
-  # what we sweep next.
-  body_kp:        0.047915648750902756    # 2026-04-27: bumped +0.01 from 0.017915 — slightly stiffer body
-  body_kv:        0.012269819351813625
+  # Updated 2026-05-06 — adopting Isaac Lab three_eval_v1 rank 5 (trial #167)
+  # gain set for cross-simulator comparison. The MuJoCo three-eval optimizer's
+  # own winner (trial #92, cost=19.21) collapsed to a passive-walk basin
+  # (body_kp ≈ 2.7e-4, hip_yaw_kp at the search-bound floor) — see
+  # farms_controller.yaml.backup_v3_20260506 for the previous v3 values, and
+  # outputs/optimization/impedance_three_eval_three_eval_v1_20260505_152259/
+  # best_params.yaml for trial #92's full state.
+  # Architecture (Isaac Lab rank 5): medium body + active hip + very soft
+  # tibia + moderate tarsus. Reported by Isaac Lab on its terrain:
+  #   flat 2Hz:        speed=90.0 mm/s = 0.88 BL/s,  CoT=21.49 J/m
+  #   rough λ18 1Hz:   speed=23.6 mm/s,              CoT= 7.75 J/m
+  #   rough λ18 2Hz:   speed=49.6 mm/s,              CoT=39.04 J/m
+  # Cross-sim test: validate whether this PhysX-discovered architecture
+  # also walks under MuJoCo's contact solver.
+  body_kp:        0.14396435461660606
+  body_kv:        0.003710391030836182
   body_kp_head:   2.0
   body_kv_head:   0.20
   head_yaw_gain:  1.0
-  # Max |q_target| (rad) on joint_body_1 from the heading servo. Hinge range
-  # is ±0.628 rad, so 0.5 leaves headroom before the joint limit. Raise if the
-  # circle trajectory lacks steering authority; lower if the head chatters
-  # against the clamp.
   head_yaw_target_clip: 0.5
-  # Circle trajectory: rate (rad/s) at which head_yaw_ref rotates after settle.
-  # 0 -> straight line (default). Negative -> clockwise (yaw decreasing).
-  # For a circle of radius R at forward speed v: head_yaw_rate = v/R.
   head_yaw_rate:  0.0
-  # Pitch tuning from rough-terrain optimizer.  pitch_kv driven to floor
-  # (~4e-5) and pitch_kp barely moved — gives nearly-undamped, compliant
-  # pitch joints so the body drapes over terrain.  pitch_kp is the second
-  # knob we'll sweep next.
-  pitch_kp:       0.01453705868445866
-  pitch_kv:       0.00004102431399331478
-  # Active head pitch-up target (rad). Negative q on axis (0,1,0) pitches the
-  # nose UP in the FARMS MJCF convention (verified visually 2026-04). Flip
-  # sign if your MJCF uses the opposite convention. ~|0.25| rad ≈ 14 deg.
-  # This target is now cosine-ramped with the same settle+ramp profile used
-  # for the body wave, so there is no startup torque step.
+  pitch_kp:       0.00714500246182836
+  pitch_kv:       4.682691432301573e-05
   head_pitch_offset: -0.25
   head_pitch_joints: 1
-  # Stiffer gains on the head pitch joint(s) so they hold the offset target
-  # against gravity.  ~5× the global pitch gains (base is now stiffer at 0.04).
   head_pitch_kp:     0.20
   head_pitch_kv:     0.05
   roll_kp:        0.004
@@ -89,19 +79,13 @@ impedance:
   settle_time:    1.0
   ramp_time:      1.0
   leg:
-    # Updated 2026-04-24 from Bayesian optimizer v3 (rough wl18, 12-D).
-    #   Inverted from the flat-ground winner: legs are MUCH softer in kp
-    #   and the distal joints (tibia/tarsus) gained heavy damping.
-    #
-    #   hip_yaw   (DOF 0): kp 0.558  -> 0.0326   (17x SOFTER)  | kv 0.000650 -> 0.000452
-    #   hip_pitch (DOF 1): kp 0.0587 -> 0.00886  (6.6x SOFTER) | kv 0.00264   -> 0.000147
-    #   tibia     (DOF 2): kp 0.127  -> 0.0572   (2.2x softer) | kv 4.36e-5   -> 0.00442  (101x more damped)
-    #   tarsus    (DOF 3): kp 0.127  -> 0.1064   (similar)     | kv 0.000910  -> 0.00546  (6x more damped)
-    #
-    # Architecture: soft proximal joints (let body conform to terrain),
-    # well-damped distal joints (kill foot ringing on ground contact).
-    kp: [0.0325748618494269,    0.008862678204519891, 0.057191322069614206, 0.1063669821713091]
-    kv: [0.00045210699849367367, 0.00014673695171707596, 0.004417111611561173, 0.005463954516638024]
+    # Isaac Lab three_eval rank 5 (trial #167) leg gains:
+    #   hip_yaw   (DOF 0): kp 0.0762   kv 1.22e-05  (active drive, lightly damped)
+    #   hip_pitch (DOF 1): kp 0.1041   kv 3.74e-08  (essentially undamped)
+    #   tibia     (DOF 2): kp 0.00149  kv 1.61e-07  (VERY SOFT, near-undamped)
+    #   tarsus    (DOF 3): kp 0.1419   kv 3.55e-03  (moderate foot-tip damping)
+    kp: [0.0762341873055933,   0.10410070483808535, 0.0014869886879781957, 0.14185816765501905]
+    kv: [1.2233473366963375e-05, 3.7409077982351254e-08, 1.6068234215749776e-07, 0.0035528652774281773]
 
 # Recording
 recording:
