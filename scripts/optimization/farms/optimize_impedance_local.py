@@ -143,7 +143,18 @@ def build_parser():
     p.add_argument("--min-velocity-quality", type=float, default=0.3)
     p.add_argument("--max-z-rms-ratio",      type=float, default=0.10)
     p.add_argument("--max-roll-deg",         type=float, default=5.0)
-    p.add_argument("--force-limit",          type=float, default=8.0)
+    p.add_argument("--force-limit",          type=float, default=30.0,
+                   help="Hard constraint ceiling on per-foot peak F/body-weight. "
+                        "Cocci 2024 (§1.5) reports real centipedes peak at "
+                        "~10× body weight, but MuJoCo's contact solver "
+                        "produces transient spikes much higher than PhysX's "
+                        "TGS solver does for the same gait — the Isaac Lab "
+                        "rank-5 seed reports F/W~0.85 in PhysX but F/W~16.8 "
+                        "in MuJoCo. Default 30 is sim-calibrated to admit "
+                        "all known-walking gaits while still excluding "
+                        "pathological collision-spike trials. Pass "
+                        "--force-limit 8.0 to use the bio-strict value "
+                        "(but expect every trial to violate it on MuJoCo).")
     return p
 
 
