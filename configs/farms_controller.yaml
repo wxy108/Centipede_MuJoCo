@@ -68,8 +68,11 @@ impedance:
   head_yaw_gain:  1.0
   head_yaw_target_clip: 0.5
   head_yaw_rate:  0.0
-  pitch_kp:       0.00714500246182836
-  pitch_kv:       4.682691432301573e-05
+  # pitch_kp / pitch_kv kept from the v3 backup (2026-04-24) because Isaac
+  # Lab's rank-5 pitch_kp=0.00715 is too soft for MuJoCo — body sagged
+  # visibly. v3 values are ~2× stiffer in pitch_kp; pitch_kv is similar.
+  pitch_kp:       0.01453705868445866
+  pitch_kv:       0.00004102431399331478
   head_pitch_offset: -0.25
   head_pitch_joints: 1
   head_pitch_kp:     0.20
