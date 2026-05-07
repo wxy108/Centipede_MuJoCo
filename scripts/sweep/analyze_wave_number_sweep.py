@@ -2,31 +2,43 @@
 """
 analyze_wave_number_sweep.py — Multi-metric analysis of a (k × λ) sweep.
 
-Reads `results_aggregated.csv` from a `wave_number_sweep_*` run directory
-and produces:
+Reads `results_all_trials.csv` from a `wave_number_sweep_*` run directory
+(falls back to `results_aggregated.csv` if the per-trial file is missing),
+applies an outlier trim per cell, and produces:
 
   - A 6-panel figure: speed, CoT, survival rate, max pitch, max roll,
     phase lag — all plotted vs terrain wavelength λ, one curve per k.
     Each curve marks the predicted morphology-anchored resonance band
-    at λ_body(k) = body_length / k as a vertical span in matching color.
+    at λ_body(k) = body_length / k as a vertical line in matching color,
+    AND in the figure legend. Panel letters (a)–(f).
 
-  - A heatmap figure of forward speed across the full (k × λ) grid.
+  - A heatmap of forward speed across the (k × λ) grid.
 
-  - A markdown summary table with: best (k, λ) per metric, k-marginal
-    means, λ-marginal means, and any all-failed cells flagged.
+  - A markdown summary: predicted body wavelengths, best (k, λ) per
+    metric, k-marginal means, all-buckled cells.
 
 Outputs land in `<sweep_dir>/analysis/`.
 
+Trimming
+--------
+Each (k, λ) cell typically has N trials. By default, trials beyond
+±2 σ of the cell median are excluded (robust to single bad runs), then
+the mean and ±0.6 σ band are computed on the trimmed set. This produces
+a tight band that represents the bulk of the trials, not every outlier.
+
 Usage
 -----
-    # Most recent sweep
+    # Most recent sweep, default settings (drop k=1.5, trim at 2σ, band 0.6σ)
     python scripts/sweep/analyze_wave_number_sweep.py
 
     # Specific sweep
     python scripts/sweep/analyze_wave_number_sweep.py outputs/wave_number_sweep/sweep_20260507_024045
 
-    # Override body length (default 0.1025 m = 102.5 mm from morphology config)
-    python scripts/sweep/analyze_wave_number_sweep.py SWEEP_DIR --body-length 0.1025
+    # Keep all wave numbers, no trimming
+    python scripts/sweep/analyze_wave_number_sweep.py --exclude-k "" --trim-sigma 0
+
+    # Tighter band
+    python scripts/sweep/analyze_wave_number_sweep.py --band-sigma 0.4
 """
 
 from __future__ import annotations
@@ -36,11 +48,13 @@ import csv
 import math
 import os
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+from matplotlib.lines import Line2D
 from matplotlib.ticker import LogLocator, ScalarFormatter
 
 # ── Paths ────────────────────────────────────────────────────────────────────
@@ -50,8 +64,8 @@ SWEEP_ROOT   = os.path.join(PROJECT_ROOT, "outputs", "wave_number_sweep")
 
 # Canonical morphology constants — from configs/terrain.yaml / textbook
 DEFAULT_BODY_LENGTH_M = 0.1025  # 102.5 mm full body length
-DEFAULT_SEGMENT_LENGTH_M = 0.0054  # 5.4 mm inter-segment spacing
-DEFAULT_LEG_LENGTH_M = 0.0074  # 7.4 mm leg
+DEFAULT_SEGMENT_LENGTH_M = 0.0054
+DEFAULT_LEG_LENGTH_M = 0.0074
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -70,45 +84,128 @@ def find_latest_sweep(root: str = SWEEP_ROOT) -> str:
     return os.path.join(root, candidates[0])
 
 
-def load_aggregated_csv(sweep_dir: str) -> list[dict]:
-    """Return list of row-dicts from results_aggregated.csv."""
-    csv_path = os.path.join(sweep_dir, "results_aggregated.csv")
-    if not os.path.isfile(csv_path):
-        raise FileNotFoundError(f"Aggregated CSV not found: {csv_path}")
+def _to_float(s):
+    if s is None or s == "":
+        return float("nan")
+    try:
+        return float(s)
+    except (TypeError, ValueError):
+        return float("nan")
 
+
+def load_all_trials(sweep_dir: str) -> list[dict]:
+    """Read results_all_trials.csv (one row per trial)."""
+    path = os.path.join(sweep_dir, "results_all_trials.csv")
+    if not os.path.isfile(path):
+        return []
     rows: list[dict] = []
-    with open(csv_path, "r") as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            cleaned = {}
-            for k, v in r.items():
-                if v == "" or v is None:
-                    cleaned[k] = float("nan")
-                else:
-                    try:
-                        cleaned[k] = float(v)
-                    except ValueError:
-                        cleaned[k] = v
-            rows.append(cleaned)
+    with open(path, "r") as f:
+        for r in csv.DictReader(f):
+            rows.append({
+                "wave_number":   _to_float(r.get("wave_number")),
+                "wavelength_mm": _to_float(r.get("wavelength_mm")),
+                "trial_idx":     _to_float(r.get("trial_idx")),
+                "yaw_deg":       _to_float(r.get("yaw_deg")),
+                "survived":      _to_float(r.get("survived", "1")),
+                "cot":           _to_float(r.get("cot")),
+                "forward_speed": _to_float(r.get("forward_speed")),
+                "distance_m":    _to_float(r.get("distance_m")),
+                "max_pitch_deg": _to_float(r.get("max_pitch_deg")),
+                "mean_pitch_deg":_to_float(r.get("mean_pitch_deg")),
+                "max_roll_deg":  _to_float(r.get("max_roll_deg")),
+                "mean_roll_deg": _to_float(r.get("mean_roll_deg")),
+                "energy_J":      _to_float(r.get("energy_J")),
+                "phase_lag_deg": _to_float(r.get("phase_lag_deg")),
+                "phase_coherence": _to_float(r.get("phase_coherence")),
+            })
     return rows
 
 
-def organize_by_wave_number(rows: list[dict]) -> dict[float, list[dict]]:
-    """Group aggregated rows by wave_number, sort each group by wavelength."""
-    by_k: dict[float, list[dict]] = {}
-    for r in rows:
-        k = float(r["wave_number"])
-        by_k.setdefault(k, []).append(r)
-    for k in by_k:
-        by_k[k].sort(key=lambda x: float(x["wavelength_mm"]))
-    return by_k
+# ─────────────────────────────────────────────────────────────────────────────
+# Cell aggregation with outlier trimming
+# ─────────────────────────────────────────────────────────────────────────────
+
+# (column, output_label, lower_is_better, log_y, scale)
+METRIC_DEFS = [
+    ("forward_speed",  "Forward speed (mm/s)",       False, False, 1.0),
+    ("cot",            "Cost of Transport",          True,  True,  1.0),
+    ("survival_rate",  "Survival rate",              False, False, 1.0),
+    ("max_pitch_deg",  "Max pitch (deg)",            True,  False, 1.0),
+    ("max_roll_deg",   "Max roll (deg)",             True,  False, 1.0),
+    ("phase_lag_deg",  "Phase lag (deg)",            False, False, 1.0),
+]
+
+PANEL_LETTERS = ["(a)", "(b)", "(c)", "(d)", "(e)", "(f)"]
+
+
+def trimmed_stats(values: np.ndarray, trim_sigma: float
+                  ) -> tuple[float, float, int, int]:
+    """
+    Robust mean and std after dropping outliers beyond ±trim_sigma of median.
+
+    Returns (mean, std, n_kept, n_dropped). If trim_sigma <= 0 or n < 3,
+    returns un-trimmed mean/std.
+    """
+    v = values[np.isfinite(values)]
+    if v.size == 0:
+        return float("nan"), float("nan"), 0, 0
+    if trim_sigma <= 0 or v.size < 3:
+        return float(v.mean()), float(v.std(ddof=0)), int(v.size), 0
+    median = float(np.median(v))
+    mad = float(np.median(np.abs(v - median)))
+    # Convert MAD → robust sigma estimate (1.4826 factor for Gaussian).
+    sigma_est = 1.4826 * mad if mad > 0 else float(v.std(ddof=0))
+    if sigma_est == 0:
+        return float(v.mean()), 0.0, int(v.size), 0
+    keep_mask = np.abs(v - median) <= trim_sigma * sigma_est
+    kept = v[keep_mask]
+    n_dropped = int(v.size - kept.size)
+    if kept.size == 0:
+        return float("nan"), float("nan"), 0, int(v.size)
+    return float(kept.mean()), float(kept.std(ddof=0)), int(kept.size), n_dropped
+
+
+def aggregate_cells(trials: list[dict], trim_sigma: float
+                    ) -> dict[tuple[float, float], dict]:
+    """
+    Group trials by (k, λ) cell, compute trimmed stats per metric.
+    Returns {(k, λ): {metric: {mean, std, n_kept, n_dropped}, ...}}.
+    survival_rate is mean of `survived` flags; not subject to trimming.
+    """
+    by_cell: dict[tuple[float, float], list[dict]] = defaultdict(list)
+    for t in trials:
+        by_cell[(t["wave_number"], t["wavelength_mm"])].append(t)
+
+    out: dict[tuple[float, float], dict] = {}
+    for cell, ts in by_cell.items():
+        cell_stats = {"n_total": len(ts)}
+        # survival rate
+        surv = np.array([t["survived"] for t in ts], dtype=float)
+        cell_stats["survival_rate"] = {
+            "mean": float(np.nanmean(surv)),
+            "std":  float(np.nanstd(surv, ddof=0)),
+            "n_kept":   int(np.sum(np.isfinite(surv))),
+            "n_dropped": 0,
+        }
+        # other metrics computed only on surviving trials
+        survived_only = [t for t in ts if t["survived"] >= 0.5]
+        for col, _, _, _, _ in METRIC_DEFS:
+            if col == "survival_rate":
+                continue
+            vals = np.array([t[col] for t in survived_only], dtype=float)
+            mean, std, n_kept, n_dropped = trimmed_stats(vals, trim_sigma)
+            cell_stats[col] = {
+                "mean": mean, "std": std,
+                "n_kept": n_kept, "n_dropped": n_dropped,
+            }
+        out[cell] = cell_stats
+    return out
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Plotting
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Color palette: viridis is colorblind-friendly and orderly along k.
 def make_colors(wave_numbers: list[float]):
     if len(wave_numbers) <= 1:
         return {wave_numbers[0]: "#1f77b4"} if wave_numbers else {}
@@ -117,110 +214,113 @@ def make_colors(wave_numbers: list[float]):
     return {k: cmap(i) for i, k in enumerate(sorted_k)}
 
 
-METRIC_DEFS = [
-    # (column_mean, column_std, axis_label, title, log_y, lower_is_better)
-    ("speed_mean",      "speed_std",      "Forward speed (mm/s)",       "Forward speed",          False, False),
-    ("cot_mean",        "cot_std",        "Cost of Transport",          "Cost of Transport",       True,  True),
-    ("survival_rate",   None,             "Survival rate",              "Trial survival",          False, False),
-    ("max_pitch_mean",  "max_pitch_std",  "Max pitch (deg)",            "Body pitch deviation",    False, True),
-    ("max_roll_mean",   "max_roll_std",   "Max roll (deg)",             "Body roll deviation",     False, True),
-    ("phase_lag_mean",  "phase_lag_std",  "Phase lag (deg)",            "Terrain → body phase lag", False, False),
-]
-
-
 def panel_metric_vs_lambda(
     ax,
-    by_k: dict[float, list[dict]],
-    colors: dict[float, tuple],
+    by_cell: dict,
+    wave_numbers: list[float],
+    colors: dict,
     body_length_m: float,
-    metric_mean: str,
-    metric_std: str | None,
+    metric_col: str,
     ylabel: str,
-    title: str,
     log_y: bool,
+    band_sigma: float,
+    panel_letter: str,
 ):
-    """One subplot: metric vs λ, with curves per k and body-wavelength bands."""
-    # Convert body length to mm for plotting on the same axis as terrain λ
     body_length_mm = body_length_m * 1000.0
 
-    # Collect speed across all cells for axis sanity (avoid pathological auto-range)
-    all_lambdas, all_means = [], []
-    for k, rows in sorted(by_k.items()):
-        lambdas = np.array([float(r["wavelength_mm"]) for r in rows])
-        means   = np.array([float(r.get(metric_mean, np.nan)) for r in rows])
-        if metric_std is not None:
-            stds = np.array([float(r.get(metric_std, np.nan)) for r in rows])
-        else:
-            stds = np.zeros_like(means)
-        # Filter out NaN-only points so they don't break the line
+    for k in wave_numbers:
+        # Collect this k's data, sorted by λ
+        cells_k = [(lam, by_cell[(k, lam)]) for (kk, lam) in by_cell if kk == k]
+        cells_k.sort(key=lambda x: x[0])
+        if not cells_k:
+            continue
+        lambdas = np.array([c[0] for c in cells_k])
+        means = np.array([c[1][metric_col]["mean"] for c in cells_k])
+        stds  = np.array([c[1][metric_col]["std"]  for c in cells_k])
+
+        # Drop NaN points so the line stays connected through valid cells only.
         mask = np.isfinite(means)
         lambdas, means, stds = lambdas[mask], means[mask], stds[mask]
-        if len(lambdas) == 0:
+        if lambdas.size == 0:
             continue
 
-        # Curve + error band
         c = colors[k]
         ax.plot(lambdas, means, "-o",
-                color=c, lw=1.6, ms=4, mec="white", mew=0.5,
+                color=c, lw=1.6, ms=4.5, mec="white", mew=0.6,
                 label=f"k = {k:g}")
+        # Band at ±band_sigma σ — narrower than ±1σ to represent the bulk
         if np.any(stds > 0):
-            ax.fill_between(lambdas, means - stds, means + stds,
-                            color=c, alpha=0.18, linewidth=0)
+            ax.fill_between(lambdas,
+                            means - band_sigma * stds,
+                            means + band_sigma * stds,
+                            color=c, alpha=0.20, linewidth=0)
 
-        all_lambdas.append(lambdas)
-        all_means.append(means)
-
-        # Body-wavelength prediction for this k
+        # Body wavelength prediction line, color-matched to the curve
         lam_body = body_length_mm / k
-        ax.axvline(lam_body, color=c, lw=1.0, ls="--", alpha=0.55)
+        ax.axvline(lam_body, color=c, lw=1.0, ls="--", alpha=0.6)
 
-    # Cosmetics
     ax.set_xscale("log")
     if log_y:
         ax.set_yscale("log")
-    ax.set_xlabel("Terrain wavelength λ (mm)")
-    ax.set_ylabel(ylabel)
-    ax.set_title(title, fontsize=11)
+    ax.set_xlabel("Terrain wavelength λ (mm)", fontsize=10)
+    ax.set_ylabel(ylabel, fontsize=10)
     ax.grid(True, which="both", lw=0.4, alpha=0.45)
     ax.tick_params(which="both", labelsize=9)
-    # Use scalar formatter so log-x reads as "10, 100" not "10^1, 10^2"
     ax.xaxis.set_major_formatter(ScalarFormatter())
     ax.xaxis.set_major_locator(LogLocator(base=10.0, subs=(1.0,), numticks=10))
+    # Panel letter in top-left
+    ax.text(0.02, 0.95, panel_letter,
+            transform=ax.transAxes,
+            fontsize=12, fontweight="bold", va="top", ha="left")
 
 
 def figure_metrics(
-    by_k: dict[float, list[dict]],
-    colors: dict[float, tuple],
+    by_cell: dict,
+    wave_numbers: list[float],
+    colors: dict,
     body_length_m: float,
+    band_sigma: float,
+    trim_sigma: float,
+    sweep_name: str,
     out_path: str,
 ):
-    """6-panel figure: each metric vs λ with body-wavelength annotations."""
-    fig, axes = plt.subplots(2, 3, figsize=(15, 9))
+    fig, axes = plt.subplots(2, 3, figsize=(15.5, 9.5))
     axes = axes.ravel()
-    for ax, (mu, std, ylabel, title, log_y, _) in zip(axes, METRIC_DEFS):
+
+    for ax, (col, ylabel, _, log_y, _), letter in zip(
+        axes, METRIC_DEFS, PANEL_LETTERS
+    ):
         panel_metric_vs_lambda(
-            ax, by_k, colors, body_length_m,
-            metric_mean=mu, metric_std=std,
-            ylabel=ylabel, title=title, log_y=log_y,
+            ax, by_cell, wave_numbers, colors, body_length_m,
+            metric_col=col, ylabel=ylabel, log_y=log_y,
+            band_sigma=band_sigma, panel_letter=letter,
         )
 
-    # One legend, top right outside plot area
-    handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels,
-               loc="upper center", ncol=len(labels),
-               bbox_to_anchor=(0.5, 0.99), frameon=False, fontsize=10)
+    # ── Combined legend: solid lines for k, plus a dashed-line entry ──
+    handles = []
+    for k in wave_numbers:
+        handles.append(Line2D([0], [0], color=colors[k], lw=2,
+                               marker="o", ms=5, mec="white", mew=0.6,
+                               label=f"k = {k:g}"))
+    handles.append(Line2D([0], [0], color="0.4", lw=1.0, ls="--",
+                          label=r"Predicted body $\lambda_{\mathrm{body}}(k) = L_{\mathrm{body}}/k$"))
+    fig.legend(handles=handles,
+               loc="upper center",
+               ncol=len(handles),
+               bbox_to_anchor=(0.5, 0.985),
+               frameon=False, fontsize=10)
 
-    # Caption explaining the body-wavelength dashed lines
-    fig.text(0.5, 0.005,
-             "Dashed vertical lines mark predicted body wavelength "
-             "λ_body(k) = L_body / k = {:.0f} mm / k.  "
-             "Resonance hypothesis: speed peaks (and CoT troughs) align with these markers."
-             .format(body_length_m * 1000.0),
-             ha="center", fontsize=9, style="italic", color="#444")
-
-    fig.suptitle("Centipede locomotion: wave-number × terrain-wavelength sweep",
-                 fontsize=13, y=0.995)
-    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+    # Caption: data-prep notes
+    body_mm = body_length_m * 1000.0
+    caption = (
+        f"Centipede locomotion: wave-number × terrain-wavelength sweep   ·   "
+        f"{sweep_name}\n"
+        f"L_body = {body_mm:.1f} mm   ·   "
+        f"trim outliers > {trim_sigma:.1f}σ from cell median (robust MAD)   ·   "
+        f"shaded band = mean ± {band_sigma:.2f}σ on trimmed trials"
+    )
+    fig.suptitle(caption, fontsize=11, y=0.998)
+    fig.tight_layout(rect=[0, 0.01, 1, 0.95])
     fig.savefig(out_path, dpi=180, bbox_inches="tight")
     fig.savefig(out_path.replace(".png", ".pdf"), bbox_inches="tight")
     plt.close(fig)
@@ -229,59 +329,58 @@ def figure_metrics(
 
 
 def figure_heatmap(
-    by_k: dict[float, list[dict]],
+    by_cell: dict,
+    wave_numbers: list[float],
     body_length_m: float,
+    sweep_name: str,
     out_path: str,
 ):
-    """Speed heatmap across (k, λ)."""
-    wave_numbers = sorted(by_k.keys())
-    # Use the first k's wavelength axis as canonical, but expand if needed
-    all_lams = sorted({float(r["wavelength_mm"]) for rows in by_k.values() for r in rows})
-
+    all_lams = sorted({lam for (_, lam) in by_cell.keys()})
     Z = np.full((len(wave_numbers), len(all_lams)), np.nan)
     for i, k in enumerate(wave_numbers):
-        rows = by_k[k]
-        for r in rows:
-            lam = float(r["wavelength_mm"])
-            mu = float(r.get("speed_mean", np.nan))
-            if lam in all_lams:
-                Z[i, all_lams.index(lam)] = mu
+        for j, lam in enumerate(all_lams):
+            cell = by_cell.get((k, lam))
+            if cell is not None:
+                Z[i, j] = cell["forward_speed"]["mean"]
 
-    fig, ax = plt.subplots(figsize=(11, 4.8))
+    fig, ax = plt.subplots(figsize=(11.5, 5.0))
     im = ax.imshow(Z, aspect="auto", cmap="viridis", origin="lower",
                    interpolation="nearest")
     ax.set_xticks(range(len(all_lams)))
     ax.set_xticklabels([f"{lam:g}" for lam in all_lams], rotation=45, fontsize=8)
     ax.set_yticks(range(len(wave_numbers)))
-    ax.set_yticklabels([f"{k:g}" for k in wave_numbers], fontsize=9)
-    ax.set_xlabel("Terrain wavelength λ (mm)")
-    ax.set_ylabel("Body wave-number k")
-    ax.set_title("Forward speed (mm/s) — heatmap across (k × λ)")
-    cbar = fig.colorbar(im, ax=ax, label="Speed (mm/s)")
+    ax.set_yticklabels([f"{k:g}" for k in wave_numbers], fontsize=10)
+    ax.set_xlabel("Terrain wavelength λ (mm)", fontsize=11)
+    ax.set_ylabel("Body wave-number k", fontsize=11)
+    ax.set_title(f"Forward speed (mm/s) — heatmap across (k × λ)   ·   {sweep_name}",
+                 fontsize=11)
+    cbar = fig.colorbar(im, ax=ax, label="Forward speed (mm/s)")
     cbar.ax.tick_params(labelsize=9)
 
-    # Annotate cells with their speed
-    for i in range(Z.shape[0]):
-        for j in range(Z.shape[1]):
-            v = Z[i, j]
-            if np.isfinite(v):
-                ax.text(j, i, f"{v:.0f}",
-                        ha="center", va="center",
-                        color="white" if v < np.nanmax(Z) * 0.55 else "black",
-                        fontsize=7)
+    # Cell value annotations
+    if np.any(np.isfinite(Z)):
+        zmax = float(np.nanmax(Z))
+        for i in range(Z.shape[0]):
+            for j in range(Z.shape[1]):
+                v = Z[i, j]
+                if np.isfinite(v):
+                    ax.text(j, i, f"{v:.0f}",
+                            ha="center", va="center",
+                            color="white" if v < zmax * 0.55 else "black",
+                            fontsize=7)
 
-    # Mark predicted body-wavelength lambda for each k
+    # Red boxes at the closest-to-predicted-λ_body cell per k
     body_length_mm = body_length_m * 1000.0
     for i, k in enumerate(wave_numbers):
         lam_body = body_length_mm / k
-        # Find the index closest to lam_body in all_lams
         diffs = [abs(lam - lam_body) for lam in all_lams]
         j = int(np.argmin(diffs))
         ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1,
                                     fill=False, edgecolor="red",
                                     linewidth=1.8, alpha=0.85))
+    # Label the red-box convention as a legend below the title
     ax.text(0.99, 1.02,
-            "Red boxes = closest λ to predicted L_body/k.",
+            r"Red boxes = closest λ to predicted $L_{\mathrm{body}}/k$",
             ha="right", va="bottom", transform=ax.transAxes,
             fontsize=8, style="italic", color="#700")
 
@@ -297,72 +396,90 @@ def figure_heatmap(
 # Summary table
 # ─────────────────────────────────────────────────────────────────────────────
 
-def write_summary(rows: list[dict], by_k: dict, body_length_m: float, out_path: str):
-    """Markdown summary: best cells, marginals, body-λ predictions."""
+def write_summary(
+    by_cell: dict,
+    wave_numbers: list[float],
+    body_length_m: float,
+    trim_sigma: float,
+    band_sigma: float,
+    excluded_k: list[float],
+    out_path: str,
+):
     body_length_mm = body_length_m * 1000.0
     lines = []
     lines.append("# Wave-number × wavelength sweep — analysis summary\n")
-    lines.append(f"- Cells (k × λ): {len(rows)}")
-    n_buck = sum(1 for r in rows if float(r.get("survival_rate", 1)) < 1)
-    lines.append(f"- Cells with at least one buckle: {n_buck}")
-    n_all_buck = sum(1 for r in rows if float(r.get("survival_rate", 1)) == 0)
+    lines.append(f"- Wave numbers retained: {wave_numbers}")
+    if excluded_k:
+        lines.append(f"- Wave numbers excluded: {excluded_k}")
+    lines.append(f"- Cells analyzed: {len(by_cell)}")
+    lines.append(f"- Trim threshold: ±{trim_sigma:.1f} σ from cell median (robust MAD)")
+    lines.append(f"- Plot band width: ±{band_sigma:.2f} σ on trimmed trials")
+    lines.append(f"- Body length L_body = {body_length_mm:.1f} mm")
+    lines.append("")
+
+    n_total_dropped = sum(c.get("forward_speed", {}).get("n_dropped", 0)
+                          for c in by_cell.values())
+    n_total_trials = sum(c.get("n_total", 0) for c in by_cell.values())
+    n_all_buck = sum(1 for c in by_cell.values() if c["survival_rate"]["mean"] == 0)
+    lines.append(f"- Total trial count across cells: {n_total_trials}")
+    lines.append(f"- Trials dropped by trim filter (forward_speed): {n_total_dropped}")
     lines.append(f"- Cells where ALL trials buckled: {n_all_buck}\n")
 
-    # Predicted body wavelengths per k
+    # Predicted body wavelengths
     lines.append("## Predicted body wavelengths\n")
-    lines.append(f"Body length L_body = {body_length_mm:.1f} mm, λ_body(k) = L_body / k:\n")
+    lines.append(f"λ_body(k) = L_body / k = {body_length_mm:.1f} mm / k\n")
     lines.append("| k | λ_body (mm) |")
     lines.append("|---|---|")
-    for k in sorted(by_k.keys()):
+    for k in wave_numbers:
         lines.append(f"| {k:g} | {body_length_mm/k:.1f} |")
     lines.append("")
 
-    # Best (k, λ) per metric (max speed, min CoT, max survival, etc.)
+    # Best cells per metric
     def best(metric: str, lower_is_better: bool):
-        valid = [r for r in rows if np.isfinite(float(r.get(metric, np.nan)))
-                                and float(r.get("survival_rate", 0)) > 0]
-        if not valid:
-            return None
-        key = lambda r: float(r[metric])
-        return min(valid, key=key) if lower_is_better else max(valid, key=key)
+        best_cell, best_val = None, None
+        for cell, stats in by_cell.items():
+            if cell[0] not in wave_numbers:
+                continue
+            if stats["survival_rate"]["mean"] == 0:
+                continue
+            mu = stats[metric]["mean"]
+            if not np.isfinite(mu):
+                continue
+            if best_val is None or (lower_is_better and mu < best_val) \
+                                or (not lower_is_better and mu > best_val):
+                best_val, best_cell = mu, cell
+        return best_cell, best_val
 
-    lines.append("## Best cells per metric\n")
-    lines.append("| Metric                | Best k | Best λ (mm) | Value |")
-    lines.append("|------------------------|--------|-------------|-------|")
-    for col, lower in [("speed_mean",     False),
-                       ("cot_mean",       True),
-                       ("survival_rate",  False),
-                       ("max_pitch_mean", True),
-                       ("max_roll_mean",  True)]:
-        b = best(col, lower)
-        if b is None:
+    lines.append("## Best (k, λ) cell per metric\n")
+    lines.append("| Metric          | Best k | Best λ (mm) | Value |")
+    lines.append("|------------------|--------|-------------|-------|")
+    for col, _, lower_is_better, _, _ in METRIC_DEFS:
+        cell, val = best(col, lower_is_better)
+        if cell is None:
             lines.append(f"| {col} | — | — | (no valid cells) |")
         else:
-            lines.append(f"| {col} | {float(b['wave_number']):g} | "
-                         f"{float(b['wavelength_mm']):g} | "
-                         f"{float(b[col]):.3g} |")
+            lines.append(f"| {col} | {cell[0]:g} | {cell[1]:g} | {val:.3g} |")
     lines.append("")
 
-    # Marginal means (averaged over the other axis)
-    lines.append("## k-marginal speed means (averaged over λ)\n")
+    # k-marginal speed means (averaged over λ)
+    lines.append("## k-marginal mean forward speed (averaged over λ)\n")
     lines.append("| k | mean speed (mm/s) | n cells |")
     lines.append("|---|---|---|")
-    for k in sorted(by_k.keys()):
-        speeds = [float(r["speed_mean"]) for r in by_k[k]
-                  if np.isfinite(float(r.get("speed_mean", np.nan)))]
+    for k in wave_numbers:
+        speeds = [stats["forward_speed"]["mean"]
+                  for cell, stats in by_cell.items()
+                  if cell[0] == k and np.isfinite(stats["forward_speed"]["mean"])]
         if speeds:
             lines.append(f"| {k:g} | {np.mean(speeds):.2f} | {len(speeds)} |")
     lines.append("")
 
-    # All-buckled cells
     if n_all_buck:
-        lines.append("## Cells where every trial buckled (excluded from headline plots)\n")
+        lines.append("## Cells where every trial buckled\n")
         lines.append("| k | λ (mm) |")
         lines.append("|---|---|")
-        for r in rows:
-            if float(r.get("survival_rate", 0)) == 0:
-                lines.append(f"| {float(r['wave_number']):g} | "
-                             f"{float(r['wavelength_mm']):g} |")
+        for cell, stats in sorted(by_cell.items()):
+            if stats["survival_rate"]["mean"] == 0:
+                lines.append(f"| {cell[0]:g} | {cell[1]:g} |")
         lines.append("")
 
     Path(out_path).write_text("\n".join(lines))
@@ -373,49 +490,75 @@ def write_summary(rows: list[dict], by_k: dict, body_length_m: float, out_path: 
 # Main
 # ─────────────────────────────────────────────────────────────────────────────
 
+def parse_exclude_k(s: str) -> list[float]:
+    if s is None or s.strip() == "":
+        return []
+    return [float(x) for x in s.split(",") if x.strip()]
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("sweep_dir", nargs="?", default=None,
-                   help="Path to sweep_<timestamp> dir. Defaults to most recent.")
+                   help="Path to sweep_<timestamp>/. Defaults to most recent.")
     p.add_argument("--body-length", type=float, default=DEFAULT_BODY_LENGTH_M,
-                   help="Centipede body length in metres "
-                        "(default: 0.1025 = 102.5 mm).")
+                   help="Centipede body length in metres (default 0.1025 = 102.5 mm).")
+    p.add_argument("--exclude-k", type=str, default="1.5",
+                   help="Comma-separated wave-numbers to drop from plots "
+                        "(default: '1.5'; pass '' to keep all).")
+    p.add_argument("--trim-sigma", type=float, default=2.0,
+                   help="Drop per-cell trials beyond ±σ × this from the median, "
+                        "using robust MAD-based σ. 0 disables trimming.")
+    p.add_argument("--band-sigma", type=float, default=0.6,
+                   help="Width of the error band in trimmed σ units (default 0.6).")
     p.add_argument("--out-subdir", default="analysis",
-                   help="Subdirectory under sweep_dir for figures/summary.")
+                   help="Subdirectory under sweep_dir for outputs.")
     args = p.parse_args()
 
     sweep_dir = args.sweep_dir or find_latest_sweep()
     sweep_dir = os.path.abspath(sweep_dir)
     if not os.path.isdir(sweep_dir):
-        print(f"ERROR: not a directory: {sweep_dir}", file=sys.stderr)
-        sys.exit(1)
-    print(f"[analyze] sweep dir: {sweep_dir}")
-    print(f"[analyze] body length: {args.body_length*1000:.1f} mm")
+        print(f"ERROR: not a directory: {sweep_dir}", file=sys.stderr); sys.exit(1)
 
-    rows = load_aggregated_csv(sweep_dir)
-    print(f"[analyze] loaded {len(rows)} (k, λ) cells")
-    if not rows:
-        print("ERROR: no rows in aggregated CSV", file=sys.stderr)
-        sys.exit(1)
+    sweep_name = os.path.basename(sweep_dir.rstrip(os.sep))
+    print(f"[analyze] sweep dir : {sweep_dir}")
+    print(f"[analyze] body L    : {args.body_length*1000:.1f} mm")
+    print(f"[analyze] trim σ    : {args.trim_sigma}")
+    print(f"[analyze] band σ    : {args.band_sigma}")
 
-    by_k = organize_by_wave_number(rows)
-    wave_numbers = sorted(by_k.keys())
-    n_lams = len({float(r["wavelength_mm"]) for r in rows})
-    print(f"[analyze] wave numbers ({len(wave_numbers)}): {wave_numbers}")
-    print(f"[analyze] wavelengths  ({n_lams}): "
-          f"{sorted({float(r['wavelength_mm']) for r in rows})}")
+    # Load per-trial data, trim, and aggregate
+    trials = load_all_trials(sweep_dir)
+    if not trials:
+        print(f"ERROR: results_all_trials.csv missing or empty.\n"
+              f"       Path: {os.path.join(sweep_dir, 'results_all_trials.csv')}",
+              file=sys.stderr)
+        sys.exit(1)
+    print(f"[analyze] loaded {len(trials)} trials")
+
+    excluded_k = parse_exclude_k(args.exclude_k)
+    if excluded_k:
+        before = len(trials)
+        trials = [t for t in trials if t["wave_number"] not in excluded_k]
+        print(f"[analyze] dropped k ∈ {excluded_k}: {before - len(trials)} trials")
+
+    by_cell = aggregate_cells(trials, args.trim_sigma)
+    wave_numbers = sorted({c[0] for c in by_cell.keys()})
+    n_lams = len({c[1] for c in by_cell.keys()})
+    print(f"[analyze] kept k    : {wave_numbers}")
+    print(f"[analyze] cells     : {len(by_cell)}  ({len(wave_numbers)} k × {n_lams} λ)")
 
     out_dir = os.path.join(sweep_dir, args.out_subdir)
     os.makedirs(out_dir, exist_ok=True)
     colors = make_colors(wave_numbers)
 
-    print("\n[analyze] writing figures and summary ...")
-    figure_metrics(by_k, colors, args.body_length,
+    print("\n[analyze] writing figures + summary ...")
+    figure_metrics(by_cell, wave_numbers, colors, args.body_length,
+                   args.band_sigma, args.trim_sigma, sweep_name,
                    os.path.join(out_dir, "metrics_vs_wavelength.png"))
-    figure_heatmap(by_k, args.body_length,
+    figure_heatmap(by_cell, wave_numbers, args.body_length, sweep_name,
                    os.path.join(out_dir, "speed_heatmap.png"))
-    write_summary(rows, by_k, args.body_length,
+    write_summary(by_cell, wave_numbers, args.body_length,
+                  args.trim_sigma, args.band_sigma, excluded_k,
                   os.path.join(out_dir, "summary.md"))
 
     print(f"\n[analyze] DONE. Outputs under: {out_dir}")
