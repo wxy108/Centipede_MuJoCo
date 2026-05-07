@@ -93,6 +93,19 @@ def _to_float(s):
         return float("nan")
 
 
+def _to_bool_float(s) -> float:
+    """Parse a 'survived'-style flag that may be 'True'/'False'/'1'/'0'."""
+    if s is None:
+        return float("nan")
+    sl = str(s).strip().lower()
+    if sl in ("true", "t", "yes", "y", "1", "1.0"):
+        return 1.0
+    if sl in ("false", "f", "no", "n", "0", "0.0"):
+        return 0.0
+    # Fall back to numeric parsing; anything else becomes nan.
+    return _to_float(s)
+
+
 def load_all_trials(sweep_dir: str) -> list[dict]:
     """Read results_all_trials.csv (one row per trial)."""
     path = os.path.join(sweep_dir, "results_all_trials.csv")
@@ -101,14 +114,21 @@ def load_all_trials(sweep_dir: str) -> list[dict]:
     rows: list[dict] = []
     with open(path, "r") as f:
         for r in csv.DictReader(f):
+            # NOTE: forward_speed in the CSV is in m/s (= distance_m / effective_time).
+            # We convert to mm/s here so the rest of the analysis carries mm/s
+            # natively and the y-axis labels match the data.
+            speed_mps = _to_float(r.get("forward_speed"))
             rows.append({
                 "wave_number":   _to_float(r.get("wave_number")),
                 "wavelength_mm": _to_float(r.get("wavelength_mm")),
                 "trial_idx":     _to_float(r.get("trial_idx")),
                 "yaw_deg":       _to_float(r.get("yaw_deg")),
-                "survived":      _to_float(r.get("survived", "1")),
+                # `survived` is written by wavelength_sweep.py as a Python bool
+                # so the CSV stores "True"/"False" (not 1/0). Use the bool-aware
+                # parser, otherwise every trial reads as NaN and gets filtered.
+                "survived":      _to_bool_float(r.get("survived", "True")),
                 "cot":           _to_float(r.get("cot")),
-                "forward_speed": _to_float(r.get("forward_speed")),
+                "forward_speed": speed_mps * 1000.0 if math.isfinite(speed_mps) else float("nan"),
                 "distance_m":    _to_float(r.get("distance_m")),
                 "max_pitch_deg": _to_float(r.get("max_pitch_deg")),
                 "mean_pitch_deg":_to_float(r.get("mean_pitch_deg")),
@@ -546,6 +566,25 @@ def main():
     n_lams = len({c[1] for c in by_cell.keys()})
     print(f"[analyze] kept k    : {wave_numbers}")
     print(f"[analyze] cells     : {len(by_cell)}  ({len(wave_numbers)} k × {n_lams} λ)")
+
+    # ── Diagnostic: per-cell survival + sample speed values ──
+    n_total_trials = sum(s["n_total"] for s in by_cell.values())
+    n_alive_trials = sum(int(s["survival_rate"]["mean"] * s["n_total"])
+                         for s in by_cell.values())
+    print(f"[analyze] survival  : {n_alive_trials}/{n_total_trials} trials survived")
+    if n_alive_trials == 0:
+        print("[analyze] WARNING: zero surviving trials — check the 'survived' "
+              "column parsing. CSV may use unexpected boolean format.",
+              file=sys.stderr)
+    # Show one cell as a sanity check
+    if by_cell:
+        sample_key = next(iter(sorted(by_cell.keys())))
+        sample = by_cell[sample_key]
+        sp = sample.get("forward_speed", {})
+        print(f"[analyze] sample (k={sample_key[0]:g}, λ={sample_key[1]:g}): "
+              f"speed mean={sp.get('mean', float('nan')):.2f} mm/s, "
+              f"std={sp.get('std', float('nan')):.2f}, "
+              f"n_kept={sp.get('n_kept', 0)}, n_dropped={sp.get('n_dropped', 0)}")
 
     out_dir = os.path.join(sweep_dir, args.out_subdir)
     os.makedirs(out_dir, exist_ok=True)
