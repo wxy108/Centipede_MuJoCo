@@ -62,10 +62,13 @@ SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, "..", ".."))
 SWEEP_ROOT   = os.path.join(PROJECT_ROOT, "outputs", "wave_number_sweep")
 
-# Canonical morphology constants — from configs/terrain.yaml / textbook
-DEFAULT_BODY_LENGTH_M = 0.1025  # 102.5 mm full body length
-DEFAULT_SEGMENT_LENGTH_M = 0.0054
-DEFAULT_LEG_LENGTH_M = 0.0074
+# Canonical morphology constants — from configs/terrain.yaml / textbook.
+# Used both to compute per-k body wavelengths (L_b / k) and to draw the
+# world / body / leg reference lines on the resonance figures.
+DEFAULT_BODY_LENGTH_M   = 0.1025  # L_b — 102.5 mm full body length
+DEFAULT_SEGMENT_LENGTH_M = 0.0054  # 5.4 mm inter-segment spacing (unused on plots)
+DEFAULT_LEG_LENGTH_M    = 0.0074  # L_l — 7.4 mm leg length
+DEFAULT_WORLD_LENGTH_M  = 0.500   # L_w — 500 mm arena half-extent
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -413,6 +416,133 @@ def figure_heatmap(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Per-metric resonance figure (screenshot style: multi-curve, multi λ_body line)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def figure_resonance(
+    trials: list[dict],
+    by_cell: dict,
+    wave_numbers: list[float],
+    colors: dict,
+    body_length_m: float,
+    world_length_m: float,
+    leg_length_m: float,
+    metric_col: str,
+    ylabel: str,
+    title: str,
+    log_y: bool,
+    sweep_name: str,
+    out_path: str,
+):
+    """One figure for one metric. Multi-k curves with ±1σ bands, individual
+    trials scattered behind the means, and four sets of vertical reference
+    lines: L_w (world), L_b (body), L_l (leg) — single dashed lines — and
+    L_b/k for each wave number — color-matched dashed lines replacing the
+    fixed L_s line from the n_wave=3 plot."""
+
+    body_mm  = body_length_m  * 1000.0
+    world_mm = world_length_m * 1000.0
+    leg_mm   = leg_length_m   * 1000.0
+
+    fig, ax = plt.subplots(figsize=(13, 5.8))
+
+    # ── 1. Individual-trial scatter (light, behind everything) ──
+    for k in wave_numbers:
+        c = colors[k]
+        for t in trials:
+            if t["wave_number"] != k:
+                continue
+            if t["survived"] < 0.5:
+                continue
+            y = t.get(metric_col, float("nan"))
+            if not np.isfinite(y):
+                continue
+            ax.scatter(t["wavelength_mm"], y,
+                        color=c, alpha=0.22, s=18,
+                        edgecolor="none", zorder=2)
+
+    # ── 2. Mean curves with ±1σ bands ──
+    for k in wave_numbers:
+        c = colors[k]
+        cells_k = sorted(
+            [(lam, by_cell[(k, lam)]) for (kk, lam) in by_cell if kk == k],
+            key=lambda x: x[0],
+        )
+        if not cells_k:
+            continue
+        lambdas = np.array([cell[0] for cell in cells_k])
+        means   = np.array([cell[1][metric_col]["mean"] for cell in cells_k])
+        stds    = np.array([cell[1][metric_col]["std"]  for cell in cells_k])
+
+        mask = np.isfinite(means)
+        lambdas, means, stds = lambdas[mask], means[mask], stds[mask]
+        if lambdas.size == 0:
+            continue
+
+        # ±1σ band first so the mean line sits on top
+        if np.any(stds > 0):
+            ax.fill_between(lambdas, means - stds, means + stds,
+                             color=c, alpha=0.18, linewidth=0, zorder=3)
+        ax.plot(lambdas, means, "-o",
+                color=c, lw=2.0, ms=6, mec="white", mew=0.7,
+                label=f"k = {k:g}", zorder=4)
+
+        # Per-k body-wavelength line (REPLACES the fixed L_s line)
+        lam_body_k = body_mm / k
+        ax.axvline(lam_body_k, color=c, ls="--", lw=1.4, alpha=0.75, zorder=1)
+
+    # ── 3. Fixed morphology reference lines ──
+    ax.axvline(world_mm, color="0.3", ls="--", lw=1.0, alpha=0.85, zorder=1)
+    ax.axvline(body_mm,  color="#0099cc", ls="--", lw=1.0, alpha=0.85, zorder=1)
+    ax.axvline(leg_mm,   color="#3aa34d", ls="--", lw=1.0, alpha=0.85, zorder=1)
+
+    # Text labels for the reference lines (placed at top of axis)
+    ymin, ymax = ax.get_ylim()
+    y_text = ymax * 0.97 if not log_y else ymax * 0.93
+    ax.text(world_mm, y_text, "  $L_w$ (world)",
+            rotation=90, va="top", ha="left", fontsize=8, color="0.3")
+    ax.text(body_mm, y_text, "  $L_b$ (body)",
+            rotation=90, va="top", ha="left", fontsize=8, color="#0099cc")
+    ax.text(leg_mm, y_text, "  $L_l$ (leg)",
+            rotation=90, va="top", ha="left", fontsize=8, color="#3aa34d")
+
+    # ── 4. Axes, scale, grid ──
+    ax.set_xscale("log")
+    if log_y:
+        ax.set_yscale("log")
+    # Reverse x so large λ (smooth terrain) is on the left,
+    # small λ (rough terrain) on the right — matches the existing project
+    # convention from the user's screenshot.
+    ax.invert_xaxis()
+    ax.set_xlabel("Terrain wavelength λ (mm)", fontsize=11)
+    ax.set_ylabel(ylabel, fontsize=11)
+    ax.set_title(f"{title}   ·   {sweep_name}", fontsize=11)
+    ax.grid(True, which="both", lw=0.4, alpha=0.45)
+    ax.tick_params(which="both", labelsize=9)
+    ax.xaxis.set_major_formatter(ScalarFormatter())
+    ax.xaxis.set_major_locator(LogLocator(base=10.0, subs=(1.0,), numticks=10))
+
+    # ── 5. Legend: k curves + a single 'L_b/k' entry to explain colored dashed lines ──
+    handles = []
+    for k in wave_numbers:
+        handles.append(Line2D([0], [0], color=colors[k], lw=2, marker="o", ms=5,
+                              mec="white", mew=0.6, label=f"k = {k:g}"))
+    handles.append(Line2D([0], [0], color="0.4", lw=1.4, ls="--",
+                          label=r"$L_b/k$ per curve (predicted resonance)"))
+    handles.append(Line2D([0], [0], color="0.3", lw=1.0, ls="--",
+                          label=r"$L_w, L_b, L_l$ (fixed morphology)"))
+    ax.legend(handles=handles, loc="upper right" if not log_y else "upper left",
+              fontsize=9, framealpha=0.92)
+
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=180, bbox_inches="tight")
+    fig.savefig(out_path.replace(".png", ".pdf"), bbox_inches="tight")
+    plt.close(fig)
+    print(f"  wrote {out_path}")
+    print(f"  wrote {out_path.replace('.png', '.pdf')}")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Summary table
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -523,6 +653,12 @@ def main():
                    help="Path to sweep_<timestamp>/. Defaults to most recent.")
     p.add_argument("--body-length", type=float, default=DEFAULT_BODY_LENGTH_M,
                    help="Centipede body length in metres (default 0.1025 = 102.5 mm).")
+    p.add_argument("--world-length", type=float, default=DEFAULT_WORLD_LENGTH_M,
+                   help="Arena half-extent in metres for the L_w reference "
+                        "line (default 0.5 = 500 mm).")
+    p.add_argument("--leg-length", type=float, default=DEFAULT_LEG_LENGTH_M,
+                   help="Centipede leg length in metres for the L_l reference "
+                        "line (default 0.0074 = 7.4 mm).")
     p.add_argument("--exclude-k", type=str, default="1.5",
                    help="Comma-separated wave-numbers to drop from plots "
                         "(default: '1.5'; pass '' to keep all).")
@@ -596,6 +732,39 @@ def main():
                    os.path.join(out_dir, "metrics_vs_wavelength.png"))
     figure_heatmap(by_cell, wave_numbers, args.body_length, sweep_name,
                    os.path.join(out_dir, "speed_heatmap.png"))
+
+    # ── Per-metric resonance figures in the screenshot style ──
+    # One figure per metric, multi-k curves, individual trial scatter,
+    # color-matched L_b/k vertical lines + fixed L_w / L_b / L_l reference lines.
+    resonance_specs = [
+        ("forward_speed", "Forward speed (mm/s)",
+         "Speed vs Terrain Wavelength",                False),
+        ("cot",            "Cost of Transport",
+         "Magnitude: CoT vs Terrain Wavelength",       True),
+        ("max_pitch_deg",  "Max body pitch (deg)",
+         "Max pitch deviation vs Terrain Wavelength",  False),
+        ("max_roll_deg",   "Max body roll (deg)",
+         "Max roll deviation vs Terrain Wavelength",   False),
+        ("phase_lag_deg",  "Phase lag (deg)",
+         "Terrain → body phase lag vs Wavelength",     False),
+    ]
+    for col, ylabel, title, log_y in resonance_specs:
+        figure_resonance(
+            trials=trials,
+            by_cell=by_cell,
+            wave_numbers=wave_numbers,
+            colors=colors,
+            body_length_m=args.body_length,
+            world_length_m=args.world_length,
+            leg_length_m=args.leg_length,
+            metric_col=col,
+            ylabel=ylabel,
+            title=title,
+            log_y=log_y,
+            sweep_name=sweep_name,
+            out_path=os.path.join(out_dir, f"resonance_{col}.png"),
+        )
+
     write_summary(by_cell, wave_numbers, args.body_length,
                   args.trim_sigma, args.band_sigma, excluded_k,
                   os.path.join(out_dir, "summary.md"))
