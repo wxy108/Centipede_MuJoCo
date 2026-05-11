@@ -270,7 +270,7 @@ def panel_metric_vs_lambda(
         c = colors[k]
         ax.plot(lambdas, means, "-o",
                 color=c, lw=1.6, ms=4.5, mec="white", mew=0.6,
-                label=f"k = {k:g}")
+                label=f"n = {k:g}")
         # Band at ±band_sigma σ — narrower than ±1σ to represent the bulk
         if np.any(stds > 0):
             ax.fill_between(lambdas,
@@ -324,9 +324,9 @@ def figure_metrics(
     for k in wave_numbers:
         handles.append(Line2D([0], [0], color=colors[k], lw=2,
                                marker="o", ms=5, mec="white", mew=0.6,
-                               label=f"k = {k:g}"))
+                               label=f"n = {k:g}"))
     handles.append(Line2D([0], [0], color="0.4", lw=1.0, ls="--",
-                          label=r"Predicted body $\lambda_{\mathrm{body}}(k) = L_{\mathrm{body}}/k$"))
+                          label=r"Predicted body $\lambda_{\mathrm{body}}(n) = L_{\mathrm{body}}/n$"))
     fig.legend(handles=handles,
                loc="upper center",
                ncol=len(handles),
@@ -374,8 +374,8 @@ def figure_heatmap(
     ax.set_yticks(range(len(wave_numbers)))
     ax.set_yticklabels([f"{k:g}" for k in wave_numbers], fontsize=10)
     ax.set_xlabel("Terrain wavelength λ (mm)", fontsize=11)
-    ax.set_ylabel("Body wave-number k", fontsize=11)
-    ax.set_title(f"Forward speed (mm/s) — heatmap across (k × λ)   ·   {sweep_name}",
+    ax.set_ylabel("Body wave-number n", fontsize=11)
+    ax.set_title(f"Forward speed (mm/s) — heatmap across (n × λ)   ·   {sweep_name}",
                  fontsize=11)
     cbar = fig.colorbar(im, ax=ax, label="Forward speed (mm/s)")
     cbar.ax.tick_params(labelsize=9)
@@ -403,7 +403,8 @@ def figure_heatmap(
                                     linewidth=1.8, alpha=0.85))
     # Label the red-box convention as a legend below the title
     ax.text(0.99, 1.02,
-            r"Red boxes = closest λ to predicted $L_{\mathrm{body}}/k$",
+            r"Red boxes = closest λ to predicted $L_{\mathrm{body}}/n$"
+            r" (i.e. predicted resonance cell)",
             ha="right", va="bottom", transform=ax.transAxes,
             fontsize=8, style="italic", color="#700")
 
@@ -485,7 +486,7 @@ def figure_resonance(
                              color=c, alpha=0.18, linewidth=0, zorder=3)
         ax.plot(lambdas, means, "-o",
                 color=c, lw=2.0, ms=6, mec="white", mew=0.7,
-                label=f"k = {k:g}", zorder=4)
+                label=f"n = {k:g}", zorder=4)
 
         # Per-k body-wavelength line (REPLACES the fixed L_s line)
         lam_body_k = body_mm / k
@@ -496,20 +497,50 @@ def figure_resonance(
     ax.axvline(body_mm,  color="#0099cc", ls="--", lw=1.0, alpha=0.85, zorder=1)
     ax.axvline(leg_mm,   color="#3aa34d", ls="--", lw=1.0, alpha=0.85, zorder=1)
 
-    # Text labels for the reference lines (placed at top of axis)
-    ymin, ymax = ax.get_ylim()
-    y_text = ymax * 0.97 if not log_y else ymax * 0.93
-    ax.text(world_mm, y_text, "  $L_w$ (world)",
-            rotation=90, va="top", ha="left", fontsize=8, color="0.3")
-    ax.text(body_mm, y_text, "  $L_b$ (body)",
-            rotation=90, va="top", ha="left", fontsize=8, color="#0099cc")
-    ax.text(leg_mm, y_text, "  $L_l$ (leg)",
-            rotation=90, va="top", ha="left", fontsize=8, color="#3aa34d")
+    # ── 4. Y-axis auto-clipping based on cell means±std, NOT scatter outliers ──
+    # The scatter dots can have extreme outliers that blow up the y-axis range
+    # and squash all the curve detail into a single line. Compute y limits
+    # from the cell means±std envelope across all k.
+    all_low, all_high = [], []
+    for k in wave_numbers:
+        for (kk, lam), stats in by_cell.items():
+            if kk != k:
+                continue
+            mu = stats.get(metric_col, {}).get("mean", float("nan"))
+            sd = stats.get(metric_col, {}).get("std",  float("nan"))
+            if np.isfinite(mu):
+                all_low.append(mu - (sd if np.isfinite(sd) else 0.0))
+                all_high.append(mu + (sd if np.isfinite(sd) else 0.0))
 
-    # ── 4. Axes, scale, grid ──
+    if all_low and all_high:
+        ylo, yhi = min(all_low), max(all_high)
+        # Pad by 10% of the data range so points don't touch the edge.
+        span = max(yhi - ylo, 1e-9)
+        pad  = 0.10 * span
+        if log_y:
+            # Log: clamp to positive, expand by ~25 % each side in log-space.
+            ylo = max(ylo, 1e-3)
+            ax.set_ylim(ylo / 1.3, yhi * 1.3)
+        else:
+            ax.set_ylim(ylo - pad, yhi + pad)
+
     ax.set_xscale("log")
     if log_y:
         ax.set_yscale("log")
+
+    # ── 5. Vertical-line labels in AXIS-RELATIVE coordinates (always inside) ──
+    # Using ax.get_xaxis_transform(): x in data units, y in axis units (0..1).
+    # This guarantees labels sit at 95 % of axis height regardless of data ylim.
+    trans = ax.get_xaxis_transform()
+    ax.text(world_mm, 0.97, " $L_w$ (world)",
+            transform=trans, rotation=90, va="top", ha="left",
+            fontsize=8, color="0.3")
+    ax.text(body_mm, 0.97, " $L_b$ (body)",
+            transform=trans, rotation=90, va="top", ha="left",
+            fontsize=8, color="#0099cc")
+    ax.text(leg_mm, 0.97, " $L_l$ (leg)",
+            transform=trans, rotation=90, va="top", ha="left",
+            fontsize=8, color="#3aa34d")
     # Reverse x so large λ (smooth terrain) is on the left,
     # small λ (rough terrain) on the right — matches the existing project
     # convention from the user's screenshot.
@@ -522,13 +553,13 @@ def figure_resonance(
     ax.xaxis.set_major_formatter(ScalarFormatter())
     ax.xaxis.set_major_locator(LogLocator(base=10.0, subs=(1.0,), numticks=10))
 
-    # ── 5. Legend: k curves + a single 'L_b/k' entry to explain colored dashed lines ──
+    # ── 6. Legend: n curves + single 'L_b/n' entry to explain colored dashed lines ──
     handles = []
     for k in wave_numbers:
         handles.append(Line2D([0], [0], color=colors[k], lw=2, marker="o", ms=5,
-                              mec="white", mew=0.6, label=f"k = {k:g}"))
+                              mec="white", mew=0.6, label=f"n = {k:g}"))
     handles.append(Line2D([0], [0], color="0.4", lw=1.4, ls="--",
-                          label=r"$L_b/k$ per curve (predicted resonance)"))
+                          label=r"$L_b/n$ per curve (predicted resonance)"))
     handles.append(Line2D([0], [0], color="0.3", lw=1.0, ls="--",
                           label=r"$L_w, L_b, L_l$ (fixed morphology)"))
     ax.legend(handles=handles, loc="upper right" if not log_y else "upper left",
