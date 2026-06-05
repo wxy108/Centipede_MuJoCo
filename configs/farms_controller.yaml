@@ -47,32 +47,30 @@ simulation:
 #   - head_yaw_gain maps world yaw error (rad) of link_body_0 to a q_target
 #     on joint_body_1.  ~1.0 is a good starting point.
 impedance:
-  # Updated 2026-05-06 — adopting Isaac Lab three_eval_v1 rank 5 (trial #167)
-  # gain set for cross-simulator comparison. The MuJoCo three-eval optimizer's
-  # own winner (trial #92, cost=19.21) collapsed to a passive-walk basin
-  # (body_kp ≈ 2.7e-4, hip_yaw_kp at the search-bound floor) — see
-  # farms_controller.yaml.backup_v3_20260506 for the previous v3 values, and
-  # outputs/optimization/impedance_three_eval_three_eval_v1_20260505_152259/
-  # best_params.yaml for trial #92's full state.
-  # Architecture (Isaac Lab rank 5): medium body + active hip + very soft
-  # tibia + moderate tarsus. Reported by Isaac Lab on its terrain:
-  #   flat 2Hz:        speed=90.0 mm/s = 0.88 BL/s,  CoT=21.49 J/m
-  #   rough λ18 1Hz:   speed=23.6 mm/s,              CoT= 7.75 J/m
-  #   rough λ18 2Hz:   speed=49.6 mm/s,              CoT=39.04 J/m
-  # Cross-sim test: validate whether this PhysX-discovered architecture
-  # also walks under MuJoCo's contact solver.
-  body_kp:        0.14396435461660606
-  body_kv:        0.003710391030836182
+  # Updated 2026-05-07 — MuJoCo local optimizer (impedance_local) rank 1,
+  # trial #197, cost=8.0818 (single-eval, rough λ=18mm at 1 Hz).
+  # Source: outputs/optimization/impedance_local_local_v1_20260506_173631/
+  # Reported MuJoCo gait: speed=26.5 mm/s, body_z_rms=0.336mm,
+  # peak_force/weight=17.21, velocity_quality=0.668.
+  # Architecture: SOFT body (kp=0.084 vs Isaac Lab rank-5's 0.144) +
+  # active hip + very soft tibia + moderate tarsus. ~2x softer body than
+  # the previous Isaac-Lab-derived gains. Shifts the simulator-comparison
+  # axis: same architecture family, MuJoCo found an even softer optimum.
+  # For the previous Isaac Lab three_eval rank 5 values see
+  # farms_controller.yaml.backup_isaaclab_rank5_20260507.
+  body_kp:        0.0835125235454197
+  body_kv:        0.006543324764015389
   body_kp_head:   2.0
   body_kv_head:   0.20
   head_yaw_gain:  1.0
   head_yaw_target_clip: 0.5
   head_yaw_rate:  0.0
-  # pitch_kp / pitch_kv kept from the v3 backup (2026-04-24) because Isaac
-  # Lab's rank-5 pitch_kp=0.00715 is too soft for MuJoCo — body sagged
-  # visibly. v3 values are ~2× stiffer in pitch_kp; pitch_kv is similar.
-  pitch_kp:       0.01453705868445866
-  pitch_kv:       0.00004102431399331478
+  # pitch_kp / pitch_kv from the local optimizer rank 1. Substantially
+  # stiffer than the previous Isaac-Lab-imported pitch values (0.0603 vs
+  # 0.0145), aligning with the local optimizer's preference for active
+  # body-pitch tracking on MuJoCo's contact dynamics.
+  pitch_kp:       0.060252342862245484
+  pitch_kv:       0.000037132428850703704
   head_pitch_offset: -0.25
   head_pitch_joints: 1
   head_pitch_kp:     0.20
@@ -82,13 +80,13 @@ impedance:
   settle_time:    1.0
   ramp_time:      1.0
   leg:
-    # Isaac Lab three_eval rank 5 (trial #167) leg gains:
-    #   hip_yaw   (DOF 0): kp 0.0762   kv 1.22e-05  (active drive, lightly damped)
-    #   hip_pitch (DOF 1): kp 0.1041   kv 3.74e-08  (essentially undamped)
-    #   tibia     (DOF 2): kp 0.00149  kv 1.61e-07  (VERY SOFT, near-undamped)
-    #   tarsus    (DOF 3): kp 0.1419   kv 3.55e-03  (moderate foot-tip damping)
-    kp: [0.0762341873055933,   0.10410070483808535, 0.0014869886879781957, 0.14185816765501905]
-    kv: [1.2233473366963375e-05, 3.7409077982351254e-08, 1.6068234215749776e-07, 0.0035528652774281773]
+    # MuJoCo local optimizer rank 1 (trial #197) leg gains:
+    #   hip_yaw   (DOF 0): kp 0.1133    kv 2.56e-05  (more active than rank-5 Isaac Lab)
+    #   hip_pitch (DOF 1): kp 0.0831    kv 1.42e-08  (essentially undamped)
+    #   tibia     (DOF 2): kp 0.00106   kv 1.09e-07  (VERY SOFT, near-undamped)
+    #   tarsus    (DOF 3): kp 0.0733    kv 1.18e-03  (~2x softer than rank-5)
+    kp: [0.11333708873423386, 0.0831373224893599, 0.001064510319872201, 0.07325603581633337]
+    kv: [2.5573179301699367e-05, 1.422929231992592e-08, 1.0924047163740733e-07, 0.001181406479456258]
 
 # Recording
 recording:
