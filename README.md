@@ -1,5 +1,11 @@
 # Centipede MuJoCo Locomotion Simulation
 
+This is the maintained MuJoCo research repository. See the [repository map](docs/REPOSITORY_ORGANIZATION.md) for related projects and preserved versions.
+
+> **Blender model availability:** `models/blender/` was removed from `main` in commit `be707f4`. The earlier Blender/FARMS workspace, including its model assets, is preserved on [`legacy/mujoco-lab/main`](https://github.com/wxy108/Centipede_MuJoCo/tree/legacy/mujoco-lab/main). Use that branch's own controller/configuration files for the historical Blender example below; the main branch does not contain those assets.
+
+The formerly standalone [backbone wave notes](docs/backbone-wave/backbone_wave_documentation.md) now live here. They are preserved research notes, not newly validated derivations.
+
 Biologically-inspired centipede locomotion simulation in MuJoCo, with two model variants (high-fidelity Blender and FARMS-derived), multi-frequency terrain generation, and automated terrain roughness sweep experiments.
 
 ## Project Structure
