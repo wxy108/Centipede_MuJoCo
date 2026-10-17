@@ -1,0 +1,18 @@
+{
+  "status": "experimental_not_validated",
+  "created_before_v2_simulation": true,
+  "plant_and_pd_contract": "COMMON_CONTRACT.json",
+  "physical_change": "Explicit shared compliant normal contact and elastic tangential contact, replacing both native ground responses in this opt-in benchmark only.",
+  "normal_stiffness_N_per_m": 200.0,
+  "normal_damping_N_s_per_m": 0.01,
+  "tangential_stiffness_N_per_m": 20.0,
+  "tangential_damping_N_s_per_m": 0.001,
+  "friction_coefficient": 0.5,
+  "normal_law": "For penetrating points: Fn=max(0, Kn*penetration-Dn*v_normal); otherwise zero. No adhesive force.",
+  "tangential_law": "Integrate tangential surface velocity into elastic displacement; Ft=-Kt*xi-Dt*v_t, projected onto the circular disk ||Ft||<=mu*Fn. Return-map xi after slip. Reset xi when unloaded or a mesh support vertex changes.",
+  "geometry_discretization": "One sphere support point, two capsule endpoint-sphere support points, one lowest transformed vertex per convex mesh; same exported points and selection function in both engines.",
+  "parameter_rationale": "Engineering contact baseline, not measured material data or a locomotion fit: 1 mN per-point load gives 5 micrometre normal compression and 25 micrometre tangential elastic displacement at friction limit. These scales are small relative to the 450 micrometre distal sphere radius. Damping is fixed in SI units and must pass timestep refinement.",
+  "numerics": {"initial_dt_s": 0.00003125, "refinement_dt_s": 0.000015625, "command_dt_s": 0.00025, "native_solver": "PGS 16/4; native ground collision disabled; only common external contact wrenches applied"},
+  "acceptance": "The original eight-gait 10% cross-engine, 5% half-step, minimum 50 mm, completion and physical readback gates remain unchanged. This does not validate the earlier rigid-contact contract.",
+  "scope": "Independent common-contact mechanical benchmark; no historical-default migration, RL training, amplitude optimization, contact erasure or Clean edits. Physical gains and body properties remain unchanged. No claim that the engines' native contact solvers have become equivalent."
+}

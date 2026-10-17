@@ -1,0 +1,135 @@
+{
+  "rows": [
+    {
+      "run": "mu_coupled_cmd250_dt31_case03_000",
+      "label": "MuJoCo 31.25 \u00b5s",
+      "case": 3,
+      "wave": 2.5,
+      "amplitudes": [
+        16,
+        72,
+        24
+      ],
+      "sphere_count": 114,
+      "thresholds": [
+        {
+          "height_threshold_m": 1e-06,
+          "near_plane_sample_fraction": 0.11066631666447915,
+          "median_surface_speed_mm_s": 33.80268289049786,
+          "mean_surface_speed_mm_s": 32.735024272510095
+        },
+        {
+          "height_threshold_m": 3e-06,
+          "near_plane_sample_fraction": 0.11897886861792886,
+          "median_surface_speed_mm_s": 34.473317676944895,
+          "mean_surface_speed_mm_s": 33.691970068114394
+        },
+        {
+          "height_threshold_m": 1e-05,
+          "near_plane_sample_fraction": 0.12232576453602835,
+          "median_surface_speed_mm_s": 34.72328795317119,
+          "mean_surface_speed_mm_s": 34.70532509788648
+        }
+      ]
+    },
+    {
+      "run": "native_tgs_ext_validation_cpu_dt250_000",
+      "label": "TGS CPU 250 \u00b5s",
+      "case": 3,
+      "wave": 2.5,
+      "amplitudes": [
+        16,
+        72,
+        24
+      ],
+      "sphere_count": 114,
+      "thresholds": [
+        {
+          "height_threshold_m": 1e-06,
+          "near_plane_sample_fraction": 0.12514765717285734,
+          "median_surface_speed_mm_s": 36.48694362568235,
+          "mean_surface_speed_mm_s": 35.264982773137575
+        },
+        {
+          "height_threshold_m": 3e-06,
+          "near_plane_sample_fraction": 0.12530078312989457,
+          "median_surface_speed_mm_s": 36.49781031674658,
+          "mean_surface_speed_mm_s": 35.28184186403715
+        },
+        {
+          "height_threshold_m": 1e-05,
+          "near_plane_sample_fraction": 0.1255195344970906,
+          "median_surface_speed_mm_s": 36.51468885810414,
+          "mean_surface_speed_mm_s": 35.30337336049934
+        }
+      ]
+    },
+    {
+      "run": "native_tgs_ext_validation_cpu_dt125_000",
+      "label": "TGS CPU 125 \u00b5s",
+      "case": 3,
+      "wave": 2.5,
+      "amplitudes": [
+        16,
+        72,
+        24
+      ],
+      "sphere_count": 114,
+      "thresholds": [
+        {
+          "height_threshold_m": 1e-06,
+          "near_plane_sample_fraction": 0.12440390252439078,
+          "median_surface_speed_mm_s": 36.90110546085699,
+          "mean_surface_speed_mm_s": 35.27528044881985
+        },
+        {
+          "height_threshold_m": 3e-06,
+          "near_plane_sample_fraction": 0.12455702848142801,
+          "median_surface_speed_mm_s": 36.92501818402046,
+          "mean_surface_speed_mm_s": 35.295124897287515
+        },
+        {
+          "height_threshold_m": 1e-05,
+          "near_plane_sample_fraction": 0.12488515553222207,
+          "median_surface_speed_mm_s": 36.95468808478385,
+          "mean_surface_speed_mm_s": 35.33341140742897
+        }
+      ]
+    },
+    {
+      "run": "native_tgs_ext_validation_gpu_dt250_000",
+      "label": "TGS GPU 250 \u00b5s",
+      "case": 3,
+      "wave": 2.5,
+      "amplitudes": [
+        16,
+        72,
+        24
+      ],
+      "sphere_count": 114,
+      "thresholds": [
+        {
+          "height_threshold_m": 1e-06,
+          "near_plane_sample_fraction": 0.12527890799317495,
+          "median_surface_speed_mm_s": 37.19600533124921,
+          "mean_surface_speed_mm_s": 35.499928649018216
+        },
+        {
+          "height_threshold_m": 3e-06,
+          "near_plane_sample_fraction": 0.12527890799317495,
+          "median_surface_speed_mm_s": 37.19600533124921,
+          "mean_surface_speed_mm_s": 35.499928649018216
+        },
+        {
+          "height_threshold_m": 1e-05,
+          "near_plane_sample_fraction": 0.12565078531740823,
+          "median_surface_speed_mm_s": 37.27458041716354,
+          "mean_surface_speed_mm_s": 35.54765836374219
+        }
+      ]
+    }
+  ],
+  "method": "10 ms recorded poses; finite-difference sphere center velocity plus rotational surface velocity at plane-facing point. Both interval endpoints must be near plane.",
+  "limitations": "Near-plane geometry is not a measured force-bearing contact. No contact-force, friction-coefficient or causal claim. Native reconstructed pose uncertainty can be of order 1 \u00b5m. Rotation/velocity differencing at 100 Hz misses rapid stick-slip events.",
+  "source_sha": "8b4050e39b3cb9b1494e020ace63db0d30ac6f306793b2688c6ce09cdb844fb4"
+}

@@ -1,0 +1,1264 @@
+{
+  "profile": {
+    "status": "validated_common_contact_cpu_gpu",
+    "name": "common_plant_pd_and_compliant_contact_v2_centered",
+    "physical_contract": "COMMON_CONTRACT.json",
+    "contact_contract": "COMMON_CONTACT_V2.json",
+    "physical_units": "m, kg, s, rad, N, N*m",
+    "physical_gain_fitting": false,
+    "contact_parameter_fitting": false,
+    "mujoco_runner": "run_mujoco_common_contact.py",
+    "native_runner": "run_native_common_contact_centered.py",
+    "mujoco_dt_s": 3.125e-05,
+    "native_dt_s": 3.125e-05,
+    "refinement_dt_s": 1.5625e-05,
+    "command_dt_s": 0.00025,
+    "duration_s": 6.0,
+    "native_solver": "PGS",
+    "native_position_iterations": 16,
+    "native_velocity_iterations": 4,
+    "native_cpu_threads": 2,
+    "native_ground_response": "disabled; all contact forces are from the shared compliant law",
+    "native_external_force_iteration_flag": false,
+    "mujoco_update": "Physical PD integrated using M+hD+h^2K; numerical armature is explicitly separate from zero physical rotor inertia.",
+    "layout": "Nine independent articulations, all static environment translations and initial Y offsets zero. Native collisions disabled; per-environment contact forces independent. No dynamic rebasing.",
+    "validation_summary": "audit/common_contact_centered_summary.json",
+    "scope": "New shared compliant-contact open-loop mechanical benchmark in native MuJoCo and original Isaac Lab/PhysX CPU and GPU. This does not equate native rigid contact solvers, validate material measurements, migrate RL training, or resume amplitude/contact-erasure optimization. Historical defaults and Clean remain unchanged.",
+    "additional_motion_limits": {
+      "max_relative_centroid_xy_path_difference_mm": 0.5,
+      "max_head_tail_heading_difference_deg": 0.25
+    },
+    "validated_utc": "2026-09-11T14:59:47.703660+00:00",
+    "observed_maxima_pct": {
+      "cpu_gap_pct": 0.02349103254080698,
+      "gpu_gap_pct": 0.020025060124405858,
+      "mu_refinement_pct": 0.017754171871950563,
+      "cpu_refinement_pct": 0.014462294561206526,
+      "gpu_refinement_pct": 0.02293253291261644,
+      "cpu_gpu_gap_pct": 0.013945250596590181
+    },
+    "additional_motion_observations": {
+      "max_centroid_xy_path_difference_mm": 0.19588093375249585,
+      "max_heading_difference_deg": 0.23511753501299815,
+      "max_joint_position_difference_deg": 0.15716508664482473
+    },
+    "additional_motion_gate_maxima": {
+      "max_xy_difference_mm": 0.19588093375249585,
+      "max_heading_difference_deg": 0.23511753501299815
+    },
+    "same_step_forward_comparisons": [
+      {
+        "grid_us": 31.25,
+        "first": "mu",
+        "second": "cpu",
+        "maximum_symmetric_gap_pct": 0.02349103254080698,
+        "case": 0
+      },
+      {
+        "grid_us": 31.25,
+        "first": "mu",
+        "second": "gpu",
+        "maximum_symmetric_gap_pct": 0.020025060124405858,
+        "case": 0
+      },
+      {
+        "grid_us": 31.25,
+        "first": "cpu",
+        "second": "gpu",
+        "maximum_symmetric_gap_pct": 0.013945250596590181,
+        "case": 6
+      },
+      {
+        "grid_us": 15.625,
+        "first": "mu",
+        "second": "cpu",
+        "maximum_symmetric_gap_pct": 0.0202103855157124,
+        "case": 6
+      },
+      {
+        "grid_us": 15.625,
+        "first": "mu",
+        "second": "gpu",
+        "maximum_symmetric_gap_pct": 0.02989192790381132,
+        "case": 2
+      },
+      {
+        "grid_us": 15.625,
+        "first": "cpu",
+        "second": "gpu",
+        "maximum_symmetric_gap_pct": 0.04832494637722383,
+        "case": 6
+      }
+    ],
+    "known_limits": [
+      "The accepted layout centers independent environments near the origin and passes additional XY and heading gates. Moving them to large world offsets or much longer travel distances is outside this validation; displaced-origin failures remain recorded.",
+      "The host-computed shared compliant contact is a slow mechanical audit baseline, not a migrated high-throughput RL training pipeline.",
+      "Native contact sensors do not measure this externally applied contact law; original RL rewards, observations, resets and terrain are not migrated.",
+      "The eight fixed gaits were reused during development. Validation is limited to six seconds and the two stated step sizes; observed GPU heading differences were larger at the finer step. Other gains/amplitudes, joint-limit impacts, rough terrain, smaller steps and longer trajectories are outside the measured acceptance scope."
+    ]
+  },
+  "checks": [
+    {
+      "proof": "complete six-second unchanged-origin control",
+      "run": "native_common_contact_centered_validation_cpu_dt31_000",
+      "reference": "native_common_contact_validation_cpu_dt31_000",
+      "trajectory_sha256": "27b3cff1c83adc1bf76387225a0687d0014438adae50b4df1fa0361cc1e2947f",
+      "reference_sha256": "dcd11219d87f31ad8eaaea6b77cf1994ecf5b641815ce9270acc68fbaaecdbc9"
+    },
+    {
+      "proof": "complete six-second unchanged-origin control",
+      "run": "native_common_contact_centered_validation_cpu_dt31_000",
+      "reference": "native_common_contact_origin_probe_cpu_dt31_000",
+      "trajectory_sha256": "27b3cff1c83adc1bf76387225a0687d0014438adae50b4df1fa0361cc1e2947f",
+      "reference_sha256": "bb3cfb69419a46e6cf32010f63ce6c242c87e87f6ef88e8be2558eb6265b8493"
+    },
+    {
+      "proof": "complete six-second unchanged-origin control",
+      "run": "native_common_contact_centered_validation_cpu_dt15_000",
+      "reference": "native_common_contact_origin_probe_cpu_dt15_000",
+      "trajectory_sha256": "2b58544652c38b5f8517a727c27c13237d1d37b21f099c57332f25455bd58a70",
+      "reference_sha256": "6e183362ce7720b5658a60c7d3b6e3e3dc8aa2b0bb6794785d09791c8fb90e37"
+    },
+    {
+      "proof": "complete six-second unchanged-origin control",
+      "run": "native_common_contact_centered_validation_gpu_dt31_000",
+      "reference": "native_common_contact_validation_gpu_dt31_000",
+      "trajectory_sha256": "726a0f400efd7bfeffa9de30c7e801ac72cb94ad49bbec99f325ceabfba9ef08",
+      "reference_sha256": "f56bf93e28892b15f42877c34d397503ef507921d029d92e882317840b99a4e1"
+    },
+    {
+      "run": "mu_common_contact_dt31_case00_000",
+      "result_sha256": "37e6437edacaa22c9155c2a751642bf13b03940f7cbd887d3673a01fc50abf7e",
+      "trajectory_sha256": "b7d5ddcaacb34ced5ac7a2bf9ba09b39636d500e7b32607e4a124d07a1910eb8",
+      "quality_sha256": "5d6891f40eeba53eb3dd5906b3172055549bd8f49a48d40798fc4fd69c378021",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt31_case01_000",
+      "result_sha256": "78456313388a5456bd292e5db881b2708c50034eab13807762ea2c18c60073f1",
+      "trajectory_sha256": "c6d105b612157731a1e1819ef68dc5879e54c84a77be47510f33837585ab30c3",
+      "quality_sha256": "ad839aa550723c665bb550081f102ba2ada01559f059885b558d6d791c418c23",
+      "compression_sha256": "f06c08a5c874e6e3b00e43021927816d6854dd6653cc322a3ff532251a2980f9"
+    },
+    {
+      "run": "mu_common_contact_dt31_case02_000",
+      "result_sha256": "a96bfcfc23a3b6aa4871f4c142cb4208671847ca935d15f11f79a7e59a13a198",
+      "trajectory_sha256": "d633f54b268212cd6d7e7a27e4eba434365c5594a53da6d950d9068ae3fd64f3",
+      "quality_sha256": "85c37646dbf9409197da1f1fd07c8e144e467fd7a9ae09f95b255fe43f12ff2b",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt31_case03_000",
+      "result_sha256": "fe700703db2fa96022467d6be010e01f8d24913cb1bc59054b3990ec2a74b27f",
+      "trajectory_sha256": "6d87a1719126f150f40b25827d7fd712c62819c3d757741018f3475539a21c38",
+      "quality_sha256": "a1bbb9a10ed5c25a4bf2628d779ef6e7d7e0ee9e277201be16ed32b402ba5fa3",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt31_case04_000",
+      "result_sha256": "635b7ba38907e49af182d495a0968bc10a9e15a94969df3e8093a0181736c2d3",
+      "trajectory_sha256": "aca5df9b9afbd7f74961df4a5a3639d2c27a54e8e7fe256f1a7380fa6782d6ac",
+      "quality_sha256": "eb7da9b67e6ec09f991c435624c9517294e53782ce9ca061c52bfa8bd437fc75",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt31_case05_000",
+      "result_sha256": "0eef01f1831ea26d4ed9ed5c06a54e943dba0b7bf87e3e20da3a0f7d61dbf1e8",
+      "trajectory_sha256": "e2855d2033ef77c318fc22433a2c593192c73046c3c725af5aa300012cfd98c4",
+      "quality_sha256": "5ed896de41f8df10e635f93511f7f2563a19cf8c1d73b1c070ffa406fd850069",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt31_case06_000",
+      "result_sha256": "c16e06b397ccd82c99f4233702bd48d8db8b9843bfd7353f17d058f5b630be38",
+      "trajectory_sha256": "5f60aa4462ec6576901eb231aad928b90ed893e73c8b0188c8eb49afdf32306b",
+      "quality_sha256": "fa45f71c984982720320b77ae4337661f942d27ea75899377148a8e9f69b01b4",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt31_case07_000",
+      "result_sha256": "c5112633f2700f50cd66195e98841e343ae42a634c51b314e1d5c2e69e74ba11",
+      "trajectory_sha256": "10e735199d954d876e0196224e9337eecee6e2707fa5f14c39122110bc643fd4",
+      "quality_sha256": "8b8d4f5bd161e330c3d8f0abaa2f1a1774146f040ca8d3757a9a713ce825e2b0",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt31_000",
+      "result_sha256": "8a982c468ab5ba00137ccc55c6f8a68efcb292812ce964e78f1a29b49a3b73c0",
+      "trajectory_sha256": "27b3cff1c83adc1bf76387225a0687d0014438adae50b4df1fa0361cc1e2947f",
+      "quality_sha256": "b34f0e4c25460a8c6fe71bb316b537030b69700bdd212f55d4439323a96393f5",
+      "compression_sha256": "055be78f7964e3a18bcaeabfc8bc0148b5953580cf1a9c1cf0a2ac75dadcf6ca"
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt31_000",
+      "result_sha256": "e8576b8aef5537147372019575678351d7cb8279f084407604490ddf16b91f83",
+      "trajectory_sha256": "726a0f400efd7bfeffa9de30c7e801ac72cb94ad49bbec99f325ceabfba9ef08",
+      "quality_sha256": "c7e5a93a294a5723947af9c887392b557478f823f430dc8585e3a9a68e6486cb",
+      "compression_sha256": "750f432623848f6f8c162885c5b96d3339924d0e98f6185725babbe55c2626e7"
+    },
+    {
+      "run": "mu_common_contact_dt15_case00_000",
+      "result_sha256": "85e72d115560a7caa724a83f01fd45f99ee935d7bbf9df77381c99f1284e6b20",
+      "trajectory_sha256": "ad0096bf9d78b1876ad2702375f89b925a60f8e458d3a3b011ece35b7f925259",
+      "quality_sha256": "61f0c3ec59373f9f5383c8036291bb147a3eaae9d4ff116c8c7f50d530f985f9",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt15_case01_000",
+      "result_sha256": "afcbcb5397b8367c7fbcc281fea1dcef516c3579ba11ef85ef265f642962820a",
+      "trajectory_sha256": "2925c4cc2591d2e4f7aa6f93dd8204f3b573d33d1cf10cb480bb81bd4c30a7b6",
+      "quality_sha256": "f7e044fad85890d22bfa39d65a8c76581e1c3893ff85068765d371f097b6cfed",
+      "compression_sha256": "a786bd4095833efa4fe4c6bacf6c508e119bd13211e26f10e2864c3aa37eb997"
+    },
+    {
+      "run": "mu_common_contact_dt15_case02_000",
+      "result_sha256": "5f6edc18135c1293138147c2d4867dd90af8a002a6e67bc24614b9353675446c",
+      "trajectory_sha256": "3ee86e0d6955af7bf3ba3a7fde07c3cb37c14eab5696e7cc73ec5d250d152420",
+      "quality_sha256": "0df5a769e4f715f9499c31d0e48806f0d3b07939555f0058d7c94e48e39dac81",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt15_case03_000",
+      "result_sha256": "4b3a94d1403a88a83ec25f4134497b82ae93bcf64de2f8023c9e70a9b5beab84",
+      "trajectory_sha256": "533fba2791a8e46143778cb9bb388eb7f83d7f011c1c02f14f4c2c951e98fdef",
+      "quality_sha256": "fdd6f98b23590428d6e59a98ef542d29de56ae153ed3b761041b6aeaa4bca4ff",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt15_case04_000",
+      "result_sha256": "a0c9000b09e623a543bb3e2d6ac5d07f59c1cf4d7c007dc04e63ac48dbd70c5f",
+      "trajectory_sha256": "f9b8a1eb4bc53c4bd844c46a79537f6166841af290381f627d872369bb301034",
+      "quality_sha256": "8fbfbb69c8696e2a9a421a376bd60d8a9796eb22a338d890894f06aa387cb817",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt15_case05_000",
+      "result_sha256": "41356f6f6c6409cdc9fbe14bfc0a09b222e95a748d770b0da7168d11ac4770dc",
+      "trajectory_sha256": "8cf594ec8febdad955e74ec168ec5e3023c67f34b877b72365d7dd633f415b62",
+      "quality_sha256": "8656f64c0058ead82005dcf9d640cfe52995170269c9b7afadffaa19be08a102",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt15_case06_000",
+      "result_sha256": "a24d1cfc7fc6ef73978a7ef4abd4ae3cd408b8ba5aa3b3ff42152c60b93cb0fd",
+      "trajectory_sha256": "379de6a5cc6cd49e4dbf0319ee928250dbc04ab8481497a406bba044ed34aad9",
+      "quality_sha256": "b6a1c397a47dde1584f451babcec65f1e1a1ecfc6a96aeace8180f118c9355fe",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "mu_common_contact_dt15_case07_000",
+      "result_sha256": "341b131178005d678c01f54c1c91dca8f158f36889d0ee4d2d20a6dae9cb1822",
+      "trajectory_sha256": "4d72acc59da3664b42423cc8fbc176d26a6bdd8d67bba8110937c8f0cae686d0",
+      "quality_sha256": "45c614b7c574aff6ba27b6ba7127f8c4fea5958d3fcaf630d480d8d6954bb286",
+      "compression_sha256": "fcb5bd847b4c751791805ffebb677df81cb8064af1f5b80691529b94dec05a2c"
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt15_000",
+      "result_sha256": "c0de824ccfbf20233b7857bbdf903c2e1aacb4eafa56e87605802db8518d0153",
+      "trajectory_sha256": "2b58544652c38b5f8517a727c27c13237d1d37b21f099c57332f25455bd58a70",
+      "quality_sha256": "52e1e1961b7a2f80ec7d4263f509123118c5894d2b6a67c4163b02fdc1e71c3c",
+      "compression_sha256": "591340643c7d35fcad55be626a47ea712231b01592a4a7893261214b40a0e0a3"
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt15_000",
+      "result_sha256": "4dce704b6a2489297fe49a008b8d0837c0bb6d1863a5d55a854cbaa82ddc7e74",
+      "trajectory_sha256": "0ea4dd3cb0d15770696ba426e0d89b2ad8d90fcccf53473ea77041898ebd243f",
+      "quality_sha256": "6069abbafdd73455ec9582310c6fec8f03c0b1a7216dc7d94a19b7aa9118c1ca",
+      "compression_sha256": "9df44c0822f468bb34ea7842ea8dd42741b9edbc5737694b0c7ec6b9553c079d"
+    },
+    {
+      "probe": "body_wrench_cpu_000",
+      "comparison_sha256": "1c6cc6aa0ae9bbc8009e28c159bb908c98c006b51a563d48838440cb6369f97d"
+    },
+    {
+      "probe": "body_wrench_gpu_001",
+      "comparison_sha256": "5af3929168fc1e8e824cacb48eeeffc76ca33dbf9a3c203f5f5c073b9875e3cf"
+    },
+    {
+      "proof": "audit/common_contact_geometry_preparation.json",
+      "sha256": "2dc2bf7fa647dd48e28df73023b4123d3bfa0b143c5c20085f25070badce03da"
+    },
+    {
+      "proof": "audit/common_contact_vectorization.json",
+      "sha256": "d1bce6a2a996759931d90e6c8f621fc9a4138714d4dd7cc74770f8be37ba6a1a"
+    },
+    {
+      "proof": "Pre-contact-branch frozen mapping and mesh inputs remain unchanged",
+      "anchor_manifest_sha256": "0f4cb2dbc3c3f55b307e7d5c64269e8c7b1a7677ee6d75be2299f76a1ed4e46a"
+    },
+    {
+      "proof": "audit/common_contact_centered_motion_comparison.json",
+      "sha256": "46f2b7f26d8dc186983723a55d86e81d8a188165ae0d957eb978b769278037dc"
+    },
+    {
+      "proof": "audit/common_contact_coordinate_precision.json",
+      "sha256": "41cabf870a20b08e1ff0ff62291def7bed62fe5e16f23e7205e72ea5f739fd5c"
+    }
+  ],
+  "compression_report": [
+    {
+      "run": "mu_common_contact_dt31_case00_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 2.849293210664405e-16,
+          "min_spine_up_dot": 0.9562472857613328,
+          "min_foot_sphere_surface_z_m": -2.4283060733203566e-05,
+          "min_spine_collider_z_m": 2.080152091631397e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt31_case01_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.697265365524245e-16,
+          "min_spine_up_dot": 0.9552122821475438,
+          "min_foot_sphere_surface_z_m": -2.0530680895695127e-05,
+          "min_spine_collider_z_m": -1.7054695563219723e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 3
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [
+            {
+              "body": "link_body_1",
+              "collider": "collision_001",
+              "maximum_compression_um": 17.054695563219724,
+              "fraction_sampled_poses_below_plane": 0.007481296758104738
+            }
+          ],
+          "maximum_mesh_compression_um": 17.054695563219724
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt31_case02_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 3.3364718415932634e-16,
+          "min_spine_up_dot": 0.9582215634532026,
+          "min_foot_sphere_surface_z_m": -2.2233104081473775e-05,
+          "min_spine_collider_z_m": 0.00027304480539433506,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt31_case03_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.324876789068814e-16,
+          "min_spine_up_dot": 0.9704235050380337,
+          "min_foot_sphere_surface_z_m": -2.1380640414413762e-05,
+          "min_spine_collider_z_m": 0.00033250514214725954,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt31_case04_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 2.92937222087948e-16,
+          "min_spine_up_dot": 0.976526577343215,
+          "min_foot_sphere_surface_z_m": -2.23200341120496e-05,
+          "min_spine_collider_z_m": 0.0005506552753434327,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt31_case05_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.546837639821408e-16,
+          "min_spine_up_dot": 0.9812704306896172,
+          "min_foot_sphere_surface_z_m": -2.0421760930963056e-05,
+          "min_spine_collider_z_m": 0.00042885617700704577,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt31_case06_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 2.2218855386585057e-16,
+          "min_spine_up_dot": 0.9820777065519156,
+          "min_foot_sphere_surface_z_m": -2.1260685678281565e-05,
+          "min_spine_collider_z_m": 0.000824561579466556,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt31_case07_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 4.706980040383604e-16,
+          "min_spine_up_dot": 0.9872720798659338,
+          "min_foot_sphere_surface_z_m": -2.018655048611291e-05,
+          "min_spine_collider_z_m": 0.0005376958102499487,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt31_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 8.815634751201928e-08,
+          "min_spine_up_dot": 0.9715007934247445,
+          "min_foot_sphere_surface_z_m": -2.2808474960439064e-05,
+          "min_spine_collider_z_m": 0.000455219955099419,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 1,
+          "finite": true,
+          "max_pose_fit_residual_m": 8.954915401841823e-08,
+          "min_spine_up_dot": 0.9562477295568111,
+          "min_foot_sphere_surface_z_m": -2.4291697221772574e-05,
+          "min_spine_collider_z_m": 2.133096537367419e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 2,
+          "finite": true,
+          "max_pose_fit_residual_m": 7.942114667492331e-08,
+          "min_spine_up_dot": 0.9552107932436275,
+          "min_foot_sphere_surface_z_m": -2.052480867181241e-05,
+          "min_spine_collider_z_m": -1.7056077019945645e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 3
+        },
+        {
+          "case": 3,
+          "finite": true,
+          "max_pose_fit_residual_m": 8.931732290263273e-08,
+          "min_spine_up_dot": 0.9582223946815023,
+          "min_foot_sphere_surface_z_m": -2.2231294098788127e-05,
+          "min_spine_collider_z_m": 0.00027295710990958046,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 4,
+          "finite": true,
+          "max_pose_fit_residual_m": 9.145740546015599e-08,
+          "min_spine_up_dot": 0.9704236193554008,
+          "min_foot_sphere_surface_z_m": -2.1377923703590012e-05,
+          "min_spine_collider_z_m": 0.00033254886948584856,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 5,
+          "finite": true,
+          "max_pose_fit_residual_m": 7.458735079504157e-08,
+          "min_spine_up_dot": 0.9765246863566005,
+          "min_foot_sphere_surface_z_m": -2.232102732071682e-05,
+          "min_spine_collider_z_m": 0.0005506858921263866,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 6,
+          "finite": true,
+          "max_pose_fit_residual_m": 8.795527053450007e-08,
+          "min_spine_up_dot": 0.9812689645856733,
+          "min_foot_sphere_surface_z_m": -2.042439427322345e-05,
+          "min_spine_collider_z_m": 0.00042875950721901366,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 7,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.831686290675068e-08,
+          "min_spine_up_dot": 0.9820793201995619,
+          "min_foot_sphere_surface_z_m": -2.1271090390239354e-05,
+          "min_spine_collider_z_m": 0.000824547941921517,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 8,
+          "finite": true,
+          "max_pose_fit_residual_m": 8.137097934981686e-08,
+          "min_spine_up_dot": 0.9872727480581226,
+          "min_foot_sphere_surface_z_m": -2.0185032832445893e-05,
+          "min_spine_collider_z_m": 0.0005374233817848346,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 1,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 2,
+          "compressed_meshes": [
+            {
+              "body": "link_body_1",
+              "collider": "collision_001",
+              "maximum_compression_um": 17.056077019945644,
+              "fraction_sampled_poses_below_plane": 0.007481296758104738
+            }
+          ],
+          "maximum_mesh_compression_um": 17.056077019945644
+        },
+        {
+          "environment": 3,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 4,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 5,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 6,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 7,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 8,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt31_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 4.966061776292652e-08,
+          "min_spine_up_dot": 0.9715145015773909,
+          "min_foot_sphere_surface_z_m": -2.2790452032237993e-05,
+          "min_spine_collider_z_m": 0.0004527352678863586,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 1,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.5498882876261693e-08,
+          "min_spine_up_dot": 0.9562477722098643,
+          "min_foot_sphere_surface_z_m": -2.4486221557130927e-05,
+          "min_spine_collider_z_m": 2.2886543447195838e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 2,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.687496846741009e-08,
+          "min_spine_up_dot": 0.9552092170583888,
+          "min_foot_sphere_surface_z_m": -2.0484744172419625e-05,
+          "min_spine_collider_z_m": -1.8048595651460123e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 3
+        },
+        {
+          "case": 3,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.2885627376635786e-08,
+          "min_spine_up_dot": 0.9582104259631379,
+          "min_foot_sphere_surface_z_m": -2.2231462008238576e-05,
+          "min_spine_collider_z_m": 0.0002721635432055844,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 4,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.041245829224518e-08,
+          "min_spine_up_dot": 0.970410950497911,
+          "min_foot_sphere_surface_z_m": -2.1378825562170774e-05,
+          "min_spine_collider_z_m": 0.00033203035242462993,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 5,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.951039626171606e-08,
+          "min_spine_up_dot": 0.9765706867919267,
+          "min_foot_sphere_surface_z_m": -2.2336077341296207e-05,
+          "min_spine_collider_z_m": 0.0005512460605806742,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 6,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.400830960250316e-08,
+          "min_spine_up_dot": 0.9812471780737897,
+          "min_foot_sphere_surface_z_m": -2.0409548593773043e-05,
+          "min_spine_collider_z_m": 0.00042858604216730644,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 7,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.0390009582592685e-08,
+          "min_spine_up_dot": 0.9820734199552467,
+          "min_foot_sphere_surface_z_m": -2.1289535272170628e-05,
+          "min_spine_collider_z_m": 0.0008256698198285325,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 8,
+          "finite": true,
+          "max_pose_fit_residual_m": 7.270904538867507e-08,
+          "min_spine_up_dot": 0.9872537690847958,
+          "min_foot_sphere_surface_z_m": -2.0197971701795643e-05,
+          "min_spine_collider_z_m": 0.0005379839470129456,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 1,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 2,
+          "compressed_meshes": [
+            {
+              "body": "link_body_1",
+              "collider": "collision_001",
+              "maximum_compression_um": 18.048595651460122,
+              "fraction_sampled_poses_below_plane": 0.007481296758104738
+            }
+          ],
+          "maximum_mesh_compression_um": 18.048595651460122
+        },
+        {
+          "environment": 3,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 4,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 5,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 6,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 7,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 8,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt15_case00_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 3.063543268870549e-16,
+          "min_spine_up_dot": 0.9562457285296285,
+          "min_foot_sphere_surface_z_m": -2.4138221151896212e-05,
+          "min_spine_collider_z_m": 1.9883650766662833e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt15_case01_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.412091491319594e-16,
+          "min_spine_up_dot": 0.9552166953495593,
+          "min_foot_sphere_surface_z_m": -2.0541918058422366e-05,
+          "min_spine_collider_z_m": -1.5868115395282784e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 3
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [
+            {
+              "body": "link_body_1",
+              "collider": "collision_001",
+              "maximum_compression_um": 15.868115395282784,
+              "fraction_sampled_poses_below_plane": 0.007481296758104738
+            }
+          ],
+          "maximum_mesh_compression_um": 15.868115395282784
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt15_case02_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 2.5033004942394715e-16,
+          "min_spine_up_dot": 0.9582175075453554,
+          "min_foot_sphere_surface_z_m": -2.2235597388107738e-05,
+          "min_spine_collider_z_m": 0.0002729364635258931,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt15_case03_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.504819819040922e-16,
+          "min_spine_up_dot": 0.9704170966463341,
+          "min_foot_sphere_surface_z_m": -2.1378341569273256e-05,
+          "min_spine_collider_z_m": 0.00033257607250667363,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt15_case04_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 2.80953792294911e-16,
+          "min_spine_up_dot": 0.9765195993538456,
+          "min_foot_sphere_surface_z_m": -2.2319736230581953e-05,
+          "min_spine_collider_z_m": 0.0005507214882755065,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt15_case05_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.637675193547405e-16,
+          "min_spine_up_dot": 0.9812585999549479,
+          "min_foot_sphere_surface_z_m": -2.0426291210891376e-05,
+          "min_spine_collider_z_m": 0.0004289121876421714,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt15_case06_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 2.9181792410690937e-16,
+          "min_spine_up_dot": 0.9820741147985288,
+          "min_foot_sphere_surface_z_m": -2.126387761354682e-05,
+          "min_spine_collider_z_m": 0.0008244414199471521,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "mu_common_contact_dt15_case07_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.359741240063505e-16,
+          "min_spine_up_dot": 0.98726846061236,
+          "min_foot_sphere_surface_z_m": -2.0186937417869077e-05,
+          "min_spine_collider_z_m": 0.0005377106029486856,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt15_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 9.18461582371599e-08,
+          "min_spine_up_dot": 0.9714948236988921,
+          "min_foot_sphere_surface_z_m": -2.2813781340545e-05,
+          "min_spine_collider_z_m": 0.00045511561431989993,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 1,
+          "finite": true,
+          "max_pose_fit_residual_m": 7.835641517317806e-08,
+          "min_spine_up_dot": 0.9562461885387283,
+          "min_foot_sphere_surface_z_m": -2.422085431523155e-05,
+          "min_spine_collider_z_m": 2.003999365656232e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 2,
+          "finite": true,
+          "max_pose_fit_residual_m": 9.472614738464998e-08,
+          "min_spine_up_dot": 0.9552153360724308,
+          "min_foot_sphere_surface_z_m": -2.054236817189306e-05,
+          "min_spine_collider_z_m": -1.5706963686362794e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 2
+        },
+        {
+          "case": 3,
+          "finite": true,
+          "max_pose_fit_residual_m": 7.477934842945124e-08,
+          "min_spine_up_dot": 0.9582179515400304,
+          "min_foot_sphere_surface_z_m": -2.2237372961300553e-05,
+          "min_spine_collider_z_m": 0.0002730657281694725,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 4,
+          "finite": true,
+          "max_pose_fit_residual_m": 9.4774280617036e-08,
+          "min_spine_up_dot": 0.9704167394785175,
+          "min_foot_sphere_surface_z_m": -2.138204899998844e-05,
+          "min_spine_collider_z_m": 0.0003323357707717763,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 5,
+          "finite": true,
+          "max_pose_fit_residual_m": 8.437736083551462e-08,
+          "min_spine_up_dot": 0.976515600422638,
+          "min_foot_sphere_surface_z_m": -2.230745577532845e-05,
+          "min_spine_collider_z_m": 0.0005508674331561598,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 6,
+          "finite": true,
+          "max_pose_fit_residual_m": 9.075539403716501e-08,
+          "min_spine_up_dot": 0.9812596960626706,
+          "min_foot_sphere_surface_z_m": -2.0426843935641243e-05,
+          "min_spine_collider_z_m": 0.0004288425217831731,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 7,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.232157180426228e-08,
+          "min_spine_up_dot": 0.9820655487038714,
+          "min_foot_sphere_surface_z_m": -2.1259376572050812e-05,
+          "min_spine_collider_z_m": 0.0008260904913952884,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 8,
+          "finite": true,
+          "max_pose_fit_residual_m": 8.461094391502671e-08,
+          "min_spine_up_dot": 0.9872686743407618,
+          "min_foot_sphere_surface_z_m": -2.0195044242300123e-05,
+          "min_spine_collider_z_m": 0.0005385716931669729,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 1,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 2,
+          "compressed_meshes": [
+            {
+              "body": "link_body_1",
+              "collider": "collision_001",
+              "maximum_compression_um": 15.706963686362794,
+              "fraction_sampled_poses_below_plane": 0.004987531172069825
+            }
+          ],
+          "maximum_mesh_compression_um": 15.706963686362794
+        },
+        {
+          "environment": 3,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 4,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 5,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 6,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 7,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 8,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt15_000",
+      "quality": [
+        {
+          "case": 0,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.0054696822163765e-08,
+          "min_spine_up_dot": 0.9715240538613321,
+          "min_foot_sphere_surface_z_m": -2.2796778353398827e-05,
+          "min_spine_collider_z_m": 0.0004497848709998048,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 1,
+          "finite": true,
+          "max_pose_fit_residual_m": 7.442097678501811e-08,
+          "min_spine_up_dot": 0.9562452372669081,
+          "min_foot_sphere_surface_z_m": -2.4542896633050586e-05,
+          "min_spine_collider_z_m": 2.3304898994500403e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 2,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.43733606544196e-08,
+          "min_spine_up_dot": 0.9551999639271893,
+          "min_foot_sphere_surface_z_m": -2.0438188032079825e-05,
+          "min_spine_collider_z_m": -1.7353053210999742e-05,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 3
+        },
+        {
+          "case": 3,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.988861126661818e-08,
+          "min_spine_up_dot": 0.9581963396326565,
+          "min_foot_sphere_surface_z_m": -2.2237765385358862e-05,
+          "min_spine_collider_z_m": 0.0002711191509372781,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 4,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.850147403906293e-08,
+          "min_spine_up_dot": 0.9703923497559882,
+          "min_foot_sphere_surface_z_m": -2.1396917257899325e-05,
+          "min_spine_collider_z_m": 0.0003312899679847937,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 5,
+          "finite": true,
+          "max_pose_fit_residual_m": 4.683308654640096e-08,
+          "min_spine_up_dot": 0.9766120794665837,
+          "min_foot_sphere_surface_z_m": -2.2322684973432867e-05,
+          "min_spine_collider_z_m": 0.000552297040620129,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 6,
+          "finite": true,
+          "max_pose_fit_residual_m": 5.908570727763966e-08,
+          "min_spine_up_dot": 0.9812150315488037,
+          "min_foot_sphere_surface_z_m": -2.038508811738084e-05,
+          "min_spine_collider_z_m": 0.000429172804605955,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 7,
+          "finite": true,
+          "max_pose_fit_residual_m": 4.733202424380123e-08,
+          "min_spine_up_dot": 0.9820546238529397,
+          "min_foot_sphere_surface_z_m": -2.1287490631105555e-05,
+          "min_spine_collider_z_m": 0.0008276519605738123,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        },
+        {
+          "case": 8,
+          "finite": true,
+          "max_pose_fit_residual_m": 6.330256894718009e-08,
+          "min_spine_up_dot": 0.9872315797015719,
+          "min_foot_sphere_surface_z_m": -2.0204412460073594e-05,
+          "min_spine_collider_z_m": 0.0005396266157245465,
+          "inverted_spine_samples": 0,
+          "spine_below_plane_samples": 0
+        }
+      ],
+      "mesh_compression": [
+        {
+          "environment": 0,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 1,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 2,
+          "compressed_meshes": [
+            {
+              "body": "link_body_1",
+              "collider": "collision_001",
+              "maximum_compression_um": 17.353053210999743,
+              "fraction_sampled_poses_below_plane": 0.007481296758104738
+            }
+          ],
+          "maximum_mesh_compression_um": 17.353053210999743
+        },
+        {
+          "environment": 3,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 4,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 5,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 6,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 7,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        },
+        {
+          "environment": 8,
+          "compressed_meshes": [],
+          "maximum_mesh_compression_um": 0.0
+        }
+      ]
+    }
+  ],
+  "summary_sha256": "bf3d2407808709f4471270ba572e2430df9f7495263e679d9a87a812e2012e34",
+  "qualification": "Validated only for the stated new common compliant-contact physical benchmark; original rigid-contact candidates remain rejected."
+}

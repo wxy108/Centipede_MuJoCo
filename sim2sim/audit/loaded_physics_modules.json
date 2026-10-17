@@ -1,0 +1,78 @@
+[
+  {
+    "ModuleName": "physxSchema.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.usd.schema.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\physxSchema.dll"
+  },
+  {
+    "ModuleName": "_physxSchema.pyd",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.usd.schema.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\pxr\\PhysxSchema\\_physxSchema.pyd"
+  },
+  {
+    "ModuleName": "_PhysxSchema.cp311-win_amd64.pyd",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\usdrt.scenegraph-7.6.1+8131b85d.wx64.r.cp311\\usdrt\\PhysxSchema\\_PhysxSchema.cp311-win_amd64.pyd"
+  },
+  {
+    "ModuleName": "omni.physx.foundation.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.foundation-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.foundation.plugin.dll"
+  },
+  {
+    "ModuleName": "_physxFoundation.cp311-win_amd64.pyd",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.foundation-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physxfoundation\\bindings\\_physxFoundation.cp311-win_amd64.pyd"
+  },
+  {
+    "ModuleName": "PhysXDevice64.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.foundation-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\PhysXDevice64.dll"
+  },
+  {
+    "ModuleName": "PhysXGpu_64.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.foundation-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\PhysXGpu_64.dll"
+  },
+  {
+    "ModuleName": "omni.physx.cooking.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.cooking-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.cooking.plugin.dll"
+  },
+  {
+    "ModuleName": "_physxCooking.cp311-win_amd64.pyd",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.cooking-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physxcooking\\bindings\\_physxCooking.cp311-win_amd64.pyd"
+  },
+  {
+    "ModuleName": "omni.physx.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.plugin.dll"
+  },
+  {
+    "ModuleName": "_physx.cp311-win_amd64.pyd",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physx\\bindings\\_physx.cp311-win_amd64.pyd"
+  },
+  {
+    "ModuleName": "omni.physics.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physics.plugin.dll"
+  },
+  {
+    "ModuleName": "omni.physics.physx.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physics.physx.plugin.dll"
+  },
+  {
+    "ModuleName": "omni.physics.stageupdate.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics.stageupdate-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physics.stageupdate.plugin.dll"
+  },
+  {
+    "ModuleName": "omni.physics.tensors.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics.tensors-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physics.tensors.plugin.dll"
+  },
+  {
+    "ModuleName": "_physicsTensors.cp311-win_amd64.pyd",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics.tensors-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physics\\tensors\\bindings\\_physicsTensors.cp311-win_amd64.pyd"
+  },
+  {
+    "ModuleName": "omni.physx.tensors.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.tensors-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.tensors.plugin.dll"
+  },
+  {
+    "ModuleName": "omni.physx.fabric.plugin.dll",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.fabric-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.fabric.plugin.dll"
+  },
+  {
+    "ModuleName": "_physxFabric.cp311-win_amd64.pyd",
+    "FileName": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.fabric-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physxfabric\\bindings\\_physxFabric.cp311-win_amd64.pyd"
+  }
+]

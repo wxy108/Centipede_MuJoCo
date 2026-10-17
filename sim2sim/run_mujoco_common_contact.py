@@ -1,0 +1,56 @@
+from pathlib import Path
+import argparse,time,json,os,sys
+import numpy as np
+import mujoco
+import shared as s
+from command_cache import CommandCache
+from common_contact_v2 import CommonContact
+p=argparse.ArgumentParser();p.add_argument('--name',required=True);p.add_argument('--bank',default='calibration');p.add_argument('--dt',type=float,default=.00025);p.add_argument('--command-dt',type=float,default=.0000625);p.add_argument('--duration',type=float,default=6);p.add_argument('--integrator',default='implicitfast');p.add_argument('--position-implicit-adapter',action='store_true');p.add_argument('--coupled-drive-inertia',action='store_true');p.add_argument('--case-index',type=int);a=p.parse_args()
+command_stride=round(a.command_dt/a.dt);assert command_stride>=1 and abs(command_stride*a.dt-a.command_dt)<1e-12
+folder=s.ROOT/'runs'/a.name;assert not folder.exists();folder.mkdir(parents=True)
+s.write(folder/'pid.json',dict(pid=os.getpid(),argv=sys.argv))
+rows=s.cases(a.bank);m=mujoco.MjModel.from_xml_path(str(s.ROOT/'assets/common.xml'));m.opt.timestep=a.dt
+m.geom_solref[:,0]=2*a.dt;m.opt.disableflags|=mujoco.mjtDisableBit.mjDSBL_CONTACT
+if a.case_index is not None:rows=[rows[a.case_index]]
+m.opt.integrator={'implicitfast':mujoco.mjtIntegrator.mjINT_IMPLICITFAST,'RK4':mujoco.mjtIntegrator.mjINT_RK4,'implicit':mujoco.mjtIntegrator.mjINT_IMPLICIT}[a.integrator]
+names=[m.joint(i).name for i in range(1,m.njnt)];body_names=[m.body(i).name for i in range(1,m.nbody)]
+ids=np.array([m.actuator(n).id for n in names]);qids=np.array([m.joint(n).qposadr[0] for n in names]);dids=np.array([m.joint(n).dofadr[0] for n in names])
+lookup={x['name']:x for x in s.M['joints']};kp=np.array([lookup[n]['kp'] for n in names],np.float32).astype(float);kv=np.array([lookup[n]['kv'] for n in names],np.float32).astype(float)
+m.actuator_gainprm[ids,0]=kp;m.actuator_biasprm[ids,1]=-kp;m.actuator_biasprm[ids,2]=-kv
+if a.position_implicit_adapter or a.coupled_drive_inertia:m.actuator_biasprm[ids,2]-=a.dt*kp
+if a.coupled_drive_inertia:
+    m.opt.integrator=mujoco.mjtIntegrator.mjINT_EULER
+    m.dof_armature[dids]+=a.dt*kv+a.dt*a.dt*kp
+    mujoco.mj_setConst(m,mujoco.MjData(m))
+stride=round(.01/a.dt);assert abs(stride*a.dt-.01)<1e-10
+traces=[];started=time.monotonic();steps=round(a.duration/a.dt)
+for e,row in enumerate(rows):
+    cache=CommandCache(names,a.command_dt,[row])
+    peak_force=0.;stopped=False;max_depth=0.;max_contact_force=0.;contact=CommonContact(body_names,1,a.dt)
+    d=mujoco.MjData(m);d.qpos[:7]=s.M['initial_root_pose_wxyz'];mujoco.mj_forward(m,d)
+    ts=[0.];qs=[d.qpos[qids].copy()];bs=[d.xpos[1:].copy()];vs=[d.qvel[dids].copy()];ns=[int(d.ncon)]
+    for k in range(steps):
+        target,vel=cache.get(k//command_stride);d.ctrl[ids]=target[0]+kv/kp*vel[0]
+        mujoco.mj_step1(m,d)
+        com_v=d.cvel[:,3:]+np.cross(d.cvel[:,:3],d.xipos-d.subtree_com[m.body_rootid])
+        velocity=np.concatenate([com_v[1:],d.cvel[1:,:3]],axis=1)[None]
+        F,T,info=contact.forces(d.xpos[1:][None],d.xmat[1:].reshape(1,-1,3,3),d.xipos[1:][None],velocity)
+        d.xfrc_applied[1:,:3]=F[0];d.xfrc_applied[1:,3:]=T[0];max_depth=max(max_depth,info['max_penetration_m']);max_contact_force=max(max_contact_force,info['max_point_force_N'])
+        mujoco.mj_step2(m,d)
+        peak_force=max(peak_force,float(np.max(np.abs(d.actuator_force))))
+        if (k+1)%stride==0:
+            mujoco.mj_kinematics(m,d)
+            ts.append((k+1)*a.dt);qs.append(d.qpos[qids].copy());bs.append(d.xpos[1:].copy());vs.append(d.qvel[dids].copy());ns.append(int(d.ncon))
+        if not np.isfinite(d.qpos).all():raise RuntimeError('Nonfinite simulation state')
+        if (k+1)%round(1/a.dt)==0:
+            np.savez_compressed(folder/'partial_trajectory.npz',t=ts,q=np.asarray(qs)[:,None],v=np.asarray(vs)[:,None],body=np.asarray(bs)[:,None],joint_names=names,body_names=body_names)
+            print(json.dumps(dict(case=e,sim_time=(k+1)*a.dt,wall_s=time.monotonic()-started)),flush=True)
+            if (s.ROOT/'STOP_SIM2SIM').exists():stopped=True;break
+    traces.append(dict(q=np.array(qs),body=np.array(bs),v=np.array(vs),ncon=ns,warnings=[int(x.number) for x in d.warning],peak_force=peak_force,stopped=stopped,max_contact_depth_m=max_depth,max_contact_force_N=max_contact_force))
+    print(json.dumps(dict(case=e,steps=steps,wall_s=time.monotonic()-started,warnings=[int(x.number) for x in d.warning])),flush=True)
+t=np.array(ts);q=np.stack([x['q'] for x in traces],axis=1);body=np.stack([x['body'] for x in traces],axis=1);v=np.stack([x['v'] for x in traces],axis=1)
+np.savez_compressed(folder/'trajectory.npz',t=t,q=q,v=v,body=body,joint_names=names,body_names=body_names)
+s.write(folder/'results.json',dict(engine='mujoco',version=mujoco.__version__,arguments=vars(a),wall_s=time.monotonic()-started,
+    source_hashes={str(x):s.sha(x) for x in [Path(__file__),s.ROOT/'shared.py',s.ROOT/'command_cache.py',s.ROOT/'assets/common.xml',s.ROOT/'COMMON_CONTRACT.json',s.ROOT/'COMMON_CONTACT_V2.json',s.ROOT/'common_contact_v2.py',s.ROOT/'assets/common_contact_geometry.json']},
+    contact_time_constant_s=2*a.dt,physical_pd_table=s.C['impedance_Nm_per_rad_and_Nms_per_rad'],discrete_pd_velocity_coefficient='D + dt*K' if a.position_implicit_adapter or a.coupled_drive_inertia else 'D',numerical_effective_inertia_adapter=bool(a.coupled_drive_inertia),numerical_armature_increment_kgm2=(a.dt*kv+a.dt*a.dt*kp).tolist() if a.coupled_drive_inertia else [],physical_armature_kgm2=0.,effective_integrator='Euler with shared M+hD+h²K in contact and velocity solves' if a.coupled_drive_inertia else a.integrator,rows=s.score(t,body,q,rows,names,body_names),contact_counts=[x['ncon'] for x in traces],warnings=[x['warnings'] for x in traces],peak_numerical_actuator_force_Nm=[x['peak_force'] for x in traces],stopped=[x['stopped'] for x in traces],contact_model='COMMON_CONTACT_V2.json; shared compliant point contact',native_contact_disabled=True,max_contact_depth_m=[x['max_contact_depth_m'] for x in traces],max_contact_point_force_N=[x['max_contact_force_N'] for x in traces]))
+print(json.dumps(s.score(t,body,q,rows,names,body_names)),flush=True)

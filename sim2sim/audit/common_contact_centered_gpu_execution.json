@@ -1,0 +1,80 @@
+{
+  "previous_owned_pid": 142796,
+  "rows": [
+    {
+      "name": "native_common_contact_centered_gpu_short_000",
+      "pid": 98380,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_common_contact_centered.py",
+        "--name",
+        "native_common_contact_centered_gpu_short_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cuda:0",
+        "--cpu-threads",
+        "2",
+        "--dt",
+        "3.125e-05",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "0.02",
+        "--headless"
+      ]
+    },
+    {
+      "name": "native_common_contact_centered_validation_gpu_dt31_000",
+      "pid": 202928,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_common_contact_centered.py",
+        "--name",
+        "native_common_contact_centered_validation_gpu_dt31_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cuda:0",
+        "--cpu-threads",
+        "2",
+        "--dt",
+        "3.125e-05",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--headless"
+      ]
+    },
+    {
+      "name": "native_common_contact_centered_validation_gpu_dt15_000",
+      "pid": 236032,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_common_contact_centered.py",
+        "--name",
+        "native_common_contact_centered_validation_gpu_dt15_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cuda:0",
+        "--cpu-threads",
+        "2",
+        "--dt",
+        "1.5625e-05",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--headless"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2826 @@
+{
+  "summary": {
+    "mass_rel": 6.680568038011363e-08,
+    "com_error_m": 0.0,
+    "inertia_rel": 1.2151851372873466e-07,
+    "position_error_m": 4.610163116993826e-08,
+    "kp_rel": 3.7097015263362144e-08,
+    "kv_rel": 5.6697980011804194e-08,
+    "arrays": {
+      "masses": {
+        "shape": [
+          1,
+          251
+        ],
+        "minimum": 9.999999717180685e-10,
+        "maximum": 0.00017957232194021344
+      },
+      "coms": {
+        "shape": [
+          1,
+          251,
+          7
+        ],
+        "minimum": -0.5,
+        "maximum": 1.0
+      },
+      "inertias": {
+        "shape": [
+          1,
+          251,
+          9
+        ],
+        "minimum": -3.3724069543883406e-12,
+        "maximum": 1.5793942820252482e-09
+      },
+      "dof_stiffnesses": {
+        "shape": [
+          1,
+          173
+        ],
+        "minimum": 1.9999999494757503e-05,
+        "maximum": 0.030418043956160545
+      },
+      "dof_dampings": {
+        "shape": [
+          1,
+          173
+        ],
+        "minimum": 7.78348407948215e-09,
+        "maximum": 0.0076882969588041306
+      },
+      "dof_armatures": {
+        "shape": [
+          1,
+          173
+        ],
+        "minimum": 0.0,
+        "maximum": 0.0
+      },
+      "dof_limits": {
+        "shape": [
+          1,
+          173,
+          2
+        ],
+        "minimum": -3.141589879989624,
+        "maximum": 3.141589879989624
+      },
+      "dof_max_forces": {
+        "shape": [
+          1,
+          173
+        ],
+        "minimum": 1.0,
+        "maximum": 1.0
+      },
+      "dof_max_velocities": {
+        "shape": [
+          1,
+          173
+        ],
+        "minimum": 1000000.0,
+        "maximum": 1000000.0
+      },
+      "dof_friction_coefficients": {
+        "shape": [
+          1,
+          173
+        ],
+        "minimum": 0.0,
+        "maximum": 0.0
+      },
+      "material_properties": {
+        "shape": [
+          1,
+          249,
+          3
+        ],
+        "minimum": 0.0,
+        "maximum": 0.5
+      },
+      "contact_offsets": {
+        "shape": [
+          1,
+          249
+        ],
+        "minimum": 1.9999999494757503e-05,
+        "maximum": 1.9999999494757503e-05
+      },
+      "rest_offsets": {
+        "shape": [
+          1,
+          249
+        ],
+        "minimum": 0.0,
+        "maximum": 0.0
+      }
+    },
+    "material_unique": [
+      [
+        0.5,
+        0.5,
+        0.0
+      ]
+    ],
+    "worst_inertia": [
+      {
+        "name": "link_body_5",
+        "mass_rel": 0.0,
+        "com_error_m": 0.0,
+        "inertia_rel": 1.2151851372873466e-07,
+        "position_error_m": 9.378509486835468e-09
+      },
+      {
+        "name": "link_body_14",
+        "mass_rel": 6.644814088069038e-08,
+        "com_error_m": 0.0,
+        "inertia_rel": 1.0630760855577964e-07,
+        "position_error_m": 3.038066786664506e-08
+      },
+      {
+        "name": "link_body_20",
+        "mass_rel": 0.0,
+        "com_error_m": 0.0,
+        "inertia_rel": 1.0457380821327427e-07,
+        "position_error_m": 3.922357311548306e-08
+      },
+      {
+        "name": "link_body_16",
+        "mass_rel": 6.65959196014101e-08,
+        "com_error_m": 0.0,
+        "inertia_rel": 9.760747925872748e-08,
+        "position_error_m": 3.807002993955824e-08
+      },
+      {
+        "name": "link_body_12",
+        "mass_rel": 0.0,
+        "com_error_m": 0.0,
+        "inertia_rel": 9.272141945869863e-08,
+        "position_error_m": 2.2635160845632728e-08
+      },
+      {
+        "name": "link_body_6",
+        "mass_rel": 0.0,
+        "com_error_m": 0.0,
+        "inertia_rel": 8.906757931083348e-08,
+        "position_error_m": 1.1282557567881294e-08
+      },
+      {
+        "name": "link_body_13",
+        "mass_rel": 0.0,
+        "com_error_m": 0.0,
+        "inertia_rel": 8.769663152793715e-08,
+        "position_error_m": 3.018371522671546e-08
+      },
+      {
+        "name": "link_body_3",
+        "mass_rel": 0.0,
+        "com_error_m": 0.0,
+        "inertia_rel": 7.284264209644173e-08,
+        "position_error_m": 1.901416453357305e-09
+      },
+      {
+        "name": "link_leg_0_L_2",
+        "mass_rel": 0.0,
+        "com_error_m": 0.0,
+        "inertia_rel": 7.157893997616734e-08,
+        "position_error_m": 3.488237723253729e-10
+      },
+      {
+        "name": "link_leg_0_R_2",
+        "mass_rel": 0.0,
+        "com_error_m": 0.0,
+        "inertia_rel": 7.157893997616734e-08,
+        "position_error_m": 3.488237723253729e-10
+      }
+    ]
+  },
+  "bodies": [
+    {
+      "name": "link_body_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 4.260538780229217e-08,
+      "position_error_m": 3.109034438661537e-10
+    },
+    {
+      "name": "link_pitch_body_0__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.538292545814601e-10
+    },
+    {
+      "name": "link_pitch_body_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.538292545814601e-10
+    },
+    {
+      "name": "link_body_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 6.787412169594849e-08,
+      "position_error_m": 5.332261025380377e-10
+    },
+    {
+      "name": "link_leg_0_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.488237723253729e-10
+    },
+    {
+      "name": "link_leg_0_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.597458671760311e-10
+    },
+    {
+      "name": "link_pitch_body_1__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.675716121463936e-10
+    },
+    {
+      "name": "link_leg_0_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.488237723253729e-10
+    },
+    {
+      "name": "link_leg_0_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.597458671760311e-10
+    },
+    {
+      "name": "link_pitch_body_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.675716121463936e-10
+    },
+    {
+      "name": "link_leg_0_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.488237723253729e-10
+    },
+    {
+      "name": "link_leg_0_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.488237723253729e-10
+    },
+    {
+      "name": "link_body_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 6.697890633757718e-08,
+      "position_error_m": 9.675500723391617e-10
+    },
+    {
+      "name": "link_leg_0_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.593207777445238e-10
+    },
+    {
+      "name": "link_leg_0_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.593207777445238e-10
+    },
+    {
+      "name": "link_leg_1_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.4986683854789832e-09
+    },
+    {
+      "name": "link_leg_1_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.7467046269256465e-09
+    },
+    {
+      "name": "link_pitch_body_2__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.9011493237790814e-09
+    },
+    {
+      "name": "foot_0_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.5445035482622035e-10
+    },
+    {
+      "name": "foot_0_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.5445035482622035e-10
+    },
+    {
+      "name": "link_leg_1_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.4986683854789832e-09
+    },
+    {
+      "name": "link_leg_1_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.7467046269256465e-09
+    },
+    {
+      "name": "link_pitch_body_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.9011493237790814e-09
+    },
+    {
+      "name": "link_leg_1_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 2.318616389703943e-09
+    },
+    {
+      "name": "link_leg_1_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 2.7467046269256465e-09
+    },
+    {
+      "name": "link_body_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.284264209644173e-08,
+      "position_error_m": 1.901416453357305e-09
+    },
+    {
+      "name": "link_leg_1_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 2.4993009469979094e-09
+    },
+    {
+      "name": "link_leg_1_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.070767699657241e-09
+    },
+    {
+      "name": "link_leg_2_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.020422064763166e-09
+    },
+    {
+      "name": "link_leg_2_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.331960155957084e-09
+    },
+    {
+      "name": "link_pitch_body_3__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.828740647759713e-09
+    },
+    {
+      "name": "foot_1_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.502001363440691e-09
+    },
+    {
+      "name": "foot_1_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.060631895406049e-09
+    },
+    {
+      "name": "link_leg_2_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.020422064763166e-09
+    },
+    {
+      "name": "link_leg_2_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.331960155957084e-09
+    },
+    {
+      "name": "link_pitch_body_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.828740647759713e-09
+    },
+    {
+      "name": "link_leg_2_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 4.020422064763166e-09
+    },
+    {
+      "name": "link_leg_2_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 4.153070641262922e-09
+    },
+    {
+      "name": "link_body_4",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 2.3963514198045252e-08,
+      "position_error_m": 5.657590565922836e-09
+    },
+    {
+      "name": "link_leg_2_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 4.15039599843686e-09
+    },
+    {
+      "name": "link_leg_2_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 4.517620611055589e-09
+    },
+    {
+      "name": "link_leg_3_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 7.80462682958824e-09
+    },
+    {
+      "name": "link_leg_3_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 8.260938081782193e-09
+    },
+    {
+      "name": "link_pitch_body_4__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.378509486835468e-09
+    },
+    {
+      "name": "foot_2_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.154810597448856e-09
+    },
+    {
+      "name": "foot_2_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.513303432873871e-09
+    },
+    {
+      "name": "link_leg_3_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 7.80462682958824e-09
+    },
+    {
+      "name": "link_leg_3_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 8.260938081782193e-09
+    },
+    {
+      "name": "link_pitch_body_4",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.378509486835468e-09
+    },
+    {
+      "name": "link_leg_3_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 9.562033837243808e-09
+    },
+    {
+      "name": "link_leg_3_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 8.159357695390014e-09
+    },
+    {
+      "name": "link_body_5",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.2151851372873466e-07,
+      "position_error_m": 9.378509486835468e-09
+    },
+    {
+      "name": "link_leg_3_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 9.526989766785223e-09
+    },
+    {
+      "name": "link_leg_3_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 8.326069650374357e-09
+    },
+    {
+      "name": "link_leg_4_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1268619657459674e-08
+    },
+    {
+      "name": "link_leg_4_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.598813599435668e-09
+    },
+    {
+      "name": "link_pitch_body_5__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1282557567881294e-08
+    },
+    {
+      "name": "foot_3_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.530128893729673e-09
+    },
+    {
+      "name": "foot_3_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 8.323356962372843e-09
+    },
+    {
+      "name": "link_leg_4_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1268619657459674e-08
+    },
+    {
+      "name": "link_leg_4_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.598813599435668e-09
+    },
+    {
+      "name": "link_pitch_body_5",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1282557567881294e-08
+    },
+    {
+      "name": "link_leg_4_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.1300400602378469e-08
+    },
+    {
+      "name": "link_leg_4_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 9.598813599435668e-09
+    },
+    {
+      "name": "link_body_6",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 8.906757931083348e-08,
+      "position_error_m": 1.1282557567881294e-08
+    },
+    {
+      "name": "link_leg_4_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.1290662731757748e-08
+    },
+    {
+      "name": "link_leg_4_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 9.692607650061151e-09
+    },
+    {
+      "name": "link_leg_5_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1259731725299375e-08
+    },
+    {
+      "name": "link_leg_5_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.123804553950974e-08
+    },
+    {
+      "name": "link_pitch_body_6__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1273376848543938e-08
+    },
+    {
+      "name": "foot_4_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1296660564168952e-08
+    },
+    {
+      "name": "foot_4_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 9.691791037141633e-09
+    },
+    {
+      "name": "link_leg_5_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1259731725299375e-08
+    },
+    {
+      "name": "link_leg_5_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.123804553950974e-08
+    },
+    {
+      "name": "link_pitch_body_6",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1273376848543938e-08
+    },
+    {
+      "name": "link_leg_5_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.123804553950974e-08
+    },
+    {
+      "name": "link_leg_5_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.123804553950974e-08
+    },
+    {
+      "name": "link_body_7",
+      "mass_rel": 6.680568038011363e-08,
+      "com_error_m": 0.0,
+      "inertia_rel": 4.5204871304978854e-08,
+      "position_error_m": 1.1233371509152326e-08
+    },
+    {
+      "name": "link_leg_5_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.1227314026057957e-08
+    },
+    {
+      "name": "link_leg_5_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.1278946222718437e-08
+    },
+    {
+      "name": "link_leg_6_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1248803258029669e-08
+    },
+    {
+      "name": "link_leg_6_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.143283661660255e-08
+    },
+    {
+      "name": "link_pitch_body_7__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.492082214424858e-08
+    },
+    {
+      "name": "foot_5_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.123362060116976e-08
+    },
+    {
+      "name": "foot_5_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1278518295242985e-08
+    },
+    {
+      "name": "link_leg_6_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.1248803258029669e-08
+    },
+    {
+      "name": "link_leg_6_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.143283661660255e-08
+    },
+    {
+      "name": "link_pitch_body_7",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.492082214424858e-08
+    },
+    {
+      "name": "link_leg_6_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.1260844785404879e-08
+    },
+    {
+      "name": "link_leg_6_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.1356717378976693e-08
+    },
+    {
+      "name": "link_body_8",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 2.6109077589719767e-08,
+      "position_error_m": 1.4921042370098194e-08
+    },
+    {
+      "name": "link_leg_6_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.129943133710901e-08
+    },
+    {
+      "name": "link_leg_6_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.143941683756802e-08
+    },
+    {
+      "name": "link_leg_7_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.4977670402838064e-08
+    },
+    {
+      "name": "link_leg_7_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.5078257306511826e-08
+    },
+    {
+      "name": "link_pitch_body_8__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8629868993827664e-08
+    },
+    {
+      "name": "foot_6_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.130002894425654e-08
+    },
+    {
+      "name": "foot_6_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.143670017608022e-08
+    },
+    {
+      "name": "link_leg_7_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.4977670402838064e-08
+    },
+    {
+      "name": "link_leg_7_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.5078257306511826e-08
+    },
+    {
+      "name": "link_pitch_body_8",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8629868993827664e-08
+    },
+    {
+      "name": "link_leg_7_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.495593826520289e-08
+    },
+    {
+      "name": "link_leg_7_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.503727183636222e-08
+    },
+    {
+      "name": "link_body_9",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 4.66080269725514e-08,
+      "position_error_m": 1.8629877964169483e-08
+    },
+    {
+      "name": "link_leg_7_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.4994054261497867e-08
+    },
+    {
+      "name": "link_leg_7_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.5099826894316898e-08
+    },
+    {
+      "name": "link_leg_8_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.862792607171402e-08
+    },
+    {
+      "name": "link_leg_8_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.864135333307362e-08
+    },
+    {
+      "name": "link_pitch_body_9__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8641071505208782e-08
+    },
+    {
+      "name": "foot_7_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.4994504619884473e-08
+    },
+    {
+      "name": "foot_7_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.5097768893854963e-08
+    },
+    {
+      "name": "link_leg_8_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.862792607171402e-08
+    },
+    {
+      "name": "link_leg_8_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.864135333307362e-08
+    },
+    {
+      "name": "link_pitch_body_9",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8641071505208782e-08
+    },
+    {
+      "name": "link_leg_8_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.8634081773604342e-08
+    },
+    {
+      "name": "link_leg_8_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 2.237264380297563e-08
+    },
+    {
+      "name": "link_body_10",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 5.419600854051224e-08,
+      "position_error_m": 1.8641049898827103e-08
+    },
+    {
+      "name": "link_leg_8_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.862916622397492e-08
+    },
+    {
+      "name": "link_leg_8_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 2.2355861646851008e-08
+    },
+    {
+      "name": "link_leg_9_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8988433681292803e-08
+    },
+    {
+      "name": "link_leg_9_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8656895650338995e-08
+    },
+    {
+      "name": "link_pitch_body_10__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.874060123984543e-08
+    },
+    {
+      "name": "foot_8_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8628428058037725e-08
+    },
+    {
+      "name": "foot_8_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.23560428717781e-08
+    },
+    {
+      "name": "link_leg_9_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8988433681292803e-08
+    },
+    {
+      "name": "link_leg_9_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.8656895650338995e-08
+    },
+    {
+      "name": "link_pitch_body_10",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.874060123984543e-08
+    },
+    {
+      "name": "link_leg_9_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 1.8946992387150816e-08
+    },
+    {
+      "name": "link_leg_9_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 2.2394349646550814e-08
+    },
+    {
+      "name": "link_body_11",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 6.121664070516188e-08,
+      "position_error_m": 1.8740451692749303e-08
+    },
+    {
+      "name": "link_leg_9_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 1.9091234926525408e-08
+    },
+    {
+      "name": "link_leg_9_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 2.2484673188521666e-08
+    },
+    {
+      "name": "link_leg_10_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2660072226680835e-08
+    },
+    {
+      "name": "link_leg_10_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2429233880418906e-08
+    },
+    {
+      "name": "link_pitch_body_11__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2625992000445732e-08
+    },
+    {
+      "name": "foot_9_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 1.9085643814751196e-08
+    },
+    {
+      "name": "foot_9_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.247758860729805e-08
+    },
+    {
+      "name": "link_leg_10_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2660072226680835e-08
+    },
+    {
+      "name": "link_leg_10_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2429233880418906e-08
+    },
+    {
+      "name": "link_pitch_body_11",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2625992000445732e-08
+    },
+    {
+      "name": "link_leg_10_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 2.2589666006543642e-08
+    },
+    {
+      "name": "link_leg_10_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 2.2449768468942925e-08
+    },
+    {
+      "name": "link_body_12",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 9.272141945869863e-08,
+      "position_error_m": 2.2635160845632728e-08
+    },
+    {
+      "name": "link_leg_10_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 2.2714122382803332e-08
+    },
+    {
+      "name": "link_leg_10_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 2.240740835683236e-08
+    },
+    {
+      "name": "link_leg_11_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2841528403436706e-08
+    },
+    {
+      "name": "link_leg_11_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.256574582664615e-08
+    },
+    {
+      "name": "link_pitch_body_12__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.285832902451285e-08
+    },
+    {
+      "name": "foot_10_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.270738360519286e-08
+    },
+    {
+      "name": "foot_10_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2410965099960085e-08
+    },
+    {
+      "name": "link_leg_11_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.2841528403436706e-08
+    },
+    {
+      "name": "link_leg_11_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.256574582664615e-08
+    },
+    {
+      "name": "link_pitch_body_12",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.285832902451285e-08
+    },
+    {
+      "name": "link_leg_11_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 2.2841528403436706e-08
+    },
+    {
+      "name": "link_leg_11_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 2.253569683850915e-08
+    },
+    {
+      "name": "link_body_13",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 8.769663152793715e-08,
+      "position_error_m": 3.018371522671546e-08
+    },
+    {
+      "name": "link_leg_11_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 2.313362635311417e-08
+    },
+    {
+      "name": "link_leg_11_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 2.9849427626762796e-08
+    },
+    {
+      "name": "link_leg_12_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.039214347651099e-08
+    },
+    {
+      "name": "link_leg_12_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.019978827314209e-08
+    },
+    {
+      "name": "link_pitch_body_13__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.041608733359251e-08
+    },
+    {
+      "name": "foot_11_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.3125904491958513e-08
+    },
+    {
+      "name": "foot_11_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 2.985054610649168e-08
+    },
+    {
+      "name": "link_leg_12_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.039214347651099e-08
+    },
+    {
+      "name": "link_leg_12_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.019978827314209e-08
+    },
+    {
+      "name": "link_pitch_body_13",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.041608733359251e-08
+    },
+    {
+      "name": "link_leg_12_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.039214347651099e-08
+    },
+    {
+      "name": "link_leg_12_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.0234771472246275e-08
+    },
+    {
+      "name": "link_body_14",
+      "mass_rel": 6.644814088069038e-08,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.0630760855577964e-07,
+      "position_error_m": 3.038066786664506e-08
+    },
+    {
+      "name": "link_leg_12_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.045667757077678e-08
+    },
+    {
+      "name": "link_leg_12_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.746418387046203e-08
+    },
+    {
+      "name": "link_leg_13_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.07335854874952e-08
+    },
+    {
+      "name": "link_leg_13_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.0234771472246275e-08
+    },
+    {
+      "name": "link_pitch_body_14__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.0610182592926934e-08
+    },
+    {
+      "name": "foot_12_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.0445364722961324e-08
+    },
+    {
+      "name": "foot_12_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.746523988276794e-08
+    },
+    {
+      "name": "link_leg_13_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.07335854874952e-08
+    },
+    {
+      "name": "link_leg_13_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.0234771472246275e-08
+    },
+    {
+      "name": "link_pitch_body_14",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.0610182592926934e-08
+    },
+    {
+      "name": "link_leg_13_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.0679740225287024e-08
+    },
+    {
+      "name": "link_leg_13_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.019978827314209e-08
+    },
+    {
+      "name": "link_body_15",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.7779134203855012e-08,
+      "position_error_m": 3.0609807726828545e-08
+    },
+    {
+      "name": "link_leg_13_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.087162750761918e-08
+    },
+    {
+      "name": "link_leg_13_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.746418387046203e-08
+    },
+    {
+      "name": "link_leg_14_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.812133089875152e-08
+    },
+    {
+      "name": "link_leg_14_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.778997723061558e-08
+    },
+    {
+      "name": "link_pitch_body_15__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.807024013913288e-08
+    },
+    {
+      "name": "foot_13_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.0858015245684843e-08
+    },
+    {
+      "name": "foot_13_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.746523988276794e-08
+    },
+    {
+      "name": "link_leg_14_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.812133089875152e-08
+    },
+    {
+      "name": "link_leg_14_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.778997723061558e-08
+    },
+    {
+      "name": "link_pitch_body_15",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.807024013913288e-08
+    },
+    {
+      "name": "link_leg_14_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.8168939555218635e-08
+    },
+    {
+      "name": "link_leg_14_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.778997723061558e-08
+    },
+    {
+      "name": "link_body_16",
+      "mass_rel": 6.65959196014101e-08,
+      "com_error_m": 0.0,
+      "inertia_rel": 9.760747925872748e-08,
+      "position_error_m": 3.807002993955824e-08
+    },
+    {
+      "name": "link_leg_14_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.8351344348240445e-08
+    },
+    {
+      "name": "link_leg_14_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 4.498359360063085e-08
+    },
+    {
+      "name": "link_leg_15_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.829094099198137e-08
+    },
+    {
+      "name": "link_leg_15_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.797853052728588e-08
+    },
+    {
+      "name": "link_pitch_body_16__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.833632419111962e-08
+    },
+    {
+      "name": "foot_14_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.834696675428272e-08
+    },
+    {
+      "name": "foot_14_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.498479915226558e-08
+    },
+    {
+      "name": "link_leg_15_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.829094099198137e-08
+    },
+    {
+      "name": "link_leg_15_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.797853052728588e-08
+    },
+    {
+      "name": "link_pitch_body_16",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.833632419111962e-08
+    },
+    {
+      "name": "link_leg_15_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.8242066687828526e-08
+    },
+    {
+      "name": "link_leg_15_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.802061516362955e-08
+    },
+    {
+      "name": "link_body_17",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 3.9724271176378315e-08,
+      "position_error_m": 3.833543309017729e-08
+    },
+    {
+      "name": "link_leg_15_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.821800915374473e-08
+    },
+    {
+      "name": "link_leg_15_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 4.522966651370539e-08
+    },
+    {
+      "name": "link_leg_16_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.844255903615733e-08
+    },
+    {
+      "name": "link_leg_16_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.839387773790721e-08
+    },
+    {
+      "name": "link_pitch_body_17__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.851169379799006e-08
+    },
+    {
+      "name": "foot_15_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.820519588043511e-08
+    },
+    {
+      "name": "foot_15_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.523202606448704e-08
+    },
+    {
+      "name": "link_leg_16_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.844255903615733e-08
+    },
+    {
+      "name": "link_leg_16_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.839387773790721e-08
+    },
+    {
+      "name": "link_pitch_body_17",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.851169379799006e-08
+    },
+    {
+      "name": "link_leg_16_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.844255903615733e-08
+    },
+    {
+      "name": "link_leg_16_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.844255903615733e-08
+    },
+    {
+      "name": "link_body_18",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 6.584363258158214e-08,
+      "position_error_m": 3.129278600850603e-08
+    },
+    {
+      "name": "link_leg_16_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 4.5628532167345435e-08
+    },
+    {
+      "name": "link_leg_16_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 4.5389835472958325e-08
+    },
+    {
+      "name": "link_leg_17_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.892163215451945e-08
+    },
+    {
+      "name": "link_leg_17_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.819956982266892e-08
+    },
+    {
+      "name": "link_pitch_body_18__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.8717934763962774e-08
+    },
+    {
+      "name": "foot_16_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.561640433292684e-08
+    },
+    {
+      "name": "foot_16_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.539014589926929e-08
+    },
+    {
+      "name": "link_leg_17_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.892163215451945e-08
+    },
+    {
+      "name": "link_leg_17_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.819956982266892e-08
+    },
+    {
+      "name": "link_pitch_body_18",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.8717934763962774e-08
+    },
+    {
+      "name": "link_leg_17_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.896077192551908e-08
+    },
+    {
+      "name": "link_leg_17_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.824424625326387e-08
+    },
+    {
+      "name": "link_body_19",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 6.598538219401746e-08,
+      "position_error_m": 3.871801723782181e-08
+    },
+    {
+      "name": "link_leg_17_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.918991510118846e-08
+    },
+    {
+      "name": "link_leg_17_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 4.534267344487341e-08
+    },
+    {
+      "name": "link_leg_18_L_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.88905474538151e-08
+    },
+    {
+      "name": "link_leg_18_R_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.919255131410819e-08
+    },
+    {
+      "name": "link_pitch_body_19__split0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.9223394702156736e-08
+    },
+    {
+      "name": "foot_17_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.917296629116921e-08
+    },
+    {
+      "name": "foot_17_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.5343494932998185e-08
+    },
+    {
+      "name": "link_leg_18_L_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.88905474538151e-08
+    },
+    {
+      "name": "link_leg_18_R_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.919255131410819e-08
+    },
+    {
+      "name": "link_pitch_body_19",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.9223394702156736e-08
+    },
+    {
+      "name": "link_leg_18_L_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.9007460562132496e-08
+    },
+    {
+      "name": "link_leg_18_R_2",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 7.157893997616734e-08,
+      "position_error_m": 3.919255131410819e-08
+    },
+    {
+      "name": "link_body_20",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.0457380821327427e-07,
+      "position_error_m": 3.922357311548306e-08
+    },
+    {
+      "name": "link_leg_18_L_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 3.213692447239034e-08
+    },
+    {
+      "name": "link_leg_18_R_3",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 1.5926909028590186e-08,
+      "position_error_m": 4.609854579148531e-08
+    },
+    {
+      "name": "foot_18_0",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 3.2114727463208076e-08
+    },
+    {
+      "name": "foot_18_1",
+      "mass_rel": 0.0,
+      "com_error_m": 0.0,
+      "inertia_rel": 0.0,
+      "position_error_m": 4.610163116993826e-08
+    }
+  ],
+  "joints": [
+    {
+      "name": "body_pitch_0",
+      "kp_rel": 1.1624006136189189e-08,
+      "kv_rel": 2.47512667345236e-10
+    },
+    {
+      "name": "body_roll_0",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "legbase_yaw_0_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_0_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_1",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_0_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_0_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_1",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_1",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_0_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_0_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_1_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_1_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_2",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_1_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_1_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_2",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_2",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_1_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_1_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_2_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_2_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_3",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_2_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_2_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_3",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_3",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_2_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_2_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_3_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_3_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_4",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_3_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_3_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_4",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_4",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_3_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_3_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_4_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_4_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_5",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_4_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_4_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_5",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_5",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_4_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_4_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_5_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_5_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_6",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_5_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_5_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_6",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_6",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_5_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_5_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_6_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_6_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_7",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_6_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_6_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_7",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_7",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_6_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_6_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_7_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_7_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_8",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_7_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_7_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_8",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_8",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_7_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_7_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_8_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_8_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_9",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_8_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_8_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_9",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_9",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_8_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_8_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_9_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_9_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_10",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_9_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_9_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_10",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_10",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_9_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_9_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_10_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_10_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_11",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_10_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_10_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_11",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_11",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_10_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_10_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_11_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_11_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_12",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_11_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_11_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_12",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_12",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_11_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_11_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_12_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_12_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_13",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_12_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_12_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_13",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_13",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_12_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_12_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_13_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_13_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_14",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_13_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_13_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_14",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_14",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_13_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_13_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_14_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_14_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_15",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_14_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_14_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_15",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_15",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_14_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_14_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_15_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_15_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_16",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_15_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_15_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_16",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_16",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_15_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_15_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_16_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_16_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_17",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_16_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_16_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_17",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_17",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_16_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_16_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_17_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_17_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_18",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_17_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_17_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_18",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_18",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_17_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_17_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "legbase_yaw_18_L",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "legbase_yaw_18_R",
+      "kp_rel": 2.6672135810820094e-08,
+      "kv_rel": 2.9541168340609997e-08
+    },
+    {
+      "name": "body_pitch_19",
+      "kp_rel": 1.9890209558627657e-08,
+      "kv_rel": 3.851221303042439e-08
+    },
+    {
+      "name": "legbase_pitch_18_L",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "legbase_pitch_18_R",
+      "kp_rel": 3.7097015263362144e-08,
+      "kv_rel": 1.8408831980979232e-08
+    },
+    {
+      "name": "body_roll_19",
+      "kp_rel": 2.8695388075948264e-08,
+      "kv_rel": 1.1708554403235708e-08
+    },
+    {
+      "name": "body_yaw_19",
+      "kp_rel": 2.2480493366453285e-08,
+      "kv_rel": 2.8524638808679348e-08
+    },
+    {
+      "name": "tarsus_yaw_18_L",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    },
+    {
+      "name": "tarsus_yaw_18_R",
+      "kp_rel": 2.5262124918247905e-08,
+      "kv_rel": 5.6697980011804194e-08
+    }
+  ],
+  "source": "runs/native_readback_cpu_000"
+}

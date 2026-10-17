@@ -1,0 +1,98 @@
+{
+  "status": "validated_common_contact_cpu_gpu",
+  "name": "common_plant_pd_and_compliant_contact_v2_centered",
+  "physical_contract": "COMMON_CONTRACT.json",
+  "contact_contract": "COMMON_CONTACT_V2.json",
+  "physical_units": "m, kg, s, rad, N, N*m",
+  "physical_gain_fitting": false,
+  "contact_parameter_fitting": false,
+  "mujoco_runner": "run_mujoco_common_contact.py",
+  "native_runner": "run_native_common_contact_centered.py",
+  "mujoco_dt_s": 3.125e-05,
+  "native_dt_s": 3.125e-05,
+  "refinement_dt_s": 1.5625e-05,
+  "command_dt_s": 0.00025,
+  "duration_s": 6.0,
+  "native_solver": "PGS",
+  "native_position_iterations": 16,
+  "native_velocity_iterations": 4,
+  "native_cpu_threads": 2,
+  "native_ground_response": "disabled; all contact forces are from the shared compliant law",
+  "native_external_force_iteration_flag": false,
+  "mujoco_update": "Physical PD integrated using M+hD+h^2K; numerical armature is explicitly separate from zero physical rotor inertia.",
+  "layout": "Nine independent articulations, all static environment translations and initial Y offsets zero. Native collisions disabled; per-environment contact forces independent. No dynamic rebasing.",
+  "validation_summary": "audit/common_contact_centered_summary.json",
+  "scope": "New shared compliant-contact open-loop mechanical benchmark in native MuJoCo and original Isaac Lab/PhysX CPU and GPU. This does not equate native rigid contact solvers, validate material measurements, migrate RL training, or resume amplitude/contact-erasure optimization. Historical defaults and Clean remain unchanged.",
+  "additional_motion_limits": {
+    "max_relative_centroid_xy_path_difference_mm": 0.5,
+    "max_head_tail_heading_difference_deg": 0.25
+  },
+  "validated_utc": "2026-09-11T14:59:47.703660+00:00",
+  "observed_maxima_pct": {
+    "cpu_gap_pct": 0.02349103254080698,
+    "gpu_gap_pct": 0.020025060124405858,
+    "mu_refinement_pct": 0.017754171871950563,
+    "cpu_refinement_pct": 0.014462294561206526,
+    "gpu_refinement_pct": 0.02293253291261644,
+    "cpu_gpu_gap_pct": 0.013945250596590181
+  },
+  "additional_motion_observations": {
+    "max_centroid_xy_path_difference_mm": 0.19588093375249585,
+    "max_heading_difference_deg": 0.23511753501299815,
+    "max_joint_position_difference_deg": 0.15716508664482473
+  },
+  "additional_motion_gate_maxima": {
+    "max_xy_difference_mm": 0.19588093375249585,
+    "max_heading_difference_deg": 0.23511753501299815
+  },
+  "same_step_forward_comparisons": [
+    {
+      "grid_us": 31.25,
+      "first": "mu",
+      "second": "cpu",
+      "maximum_symmetric_gap_pct": 0.02349103254080698,
+      "case": 0
+    },
+    {
+      "grid_us": 31.25,
+      "first": "mu",
+      "second": "gpu",
+      "maximum_symmetric_gap_pct": 0.020025060124405858,
+      "case": 0
+    },
+    {
+      "grid_us": 31.25,
+      "first": "cpu",
+      "second": "gpu",
+      "maximum_symmetric_gap_pct": 0.013945250596590181,
+      "case": 6
+    },
+    {
+      "grid_us": 15.625,
+      "first": "mu",
+      "second": "cpu",
+      "maximum_symmetric_gap_pct": 0.0202103855157124,
+      "case": 6
+    },
+    {
+      "grid_us": 15.625,
+      "first": "mu",
+      "second": "gpu",
+      "maximum_symmetric_gap_pct": 0.02989192790381132,
+      "case": 2
+    },
+    {
+      "grid_us": 15.625,
+      "first": "cpu",
+      "second": "gpu",
+      "maximum_symmetric_gap_pct": 0.04832494637722383,
+      "case": 6
+    }
+  ],
+  "known_limits": [
+    "The accepted layout centers independent environments near the origin and passes additional XY and heading gates. Moving them to large world offsets or much longer travel distances is outside this validation; displaced-origin failures remain recorded.",
+    "The host-computed shared compliant contact is a slow mechanical audit baseline, not a migrated high-throughput RL training pipeline.",
+    "Native contact sensors do not measure this externally applied contact law; original RL rewards, observations, resets and terrain are not migrated.",
+    "The eight fixed gaits were reused during development. Validation is limited to six seconds and the two stated step sizes; observed GPU heading differences were larger at the finer step. Other gains/amplitudes, joint-limit impacts, rough terrain, smaller steps and longer trajectories are outside the measured acceptance scope."
+  ]
+}

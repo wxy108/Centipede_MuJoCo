@@ -1,0 +1,16 @@
+{
+  "rows": [
+    {
+      "name": "friction_cone_gpu_angle45_000",
+      "returncode": 0
+    },
+    {
+      "name": "tgs_friction_angle45_external_each_iter_gpu_000",
+      "returncode": 0
+    },
+    {
+      "name": "tgs_drop_external_each_iter_gpu_000",
+      "returncode": 0
+    }
+  ]
+}

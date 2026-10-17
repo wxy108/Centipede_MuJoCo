@@ -1,0 +1,26 @@
+{
+  "profile_status": "validation_pending",
+  "engine": "isaac-gpu",
+  "commands": [
+    [
+      "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+      "-B",
+      "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_v6.py",
+      "--name",
+      "aligned_isaac_gpu_20260911T070450Z_8ee12f",
+      "--bank",
+      "validation",
+      "--device",
+      "cuda:0",
+      "--headless",
+      "--duration",
+      "6.0",
+      "--dt",
+      "6.25e-05",
+      "--pos-iters",
+      "16",
+      "--vel-iters",
+      "4"
+    ]
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "rows": [
+    {
+      "name": "native_tgs_ext_validation_cpu_dt62_000",
+      "returncode": 0,
+      "pid": 241796,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_v14.py",
+        "--name",
+        "native_tgs_ext_validation_cpu_dt62_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cpu",
+        "--cpu-threads",
+        "2",
+        "--headless",
+        "--duration",
+        "6",
+        "--dt",
+        ".0000625"
+      ]
+    },
+    {
+      "name": "native_tgs_ext_validation_cpu_dt125_iter64_000",
+      "returncode": 0,
+      "pid": 223600,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_v14.py",
+        "--name",
+        "native_tgs_ext_validation_cpu_dt125_iter64_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cpu",
+        "--cpu-threads",
+        "2",
+        "--headless",
+        "--duration",
+        "6",
+        "--dt",
+        ".000125",
+        "--pos-iters",
+        "64",
+        "--vel-iters",
+        "16"
+      ]
+    },
+    {
+      "name": "native_tgs_ext_validation_cpu_dt125_cmd250_000",
+      "returncode": 0,
+      "pid": 88840,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_v14.py",
+        "--name",
+        "native_tgs_ext_validation_cpu_dt125_cmd250_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cpu",
+        "--cpu-threads",
+        "2",
+        "--headless",
+        "--duration",
+        "6",
+        "--dt",
+        ".000125",
+        "--command-dt",
+        ".00025"
+      ]
+    }
+  ]
+}

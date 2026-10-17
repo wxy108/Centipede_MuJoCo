@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "bitwise": {
+    "q": true,
+    "v": true,
+    "body": true
+  },
+  "control": "Original GPU calibration already at Y=0"
+}

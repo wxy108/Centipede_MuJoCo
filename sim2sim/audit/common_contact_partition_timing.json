@@ -1,0 +1,17 @@
+{
+  "full_run": "common_contact_fast_timing_cpu_000",
+  "partition_run": "common_contact_partition_cpu_timing_000",
+  "cases": [
+    2,
+    4,
+    8
+  ],
+  "duration_s": 0.02,
+  "max_absolute_errors": {
+    "q": 0.0,
+    "v": 0.0,
+    "body": 0.0
+  },
+  "bitwise_identical": true,
+  "adopted": false
+}

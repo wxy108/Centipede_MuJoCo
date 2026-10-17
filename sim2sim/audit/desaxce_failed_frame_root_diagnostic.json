@@ -1,0 +1,37 @@
+{
+  "rows": [
+    {
+      "method": "hybr",
+      "contacts": 15,
+      "success_flag": false,
+      "max_residual_m_s": 2.6795729036131408e-05,
+      "min_correction_m_s": -1.2330716622276337e-09,
+      "calls": 93,
+      "wall_s": 0.0470000000204891,
+      "message": "The iteration is not making good progress, as measured by the \n improvement from the last ten iterations."
+    },
+    {
+      "method": "lm",
+      "contacts": 15,
+      "success_flag": false,
+      "max_residual_m_s": 2.679430390766218e-05,
+      "min_correction_m_s": 3.553444294275131e-08,
+      "calls": 2003,
+      "wall_s": 0.7969999999913853,
+      "message": "Number of calls to function has reached maxfev = 2000."
+    },
+    {
+      "method": "least_squares",
+      "contacts": 15,
+      "success_flag": true,
+      "max_residual_m_s": 2.6783683095769244e-05,
+      "min_correction_m_s": 7.463575473808981e-07,
+      "calls": 1313,
+      "wall_s": 0.5780000000086147,
+      "message": "`gtol` termination condition is satisfied."
+    }
+  ],
+  "source_run": "mu_desaxceAA_cmd250_dt125_case03_000",
+  "source_sha": "ceb77e0ca4f421800640be21c6366e807f2c28224678e5b3c5fa2ebf7005390a",
+  "reconstruction": "Reverse the final semi-implicit Euler position update using post-step velocity; reverse velocity using saved acceleration. This recovers the pre-step physical state, but does not claim identical solver warmstart."
+}

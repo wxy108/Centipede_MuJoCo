@@ -1,0 +1,11 @@
+# Center each independent test environment near the numerical origin
+
+The frozen displaced-origin bank has excellent forward agreement but unacceptable position dependence in its lateral paths. Per-step zero-force diagnostics at Y=1.75 m show that adding the independently calculated whole-articulation COM position correction reproduces all 64 dt31 root-COM updates exactly; the simple root-only update matches only one. This explains the isolated test, not every historical native-contact difference.
+
+Make a separate native runner from the frozen fast recorded runner. Change only each environment's static world translation and initial root Y offset to zero. All nine articulations remain distinct, all native collisions remain disabled as before, and the shared force law operates independently on each environment. Overlapping numerical origins do not add physical coupling. Do not periodically reset/rebase positions or alter velocities, inertia, gravity, PD, commands, amplitudes, force coefficients, time steps or solver iterations.
+
+Before full runs, the short CPU nine-environment initialization must reproduce the old calibration environment (already at Y=0) and the isolated 4.5/A Y=0 diagnostic bitwise. Preserve the old bank unchanged.
+
+Run all eight fixed gaits plus calibration on native CPU and GPU at both 31.25 and 15.625 microseconds, fixed 250 microsecond commands and six-second duration. Reuse the already complete, unchanged MuJoCo traces at numerical Y=0. Run one GPU worker at a time, after the currently owned displaced-origin refinement worker exits. The original 10% cross-engine, 5% forward refinement, 50 mm minimum displacement, completion and physical-readback gates remain unchanged.
+
+Additional checks declared before any centered-bank dynamics: over the sampled 2–6 second relative 21-body XY centroid path, require maximum same-step cross-engine discrepancy and each engine's half-step change no greater than 0.5 mm. Require corresponding head-tail chord heading differences no greater than 0.25 degrees. Report all joint-angle and active-family amplitude differences separately. These added motion gates do not replace or relax the original gates. The test bank is fixed and reused, not claimed to be an unseen blind test.

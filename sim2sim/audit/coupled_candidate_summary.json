@@ -1,0 +1,230 @@
+{
+  "updated_utc": "2026-09-11T08:06:14.402771+00:00",
+  "status": "FAILED_CRITERIA",
+  "rows": [
+    {
+      "case": 0,
+      "wave": 1.5,
+      "family": "A",
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt62_mm": 155.6302298188264,
+      "mu_dt31_mm": 157.21527958916772,
+      "mu_dt15_mm": 159.70947095680802,
+      "native_gpu62_mm": 155.95558285713196,
+      "native_gpu31_mm": 154.4722020626068,
+      "native_cpu62_mm": 155.2516222000122,
+      "native_cpu31_mm": 153.6000519990921,
+      "native_cpu64iters_mm": 156.3282161951065,
+      "primary_gap_pct": 0.8044788855487904,
+      "mu_refinement_pct": 1.5864815265781265,
+      "gpu_refinement_pct": 0.9511559428328028,
+      "cpu_gpu_gap_pct": 0.45240640041768254,
+      "mu_cpu_gap_pct": 1.25687384994164,
+      "cpu_step_change_pct": 1.0638022183062092,
+      "cpu_iteration_change_pct": 0.693451044078182
+    },
+    {
+      "case": 1,
+      "wave": 1.5,
+      "family": "B",
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt62_mm": 116.19734748890609,
+      "mu_dt31_mm": 118.02172508673411,
+      "mu_dt15_mm": 118.88015258124882,
+      "native_gpu62_mm": 120.13223767280579,
+      "native_gpu31_mm": 130.33702969551086,
+      "native_cpu62_mm": 132.79451429843903,
+      "native_cpu31_mm": 131.4532458782196,
+      "native_cpu64iters_mm": 131.69552385807037,
+      "primary_gap_pct": 1.7723934228233924,
+      "mu_refinement_pct": 0.7273470150379995,
+      "gpu_refinement_pct": 8.494632432052938,
+      "cpu_gpu_gap_pct": 10.012603670388184,
+      "mu_cpu_gap_pct": 11.77977091747928,
+      "cpu_step_change_pct": 1.0100330027226039,
+      "cpu_iteration_change_pct": 0.827587228414277
+    },
+    {
+      "case": 2,
+      "wave": 2.5,
+      "family": "A",
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt62_mm": 146.99348086248122,
+      "mu_dt31_mm": 149.0707483311956,
+      "mu_dt15_mm": 151.78438326854663,
+      "native_gpu62_mm": 151.334747672081,
+      "native_gpu31_mm": 153.47829461097717,
+      "native_cpu62_mm": 150.16303956508636,
+      "native_cpu31_mm": 150.00131726264954,
+      "native_cpu64iters_mm": 149.66470003128052,
+      "primary_gap_pct": 1.5072955528488048,
+      "mu_refinement_pct": 1.820367152999095,
+      "gpu_refinement_pct": 1.4164274708019562,
+      "cpu_gpu_gap_pct": 0.777258180056179,
+      "mu_cpu_gap_pct": 0.7300587554433281,
+      "cpu_step_change_pct": 0.10769780826574972,
+      "cpu_iteration_change_pct": 0.3318656410053873
+    },
+    {
+      "case": 3,
+      "wave": 2.5,
+      "family": "B",
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt62_mm": 155.06586975182265,
+      "mu_dt31_mm": 160.37233718605873,
+      "mu_dt15_mm": 163.93735682844948,
+      "native_gpu62_mm": 168.75474154949188,
+      "native_gpu31_mm": 199.74763691425323,
+      "native_cpu62_mm": 194.8377788066864,
+      "native_cpu31_mm": 193.01792979240417,
+      "native_cpu64iters_mm": 196.15286588668823,
+      "primary_gap_pct": 5.093719055652851,
+      "mu_refinement_pct": 2.222964200025802,
+      "gpu_refinement_pct": 18.36564417697967,
+      "cpu_gpu_gap_pct": 14.347400343463258,
+      "mu_cpu_gap_pct": 19.405664461049074,
+      "cpu_step_change_pct": 0.9340329300755575,
+      "cpu_iteration_change_pct": 0.674965136667171
+    },
+    {
+      "case": 4,
+      "wave": 3.5,
+      "family": "A",
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt62_mm": 137.40469342822797,
+      "mu_dt31_mm": 136.9737581829129,
+      "mu_dt15_mm": 136.57510008657542,
+      "native_gpu62_mm": 135.4578286409378,
+      "native_gpu31_mm": 135.43164730072021,
+      "native_cpu62_mm": 133.75674188137054,
+      "native_cpu31_mm": 132.29990005493164,
+      "native_cpu64iters_mm": 133.3678662776947,
+      "primary_gap_pct": 1.1128882371156585,
+      "mu_refinement_pct": 0.29104706012746473,
+      "gpu_refinement_pct": 0.01932803772234531,
+      "cpu_gpu_gap_pct": 1.2637404849722285,
+      "mu_cpu_gap_pct": 2.376545162645865,
+      "cpu_step_change_pct": 1.089172632308122,
+      "cpu_iteration_change_pct": 0.2907334600155989
+    },
+    {
+      "case": 5,
+      "wave": 3.5,
+      "family": "B",
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt62_mm": 192.01933821206592,
+      "mu_dt31_mm": 193.61871386419577,
+      "mu_dt15_mm": 194.91905626254584,
+      "native_gpu62_mm": 206.11336827278137,
+      "native_gpu31_mm": 207.55493640899658,
+      "native_cpu62_mm": 201.10902190208435,
+      "native_cpu31_mm": 200.12301206588745,
+      "native_cpu64iters_mm": 199.34283196926117,
+      "primary_gap_pct": 6.251514435263181,
+      "mu_refinement_pct": 0.6715995434522557,
+      "gpu_refinement_pct": 0.6994054525892577,
+      "cpu_gpu_gap_pct": 2.4577952938924112,
+      "mu_cpu_gap_pct": 3.795176958288851,
+      "cpu_step_change_pct": 0.4902862272767486,
+      "cpu_iteration_change_pct": 0.8782251119907992
+    },
+    {
+      "case": 6,
+      "wave": 4.5,
+      "family": "A",
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt62_mm": 115.59684036551037,
+      "mu_dt31_mm": 115.96734184898648,
+      "mu_dt15_mm": 116.21097807666635,
+      "native_gpu62_mm": 119.25607174634933,
+      "native_gpu31_mm": 119.31954324245453,
+      "native_cpu62_mm": 119.02180314064026,
+      "native_cpu31_mm": 119.40007656812668,
+      "native_cpu64iters_mm": 119.97459828853607,
+      "primary_gap_pct": 2.796260667333558,
+      "mu_refinement_pct": 0.21009037871811936,
+      "gpu_refinement_pct": 0.05322286335256308,
+      "cpu_gpu_gap_pct": 0.19663479525338626,
+      "mu_cpu_gap_pct": 2.599661607167952,
+      "cpu_step_change_pct": 0.31781859920189476,
+      "cpu_iteration_change_pct": 0.8005215202209275
+    },
+    {
+      "case": 7,
+      "wave": 4.5,
+      "family": "B",
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt62_mm": 142.4157450870243,
+      "mu_dt31_mm": 144.38213422104639,
+      "mu_dt15_mm": 145.80894130601234,
+      "native_gpu62_mm": 157.8599214553833,
+      "native_gpu31_mm": 161.80533170700073,
+      "native_cpu62_mm": 168.29337179660797,
+      "native_cpu31_mm": 168.2734340429306,
+      "native_cpu64iters_mm": 169.26690936088562,
+      "primary_gap_pct": 8.918538622411825,
+      "mu_refinement_pct": 0.988215815387202,
+      "gpu_refinement_pct": 2.499310917706583,
+      "cpu_gpu_gap_pct": 6.397881338063706,
+      "mu_cpu_gap_pct": 15.294602305184407,
+      "cpu_step_change_pct": 0.011847022532452475,
+      "cpu_iteration_change_pct": 0.578476474673182
+    }
+  ],
+  "missing": [],
+  "failed": [
+    {
+      "case": 1,
+      "criterion": "gpu_refinement_pct",
+      "value_pct": 8.494632432052938,
+      "limit_pct": 5
+    },
+    {
+      "case": 3,
+      "criterion": "gpu_refinement_pct",
+      "value_pct": 18.36564417697967,
+      "limit_pct": 5
+    }
+  ],
+  "main_profile": {
+    "mujoco_dt_s": 3.125e-05,
+    "native_gpu_dt_s": 6.25e-05,
+    "command_dt_s": 6.25e-05,
+    "mujoco_integration": "coupled M+hD+h\u00b2K, physical armature remains zero",
+    "native_solver": "PGS 16/4"
+  },
+  "scope": "Native GPU benchmark only. Native CPU differences are retained and must not be hidden or substituted. Original RL training pipeline has not been migrated.",
+  "source_sha": "dcf107deae9f71b5bc70ddff428117b1afda661826e33484d022aa380b3e2c6f"
+}

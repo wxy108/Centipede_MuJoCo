@@ -1,0 +1,35 @@
+{
+  "full_duration_s": 6.0,
+  "control_errors": {
+    "q": 0.0,
+    "v": 0.0,
+    "body": 0.0
+  },
+  "control_bitwise_identical": true,
+  "case": "4.5/A",
+  "rows": [
+    {
+      "global_y_m": 0.0,
+      "forward_displacement_mm": 119.3484077562711,
+      "lateral_displacement_mm": 11.1682489057005,
+      "mu_forward_displacement_mm": 119.35030296360577,
+      "mu_lateral_displacement_mm": 11.168850561496658,
+      "max_xy_difference_mm": 0.0031390374090251322,
+      "max_lateral_difference_mm": 0.0007113044083464359,
+      "max_heading_difference_deg": 0.0014330804085869175
+    },
+    {
+      "global_y_m": 1.75,
+      "forward_displacement_mm": 119.34761482379622,
+      "lateral_displacement_mm": 10.451447396051305,
+      "mu_forward_displacement_mm": 119.35030296360577,
+      "mu_lateral_displacement_mm": 11.168850561496658,
+      "max_xy_difference_mm": 0.7507331884627712,
+      "max_lateral_difference_mm": 0.7507274790517471,
+      "max_heading_difference_deg": 0.0014513068981596433
+    }
+  ],
+  "adopted": false,
+  "qualification": "Only world Y changes in this complete gait diagnostic. This does not replace the fixed bank or prove the sole cause of old native-contact differences.",
+  "source_sha": "bec5707ae54e0533561a2b2d69e12c006f81349a54908765c7f0439d792d3c7f"
+}

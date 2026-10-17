@@ -1,0 +1,10 @@
+{
+  "end_s": 2.5,
+  "errors": {
+    "q": 0.0,
+    "v": 0.0,
+    "body": 0.0
+  },
+  "bitwise_identical": true,
+  "qualification": "Partial high-Y control only; full six-second diagnostic still required"
+}

@@ -1,0 +1,79 @@
+{
+  "rows": [
+    {
+      "name": "native_common_contact_centered_cpu_short_000",
+      "pid": 226108,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_common_contact_centered.py",
+        "--name",
+        "native_common_contact_centered_cpu_short_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cpu",
+        "--cpu-threads",
+        "2",
+        "--dt",
+        "3.125e-05",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "0.02",
+        "--headless"
+      ]
+    },
+    {
+      "name": "native_common_contact_centered_validation_cpu_dt31_000",
+      "pid": 228976,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_common_contact_centered.py",
+        "--name",
+        "native_common_contact_centered_validation_cpu_dt31_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cpu",
+        "--cpu-threads",
+        "2",
+        "--dt",
+        "3.125e-05",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--headless"
+      ]
+    },
+    {
+      "name": "native_common_contact_centered_validation_cpu_dt15_000",
+      "pid": 238480,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_common_contact_centered.py",
+        "--name",
+        "native_common_contact_centered_validation_cpu_dt15_000",
+        "--bank",
+        "validation",
+        "--device",
+        "cpu",
+        "--cpu-threads",
+        "2",
+        "--dt",
+        "1.5625e-05",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--headless"
+      ]
+    }
+  ]
+}

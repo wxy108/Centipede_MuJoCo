@@ -1,0 +1,29 @@
+{
+  "comparisons": [
+    {
+      "run_a": "common_contact_timing_gpu_000",
+      "run_b": "common_contact_fast_timing_gpu_000",
+      "frames": 3,
+      "duration_s": 0.02,
+      "max_absolute_errors": {
+        "q": 0.0,
+        "v": 0.0,
+        "body": 0.0
+      },
+      "bitwise_identical": true
+    },
+    {
+      "run_a": "native_tgs_ext_validation_cpu_dt125_000",
+      "run_b": "native_tgs_ext_validation_cpu_dt125_threads2_000",
+      "frames": 601,
+      "duration_s": 6.0,
+      "max_absolute_errors": {
+        "q": 0.0,
+        "v": 0.0,
+        "body": 0.0
+      },
+      "bitwise_identical": true
+    }
+  ],
+  "qualification": "First comparison covers 0.02 s initialization, not a full gait; shared contact function separately has 1000-state bitwise equivalence. Second isolates only CPU thread count over all nine full gaits."
+}

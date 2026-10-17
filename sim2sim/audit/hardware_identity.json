@@ -1,0 +1,80 @@
+{
+  "captured_utc": "2026-09-11T13:19:28.861106+00:00",
+  "driver_devices": [
+    {
+      "name": "NVIDIA GeForce RTX 5070 Laptop GPU",
+      "driver_version": "610.88",
+      "pci.device_id": "0x2D1810DE",
+      "memory.total": "8151"
+    }
+  ],
+  "cpu": "Intel(R) Core(TM) i7-14700HX (native startup log)",
+  "native_runs": [
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt31_000",
+      "logged_driver_versions": [
+        "610.88"
+      ],
+      "logged_gpu_name": "NVIDIA GeForce GTX 1050 Ti",
+      "backend": {
+        "scene_attributes": {
+          "physxScene:enableGPUDynamics": false,
+          "physxScene:broadphaseType": "MBP",
+          "physxScene:solverType": "PGS"
+        },
+        "torch_device": "cpu",
+        "torch_cuda_name": null
+      }
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt15_000",
+      "logged_driver_versions": [
+        "610.88"
+      ],
+      "logged_gpu_name": "NVIDIA GeForce GTX 1050 Ti",
+      "backend": {
+        "scene_attributes": {
+          "physxScene:enableGPUDynamics": false,
+          "physxScene:broadphaseType": "MBP",
+          "physxScene:solverType": "PGS"
+        },
+        "torch_device": "cpu",
+        "torch_cuda_name": null
+      }
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt31_000",
+      "logged_driver_versions": [
+        "610.88"
+      ],
+      "logged_gpu_name": "NVIDIA GeForce GTX 1050 Ti",
+      "backend": {
+        "scene_attributes": {
+          "physxScene:enableGPUDynamics": true,
+          "physxScene:broadphaseType": "GPU",
+          "physxScene:solverType": "PGS"
+        },
+        "torch_device": "cuda:0",
+        "torch_cuda_name": "NVIDIA GeForce RTX 5070 Laptop GPU"
+      }
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt15_000",
+      "logged_driver_versions": [
+        "610.88"
+      ],
+      "logged_gpu_name": "NVIDIA GeForce GTX 1050 Ti",
+      "backend": {
+        "scene_attributes": {
+          "physxScene:enableGPUDynamics": true,
+          "physxScene:broadphaseType": "GPU",
+          "physxScene:solverType": "PGS"
+        },
+        "torch_device": "cuda:0",
+        "torch_cuda_name": "NVIDIA GeForce RTX 5070 Laptop GPU"
+      }
+    }
+  ],
+  "graphics_log_discrepancy": "Graphics startup table labels the card GTX 1050 Ti; driver and Torch identify RTX 5070 Laptop GPU. Scene flags and CUDA tensor readback establish the actual tested GPU backend. The cause of the graphics-label discrepancy is not diagnosed.",
+  "source_sha": "f34826d7fb51be67d051de3bdceb8c361ae1fde95717a8613772bead594b3828"
+}

@@ -1,0 +1,145 @@
+{
+  "continuous_slide": {
+    "rows": [
+      {
+        "label": "Mu baseline",
+        "final_x_um": 898.1404211856037,
+        "mean_height_um": 6.040959698939984,
+        "max_height_um": 10.423754022726383,
+        "normal_velocity_rms_mm_s": 8.121175027611043,
+        "unconverged_steps": 0,
+        "max_correction_residual_m_s": 0.0
+      },
+      {
+        "label": "Mu corrected",
+        "final_x_um": 898.075909048768,
+        "mean_height_um": -6.977978368857445e-06,
+        "max_height_um": -6.977977386451312e-06,
+        "normal_velocity_rms_mm_s": 3.8906792930606576e-12,
+        "unconverged_steps": 0,
+        "max_correction_residual_m_s": 7.387739836772767e-09
+      },
+      {
+        "label": "Mu corrected fine",
+        "final_x_um": 898.7720054009378,
+        "mean_height_um": -4.716749544053339e-07,
+        "max_height_um": -4.7129520338445863e-07,
+        "normal_velocity_rms_mm_s": 3.63232518936997e-08,
+        "unconverged_steps": 0,
+        "max_correction_residual_m_s": 9.958816578503615e-09
+      },
+      {
+        "label": "TGS CPU",
+        "final_x_um": 898.0735437944531,
+        "mean_height_um": -0.00014813196502760917,
+        "max_height_um": -5.820766091346741e-05,
+        "normal_velocity_rms_mm_s": 3.5208127968644476e-05
+      }
+    ],
+    "interpretation": "Free Z, continuously PD-driven X at 30 mm/s. No per-step joint-state overwrite. Same physical K=100 N/m, D=.01 N s/m, mu=.5 and mass in both.",
+    "source_sha": "7e981a77fc0000dee7db35cc6ffe7277576d1e028261dc49df0e671de5ebca22"
+  },
+  "prescribed_slide": {
+    "rows": [
+      {
+        "label": "native_mj_step",
+        "mean_height_um": 4.076102760366142,
+        "max_height_um": 6.697420662091322,
+        "normal_velocity_rms_mm_s": 6.458005278932866,
+        "max_correction_residual_m_s": 0.0,
+        "max_iterations": 0,
+        "unconverged_steps": 0,
+        "final_physics_time_s": 0.02500000000000002
+      },
+      {
+        "label": "manual_zero",
+        "mean_height_um": 4.076102760366142,
+        "max_height_um": 6.697420662091322,
+        "normal_velocity_rms_mm_s": 6.458005278932866,
+        "max_correction_residual_m_s": 0.0,
+        "max_iterations": 0,
+        "unconverged_steps": 0,
+        "final_physics_time_s": 0.02500000000000002
+      },
+      {
+        "label": "desaxce20",
+        "mean_height_um": -1.3807227279907797e-05,
+        "max_height_um": -1.3807227279907797e-05,
+        "normal_velocity_rms_mm_s": 2.4663669726328043e-13,
+        "max_correction_residual_m_s": 6.0903332048667384e-09,
+        "max_iterations": 10,
+        "unconverged_steps": 0,
+        "final_physics_time_s": 0.02500000000000002
+      },
+      {
+        "label": "desaxce40",
+        "mean_height_um": -1.3807227279907797e-05,
+        "max_height_um": -1.3807227279907797e-05,
+        "normal_velocity_rms_mm_s": 2.4663669726328043e-13,
+        "max_correction_residual_m_s": 6.0903332048667384e-09,
+        "max_iterations": 10,
+        "unconverged_steps": 0,
+        "final_physics_time_s": 0.02500000000000002
+      },
+      {
+        "label": "desaxce20_fine",
+        "mean_height_um": -5.745483841294863e-07,
+        "max_height_um": -5.745483841294863e-07,
+        "normal_velocity_rms_mm_s": 1.4577925633842331e-12,
+        "max_correction_residual_m_s": 6.137501754821528e-09,
+        "max_iterations": 10,
+        "unconverged_steps": 0,
+        "final_physics_time_s": 0.024999999999998978
+      }
+    ],
+    "source_sha": "ccb72028acaeb26975b5a0c3ac5346a797430db8e85cec07b9d1bdf625c6169e",
+    "adapter_sha": "e07b0ca34638491b5101b2946207169a578fc98fbbe1a25ad6515e2025bda6e3"
+  },
+  "mechanical_suite": {
+    "rows": [
+      {
+        "test": "full_robot_manual_zero_equivalence",
+        "steps": 1000,
+        "max_qpos_error": 0.0,
+        "max_qvel_error": 0.0,
+        "max_constraint_force_error": 0.0,
+        "passed": true
+      },
+      {
+        "test": "drop",
+        "native_run": "tgs_drop_external_each_iter_cpu_000",
+        "final_x_um": 127.49945492567221,
+        "native_final_x_um": 127.49823508784175,
+        "max_normal_velocity_mm_s": 62.53874999999995,
+        "unconverged_steps": 0,
+        "max_correction_residual_m_s": 1.0289078616887438e-19
+      },
+      {
+        "test": "force45",
+        "native_run": "tgs_friction_angle45_default_cpu_000",
+        "final_x_um": 34.94978442219142,
+        "native_final_x_um": 34.93654730846174,
+        "max_normal_velocity_mm_s": 2.255202692072305e-05,
+        "unconverged_steps": 0,
+        "max_correction_residual_m_s": 9.964947237151024e-09,
+        "final_y_um": 34.95560696118615,
+        "native_final_y_um": 34.97072611935437
+      },
+      {
+        "test": "free_slide",
+        "native_run": "oblique_slide_pgs_cpu_dt62_000",
+        "final_x_um": 219.30566267212305,
+        "native_final_x_um": 218.16615480929613,
+        "max_normal_velocity_mm_s": 2.8360499841430893e-05,
+        "unconverged_steps": 0,
+        "max_correction_residual_m_s": 9.939184131724232e-09,
+        "final_y_um": 126.62251829180138,
+        "native_final_y_um": 124.15427772793919
+      }
+    ],
+    "source_sha": "1952d1af19641c7465831ee83e4709eb4ae1b3090d2c8841cef79796046cedd2",
+    "adapter_sha": "e07b0ca34638491b5101b2946207169a578fc98fbbe1a25ad6515e2025bda6e3"
+  },
+  "scope": "Isolated contact checks only; complete locomotion validation remains required.",
+  "source_sha": "77b3231bd13be770e4ded1963bdea69df9638356d481a1e7f5a559d81ef6967d"
+}

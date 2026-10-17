@@ -1,0 +1,17 @@
+{
+  "states": 1000,
+  "environments": 9,
+  "max_force_difference_N": 0.0,
+  "max_torque_difference_Nm": 0.0,
+  "max_memory_difference_m": 0.0,
+  "identical_support_indices": true,
+  "reference_s": 7.035069899575319,
+  "vectorized_s": 2.7395882997079752,
+  "passed": true,
+  "source_hashes": {
+    "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\common_contact_v2.py": "18664efa962497a11a58e6221991bdbc8ead005128532f45dd649e15f51d58a4",
+    "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\common_contact_fast.py": "21798bee45926d76c944a596c0aba874ad8f103b946f422947e1b2f02beb475a",
+    "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\COMMON_CONTACT_V2.json": "80a562530f19b1357e72911a8b49f4afdbec52798bf6cc3e3bec72888dd23c8a",
+    "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\assets\\common_contact_geometry.json": "dce7973e5f95ee1643d6e41ea64ae6d3bd3fb11e067449712e5e18c569b538d8"
+  }
+}

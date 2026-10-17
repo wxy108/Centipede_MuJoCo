@@ -1,0 +1,203 @@
+{
+  "completed": [
+    "native_common_contact_centered_validation_cpu_dt15_000",
+    "native_common_contact_centered_validation_cpu_dt31_000",
+    "native_common_contact_centered_validation_gpu_dt15_000",
+    "native_common_contact_centered_validation_gpu_dt31_000"
+  ],
+  "actions": [
+    {
+      "script": "validate_common_contact_backend.py",
+      "args": [
+        "native_common_contact_centered_validation_cpu_dt31_000"
+      ],
+      "returncode": 0,
+      "output": "{\"run\": \"native_common_contact_centered_validation_cpu_dt31_000\", \"passed\": true, \"checks\": {\"physical_backend\": true, \"ground_response_disabled\": true, \"pgs_external_iteration_flag_false\": true, \"world_com_wrench\": true, \"same_input_hashes\": true, \"solver_iterations\": true}}\n",
+      "error": ""
+    },
+    {
+      "script": "quality_audit_fast.py",
+      "args": [
+        "native_common_contact_centered_validation_cpu_dt31_000"
+      ],
+      "returncode": 0,
+      "output": "  \"min_foot_sphere_surface_z_m\": -2.2231294098788127e-05,\n    \"min_spine_collider_z_m\": 0.00027295710990958046,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 4,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 9.145740546015599e-08,\n    \"min_spine_up_dot\": 0.9704236193554008,\n    \"min_foot_sphere_surface_z_m\": -2.1377923703590012e-05,\n    \"min_spine_collider_z_m\": 0.00033254886948584856,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 5,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 7.458735079504157e-08,\n    \"min_spine_up_dot\": 0.9765246863566005,\n    \"min_foot_sphere_surface_z_m\": -2.232102732071682e-05,\n    \"min_spine_collider_z_m\": 0.0005506858921263866,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 6,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 8.795527053450007e-08,\n    \"min_spine_up_dot\": 0.9812689645856733,\n    \"min_foot_sphere_surface_z_m\": -2.042439427322345e-05,\n    \"min_spine_collider_z_m\": 0.00042875950721901366,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 7,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 5.831686290675068e-08,\n    \"min_spine_up_dot\": 0.9820793201995619,\n    \"min_foot_sphere_surface_z_m\": -2.1271090390239354e-05,\n    \"min_spine_collider_z_m\": 0.000824547941921517,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 8,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 8.137097934981686e-08,\n    \"min_spine_up_dot\": 0.9872727480581226,\n    \"min_foot_sphere_surface_z_m\": -2.0185032832445893e-05,\n    \"min_spine_collider_z_m\": 0.0005374233817848346,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  }\n]\n",
+      "error": ""
+    },
+    {
+      "script": "audit_common_contact_compression.py",
+      "args": [
+        "native_common_contact_centered_validation_cpu_dt31_000"
+      ],
+      "returncode": 0,
+      "output": "{\"name\": \"native_common_contact_centered_validation_cpu_dt31_000\", \"rows\": [{\"environment\": 0, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 1, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 2, \"compressed_meshes\": [{\"body\": \"link_body_1\", \"collider\": \"collision_001\", \"maximum_compression_um\": 17.056077019945644, \"fraction_sampled_poses_below_plane\": 0.007481296758104738}], \"maximum_mesh_compression_um\": 17.056077019945644}, {\"environment\": 3, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 4, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 5, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 6, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 7, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 8, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}]}\n",
+      "error": ""
+    },
+    {
+      "script": "evaluate_common_contact_centered.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"status\": \"PENDING_RESULTS\", \"missing\": 32, \"failed\": [], \"main_mu_mm\": [166.34566076037947, 148.96422240919824, 152.9781203416775, 209.82887982980142, 134.78426614238685, 211.83570877741548, 119.35030296360577, 174.94893712555864]}\n",
+      "error": ""
+    },
+    {
+      "script": "analyze_common_contact_centered_motion.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"cpu\": {\"max_centroid_xy_path_difference_mm\": 0.04066577116264204, \"max_heading_difference_deg\": 0.005906937445210314, \"max_joint_position_difference_deg\": 0.06255261028619441}}\n",
+      "error": ""
+    },
+    {
+      "script": "evaluate_common_contact_centered_motion.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"status\": \"PENDING_RESULTS\", \"completed\": 16, \"missing\": 56, \"failed\": []}\n",
+      "error": ""
+    },
+    {
+      "script": "validate_common_contact_backend.py",
+      "args": [
+        "native_common_contact_centered_validation_gpu_dt31_000"
+      ],
+      "returncode": 0,
+      "output": "{\"run\": \"native_common_contact_centered_validation_gpu_dt31_000\", \"passed\": true, \"checks\": {\"physical_backend\": true, \"ground_response_disabled\": true, \"pgs_external_iteration_flag_false\": true, \"world_com_wrench\": true, \"same_input_hashes\": true, \"solver_iterations\": true}}\n",
+      "error": ""
+    },
+    {
+      "script": "quality_audit_fast.py",
+      "args": [
+        "native_common_contact_centered_validation_gpu_dt31_000"
+      ],
+      "returncode": 0,
+      "output": "\"min_foot_sphere_surface_z_m\": -2.2231462008238576e-05,\n    \"min_spine_collider_z_m\": 0.0002721635432055844,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 4,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 6.041245829224518e-08,\n    \"min_spine_up_dot\": 0.970410950497911,\n    \"min_foot_sphere_surface_z_m\": -2.1378825562170774e-05,\n    \"min_spine_collider_z_m\": 0.00033203035242462993,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 5,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 5.951039626171606e-08,\n    \"min_spine_up_dot\": 0.9765706867919267,\n    \"min_foot_sphere_surface_z_m\": -2.2336077341296207e-05,\n    \"min_spine_collider_z_m\": 0.0005512460605806742,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 6,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 6.400830960250316e-08,\n    \"min_spine_up_dot\": 0.9812471780737897,\n    \"min_foot_sphere_surface_z_m\": -2.0409548593773043e-05,\n    \"min_spine_collider_z_m\": 0.00042858604216730644,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 7,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 5.0390009582592685e-08,\n    \"min_spine_up_dot\": 0.9820734199552467,\n    \"min_foot_sphere_surface_z_m\": -2.1289535272170628e-05,\n    \"min_spine_collider_z_m\": 0.0008256698198285325,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 8,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 7.270904538867507e-08,\n    \"min_spine_up_dot\": 0.9872537690847958,\n    \"min_foot_sphere_surface_z_m\": -2.0197971701795643e-05,\n    \"min_spine_collider_z_m\": 0.0005379839470129456,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  }\n]\n",
+      "error": ""
+    },
+    {
+      "script": "audit_common_contact_compression.py",
+      "args": [
+        "native_common_contact_centered_validation_gpu_dt31_000"
+      ],
+      "returncode": 0,
+      "output": "{\"name\": \"native_common_contact_centered_validation_gpu_dt31_000\", \"rows\": [{\"environment\": 0, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 1, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 2, \"compressed_meshes\": [{\"body\": \"link_body_1\", \"collider\": \"collision_001\", \"maximum_compression_um\": 18.048595651460122, \"fraction_sampled_poses_below_plane\": 0.007481296758104738}], \"maximum_mesh_compression_um\": 18.048595651460122}, {\"environment\": 3, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 4, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 5, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 6, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 7, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 8, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}]}\n",
+      "error": ""
+    },
+    {
+      "script": "evaluate_common_contact_centered.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"status\": \"PENDING_RESULTS\", \"missing\": 16, \"failed\": [], \"main_mu_mm\": [166.34566076037947, 148.96422240919824, 152.9781203416775, 209.82887982980142, 134.78426614238685, 211.83570877741548, 119.35030296360577, 174.94893712555864]}\n",
+      "error": ""
+    },
+    {
+      "script": "analyze_common_contact_centered_motion.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"cpu\": {\"max_centroid_xy_path_difference_mm\": 0.04066577116264204, \"max_heading_difference_deg\": 0.005906937445210314, \"max_joint_position_difference_deg\": 0.06255261028619441}, \"gpu\": {\"max_centroid_xy_path_difference_mm\": 0.07774445701197129, \"max_heading_difference_deg\": 0.10179431847137543, \"max_joint_position_difference_deg\": 0.14248868870080728}}\n",
+      "error": ""
+    },
+    {
+      "script": "evaluate_common_contact_centered_motion.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"status\": \"PENDING_RESULTS\", \"completed\": 32, \"missing\": 40, \"failed\": []}\n",
+      "error": ""
+    },
+    {
+      "script": "validate_common_contact_backend.py",
+      "args": [
+        "native_common_contact_centered_validation_cpu_dt15_000"
+      ],
+      "returncode": 0,
+      "output": "{\"run\": \"native_common_contact_centered_validation_cpu_dt15_000\", \"passed\": true, \"checks\": {\"physical_backend\": true, \"ground_response_disabled\": true, \"pgs_external_iteration_flag_false\": true, \"world_com_wrench\": true, \"same_input_hashes\": true, \"solver_iterations\": true}}\n",
+      "error": ""
+    },
+    {
+      "script": "quality_audit_fast.py",
+      "args": [
+        "native_common_contact_centered_validation_cpu_dt15_000"
+      ],
+      "returncode": 0,
+      "output": "4,\n    \"min_foot_sphere_surface_z_m\": -2.2237372961300553e-05,\n    \"min_spine_collider_z_m\": 0.0002730657281694725,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 4,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 9.4774280617036e-08,\n    \"min_spine_up_dot\": 0.9704167394785175,\n    \"min_foot_sphere_surface_z_m\": -2.138204899998844e-05,\n    \"min_spine_collider_z_m\": 0.0003323357707717763,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 5,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 8.437736083551462e-08,\n    \"min_spine_up_dot\": 0.976515600422638,\n    \"min_foot_sphere_surface_z_m\": -2.230745577532845e-05,\n    \"min_spine_collider_z_m\": 0.0005508674331561598,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 6,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 9.075539403716501e-08,\n    \"min_spine_up_dot\": 0.9812596960626706,\n    \"min_foot_sphere_surface_z_m\": -2.0426843935641243e-05,\n    \"min_spine_collider_z_m\": 0.0004288425217831731,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 7,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 6.232157180426228e-08,\n    \"min_spine_up_dot\": 0.9820655487038714,\n    \"min_foot_sphere_surface_z_m\": -2.1259376572050812e-05,\n    \"min_spine_collider_z_m\": 0.0008260904913952884,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 8,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 8.461094391502671e-08,\n    \"min_spine_up_dot\": 0.9872686743407618,\n    \"min_foot_sphere_surface_z_m\": -2.0195044242300123e-05,\n    \"min_spine_collider_z_m\": 0.0005385716931669729,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  }\n]\n",
+      "error": ""
+    },
+    {
+      "script": "audit_common_contact_compression.py",
+      "args": [
+        "native_common_contact_centered_validation_cpu_dt15_000"
+      ],
+      "returncode": 0,
+      "output": "{\"name\": \"native_common_contact_centered_validation_cpu_dt15_000\", \"rows\": [{\"environment\": 0, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 1, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 2, \"compressed_meshes\": [{\"body\": \"link_body_1\", \"collider\": \"collision_001\", \"maximum_compression_um\": 15.706963686362794, \"fraction_sampled_poses_below_plane\": 0.004987531172069825}], \"maximum_mesh_compression_um\": 15.706963686362794}, {\"environment\": 3, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 4, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 5, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 6, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 7, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 8, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}]}\n",
+      "error": ""
+    },
+    {
+      "script": "evaluate_common_contact_centered.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"status\": \"PENDING_RESULTS\", \"missing\": 8, \"failed\": [], \"main_mu_mm\": [166.34566076037947, 148.96422240919824, 152.9781203416775, 209.82887982980142, 134.78426614238685, 211.83570877741548, 119.35030296360577, 174.94893712555864]}\n",
+      "error": ""
+    },
+    {
+      "script": "analyze_common_contact_centered_motion.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"cpu\": {\"max_centroid_xy_path_difference_mm\": 0.04066577116264204, \"max_heading_difference_deg\": 0.0068276044543289505, \"max_joint_position_difference_deg\": 0.06255261028619441}, \"gpu\": {\"max_centroid_xy_path_difference_mm\": 0.07774445701197129, \"max_heading_difference_deg\": 0.10179431847137543, \"max_joint_position_difference_deg\": 0.14248868870080728}}\n",
+      "error": ""
+    },
+    {
+      "script": "evaluate_common_contact_centered_motion.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"status\": \"PENDING_RESULTS\", \"completed\": 48, \"missing\": 24, \"failed\": []}\n",
+      "error": ""
+    },
+    {
+      "script": "validate_common_contact_backend.py",
+      "args": [
+        "native_common_contact_centered_validation_gpu_dt15_000"
+      ],
+      "returncode": 0,
+      "output": "{\"run\": \"native_common_contact_centered_validation_gpu_dt15_000\", \"passed\": true, \"checks\": {\"physical_backend\": true, \"ground_response_disabled\": true, \"pgs_external_iteration_flag_false\": true, \"world_com_wrench\": true, \"same_input_hashes\": true, \"solver_iterations\": true}}\n",
+      "error": ""
+    },
+    {
+      "script": "quality_audit_fast.py",
+      "args": [
+        "native_common_contact_centered_validation_gpu_dt15_000"
+      ],
+      "returncode": 0,
+      "output": "\n    \"min_foot_sphere_surface_z_m\": -2.2237765385358862e-05,\n    \"min_spine_collider_z_m\": 0.0002711191509372781,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 4,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 5.850147403906293e-08,\n    \"min_spine_up_dot\": 0.9703923497559882,\n    \"min_foot_sphere_surface_z_m\": -2.1396917257899325e-05,\n    \"min_spine_collider_z_m\": 0.0003312899679847937,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 5,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 4.683308654640096e-08,\n    \"min_spine_up_dot\": 0.9766120794665837,\n    \"min_foot_sphere_surface_z_m\": -2.2322684973432867e-05,\n    \"min_spine_collider_z_m\": 0.000552297040620129,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 6,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 5.908570727763966e-08,\n    \"min_spine_up_dot\": 0.9812150315488037,\n    \"min_foot_sphere_surface_z_m\": -2.038508811738084e-05,\n    \"min_spine_collider_z_m\": 0.000429172804605955,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 7,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 4.733202424380123e-08,\n    \"min_spine_up_dot\": 0.9820546238529397,\n    \"min_foot_sphere_surface_z_m\": -2.1287490631105555e-05,\n    \"min_spine_collider_z_m\": 0.0008276519605738123,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  },\n  {\n    \"case\": 8,\n    \"finite\": true,\n    \"max_pose_fit_residual_m\": 6.330256894718009e-08,\n    \"min_spine_up_dot\": 0.9872315797015719,\n    \"min_foot_sphere_surface_z_m\": -2.0204412460073594e-05,\n    \"min_spine_collider_z_m\": 0.0005396266157245465,\n    \"inverted_spine_samples\": 0,\n    \"spine_below_plane_samples\": 0\n  }\n]\n",
+      "error": ""
+    },
+    {
+      "script": "audit_common_contact_compression.py",
+      "args": [
+        "native_common_contact_centered_validation_gpu_dt15_000"
+      ],
+      "returncode": 0,
+      "output": "{\"name\": \"native_common_contact_centered_validation_gpu_dt15_000\", \"rows\": [{\"environment\": 0, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 1, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 2, \"compressed_meshes\": [{\"body\": \"link_body_1\", \"collider\": \"collision_001\", \"maximum_compression_um\": 17.353053210999743, \"fraction_sampled_poses_below_plane\": 0.007481296758104738}], \"maximum_mesh_compression_um\": 17.353053210999743}, {\"environment\": 3, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 4, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 5, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 6, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 7, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}, {\"environment\": 8, \"compressed_meshes\": [], \"maximum_mesh_compression_um\": 0.0}]}\n",
+      "error": ""
+    },
+    {
+      "script": "evaluate_common_contact_centered.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"status\": \"NUMERICAL_GATES_PASSED_QUALITY_REVIEW_REQUIRED\", \"missing\": 0, \"failed\": [], \"main_mu_mm\": [166.34566076037947, 148.96422240919824, 152.9781203416775, 209.82887982980142, 134.78426614238685, 211.83570877741548, 119.35030296360577, 174.94893712555864]}\n",
+      "error": ""
+    },
+    {
+      "script": "analyze_common_contact_centered_motion.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"cpu\": {\"max_centroid_xy_path_difference_mm\": 0.04066577116264204, \"max_heading_difference_deg\": 0.0068276044543289505, \"max_joint_position_difference_deg\": 0.06255261028619441}, \"gpu\": {\"max_centroid_xy_path_difference_mm\": 0.19588093375249585, \"max_heading_difference_deg\": 0.23511753501299815, \"max_joint_position_difference_deg\": 0.15716508664482473}}\n",
+      "error": ""
+    },
+    {
+      "script": "evaluate_common_contact_centered_motion.py",
+      "args": [],
+      "returncode": 0,
+      "output": "{\"status\": \"PASSED\", \"completed\": 72, \"missing\": 0, \"failed\": []}\n",
+      "error": ""
+    }
+  ],
+  "all_collected": true
+}

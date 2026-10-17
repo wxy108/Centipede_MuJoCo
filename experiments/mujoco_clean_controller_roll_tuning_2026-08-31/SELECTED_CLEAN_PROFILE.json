@@ -1,0 +1,65 @@
+{
+  "status": "SELECTED_2026-08-31",
+  "scope": "Centipede Model only; never Centipede Robot Step 18/19",
+  "candidate": "terrain_profile_lp0525",
+  "canonical_for_this_experiment": true,
+  "source_controller_modified": false,
+  "controller_architecture": {
+    "reference": "original open-loop CPG",
+    "feedback_signals": [],
+    "contact_gating": false,
+    "state_dependent_offsets": false,
+    "new_state_machine": false,
+    "body_leg_wave_numbers_coupled": true,
+    "relative_leg_phase_deg": 0.0,
+    "active_body_roll_torque_nm": 0.0
+  },
+  "selected_parameters": {
+    "flat_leg_pitch_amplitude_scale_relative_to_locked_baseline": 0.525,
+    "rough_leg_pitch_amplitude_scale_relative_to_locked_baseline": 1.0,
+    "all_other_controller_parameters_relative_to_locked_baseline": 1.0,
+    "all_model_parameters_relative_to_locked_baseline": 1.0
+  },
+  "physical_target_amplitudes": {
+    "flat_leg_pitch_baseline_deg": 36.8989890479,
+    "flat_leg_pitch_selected_deg": 19.3719692501,
+    "rough_leg_pitch_unchanged_deg": 25.0380866326
+  },
+  "validation": {
+    "duration_s": 6.0,
+    "selected_candidate_passed_all_terrain_specific_gates": true,
+    "flat": {
+      "forward_displacement_mm": 133.0395859258,
+      "forward_retention": 0.9255851812,
+      "coherent_roll_p95_deg": 5.1256033272,
+      "baseline_coherent_roll_p95_deg": 16.3428659224,
+      "front7_coherent_roll_p95_deg": 7.5095520314,
+      "baseline_front7_coherent_roll_p95_deg": 18.6994964457,
+      "mean_contacting_feet_of_38": 18.412,
+      "tip_roll_p95_deg": 29.9075933376
+    },
+    "rough": {
+      "policy": "preserve baseline rather than impose a flat-ground attitude target",
+      "forward_displacement_mm": 91.1403277853,
+      "coherent_roll_p95_deg": 8.6810276941,
+      "front7_coherent_roll_p95_deg": 13.3767377033,
+      "mean_contacting_feet_of_38": 13.2051111111,
+      "tip_roll_p95_deg": 26.7253760882,
+      "numerically_identical_to_recomputed_rough_baseline": true
+    }
+  },
+  "frozen_inputs": {
+    "runner_sha256": "FA3A4BC1EECF54D35FB691AA367585912631BC1DA59894DA968B3315940156A5",
+    "flat_model_sha256": "3815AB6CC8F6BC60834A9A85C246C19DC6B9FB94BD18DF893E072A0345132520",
+    "rough_model_sha256": "33F2750A751719090E8925489641AE7641F879F740CCECC380AEB8F48643BF2F",
+    "armature_nonzero_count": 0,
+    "total_mass_kg": 0.0025360310917800356
+  },
+  "evidence": {
+    "screen": "outputs/data/clean_roll_screen.json",
+    "demo_audit": "outputs/data/clean_roll_demo_audit.json",
+    "contact_sheet": "outputs/figures/clean_roll_terrain_profile_lp0525_contact_sheet.png",
+    "flat_side_temporal_montage": "outputs/figures/flat_side_temporal_montage.png"
+  },
+  "rejected_predecessor": "../mujoco_engineering_roll_stabilization_2026-08-30/REJECTED_BY_PI.md"
+}

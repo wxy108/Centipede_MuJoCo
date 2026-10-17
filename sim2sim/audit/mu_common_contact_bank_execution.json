@@ -1,0 +1,209 @@
+{
+  "rows": [
+    {
+      "name": "mu_common_contact_dt31_calibration_000",
+      "pid": 240712,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_calibration_000",
+        "--bank",
+        "calibration",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia"
+      ]
+    },
+    {
+      "name": "mu_common_contact_dt31_case00_000",
+      "pid": 82160,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_case00_000",
+        "--bank",
+        "holdout",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia",
+        "--case-index",
+        "0"
+      ]
+    },
+    {
+      "name": "mu_common_contact_dt31_case01_000",
+      "pid": 148752,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_case01_000",
+        "--bank",
+        "holdout",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia",
+        "--case-index",
+        "1"
+      ]
+    },
+    {
+      "name": "mu_common_contact_dt31_case02_000",
+      "pid": 240084,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_case02_000",
+        "--bank",
+        "holdout",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia",
+        "--case-index",
+        "2"
+      ]
+    },
+    {
+      "name": "mu_common_contact_dt31_case03_000",
+      "pid": 224068,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_case03_000",
+        "--bank",
+        "holdout",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia",
+        "--case-index",
+        "3"
+      ]
+    },
+    {
+      "name": "mu_common_contact_dt31_case04_000",
+      "pid": 142436,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_case04_000",
+        "--bank",
+        "holdout",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia",
+        "--case-index",
+        "4"
+      ]
+    },
+    {
+      "name": "mu_common_contact_dt31_case05_000",
+      "pid": 113976,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_case05_000",
+        "--bank",
+        "holdout",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia",
+        "--case-index",
+        "5"
+      ]
+    },
+    {
+      "name": "mu_common_contact_dt31_case06_000",
+      "pid": 149704,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_case06_000",
+        "--bank",
+        "holdout",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia",
+        "--case-index",
+        "6"
+      ]
+    },
+    {
+      "name": "mu_common_contact_dt31_case07_000",
+      "pid": 237436,
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_common_contact.py",
+        "--name",
+        "mu_common_contact_dt31_case07_000",
+        "--bank",
+        "holdout",
+        "--dt",
+        ".00003125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia",
+        "--case-index",
+        "7"
+      ]
+    }
+  ]
+}

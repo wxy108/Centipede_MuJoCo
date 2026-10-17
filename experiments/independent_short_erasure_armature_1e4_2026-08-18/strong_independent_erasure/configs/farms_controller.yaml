@@ -1,0 +1,93 @@
+# farms_config.yaml - Control parameters for the FARMS centipede model
+# Edit this file to change locomotion parameters; no code changes needed.
+
+# Body travelling wave
+body_wave:
+  amplitude:    0.4
+  frequency:    1.0
+  wave_number:  3.0
+  speed:        1.0
+  # Head-end spatial amplitude envelope (body yaw only).
+  #   head_hold_joints = 1 -> only joint 0 (the world-heading servo) is held
+  #   head_ramp_joints = 2 -> joints 1,2 cosine taper from amin up to 1
+  #   With amin=0, R=2 produces scales ~ [0.25, 0.75] at i=1,2.
+  #   Joint 3 now gets full wave amplitude (was tapered before).
+  head_hold_joints: 1
+  head_ramp_joints: 2
+  head_ramp_min:    0.0
+
+# Leg wave
+leg_wave:
+  amplitudes:     [0.6, 0.2, 0.0, 0.0]
+  phase_offsets:  [-1.5707963, 3.1415926, 0.0, 3.1415926]
+  dc_offsets:     [0.0, 0.0, 0.0, 0.5235987755982988]
+  active_dofs:    [0, 1]
+
+# CPG oscillator network (Kuramoto chain).
+# Softer (|Omega| smaller) -> slower relaxation, visible follow-the-leader.
+# Was -5.0; lowered to -2.5 so each segment clearly chases the one ahead.
+cpg:
+  enabled:            true
+  coupling_omega:     -2.5
+  leg_coupling_omega: -2.5
+
+# Simulation
+simulation:
+  duration:     10.0
+  timestep:     0.0005
+
+# Impedance control.
+#   - body_kp_head / body_kv_head drive the heading-servo joint 0 (large gains
+#     because all downstream joints entrain to joint 0 via the CPG).
+#   - body_kp / body_kv are the normal per-segment impedance for joints 1..18.
+#   - pitch_* softer (halved) so transition joints (former passive 3,7,11,15)
+#     don't overshoot.
+#   - roll_* soft: roll now has its own <general> actuators (20 of them) added
+#     in centipede.xml, so these gains are no longer dead code.
+#   - head_yaw_gain maps world yaw error (rad) of link_body_0 to a q_target
+#     on joint_body_1.  ~1.0 is a good starting point.
+impedance:
+  # Updated 2026-05-07 — MuJoCo local optimizer (impedance_local) rank 1,
+  # trial #197, cost=8.0818 (single-eval, rough λ=18mm at 1 Hz).
+  # Source: outputs/optimization/impedance_local_local_v1_20260506_173631/
+  # Reported MuJoCo gait: speed=26.5 mm/s, body_z_rms=0.336mm,
+  # peak_force/weight=17.21, velocity_quality=0.668.
+  # Architecture: SOFT body (kp=0.084 vs Isaac Lab rank-5's 0.144) +
+  # active hip + very soft tibia + moderate tarsus. ~2x softer body than
+  # the previous Isaac-Lab-derived gains. Shifts the simulator-comparison
+  # axis: same architecture family, MuJoCo found an even softer optimum.
+  # For the previous Isaac Lab three_eval rank 5 values see
+  # farms_controller.yaml.backup_isaaclab_rank5_20260507.
+  body_kp:        0.0835125235454197
+  body_kv:        0.006543324764015389
+  body_kp_head:   2.0
+  body_kv_head:   0.20
+  head_yaw_gain:  1.0
+  head_yaw_target_clip: 0.5
+  head_yaw_rate:  0.0
+  # pitch_kp / pitch_kv from the local optimizer rank 1. Substantially
+  # stiffer than the previous Isaac-Lab-imported pitch values (0.0603 vs
+  # 0.0145), aligning with the local optimizer's preference for active
+  # body-pitch tracking on MuJoCo's contact dynamics.
+  pitch_kp:       0.060252342862245484
+  pitch_kv:       0.000037132428850703704
+  head_pitch_offset: -0.25
+  head_pitch_joints: 1
+  head_pitch_kp:     0.20
+  head_pitch_kv:     0.05
+  roll_kp:        0.004
+  roll_kv:        0.0016
+  settle_time:    1.0
+  ramp_time:      1.0
+  leg:
+    # MuJoCo local optimizer rank 1 (trial #197) leg gains:
+    #   hip_yaw   (DOF 0): kp 0.1133    kv 2.56e-05  (more active than rank-5 Isaac Lab)
+    #   hip_pitch (DOF 1): kp 0.0831    kv 1.42e-08  (essentially undamped)
+    #   tibia     (DOF 2): kp 0.00106   kv 1.09e-07  (VERY SOFT, near-undamped)
+    #   tarsus    (DOF 3): kp 0.0733    kv 1.18e-03  (~2x softer than rank-5)
+    kp: [0.11333708873423386, 0.0831373224893599, 0.001064510319872201, 0.07325603581633337]
+    kv: [2.5573179301699367e-05, 1.422929231992592e-08, 1.0924047163740733e-07, 0.001181406479456258]
+
+# Recording
+recording:
+  dt_record:    0.01

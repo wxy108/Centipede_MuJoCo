@@ -1,0 +1,29 @@
+{
+  "captured_utc": "2026-10-17T22:35:10.392740+00:00",
+  "step40": {
+    "actual_csv_rows": 21504,
+    "conditions": 42,
+    "trials_per_condition": 512,
+    "source_receipt_passed": true
+  },
+  "isaac": {
+    "planned": 4055,
+    "complete": 3553,
+    "failed": 502,
+    "retained": 3418,
+    "rough_groups": 135,
+    "planned_spawns_per_group": 30,
+    "flat_controls": 5
+  },
+  "isaac_failures": {
+    "boundary_guard": 8,
+    "state_divergence": 492,
+    "native_startup_error": 2
+  },
+  "physical_stall_established": false,
+  "clean_locked_files": 86,
+  "clean_lock_mismatches": [],
+  "shared_contact_pins": 47,
+  "shared_contact_pin_mismatches": [],
+  "new_physics_runs": 0
+}

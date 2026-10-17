@@ -1,0 +1,70 @@
+{
+  "rows": [
+    {
+      "grid_us": 31.25,
+      "global_y_m": 0.0,
+      "steps": 64,
+      "root_y_displacement_um": 6.000009307172149,
+      "root_com_y_displacement_um": 6.000013854645658,
+      "max_naive_one_step_root_com_error_nm": 0.01000444171950221,
+      "max_simple_com_correction_one_step_error_nm": 0.01546140993013978,
+      "naive_exact_step_count": 5,
+      "simple_com_correction_exact_step_count": 4,
+      "simple_com_correction_range_nm": [
+        -0.0006821210263296962,
+        0.009549694368615746
+      ],
+      "max_velocity_change_m_s": 1.5911508222110626e-12
+    },
+    {
+      "grid_us": 31.25,
+      "global_y_m": 1.75,
+      "steps": 64,
+      "root_y_displacement_um": 0.5960464477539062,
+      "root_com_y_displacement_um": 0.5960464477539062,
+      "max_naive_one_step_root_com_error_nm": 119.20928955078125,
+      "max_simple_com_correction_one_step_error_nm": 0.0,
+      "naive_exact_step_count": 1,
+      "simple_com_correction_exact_step_count": 64,
+      "simple_com_correction_range_nm": [
+        -119.20928955078125,
+        119.20928955078125
+      ],
+      "max_velocity_change_m_s": 1.5911508222110626e-12
+    },
+    {
+      "grid_us": 15.625,
+      "global_y_m": 0.0,
+      "steps": 128,
+      "root_y_displacement_um": 5.999994755256921,
+      "root_com_y_displacement_um": 6.0000011217198335,
+      "max_naive_one_step_root_com_error_nm": 0.011823431123048067,
+      "max_simple_com_correction_one_step_error_nm": 0.012732925824820995,
+      "naive_exact_step_count": 2,
+      "simple_com_correction_exact_step_count": 4,
+      "simple_com_correction_range_nm": [
+        -0.01000444171950221,
+        0.0009094947017729282
+      ],
+      "max_velocity_change_m_s": 2.7656360274824765e-12
+    },
+    {
+      "grid_us": 15.625,
+      "global_y_m": 1.75,
+      "steps": 128,
+      "root_y_displacement_um": 0.0,
+      "root_com_y_displacement_um": 0.0,
+      "max_naive_one_step_root_com_error_nm": 0.0,
+      "max_simple_com_correction_one_step_error_nm": 0.0,
+      "naive_exact_step_count": 128,
+      "simple_com_correction_exact_step_count": 128,
+      "simple_com_correction_range_nm": [
+        0.0,
+        0.0
+      ],
+      "max_velocity_change_m_s": 2.7656351601207385e-12
+    }
+  ],
+  "qualification": "Diagnostic arithmetic models only. Sequential NumPy float32 weighted sums and a common rigid translation approximate the public COM correction structure, but do not reproduce all internal FK, instruction fusion, accumulation order or the installed binary. Mismatch is retained; no fitted constants or production change.",
+  "source_sha": "14eb1541bc45b4896e67754442c520de537da63274bb5861cfd21cac0bd3e6ed"
+}

@@ -1,0 +1,52 @@
+{
+  "gait": {
+    "wave": 2.5,
+    "amplitudes": [
+      16.0,
+      72.0,
+      24.0
+    ]
+  },
+  "same_dt_s": 6.25e-05,
+  "gravity": 0,
+  "ground_collision": false,
+  "rows": [
+    {
+      "family": "body_yaw",
+      "rms_error_deg": 1.1057631162208951e-05,
+      "max_error_deg": 3.7008381327717e-05
+    },
+    {
+      "family": "body_pitch",
+      "rms_error_deg": 6.431069945178534e-06,
+      "max_error_deg": 2.5246828590654634e-05
+    },
+    {
+      "family": "body_roll",
+      "rms_error_deg": 1.6685799037016993e-06,
+      "max_error_deg": 6.8137987328066345e-06
+    },
+    {
+      "family": "legbase_yaw",
+      "rms_error_deg": 3.6705256004637454e-06,
+      "max_error_deg": 2.1878267791554115e-05
+    },
+    {
+      "family": "legbase_pitch",
+      "rms_error_deg": 1.931578390256452e-06,
+      "max_error_deg": 1.6974673943219943e-05
+    },
+    {
+      "family": "tarsus_yaw",
+      "rms_error_deg": 6.799720472019984e-07,
+      "max_error_deg": 4.732539828913328e-06
+    }
+  ],
+  "max_all_joint_error_deg": 3.7008381327717e-05,
+  "worst_joint": "body_yaw_12",
+  "worst_time_s": 1.72,
+  "maximum_body_origin_error_m": 4.185274350592479e-05,
+  "rms_body_origin_error_m": 4.627188895280285e-06,
+  "interpretation": "Two-second mechanical diagnostic, not a six-second locomotion score; only the known initial environment offset was removed.",
+  "source_sha": "68dfa3d92c898f24b3c4a9dbafc4252b12021f1f318126781714564af5f2d667"
+}

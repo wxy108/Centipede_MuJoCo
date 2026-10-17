@@ -1,0 +1,30 @@
+{
+  "rows": [
+    {
+      "run": "native_matrix_cpu_000",
+      "shape": [
+        179,
+        179
+      ],
+      "raw_unmatched_root_origin_diagonal_error": 0.09324583341582005,
+      "max_diagonal_relative_error": 1.852792500312006e-06,
+      "max_entry_diagonal_normalized_error": 3.537175767746626e-06,
+      "normalized_frobenius_error": 1.897881547131648e-06,
+      "min_scaled_eigenvalue": 3.424275770197189e-05
+    },
+    {
+      "run": "native_fast_equivalence_gpu_case03_000",
+      "shape": [
+        179,
+        179
+      ],
+      "raw_unmatched_root_origin_diagonal_error": 0.09324674113271114,
+      "max_diagonal_relative_error": 2.4890877105554488e-05,
+      "max_entry_diagonal_normalized_error": 4.460755325415532e-05,
+      "normalized_frobenius_error": 1.8503829214764072e-05,
+      "min_scaled_eigenvalue": 3.41313297692837e-05
+    }
+  ],
+  "frame": "identity root rotation; transform MuJoCo root-origin linear velocity to native root-COM linear velocity, joints reordered by name",
+  "note": "Unmatched root reference points create a spurious 9.3% diagonal error. Raw mixed linear/angular mass-matrix condition number is unit dependent and is not itself evidence of a precision failure."
+}

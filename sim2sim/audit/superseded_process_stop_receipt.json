@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-09-11T01:27:50.1472541-04:00",
+  "reason": "Superseded after independent contact-mechanics audit; see NUMERICAL_AMENDMENT_03.md. Not a physics-failure claim. Completed data retained; incomplete trajectories unavailable.",
+  "processes": [
+    {
+      "ProcessId": 215284,
+      "CommandLine": "\"C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe\" -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_v3.py --name native_validation_cpu_dt31_threads8_000 --bank validation --device cpu --headless --duration 6 --dt .00003125 --cpu-threads 8"
+    },
+    {
+      "ProcessId": 222328,
+      "CommandLine": "\"C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe\" -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_v2.py --name native_validation_gpu_dt62_000 --bank validation --device cuda:0 --headless --duration 6 --dt .0000625"
+    },
+    {
+      "ProcessId": 216536,
+      "CommandLine": "\"C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe\" -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mu_refinement.py"
+    },
+    {
+      "ProcessId": 223948,
+      "CommandLine": "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_v4.py --name mu_sharedclock_dt15_case05_000 --bank holdout --dt 1.5625e-05 --command-dt .0000625 --duration 6 --case-index 5"
+    },
+    {
+      "ProcessId": 225240,
+      "CommandLine": "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_v4.py --name mu_sharedclock_dt15_case06_000 --bank holdout --dt 1.5625e-05 --command-dt .0000625 --duration 6 --case-index 6"
+    },
+    {
+      "ProcessId": 218332,
+      "CommandLine": "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_v4.py --name mu_sharedclock_dt15_case07_000 --bank holdout --dt 1.5625e-05 --command-dt .0000625 --duration 6 --case-index 7"
+    },
+    {
+      "ProcessId": 214256,
+      "CommandLine": "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_v4.py --name mu_sharedclock_dt7_calibration_000 --bank calibration --dt 7.8125e-06 --command-dt .0000625 --duration 6"
+    },
+    {
+      "ProcessId": 152596,
+      "CommandLine": "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_v4.py --name mu_sharedclock_dt7_case00_000 --bank holdout --dt 7.8125e-06 --command-dt .0000625 --duration 6 --case-index 0"
+    },
+    {
+      "ProcessId": 146668,
+      "CommandLine": "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_v4.py --name mu_sharedclock_dt7_case01_000 --bank holdout --dt 7.8125e-06 --command-dt .0000625 --duration 6 --case-index 1"
+    }
+  ]
+}

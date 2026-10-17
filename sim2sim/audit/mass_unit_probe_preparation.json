@@ -1,0 +1,10 @@
+{
+  "body_count": 251,
+  "numerical_scale": 1000000.0,
+  "physical_mass_unit_kg": 1e-06,
+  "mass_and_inertia_and_pd_and_force_cap_scaled": true,
+  "length_and_time_unchanged": true,
+  "physical_pd_fitting": false,
+  "asset_sha": "ccdf52fe2631548ee67eb92ca5f0cf7c3c2ee22c44a4e4f31bce78c9d4be82ee",
+  "runner_sha": "5e1c103da99f6b76fef69e17530c5c56e5a8487a0089d117c9f732823ce6b289"
+}

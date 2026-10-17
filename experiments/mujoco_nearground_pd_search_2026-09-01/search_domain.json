@@ -1,0 +1,62 @@
+{
+  "keys": [
+    "yaw_k",
+    "yaw_d",
+    "pitch_k",
+    "pitch_d",
+    "leg_yaw_k",
+    "leg_yaw_d",
+    "leg_pitch_k",
+    "leg_pitch_d",
+    "roll_k",
+    "roll_d"
+  ],
+  "seeds": [
+    1901,
+    2901
+  ],
+  "sobol_per_seed": 32,
+  "bounds": {
+    "yaw_k": [
+      0.25,
+      16.0
+    ],
+    "yaw_d": [
+      0.25,
+      32.0
+    ],
+    "pitch_k": [
+      0.25,
+      16.0
+    ],
+    "pitch_d": [
+      0.25,
+      32.0
+    ],
+    "leg_yaw_k": [
+      0.25,
+      16.0
+    ],
+    "leg_yaw_d": [
+      0.25,
+      32.0
+    ],
+    "leg_pitch_k": [
+      0.25,
+      16.0
+    ],
+    "leg_pitch_d": [
+      0.25,
+      32.0
+    ],
+    "roll_k": [
+      0.25,
+      16.0
+    ],
+    "roll_d": [
+      0.25,
+      32.0
+    ]
+  },
+  "continuous_global_proof": false
+}
