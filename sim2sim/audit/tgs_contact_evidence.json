@@ -1,0 +1,53 @@
+{
+  "drop": [
+    {
+      "name": "contact_drop_slide_cpu_dt62_000",
+      "final_x_um": 114.09763828851283,
+      "minimum_vx_mm_s": -11.300609447062016,
+      "final_vx_mm_s": 1.130477699976375e-13
+    },
+    {
+      "name": "tgs_drop_external_each_iter_cpu_000",
+      "final_x_um": 127.49823508784175,
+      "minimum_vx_mm_s": -1.303670593699735e-05,
+      "final_vx_mm_s": -1.303670504881893e-05
+    },
+    {
+      "name": "tgs_drop_external_each_iter_gpu_000",
+      "final_x_um": 127.50037421938032,
+      "minimum_vx_mm_s": -0.09815892553888261,
+      "final_vx_mm_s": -1.591338971707046e-05
+    }
+  ],
+  "friction": [
+    {
+      "name": "friction_cone_cpu_angle45_000",
+      "final_xy_um": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "friction_cone_gpu_angle45_000",
+      "final_xy_um": [
+        0.00013124372422179675,
+        0.00013137287091513628
+      ]
+    },
+    {
+      "name": "tgs_friction_angle45_default_cpu_000",
+      "final_xy_um": [
+        34.93654730846174,
+        34.97072611935437
+      ]
+    },
+    {
+      "name": "tgs_friction_angle45_external_each_iter_gpu_000",
+      "final_xy_um": [
+        34.73181277513504,
+        34.76579149719328
+      ]
+    }
+  ],
+  "source_sha": "c356870ba500df8f870624c4495b6a23a6f7af25c83ada562d898ccb7aad82ab"
+}

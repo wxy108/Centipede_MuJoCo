@@ -1,0 +1,114 @@
+{
+  "rows": [
+    {
+      "run": "inverse_mass_cpu_001",
+      "cases": [
+        {
+          "joint": "body_yaw_9",
+          "expected_own_velocity_rad_s": 0.00015901140051024167,
+          "native_own_velocity_rad_s": 0.0001590112515259534,
+          "own_relative_error": 9.369409223488545e-07,
+          "kinetic_norm_relative_error": 2.4105942340426774e-05
+        },
+        {
+          "joint": "body_pitch_9",
+          "expected_own_velocity_rad_s": 0.00018299429158939056,
+          "native_own_velocity_rad_s": 0.00018299419025424868,
+          "own_relative_error": 5.5376121847008e-07,
+          "kinetic_norm_relative_error": 1.1121190939052934e-06
+        },
+        {
+          "joint": "body_roll_9",
+          "expected_own_velocity_rad_s": 0.0004174458530124718,
+          "native_own_velocity_rad_s": 0.00041744575719349086,
+          "own_relative_error": 2.295363105398282e-07,
+          "kinetic_norm_relative_error": 8.469552535827431e-06
+        },
+        {
+          "joint": "body_pitch_0",
+          "expected_own_velocity_rad_s": 0.00019568621803766768,
+          "native_own_velocity_rad_s": 0.00019568606512621045,
+          "own_relative_error": 7.814114798965842e-07,
+          "kinetic_norm_relative_error": 4.257174285438375e-06
+        },
+        {
+          "joint": "legbase_yaw_9_L",
+          "expected_own_velocity_rad_s": 0.002298626035424599,
+          "native_own_velocity_rad_s": 0.002298621227964759,
+          "own_relative_error": 2.0914493118283324e-06,
+          "kinetic_norm_relative_error": 1.2356134024600239e-05
+        },
+        {
+          "joint": "legbase_pitch_9_L",
+          "expected_own_velocity_rad_s": 0.0018994114963708166,
+          "native_own_velocity_rad_s": 0.001899410504847765,
+          "own_relative_error": 5.220159262444451e-07,
+          "kinetic_norm_relative_error": 3.462080355860236e-06
+        },
+        {
+          "joint": "tarsus_yaw_9_L",
+          "expected_own_velocity_rad_s": 0.22011748931793543,
+          "native_own_velocity_rad_s": 0.22012263536453247,
+          "own_relative_error": 2.3378635713995045e-05,
+          "kinetic_norm_relative_error": 2.5395691973301677e-05
+        }
+      ]
+    },
+    {
+      "run": "inverse_mass_gpu_001",
+      "cases": [
+        {
+          "joint": "body_yaw_9",
+          "expected_own_velocity_rad_s": 0.00015901140051024167,
+          "native_own_velocity_rad_s": 0.00015901141159702092,
+          "own_relative_error": 6.97231721650822e-08,
+          "kinetic_norm_relative_error": 1.99241183241363e-06
+        },
+        {
+          "joint": "body_pitch_9",
+          "expected_own_velocity_rad_s": 0.00018299429158939056,
+          "native_own_velocity_rad_s": 0.00018299437942914665,
+          "own_relative_error": 4.800136404377967e-07,
+          "kinetic_norm_relative_error": 5.5388058543311396e-06
+        },
+        {
+          "joint": "body_roll_9",
+          "expected_own_velocity_rad_s": 0.0004174458530124718,
+          "native_own_velocity_rad_s": 0.000417446019127965,
+          "own_relative_error": 3.97933030023432e-07,
+          "kinetic_norm_relative_error": 6.642344464698748e-06
+        },
+        {
+          "joint": "body_pitch_0",
+          "expected_own_velocity_rad_s": 0.00019568621803766768,
+          "native_own_velocity_rad_s": 0.00019568642892409116,
+          "own_relative_error": 1.0776764229578914e-06,
+          "kinetic_norm_relative_error": 1.855854891206162e-05
+        },
+        {
+          "joint": "legbase_yaw_9_L",
+          "expected_own_velocity_rad_s": 0.002298626035424599,
+          "native_own_velocity_rad_s": 0.002298622624948621,
+          "own_relative_error": 1.483701970419155e-06,
+          "kinetic_norm_relative_error": 9.794250394131353e-06
+        },
+        {
+          "joint": "legbase_pitch_9_L",
+          "expected_own_velocity_rad_s": 0.0018994114963708166,
+          "native_own_velocity_rad_s": 0.001899410504847765,
+          "own_relative_error": 5.220159262444451e-07,
+          "kinetic_norm_relative_error": 2.955159749613106e-06
+        },
+        {
+          "joint": "tarsus_yaw_9_L",
+          "expected_own_velocity_rad_s": 0.22011748931793543,
+          "native_own_velocity_rad_s": 0.22012275457382202,
+          "own_relative_error": 2.3920206899093366e-05,
+          "kinetic_norm_relative_error": 2.59133363450443e-05
+        }
+      ]
+    }
+  ],
+  "method": "One 1 \u00b5s step, zero initial velocity, zero gravity and zero drives. Compare measured impulse response with physical MuJoCo M inverse, root COM frame transformed.",
+  "source_sha": "a334e44f328f1577aff470c84bb2fa7b53d766e4fb83039fe34fb343d116099c"
+}

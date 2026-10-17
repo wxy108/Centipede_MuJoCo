@@ -1,0 +1,179 @@
+{
+  "calibration": [
+    {
+      "run": "mu_calibration_dt250_000",
+      "engine": "MuJoCo",
+      "dt_us": 250.0,
+      "D_mm": 99.33509987350955
+    },
+    {
+      "run": "mu_calibration_dt125_000",
+      "engine": "MuJoCo",
+      "dt_us": 125.0,
+      "D_mm": 126.99263372232924
+    },
+    {
+      "run": "mu_calibration_dt62_000",
+      "engine": "MuJoCo",
+      "dt_us": 62.5,
+      "D_mm": 139.736344237237
+    },
+    {
+      "run": "mu_calibration_dt31_000",
+      "engine": "MuJoCo",
+      "dt_us": 31.25,
+      "D_mm": 144.794201689391
+    },
+    {
+      "run": "native_calibration_cpu_dt250_000",
+      "engine": "PhysX CPU",
+      "dt_us": 250.0,
+      "D_mm": 143.35347712039948
+    },
+    {
+      "run": "native_calibration_cpu_dt125_fk_000",
+      "engine": "PhysX CPU",
+      "dt_us": 125.0,
+      "D_mm": 146.9886749982834
+    }
+  ],
+  "holdout": [
+    {
+      "index": 0,
+      "wave": 1.5,
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt62": 146.45534442936477,
+      "native_dt62": null,
+      "mu_dt31": null,
+      "native_dt31": null,
+      "gap": null,
+      "mu_convergence": null,
+      "native_convergence": null,
+      "passed": false
+    },
+    {
+      "index": 1,
+      "wave": 1.5,
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt62": 104.97789995486048,
+      "native_dt62": null,
+      "mu_dt31": null,
+      "native_dt31": null,
+      "gap": null,
+      "mu_convergence": null,
+      "native_convergence": null,
+      "passed": false
+    },
+    {
+      "index": 2,
+      "wave": 2.5,
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt62": 132.86464818615002,
+      "native_dt62": null,
+      "mu_dt31": null,
+      "native_dt31": null,
+      "gap": null,
+      "mu_convergence": null,
+      "native_convergence": null,
+      "passed": false
+    },
+    {
+      "index": 3,
+      "wave": 2.5,
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt62": 133.2343009823226,
+      "native_dt62": null,
+      "mu_dt31": null,
+      "native_dt31": null,
+      "gap": null,
+      "mu_convergence": null,
+      "native_convergence": null,
+      "passed": false
+    },
+    {
+      "index": 4,
+      "wave": 3.5,
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt62": 135.7585754402152,
+      "native_dt62": null,
+      "mu_dt31": null,
+      "native_dt31": null,
+      "gap": null,
+      "mu_convergence": null,
+      "native_convergence": null,
+      "passed": false
+    },
+    {
+      "index": 5,
+      "wave": 3.5,
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt62": 184.54324485394358,
+      "native_dt62": null,
+      "mu_dt31": null,
+      "native_dt31": null,
+      "gap": null,
+      "mu_convergence": null,
+      "native_convergence": null,
+      "passed": false
+    },
+    {
+      "index": 6,
+      "wave": 4.5,
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt62": null,
+      "native_dt62": null,
+      "mu_dt31": null,
+      "native_dt31": null,
+      "gap": null,
+      "mu_convergence": null,
+      "native_convergence": null,
+      "passed": false
+    },
+    {
+      "index": 7,
+      "wave": 4.5,
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt62": null,
+      "native_dt62": null,
+      "mu_dt31": null,
+      "native_dt31": null,
+      "gap": null,
+      "mu_convergence": null,
+      "native_convergence": null,
+      "passed": false
+    }
+  ],
+  "all_holdout_passed": false
+}

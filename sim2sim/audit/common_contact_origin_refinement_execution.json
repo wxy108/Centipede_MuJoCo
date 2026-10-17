@@ -1,0 +1,25 @@
+{
+  "name": "native_common_contact_origin_probe_cpu_dt15_000",
+  "pid": 208516,
+  "returncode": 0,
+  "command": [
+    "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+    "-B",
+    "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_common_contact_origin_probe.py",
+    "--name",
+    "native_common_contact_origin_probe_cpu_dt15_000",
+    "--bank",
+    "origin_probe",
+    "--device",
+    "cpu",
+    "--cpu-threads",
+    "2",
+    "--dt",
+    ".000015625",
+    "--command-dt",
+    ".00025",
+    "--duration",
+    "6",
+    "--headless"
+  ]
+}

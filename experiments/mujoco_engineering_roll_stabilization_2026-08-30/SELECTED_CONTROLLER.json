@@ -1,0 +1,39 @@
+{
+  "name": "pg_p300_l125",
+  "scope": "abstract Centipede Model only",
+  "status": "REJECTED_BY_PI_2026-08-31: projected-gravity feedback is not eligible for the clean controller",
+  "canonical": false,
+  "controller": {
+    "projected_gravity_common_angle_gain": 3.0,
+    "projected_gravity_common_rate_gain_s": 0.14,
+    "projected_gravity_local_segment_gain": 1.25,
+    "projected_gravity_filter_tau_s": 0.1,
+    "projected_gravity_rate_filter_tau_s": 0.06,
+    "leg_pitch_correction_clip_rad": 0.52,
+    "feedback_start_s": 0.7,
+    "feedback_ramp_s": 0.8,
+    "contact_gate": false,
+    "tip_authority_guard": false,
+    "additional_body_roll_kp_nm_per_rad": 0.0,
+    "additional_body_roll_kv_nms_per_rad": 0.0,
+    "additional_body_roll_torque_limit_nm": 0.0
+  },
+  "frozen_contract": {
+    "mass_and_inertia": "unchanged locked-head baseline",
+    "armature": 0.0,
+    "passive_body_roll_stiffness_nm_per_rad": 0.0006958425311,
+    "passive_body_roll_damping_nms_per_rad": 9.86447628474e-7,
+    "passive_tip_stiffness_nm_per_rad": 4.5e-6,
+    "passive_tip_damping_nms_per_rad": 1.15375965e-9,
+    "body_leg_wave_coupled": true,
+    "flat_wave_number": 1.5,
+    "relative_leg_phase_deg": 0.0,
+    "gait_amplitudes": "unchanged",
+    "head_link1_connection": "fixed at -29 deg"
+  },
+  "runner": "run_engineering_roll.py",
+  "evidence": {
+    "screen": "outputs/data/engineering_roll_screen.json",
+    "demo_audit": "outputs/data/engineering_roll_demo_audit.json"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "captured_utc": "2026-09-11T12:46:28.973505+00:00",
+  "isaaclab_origin": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\__init__.py",
+  "rows": [
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\__init__.py",
+      "sha256": "41dd3626f8935f642cbdba141522ae43f22eecd61ddf74b5e12de723c4a319e7",
+      "bytes": 730
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\sim\\simulation_context.py",
+      "sha256": "313e2ee57e3213b972b5f33847a5e6f4366cfe4aa777543f770ae6f954fc3d20",
+      "bytes": 51764
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\sim\\simulation_cfg.py",
+      "sha256": "76aa9e1488ed55721dddc4400f0b9d8d9275640fa7bc80072066f840b15999c6",
+      "bytes": 15054
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\actuators\\actuator_pd.py",
+      "sha256": "d306068eb055604d3da7a37be11e0f82459d2e9e5b9f168809c1755a954d00fb",
+      "bytes": 21262
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\actuators\\actuator_base.py",
+      "sha256": "e4db908ad02bcc6b7021c2cb222be52d7262d774d68101f14768a9c180418f2f",
+      "bytes": 16593
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\app\\app_launcher.py",
+      "sha256": "181fc6c8b580cc351872ca7cd89cacff70dfc47ea00707a6a013075a02607554",
+      "bytes": 54851
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\sim\\spawners\\from_files\\from_files_cfg.py",
+      "sha256": "5d51928ecd6f4daeb180496bc95205a08cc1999d03f7ac36ffc1122567d70414",
+      "bytes": 6760
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\sim\\spawners\\from_files\\from_files.py",
+      "sha256": "d0349a8ce13f0d12ac0a9f169282584738a860b649fb4fec19d1f39e1a8572e5",
+      "bytes": 14342
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\sim\\schemas\\schemas.py",
+      "sha256": "aab7e4cc7264c8adc02e1372e166792ccccaa33dac8403ea0d3bde26cb02037b",
+      "bytes": 39922
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\assets\\asset_base.py",
+      "sha256": "6ee69ddf42d75c3760ed37e17dfd67de6988f00ceb9bc3a3140cfa1c3d8b6734",
+      "bytes": 15276
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\assets\\articulation\\articulation.py",
+      "sha256": "c1c5415c5291d6b2b0e81dee0ae6281ab1a0951fc1c3ada9b25ba433761c54f1",
+      "bytes": 105837
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\IsaacLab\\source\\isaaclab\\isaaclab\\assets\\articulation\\articulation_data.py",
+      "sha256": "f25bed1af87fc027d556748c2fd7fe53c02d279b198e4dc0921a8fa2ab80fa96",
+      "bytes": 49434
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.usd.schema.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\physxSchema.dll",
+      "sha256": "1ae5cab935bbe927773ee7cff7ab1fb45d61d86c61b846381e93f30971466205",
+      "bytes": 1201168
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.usd.schema.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\pxr\\PhysxSchema\\_physxSchema.pyd",
+      "sha256": "b153f85e7540aba603cc83e346ee0ac9038d08227b0dc65c94cc2bb9710b46aa",
+      "bytes": 2988040
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\usdrt.scenegraph-7.6.1+8131b85d.wx64.r.cp311\\usdrt\\PhysxSchema\\_PhysxSchema.cp311-win_amd64.pyd",
+      "sha256": "d97650ab3148ae7865b52d5e9e146d0f2b7643b35d42d2c141a0dc7a25e94d6f",
+      "bytes": 2388496
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.foundation-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.foundation.plugin.dll",
+      "sha256": "a597ef82e66e7701ead5e7c798d5882feea7c9769c822c4e7756fbf9e40a44cc",
+      "bytes": 82952
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.foundation-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physxfoundation\\bindings\\_physxFoundation.cp311-win_amd64.pyd",
+      "sha256": "b46ca23ceafd3fff36693241261d43478ea5feabb4acce7416394805cd54eb19",
+      "bytes": 170000
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.foundation-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\PhysXDevice64.dll",
+      "sha256": "5c4343255f24df885cfdb2845f3fee4a4ad5d94031f397997098444897784b54",
+      "bytes": 712744
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.foundation-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\PhysXGpu_64.dll",
+      "sha256": "20e81ca8c0720ad916827a0923d479a6fb56b0c081233706b695f88b9df84dc9",
+      "bytes": 361148424
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.cooking-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.cooking.plugin.dll",
+      "sha256": "7b6bf3c331e7ff9c892bed5e4a6e8c294e3b129074f062079801d0bd1329769e",
+      "bytes": 2762256
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.cooking-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physxcooking\\bindings\\_physxCooking.cp311-win_amd64.pyd",
+      "sha256": "6cd43d1c4934852311328a5907564439592e585f3f201d69d5e8a7c2c8db4de2",
+      "bytes": 174088
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.plugin.dll",
+      "sha256": "1d32c48b027f6f8b012159abd8e1cc6e3b3d7a8d350dd2dbc0ade4b9144e1d0b",
+      "bytes": 8547344
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physx\\bindings\\_physx.cp311-win_amd64.pyd",
+      "sha256": "9b44b095d9555f5b77489b137be823d1c58c3b7e0a2593a5d81f350d85743b52",
+      "bytes": 1311240
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physics.plugin.dll",
+      "sha256": "de5ce480f52f5f168770ed95edbc3810fdd661c575d8c8eb1de805a4b79cbebd",
+      "bytes": 67592
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physics.physx.plugin.dll",
+      "sha256": "aa750adb450d73f9452e9e5a8b23c5b032cc47c02157972a500c9965bb0e1620",
+      "bytes": 121360
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics.stageupdate-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physics.stageupdate.plugin.dll",
+      "sha256": "a26542713a1c05dcb075546384643c2f347a3ca06a119de17086854d0789b79b",
+      "bytes": 44048
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics.tensors-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physics.tensors.plugin.dll",
+      "sha256": "6986669c0334ad4706d7c712a3ae5d107bd7da91881a5f6b563a2106df429d34",
+      "bytes": 52752
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physics.tensors-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physics\\tensors\\bindings\\_physicsTensors.cp311-win_amd64.pyd",
+      "sha256": "decf97ae889f3dcdaa54e6c6729b45427254b8a6740fde526e1cd768b5ed8558",
+      "bytes": 851472
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.tensors-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.tensors.plugin.dll",
+      "sha256": "03c3d13c8cecd28f8d23bac7c86e174cf35f15fdab4de7d1efc61c7f515a2afd",
+      "bytes": 9572368
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.fabric-107.3.18+107.3.1.wx64.r.cp311.u353\\bin\\omni.physx.fabric.plugin.dll",
+      "sha256": "4f5e0fa675e78e9379944fdd0a1cf5f7a12b9143687e1ad192d931279dbc7ddd",
+      "bytes": 1202704
+    },
+    {
+      "path": "c:\\users\\wxy22\\anaconda3\\envs\\isaaclab_50\\lib\\site-packages\\isaacsim\\extscache\\omni.physx.fabric-107.3.18+107.3.1.wx64.r.cp311.u353\\omni\\physxfabric\\bindings\\_physxFabric.cp311-win_amd64.pyd",
+      "sha256": "67dc6eb6bca3cf4d3db3c414198b4159601959caab28654a9d72ede831862893",
+      "bytes": 177672
+    }
+  ],
+  "qualification": "Captured during centered validation for exact future code checks. Loaded native physics module paths came from the owned centered GPU main worker. This is not a claim that these hashes were captured before the original audit."
+}

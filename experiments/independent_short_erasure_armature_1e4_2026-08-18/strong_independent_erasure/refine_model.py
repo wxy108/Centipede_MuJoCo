@@ -1,0 +1,236 @@
+"""Build the controlled FARMS MuJoCo reliability model.
+
+The source MJCF is never edited in place.  This controlled rerun keeps the
+source model's ``1e-4 kg m^2`` hinge armature unchanged.  It removes passive
+stiffness/damping only from the 211 joints that are actively impedance
+controlled.  The 38 passive leg-roll hinges and 38 passive foot hinges retain
+their physical spring/damper terms because they are not members of the active
+Isaac-Lab joint families.  Robot self-collision is disabled while robot-floor
+collision remains enabled, matching ``assets/config.yaml: self_collision:
+false`` in the Isaac-Lab project and eliminating invalid overlap constraints
+between adjacent articulated meshes.
+"""
+
+from __future__ import annotations
+
+import argparse
+import re
+from pathlib import Path
+
+import mujoco
+import numpy as np
+
+
+DEFAULT_SOURCE = Path(
+    r"C:\Users\wxy22\Documents\Centipede_MUJOCO-main\models\farms\centipede.xml"
+)
+DEFAULT_OUTPUT = Path(__file__).resolve().parent / "models" / "farms" / "centipede_reliability_refined.xml"
+NUMERICAL_ARMATURE = 1.0e-4
+
+
+ACTIVE_PATTERNS = (
+    re.compile(r"joint_body_\d+$"),
+    re.compile(r"joint_pitch_body_\d+$"),
+    re.compile(r"joint_roll_body_\d+$"),
+    re.compile(r"joint_leg_\d+_[LR]_[0-3]$"),
+)
+
+
+def is_active(name: str) -> bool:
+    return any(pattern.fullmatch(name) for pattern in ACTIVE_PATTERNS)
+
+
+def set_attribute(tag: str, attribute: str, value: str) -> str:
+    pattern = re.compile(rf'\b{re.escape(attribute)}="[^"]*"')
+    replacement = f'{attribute}="{value}"'
+    if pattern.search(tag):
+        return pattern.sub(replacement, tag)
+    return tag[:-2] + f' {replacement}/>' if tag.endswith("/>") else tag
+
+
+def rewrite_joint(match: re.Match[str]) -> str:
+    tag = match.group(0)
+    name_match = re.search(r'\bname="([^"]+)"', tag)
+    if not name_match or not is_active(name_match.group(1)):
+        return tag
+    tag = set_attribute(tag, "armature", f"{NUMERICAL_ARMATURE:.1e}")
+    tag = set_attribute(tag, "damping", "0")
+    tag = set_attribute(tag, "stiffness", "0")
+    return tag
+
+
+def rewrite_geom(match: re.Match[str]) -> str:
+    tag = match.group(0)
+    name_match = re.search(r'\bname="([^"]+)"', tag)
+    if not name_match or not name_match.group(1).endswith("_collision"):
+        return tag
+    # Robot types can contact the floor's affinity bit, but robot affinities
+    # accept no robot type.  Thus ground contacts remain and self contacts do
+    # not enter the solver.
+    tag = set_attribute(tag, "contype", "1")
+    tag = set_attribute(tag, "conaffinity", "0")
+    return tag
+
+
+def joint_scalar(model: mujoco.MjModel, joint_id: int, values: np.ndarray) -> np.ndarray:
+    start = int(model.jnt_dofadr[joint_id])
+    count = 6 if int(model.jnt_type[joint_id]) == int(mujoco.mjtJoint.mjJNT_FREE) else 1
+    return np.asarray(values[start : start + count], dtype=float)
+
+
+def validate(source: Path, output: Path) -> None:
+    old = mujoco.MjModel.from_xml_path(str(source))
+    new = mujoco.MjModel.from_xml_path(str(output))
+    if (old.nbody, old.njnt, old.ngeom, old.nu) != (new.nbody, new.njnt, new.ngeom, new.nu):
+        raise RuntimeError("Topology changed while refining the model")
+    if not np.isclose(old.body_mass.sum(), new.body_mass.sum(), rtol=0.0, atol=1e-15):
+        raise RuntimeError("Total physical mass changed while refining the model")
+    if new.opt.timestep != old.opt.timestep or new.opt.integrator != old.opt.integrator:
+        raise RuntimeError("Physics timestep or integrator changed while refining the model")
+
+    active_ids: list[int] = []
+    passive_ids: list[int] = []
+    for joint_id in range(new.njnt):
+        name = mujoco.mj_id2name(new, mujoco.mjtObj.mjOBJ_JOINT, joint_id) or ""
+        if is_active(name):
+            active_ids.append(joint_id)
+        elif name.startswith("joint_roll_leg_") or name.startswith("joint_foot_"):
+            passive_ids.append(joint_id)
+    if len(active_ids) != 211:
+        raise RuntimeError(f"Expected 211 active joints, found {len(active_ids)}")
+    if len(passive_ids) != 76:
+        raise RuntimeError(f"Expected 76 preserved passive hinges, found {len(passive_ids)}")
+
+    robot_collision_geoms: list[int] = []
+    for geom_id in range(new.ngeom):
+        name = mujoco.mj_id2name(new, mujoco.mjtObj.mjOBJ_GEOM, geom_id) or ""
+        if name.endswith("_collision"):
+            robot_collision_geoms.append(geom_id)
+    if len(robot_collision_geoms) != 211:
+        raise RuntimeError(
+            f"Expected 211 robot collision geoms, found {len(robot_collision_geoms)}"
+        )
+    if np.any(new.geom_contype[robot_collision_geoms] != 1) or np.any(
+        new.geom_conaffinity[robot_collision_geoms] != 0
+    ):
+        raise RuntimeError("Robot self-collision mask was not installed")
+    floor_id = mujoco.mj_name2id(new, mujoco.mjtObj.mjOBJ_GEOM, "floor")
+    if floor_id < 0 or int(new.geom_conaffinity[floor_id]) != 1:
+        raise RuntimeError("Floor collision affinity changed")
+
+    for joint_id in active_ids:
+        if np.any(joint_scalar(new, joint_id, new.dof_armature) != NUMERICAL_ARMATURE):
+            raise RuntimeError(f"Wrong active numerical armature at joint id {joint_id}")
+        if np.any(joint_scalar(new, joint_id, new.dof_damping) != 0.0):
+            raise RuntimeError(f"Nonzero active damping at joint id {joint_id}")
+        if float(new.jnt_stiffness[joint_id]) != 0.0:
+            raise RuntimeError(f"Nonzero active stiffness at joint id {joint_id}")
+
+    for new_joint_id in passive_ids:
+        name = mujoco.mj_id2name(new, mujoco.mjtObj.mjOBJ_JOINT, new_joint_id)
+        old_joint_id = mujoco.mj_name2id(old, mujoco.mjtObj.mjOBJ_JOINT, name)
+        if np.any(joint_scalar(new, new_joint_id, new.dof_armature) != NUMERICAL_ARMATURE):
+            raise RuntimeError(f"Wrong passive numerical armature for {name}")
+        old_values = joint_scalar(old, old_joint_id, old.dof_damping)
+        new_values = joint_scalar(new, new_joint_id, new.dof_damping)
+        if not np.array_equal(old_values, new_values):
+            raise RuntimeError(f"Passive damping changed for {name}")
+        if float(old.jnt_stiffness[old_joint_id]) != float(new.jnt_stiffness[new_joint_id]):
+            raise RuntimeError(f"Passive stiffness changed for {name}")
+
+    print(f"PASS: {output}")
+    print(f"  topology: nbody={new.nbody}, njnt={new.njnt}, ngeom={new.ngeom}, nu={new.nu}")
+    print(f"  total mass: {new.body_mass.sum():.12f} kg")
+    print(f"  all hinge armatures unchanged: {NUMERICAL_ARMATURE:.1e} kg m^2")
+    print(f"  timestep/integrator unchanged: {new.opt.timestep:g} s / {new.opt.integrator}")
+    print("  active joints: 211 with damping=stiffness=0")
+    print("  passive hinges: 76 physical spring/damper terms preserved")
+    print("  collision: robot-floor ON, robot self-collision OFF (211 geoms)")
+
+
+def build(source: Path, output: Path) -> None:
+    text = source.read_text(encoding="utf-8")
+    text = text.replace(
+        '<joint damping="4.0754e-06" armature="0.0001" frictionloss="0.0"/>',
+        f'<joint damping="0" armature="{NUMERICAL_ARMATURE:.1e}" frictionloss="0.0"/>',
+        1,
+    )
+    # Keep the FARMS controller's calibrated 0.5 ms physics step.  A direct
+    # 1 ms substitution failed the eight-second upright-stability gate.
+    text = text.replace(
+        '<visual>\n    <global offwidth="1280" offheight="720"/>\n  </visual>',
+        '<visual>\n'
+        '    <global offwidth="1280" offheight="720"/>\n'
+        '    <quality shadowsize="4096" offsamples="4"/>\n'
+        '    <headlight ambient="0.30 0.32 0.35" diffuse="0.58 0.60 0.64" '
+        'specular="0.06 0.06 0.06"/>\n'
+        '    <rgba haze="0.70 0.75 0.82 1"/>\n'
+        '  </visual>',
+        1,
+    )
+    text = text.replace(
+        '  <asset>\n',
+        '  <asset>\n'
+        '    <texture name="studio_sky" type="skybox" builtin="gradient" '
+        'rgb1="0.72 0.77 0.84" rgb2="0.36 0.43 0.52" width="512" height="3072"/>\n'
+        '    <texture name="studio_floor_tex" type="2d" builtin="checker" '
+        'rgb1="0.24 0.27 0.32" rgb2="0.30 0.33 0.38" mark="edge" '
+        'markrgb="0.17 0.20 0.25" width="512" height="512"/>\n'
+        '    <material name="studio_floor" texture="studio_floor_tex" '
+        'texrepeat="16 16" texuniform="true" rgba="1 1 1 1" '
+        'specular="0.06" shininess="0.03" reflectance="0.0"/>\n',
+        1,
+    )
+    text = text.replace(
+        '    <light name="light_main" pos="0.2 -0.1 0.3" dir="-0.2 0.1 -0.3" '
+        'diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" directional="true" '
+        'castshadow="true"/>',
+        '    <light name="light_main" pos="0.18 -0.16 0.32" dir="-0.2 0.2 -1" '
+        'diffuse="0.82 0.84 0.88" specular="0.10 0.10 0.10" directional="true" '
+        'castshadow="true"/>',
+        1,
+    )
+    text = text.replace(
+        '    <light name="light_fill" pos="-0.1 0.1 0.1" dir="0.1 -0.1 -0.1" '
+        'diffuse="0.3 0.3 0.35" specular="0.0 0.0 0.0" directional="true" '
+        'castshadow="false"/>',
+        '    <light name="light_fill" pos="-0.15 0.18 0.22" dir="0.2 -0.2 -1" '
+        'diffuse="0.38 0.40 0.45" specular="0.0 0.0 0.0" directional="true" '
+        'castshadow="false"/>',
+        1,
+    )
+    text = text.replace(
+        '<geom name="floor" type="plane" size="0 0 0.01" pos="0 0 0" '
+        'conaffinity="1" condim="3" friction="1.6 0.005 0.0001"/>',
+        '<geom name="floor" type="plane" size="0 0 0.01" pos="0 0 0" '
+        'conaffinity="1" condim="3" friction="1.6 0.005 0.0001" '
+        'material="studio_floor"/>',
+        1,
+    )
+    marker = '<mujoco model="centipede_robot">'
+    provenance = (
+        marker
+        + "\n  <!-- Controlled reliability rerun: original 1e-4 kg m^2 armature "
+        + "retained; active passive-PD removed; passive leg-roll and foot "
+        + "spring/damper terms preserved; original 0.5 ms timestep retained; "
+        + "robot self-collision disabled while "
+        + "robot-floor collision remains enabled. -->"
+    )
+    text = text.replace(marker, provenance, 1)
+    text = re.sub(r"<joint\b[^>]*?/>", rewrite_joint, text)
+    text = re.sub(r"<geom\b[^>]*?/>", rewrite_geom, text)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(text, encoding="utf-8")
+    validate(source, output)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    args = parser.parse_args()
+    build(args.source.resolve(), args.output.resolve())
+
+
+if __name__ == "__main__":
+    main()

@@ -1,127 +1,19 @@
-# Centipede MuJoCo Locomotion Simulation
+# Centipede MuJoCo — historical model and alignment research
 
-This is the maintained MuJoCo research repository. See the [repository map](docs/REPOSITORY_ORGANIZATION.md) for related projects and preserved versions.
+Local research sources synchronized on 2026-10-17. **This repository remains archived.** Its old optimizer trials are not the current Isaac research mainline and are not promoted as validated working defaults.
 
-> **Blender model availability:** `models/blender/` was removed from `main` in commit `be707f4`. The earlier Blender/FARMS workspace, including its model assets, is preserved on [`legacy/mujoco-lab/main`](https://github.com/wxy108/Centipede_MuJoCo/tree/legacy/mujoco-lab/main). Use that branch's own controller/configuration files for the historical Blender example below; the main branch does not contain those assets.
+## Material worth retaining
 
-The formerly standalone [backbone wave notes](docs/backbone-wave/backbone_wave_documentation.md) now live here. They are preserved research notes, not newly validated derivations.
+- `experiments/`: September amplitude, model/contact and representation investigations, with original protocols and limits.
+- [Amplitude history audit](experiments/amplitude_history_audit_2026-09-08/RESULTS.md).
+- [Shared-contact sim-to-sim audit](sim2sim/AUDIT_AND_STATUS.zh-CN.md).
+- [Shared-contact operating profile](sim2sim/COMMON_CONTACT_OPERATING_PROFILE.json) and reproduction manifest.
+- [Backbone wave notes](docs/backbone-wave/backbone_wave_documentation.md), preserved research notes rather than newly verified derivations.
 
-Biologically-inspired centipede locomotion simulation in MuJoCo, with two model variants (high-fidelity Blender and FARMS-derived), multi-frequency terrain generation, and automated terrain roughness sweep experiments.
+The shared compliant-contact model passed its recorded fixed-gait, short-duration, centered-layout mechanical comparisons. This explicitly changes the contact model. Native PGS/TGS rigid-contact equivalence was not established; the common-contact baseline is slow, has displaced-origin/long-travel limits, and does not migrate RL observations, rewards, resets or training.
 
-## Project Structure
+Earlier amplitude optimizations use different models, contact laws, PD settings, objectives and windows. They must not be ranked against the current Isaac mainline as matched engine comparisons. Historical scripts and plans are retained for provenance, not as current run authorization.
 
-```
-Centipede_MUJOCO-main/
-│
-├── models/                     # MuJoCo model definitions and mesh assets
-│   ├── blender/                #   High-fidelity Blender-generated model (21 segments)
-│   │   ├── centipede.xml       #     MJCF model definition
-│   │   ├── meshes/             #     Visual + collision OBJ meshes
-│   │   └── textures/           #     Body textures (PNG/JPEG)
-│   └── farms/                  #   FARMS-derived model (19 segments, SDF origin)
-│       ├── centipede.xml       #     MJCF model definition
-│       └── meshes/             #     Link OBJ meshes
-│
-├── controllers/                # Simulation controllers and runners
-│   ├── blender/                #   Blender model controller stack
-│   │   ├── controller.py       #     PD servo + trajectory generators
-│   │   ├── kinematics.py       #     Joint/actuator naming and indexing
-│   │   ├── run.py              #     Simulation runner (viewer/headless/video)
-│   │   └── test_joints.py      #     Individual joint verification tool
-│   └── farms/                  #   FARMS model controller stack
-│       ├── controller.py       #     Traveling-wave position controller
-│       ├── kinematics.py       #     FARMS joint naming and indexing
-│       └── run.py              #     Simulation runner (viewer/headless/video)
-│
-├── configs/                    # All configuration files (centralized)
-│   ├── blender_controller.yaml #   Blender model wave parameters + servo gains
-│   ├── farms_controller.yaml   #   FARMS model wave parameters
-│   └── terrain.yaml            #   Spectral terrain generation parameters
-│
-├── terrain/                    # Terrain generation pipeline
-│   ├── generator/              #   Terrain generation scripts
-│   │   ├── generate.py         #     Multi-frequency spectral terrain generator
-│   │   └── patch_xml.py        #     Patches FARMS XML with hfield + sensors
-│   └── output/                 #   Generated terrain PNGs (gitignored)
-│
-├── scripts/                    # Experiment and automation scripts
-│   ├── sweep/                  #   Terrain roughness sweep experiments
-│   │   ├── terrain_sweep.py    #     Full L0-L3 sweep with per-level z_max
-│   │   └── terrain_browse.py   #     Interactive terrain browser
-│   ├── optimization/           #   Parameter tuning (Bayesian optimization)
-│   │   ├── blender/            #     Blender model PD gain tuning
-│   │   └── farms/              #     FARMS model gain tuning + XML patches
-│   └── dataset/                #   ML dataset collection
-│       ├── batch_terrain_sweep.py  # Batch terrain sweep for ML training
-│       └── test_terrain_levels.py  # Quick terrain level verification
-│
-├── analysis/                   # Post-simulation analysis tools
-│   ├── analyze_tracking_blender.py  # Command vs actual tracking (Blender)
-│   └── analyze_tracking_farms.py    # Command vs actual tracking (FARMS)
-│
-├── outputs/                    # All generated outputs (gitignored)
-│   ├── data/                   #   Simulation data (.npz files)
-│   ├── videos/                 #   Rendered simulation videos
-│   ├── logs/                   #   Sweep logs, MuJoCo logs
-│   ├── optimization/           #   Bayesian optimization results
-│   └── dataset/                #   ML training dataset
-│
-└── archive/                    # Legacy/deprecated files (gitignored)
-    ├── blender_pipeline/       #   Original Blender export scripts
-    ├── farms_sdf/              #   Original FARMS SDF model
-    └── legacy_scripts/         #   Superseded scripts and dumps
-```
+The newer biological/terrain research entry is [Centipede_isaac_rl](https://github.com/wxy108/Centipede_isaac_rl); the separate CAD robot reliability entry is [Centipede_Robot_Sim](https://github.com/wxy108/Centipede_Robot_Sim). The complete Lab variant remains on `legacy/mujoco-lab/main`.
 
-## Quick Start
-
-### Run FARMS model in viewer
-
-```bash
-cd controllers/farms
-python run.py
-```
-
-### Run Blender model in viewer
-
-```bash
-cd controllers/blender
-python run.py
-```
-
-### Generate terrain and run sweep
-
-```bash
-cd scripts/sweep
-python terrain_sweep.py --test     # quick 4-trial test
-python terrain_sweep.py            # full 151-trial sweep
-```
-
-## Terrain Pipeline
-
-The terrain system uses spectral band synthesis to generate heightfields with independently controllable roughness characteristics:
-
-- **Low band** (1-5 cyc/m): body-scale hills
-- **Mid band** (5-20 cyc/m): segment-scale mounds
-- **High band** (20-40 cyc/m): leg-scale texture
-
-Each terrain level has unique band amplitudes (different spatial patterns) and a per-level `z_max` that controls physical height in MuJoCo. All PNGs are normalized to full 0-255 range to avoid MuJoCo hfield staircase artifacts.
-
-## Configuration
-
-All configs live in `configs/`:
-
-| File | Controls |
-|------|----------|
-| `blender_controller.yaml` | Wave parameters, servo gains, appendage motion (Blender model) |
-| `farms_controller.yaml` | Wave parameters, servo gains (FARMS model) |
-| `terrain.yaml` | World size, spectral band frequencies/amplitudes, smoothing |
-
-## Dependencies
-
-- Python 3.10+
-- MuJoCo (via `mujoco` package)
-- NumPy, SciPy, PyYAML
-- mediapy (for video recording)
-- lxml (for XML patching)
-- matplotlib (for analysis)
-- scikit-optimize (for Bayesian optimization)
+Source Python was syntax-checked and the shared-contact reproduction pins were compared without starting physics. Local-path dependencies and original environment requirements remain; this is not a new portability or physics acceptance. Original files, failed attempts and raw trajectories remain on disk, and prior GitHub versions remain in history. `LOCAL_SOURCE_MANIFEST.json` records the copied sources.

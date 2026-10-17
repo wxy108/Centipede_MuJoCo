@@ -1,0 +1,8 @@
+{
+  "status": "SUPERSEDED_COORDINATE_LAYOUT",
+  "gpu_refinement_complete": false,
+  "last_saved_time_s": 2.5,
+  "partial_trajectory_sha256": "d7e61ff93a886ca30dab9cf3bce2f80e792c4cc070dfa155aac1479bb8ec679c",
+  "final_displacement_mm": null,
+  "reason": "Complete CPU origin/translation diagnostics rejected this layout; current centered candidate requires its own complete GPU refinement."
+}

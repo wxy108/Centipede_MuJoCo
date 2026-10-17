@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "device": "cpu",
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\demos\\common_contact_centered_cpu_w2p5_B_closeup_replay.mp4",
+      "sha256": "795b078df18f9f382bc1c56e148f4456d9a2ee330cd28b48fcb8f5729955dcc1",
+      "frame_count": 176,
+      "duration_s": 7.04,
+      "codec": "h264",
+      "size": [
+        1280,
+        800
+      ],
+      "fps": 25,
+      "source_runs": [
+        "mu_common_contact_dt31_case03_000",
+        "native_common_contact_centered_validation_cpu_dt31_000"
+      ],
+      "fully_decoded": true
+    },
+    {
+      "device": "gpu",
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\demos\\common_contact_centered_gpu_w2p5_B_closeup_replay.mp4",
+      "sha256": "dcfeceadb1e7ebbb44be6357945356ffca0a44ec26ff19039f8b236f869435a3",
+      "frame_count": 176,
+      "duration_s": 7.04,
+      "codec": "h264",
+      "size": [
+        1280,
+        800
+      ],
+      "fps": 25,
+      "source_runs": [
+        "mu_common_contact_dt31_case03_000",
+        "native_common_contact_centered_validation_gpu_dt31_000"
+      ],
+      "fully_decoded": true
+    }
+  ],
+  "source_sha": "868cec714d37c00422300c35fbadfc822c8a9140e49c3d59c1842dd91a3939f0"
+}

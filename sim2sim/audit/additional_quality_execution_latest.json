@@ -1,0 +1,36 @@
+{
+  "rows": [
+    {
+      "name": "mu_common_contact_dt15_case00_000",
+      "returncode": 0
+    },
+    {
+      "name": "mu_common_contact_dt15_case01_000",
+      "returncode": 0
+    },
+    {
+      "name": "mu_common_contact_dt15_case02_000",
+      "returncode": 0
+    },
+    {
+      "name": "mu_common_contact_dt15_case03_000",
+      "returncode": 0
+    },
+    {
+      "name": "mu_common_contact_dt15_case04_000",
+      "returncode": 0
+    },
+    {
+      "name": "mu_common_contact_dt15_case05_000",
+      "returncode": 0
+    },
+    {
+      "name": "mu_common_contact_dt15_case06_000",
+      "returncode": 0
+    },
+    {
+      "name": "mu_common_contact_dt15_case07_000",
+      "returncode": 0
+    }
+  ]
+}

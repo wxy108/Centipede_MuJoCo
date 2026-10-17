@@ -1,0 +1,11 @@
+# Qualified local checks after the primary search
+
+The primary six-poll search is complete. Its completion receipt distinguishes resolution stops from poll-budget stops. This supplement checks the initially selected, fully qualified gaits whose selected point was not already covered by a final no-material-gain poll at the declared resolution. It does not restart weaker secondary basins.
+
+The plant, established per-wave PD, amplitudes and bounds, initialization, 1 Hz, nominal 6 s at 0.125 ms, 12 s validation, 6 s at 0.0625 ms, engineering gates, and <=10% half-step displacement disagreement remain unchanged. Nominal fixed-forward displacement is the objective. No contact loss or shape/crossover preference is used.
+
+Start each selected gait at normalized step min(0.01, its applicable saved step); use 0.01 if the selected point differs from the saved center. Poll six signed coordinate directions. On the first supplemental poll only, if the immediately preceding successful move has both endpoints fully qualified and also improves the finer-step displacement, test one, two and four times that successful displacement beyond the current point, clipped to the same bounds. The finer-step direction check guides proposals only; it does not change selection criteria. Archive the exact starting state and tasks.
+
+For every nominal candidate that improves its current qualified center by more than 0.2 mm, complete any missing long/half-step checks. A nominally faster point cannot move the center unless fully qualified. Existing exact conditions and qualifications are reused. Lower nominal scores cannot improve the declared objective and need no extra qualification in this supplement. Accept the best fully qualified improvement. With no qualified gain above 0.2 mm, halve the step down to 0.005; at 0.005 record no material qualified improvement in the tested directions. This is a directional resolution check, not a continuous/global optimality proof. At most six supplemental polls are allowed; any remaining budget stop stays explicit.
+
+The initial ranked selection and primary search records are retained. The current selection is refreshed from every completed qualified evaluation, with the count and maximum nominal advantage of faster untested candidates retained. All selected trajectory replays and final reporting occur afterward.

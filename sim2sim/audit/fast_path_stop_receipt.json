@@ -1,0 +1,6 @@
+{
+  "pid": 228988,
+  "command": "\"C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe\" -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_v9.py --name native_fast_equivalence_gpu_case03_000 --bank validation --case-indices 4 --device cuda:0 --headless --duration 6 --dt .0000625 --fast-targets --matrix-readback",
+  "reason": "Readback complete; direct-target subset trajectory did not reproduce original full-bank trajectory, and offered little speed benefit. Retain partial evidence; do not adopt fast path.",
+  "stopped_utc": "2026-09-11T06:44:07.7610555Z"
+}

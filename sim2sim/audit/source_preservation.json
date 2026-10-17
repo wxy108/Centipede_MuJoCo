@@ -1,0 +1,251 @@
+{
+  "rows": [
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\configs\\farms_controller.yaml",
+      "preserved": true,
+      "initial_sha256": "83cb56aceb69f6f2b56d3afb3af85d428c31f60c6454519ff658beaf8fa70fb1",
+      "current_sha256": "83cb56aceb69f6f2b56d3afb3af85d428c31f60c6454519ff658beaf8fa70fb1"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\configs\\farms_controller_headup_2026-07-17.yaml",
+      "preserved": true,
+      "initial_sha256": "23cee380048335bba0dfaa40b543f969b4dadaf72135089c92f0d0573e63e2e4",
+      "current_sha256": "23cee380048335bba0dfaa40b543f969b4dadaf72135089c92f0d0573e63e2e4"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\configs\\farms_controller_numpy_legacy.yaml",
+      "preserved": true,
+      "initial_sha256": "e9b60e943c7f3c6467fde73ad692e41ae4a8f03aaa62dc20c7de992f0a7bf960",
+      "current_sha256": "e9b60e943c7f3c6467fde73ad692e41ae4a8f03aaa62dc20c7de992f0a7bf960"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\configs\\optimizer_archive\\best_params.json",
+      "preserved": true,
+      "initial_sha256": "af75d648156f4482ff834243c5eeca9bbbde91d0df4cad27887ce6b547b0c75a",
+      "current_sha256": "af75d648156f4482ff834243c5eeca9bbbde91d0df4cad27887ce6b547b0c75a"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\configs\\optimizer_archive\\rank_05_trial_0167.yaml",
+      "preserved": true,
+      "initial_sha256": "b76dc73065d362dfb10d4f31604c892411b07051f7d3ed4b968942a86d052e2b",
+      "current_sha256": "b76dc73065d362dfb10d4f31604c892411b07051f7d3ed4b968942a86d052e2b"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\configs\\sim_params.yaml",
+      "preserved": true,
+      "initial_sha256": "89ec7ff01a3b6fe1b6be37a4496abf5d13c1a868f47e09f216a87376a04abc88",
+      "current_sha256": "89ec7ff01a3b6fe1b6be37a4496abf5d13c1a868f47e09f216a87376a04abc88"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\controllers\\__init__.py",
+      "preserved": true,
+      "initial_sha256": "04fe314cd97f0c787444779880d2821a881b30c2cd5109aa92a0abae67bf3f43",
+      "current_sha256": "04fe314cd97f0c787444779880d2821a881b30c2cd5109aa92a0abae67bf3f43"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\controllers\\impedance_controller.py",
+      "preserved": true,
+      "initial_sha256": "9d618646efc7b9e8006c6684af9197dec59415535f0dd4ac5b059766e537a547",
+      "current_sha256": "9d618646efc7b9e8006c6684af9197dec59415535f0dd4ac5b059766e537a547"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\controllers\\impedance_controller_torch.py",
+      "preserved": true,
+      "initial_sha256": "16febc86d5f63a454f45f6551f4a54bee08ff9b22d6cf9ec4e001aa757ea4d68",
+      "current_sha256": "16febc86d5f63a454f45f6551f4a54bee08ff9b22d6cf9ec4e001aa757ea4d68"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\controllers\\kinematics.py",
+      "preserved": true,
+      "initial_sha256": "5af29f712bb202cee498e30fc3c45c45a5cb5acf68bd107b92745bea8699b06d",
+      "current_sha256": "5af29f712bb202cee498e30fc3c45c45a5cb5acf68bd107b92745bea8699b06d"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\envs\\__init__.py",
+      "preserved": true,
+      "initial_sha256": "a191dfa236ce869a8984e8a74d05136151db45d8976e82be61cd630fa8980355",
+      "current_sha256": "a191dfa236ce869a8984e8a74d05136151db45d8976e82be61cd630fa8980355"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\envs\\centipede_env.py",
+      "preserved": true,
+      "initial_sha256": "c655eb14134d03d30cdd10db1f6026e3366908dc2825ea0273ff1d7357afe27a",
+      "current_sha256": "c655eb14134d03d30cdd10db1f6026e3366908dc2825ea0273ff1d7357afe27a"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\envs\\centipede_env_cfg.py",
+      "preserved": true,
+      "initial_sha256": "c02ba3e9b65ccf556af35d6f7d81d3e85d3be865840aa769200911b3e31dca0c",
+      "current_sha256": "c02ba3e9b65ccf556af35d6f7d81d3e85d3be865840aa769200911b3e31dca0c"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\outputs\\analysis\\common_pd_amplitude_contact_20260909\\code\\runtime.py",
+      "preserved": true,
+      "initial_sha256": "9cf4c8fd51cdf7f9a7d7795cca86b267221e9c4586b660195fba2f6a29e4c7e8",
+      "current_sha256": "9cf4c8fd51cdf7f9a7d7795cca86b267221e9c4586b660195fba2f6a29e4c7e8"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\outputs\\analysis\\common_pd_amplitude_contact_20260909\\physical_contract_readback\\backend_arrays.npz",
+      "preserved": true,
+      "initial_sha256": "c2489bf7b066eb3d00edfe0038a191fa5bfac6f5f7578cf577542dae83b22172",
+      "current_sha256": "c2489bf7b066eb3d00edfe0038a191fa5bfac6f5f7578cf577542dae83b22172"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_IsaacLab_RL\\outputs\\analysis\\mujoco_transfer_refinement_20260902\\assets\\centipede_rebuild_renamed_tip_experiment.usda",
+      "preserved": true,
+      "initial_sha256": "c0e919f8476a394d89053dcf92c6635d83d21e9c19a7789943e7face0dc720c4",
+      "current_sha256": "c0e919f8476a394d89053dcf92c6635d83d21e9c19a7789943e7face0dc720c4"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\.farms_controller_flat_k1p5.tmp.yaml",
+      "preserved": true,
+      "initial_sha256": "a58767142ce80f26b8afd9b07c82e81cd0e12232fde15721d1fadcdac67bc891",
+      "current_sha256": "a58767142ce80f26b8afd9b07c82e81cd0e12232fde15721d1fadcdac67bc891"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\.farms_controller_flat_k2p0.tmp.yaml",
+      "preserved": true,
+      "initial_sha256": "e73172428cfada0d0491b34f4859760b9ad704f998e2b14c36c526fb0304de6d",
+      "current_sha256": "e73172428cfada0d0491b34f4859760b9ad704f998e2b14c36c526fb0304de6d"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\.farms_controller_flat_k2p5.tmp.yaml",
+      "preserved": true,
+      "initial_sha256": "2191942ac2897dc9f8df32b80b3b7efdf75f9ef941cc26fd71b5bc60db18fb3f",
+      "current_sha256": "2191942ac2897dc9f8df32b80b3b7efdf75f9ef941cc26fd71b5bc60db18fb3f"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\.farms_controller_flat_k3p0.tmp.yaml",
+      "preserved": true,
+      "initial_sha256": "ff58011da75ab365491593ec8e159a7fc1d8a1ac3b8504d463f62683e6406a45",
+      "current_sha256": "ff58011da75ab365491593ec8e159a7fc1d8a1ac3b8504d463f62683e6406a45"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\.farms_controller_k3p0.tmp.yaml",
+      "preserved": true,
+      "initial_sha256": "edb937db46a73ae740f2ad977c78aa3ba248c24f5e4d83463bdbf2b181a110d4",
+      "current_sha256": "edb937db46a73ae740f2ad977c78aa3ba248c24f5e4d83463bdbf2b181a110d4"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\_robustness_test.yaml",
+      "preserved": true,
+      "initial_sha256": "c9df43e9cd315193ca4531560f4b5de8be929277ae86872e4c6438b84af40154",
+      "current_sha256": "c9df43e9cd315193ca4531560f4b5de8be929277ae86872e4c6438b84af40154"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\blender_controller.yaml",
+      "preserved": true,
+      "initial_sha256": "2a4d510df48e1fdd8023c1656ea22fc75036cc78bcc30f486961601cf3a4a728",
+      "current_sha256": "2a4d510df48e1fdd8023c1656ea22fc75036cc78bcc30f486961601cf3a4a728"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\farms_controller.yaml",
+      "preserved": true,
+      "initial_sha256": "277c31b581dd6c0f423b70d5358c4f48490b47b484e7880ac1f68185c4148a40",
+      "current_sha256": "277c31b581dd6c0f423b70d5358c4f48490b47b484e7880ac1f68185c4148a40"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\farms_controller_passive.yaml",
+      "preserved": true,
+      "initial_sha256": "16f9ec0bdd5b197a60ff682c378644c3c98c51aa0b0fb3a8d8747d770d19e40b",
+      "current_sha256": "16f9ec0bdd5b197a60ff682c378644c3c98c51aa0b0fb3a8d8747d770d19e40b"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\farms_controller_passive_only.yaml",
+      "preserved": true,
+      "initial_sha256": "13d74220838f2b978ea513d5af1383566162dc9fd9bafb00d660872104fc00a0",
+      "current_sha256": "13d74220838f2b978ea513d5af1383566162dc9fd9bafb00d660872104fc00a0"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\configs\\terrain.yaml",
+      "preserved": true,
+      "initial_sha256": "7788925aa426eb00fad63fda30315462965204319a803d6f6d35a6641b8a5bd2",
+      "current_sha256": "7788925aa426eb00fad63fda30315462965204319a803d6f6d35a6641b8a5bd2"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\blender\\controller.py",
+      "preserved": true,
+      "initial_sha256": "2bc0a127b07daf44bc2c359de0e014707336d157a0473cfac162684da44ba0ea",
+      "current_sha256": "2bc0a127b07daf44bc2c359de0e014707336d157a0473cfac162684da44ba0ea"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\blender\\kinematics.py",
+      "preserved": true,
+      "initial_sha256": "dcb01bca11a8156a7acc0872a8d6e1efb12a6d8ee60100ae1f6c7df8be07af16",
+      "current_sha256": "dcb01bca11a8156a7acc0872a8d6e1efb12a6d8ee60100ae1f6c7df8be07af16"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\blender\\run.py",
+      "preserved": true,
+      "initial_sha256": "601fcc641167482b18e59d252f442d10f85b1a735a74c5d05632fc0eaa221561",
+      "current_sha256": "601fcc641167482b18e59d252f442d10f85b1a735a74c5d05632fc0eaa221561"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\blender\\test_joints.py",
+      "preserved": true,
+      "initial_sha256": "a2810b5187c92ad0576d0b98bb157f11ae987bf0ec004325cc3d503c09b1cb99",
+      "current_sha256": "a2810b5187c92ad0576d0b98bb157f11ae987bf0ec004325cc3d503c09b1cb99"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\farms\\controller.py",
+      "preserved": true,
+      "initial_sha256": "4dd53c559cf80084d610af93c2ab447fd95083370531986ed99896e4aaf29850",
+      "current_sha256": "4dd53c559cf80084d610af93c2ab447fd95083370531986ed99896e4aaf29850"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\farms\\impedance_controller.py",
+      "preserved": true,
+      "initial_sha256": "25f4cafb75285e5c6c6f12cb0d954f1fc496a807a4e9a15a204f2a8c472f60f8",
+      "current_sha256": "25f4cafb75285e5c6c6f12cb0d954f1fc496a807a4e9a15a204f2a8c472f60f8"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\farms\\kinematics.py",
+      "preserved": true,
+      "initial_sha256": "9e34e26d490fc9e0c6f8b150391f3c4daa5866779b763ca166f7eb2285a1ed4f",
+      "current_sha256": "9e34e26d490fc9e0c6f8b150391f3c4daa5866779b763ca166f7eb2285a1ed4f"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\farms\\passive_axial_controller.py",
+      "preserved": true,
+      "initial_sha256": "bb031efad491f57e554ec961cdd58e04b6cebcf46f7b5c91cc3a5f376fb18901",
+      "current_sha256": "bb031efad491f57e554ec961cdd58e04b6cebcf46f7b5c91cc3a5f376fb18901"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\farms\\run.py",
+      "preserved": true,
+      "initial_sha256": "344b3d74e8cbded6da997cb5c5a6aa854db15d8617a8dc1355e68275ef5b3e2a",
+      "current_sha256": "344b3d74e8cbded6da997cb5c5a6aa854db15d8617a8dc1355e68275ef5b3e2a"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\farms\\run_passive.py",
+      "preserved": true,
+      "initial_sha256": "d758a1d9c63e5497d569745c50a3e42dd6b1a0839e04ff192c2e28f6c857082c",
+      "current_sha256": "d758a1d9c63e5497d569745c50a3e42dd6b1a0839e04ff192c2e28f6c857082c"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\controllers\\farms\\run_rough.py",
+      "preserved": true,
+      "initial_sha256": "75fedf554dd88c5e90f5f944235134cd3d864bd108012c84e9b859ad96a7d8b1",
+      "current_sha256": "75fedf554dd88c5e90f5f944235134cd3d864bd108012c84e9b859ad96a7d8b1"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\common_pd_amplitude_contact_2026-09-09\\core.py",
+      "preserved": true,
+      "initial_sha256": "44e2f162ed9116b88012a05cbeee88a5546e2b3a4eed8b4e20a3333105009101",
+      "current_sha256": "44e2f162ed9116b88012a05cbeee88a5546e2b3a4eed8b4e20a3333105009101"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\common_pd_amplitude_contact_2026-09-09\\outputs\\data\\manifest.json",
+      "preserved": true,
+      "initial_sha256": "ac61161798780de4f8ba12ff5a7105697c7f112ff682a49a9cfd6c75bd05c7ef",
+      "current_sha256": "ac61161798780de4f8ba12ff5a7105697c7f112ff682a49a9cfd6c75bd05c7ef"
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\mujoco_tip_passive_gliding_2026-09-01\\models\\centipede_flat_localz_k2em05_d3p2_r38.xml",
+      "preserved": true,
+      "initial_sha256": "f7d3de211095026c03d94a5c60a093bbcb67900d07a8909aa9aad6ce4c5eb71c",
+      "current_sha256": "f7d3de211095026c03d94a5c60a093bbcb67900d07a8909aa9aad6ce4c5eb71c"
+    }
+  ],
+  "all_preserved": true
+}

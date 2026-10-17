@@ -1,0 +1,38 @@
+{
+  "rows": [
+    {
+      "engine": "mujoco",
+      "dt": 0.00025,
+      "final_x": 0.00012999899606746073,
+      "min_surface_z": -1.5206873230487244e-05
+    },
+    {
+      "engine": "mujoco",
+      "dt": 6.25e-05,
+      "final_x": 0.00013124983023317055,
+      "min_surface_z": -9.807404850486546e-06
+    },
+    {
+      "engine": "mujoco",
+      "dt": 1.5625e-05,
+      "final_x": 0.00013249983020523155,
+      "min_surface_z": -1.1467181608498832e-05
+    },
+    {
+      "engine": "mujoco",
+      "dt": 7.8125e-06,
+      "final_x": 0.00013249983020522863,
+      "min_surface_z": -1.1242719004670321e-05
+    },
+    {
+      "engine": "physx",
+      "name": "contact_drop_slide_cpu_dt62_000",
+      "dt": 6.25e-05,
+      "friction_offset": 4e-05,
+      "final_x": 0.00011409763828851283,
+      "min_surface_z": -1.5324912964066045e-10
+    }
+  ],
+  "ideal_impact_x": 0.00012771017136282018,
+  "note": "Normal impact impulse is sufficient to remove horizontal velocity at mu=0.5; expected rigid limit stops at impact."
+}

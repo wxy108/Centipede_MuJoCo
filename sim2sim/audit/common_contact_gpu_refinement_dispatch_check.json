@@ -1,0 +1,45 @@
+{
+  "main_pid": 235556,
+  "checks": [
+    {
+      "case": 0,
+      "gap_pct": 0.020956496041335537,
+      "passed": true
+    },
+    {
+      "case": 1,
+      "gap_pct": 0.00856493193315873,
+      "passed": true
+    },
+    {
+      "case": 2,
+      "gap_pct": 0.005346557699565699,
+      "passed": true
+    },
+    {
+      "case": 3,
+      "gap_pct": 0.011560330853029006,
+      "passed": true
+    },
+    {
+      "case": 4,
+      "gap_pct": 0.007462383450729867,
+      "passed": true
+    },
+    {
+      "case": 5,
+      "gap_pct": 0.0015248418680966504,
+      "passed": true
+    },
+    {
+      "case": 6,
+      "gap_pct": 0.013380151980817975,
+      "passed": true
+    },
+    {
+      "case": 7,
+      "gap_pct": 0.010071764551998992,
+      "passed": true
+    }
+  ]
+}

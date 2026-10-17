@@ -1,0 +1,23 @@
+{
+  "rows": [
+    {
+      "label": "anderson60",
+      "steps": 1000,
+      "wall_s": 15.046999999991385,
+      "unconverged_steps": 0,
+      "max_residual_m_s": 9.983905004812277e-09,
+      "mean_iterations": 11.287
+    },
+    {
+      "label": "anderson120",
+      "steps": 1000,
+      "wall_s": 16.98399999999674,
+      "unconverged_steps": 0,
+      "max_residual_m_s": 9.983905004812277e-09,
+      "mean_iterations": 11.287
+    }
+  ],
+  "max_recorded_qpos_difference": 0.0,
+  "source_sha": "6b283b3ac3e230ff1bbb6ba9265a1c98ec97d4f4051a3889552a52af8b2a08df",
+  "interpretation": "Short full-robot active-ramp stress test, not gait acceptance. Compares only nonlinear-solver initialization/warmstart."
+}

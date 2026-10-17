@@ -1,0 +1,1171 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="centipede">
+  <compiler angle="radian" meshdir="C:/Users/wxy22/Documents/Centipede_MUJOCO-main/experiments/independent_short_erasure_2026-08-18/models/farms/meshes" balanceinertia="false" discardvisual="false" inertiafromgeom="true" inertiagrouprange="0 0" />
+  <size nstack="50000000" nconmax="4000" njmax="12000" />
+  <option timestep="0.00025" gravity="0 0 -9.81" integrator="implicitfast" cone="elliptic" />
+  <visual>
+    <global offwidth="1280" offheight="720" />
+  </visual>
+  <default>
+    <joint damping="0" armature="0" frictionloss="0.0" />
+    <geom condim="3" friction="1.6 0.02 0.001" solref="0.0005 1.5" solimp="0.95 0.99 0.0001" density="731.57020432251477" />
+  </default>
+  <asset>
+    <texture name="groundplane" type="2d" builtin="checker" rgb1="0.3 0.4 0.3" rgb2="0.25 0.35 0.25" width="512" height="512" />
+    <material name="groundplane" texture="groundplane" texuniform="false" texrepeat="5 5" reflectance="0.1" />
+    <mesh name="link_0" file="link_0.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_1" file="link_1.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_10" file="link_10.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_11" file="link_11.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_12" file="link_12.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_13" file="link_13.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_14" file="link_14.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_15" file="link_15.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_16" file="link_16.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_17" file="link_17.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_18" file="link_18.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_19" file="link_19.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_2" file="link_2.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_20" file="link_20.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_3" file="link_3.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_4" file="link_4.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_5" file="link_5.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_6" file="link_6.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_7" file="link_7.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_8" file="link_8.obj" scale="0.05 0.05 0.05" />
+    <mesh name="link_9" file="link_9.obj" scale="0.05 0.05 0.05" />
+    <hfield name="terrain" file="C:/Users/wxy22/Documents/Centipede_MUJOCO-main/experiments/mujoco_template_q2_compliance_2026-08-26/outputs/terrains/l60a12_1536_local300mm/heightfield.bin" size="0.15 0.15 0.024 0.001" />
+    <mesh name="stage1_smooth_visual" file="C:/Users/wxy22/Documents/Centipede_MUJOCO-main/experiments/mujoco_template_q2_compliance_2026-08-26/outputs/terrains/l60a12_1536_local300mm/smooth_visual.obj" smoothnormal="true" />
+  </asset>
+  <worldbody>
+    <light name="light_main" pos="0.2 -0.1 0.3" dir="-0.2 0.1 -0.3" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" directional="true" castshadow="true" />
+    <light name="light_fill" pos="-0.1 0.1 0.1" dir="0.1 -0.1 -0.1" diffuse="0.3 0.3 0.35" specular="0.0 0.0 0.0" directional="true" castshadow="false" />
+    <body name="link_body_0" pos="0 0 0.0452541982802" euler="0 0 0">
+      <freejoint name="root" />
+      <geom type="mesh" mesh="link_0" pos="0 0 0" group="0" name="link_0_collision" density="731.57020432251477" />
+      <geom type="mesh" mesh="link_0" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_0_visual" rgba="0.1 0.0 0.0 1.0" />
+      <geom type="sphere" size="0.001" pos="0.00075 -0.0015 0.00075" contype="0" conaffinity="0" group="2" name="eye_left_visual" rgba="0.0 0.0 0.0 1.0" />
+      <geom type="sphere" size="0.001" pos="0.00075 0.0015 0.00075" contype="0" conaffinity="0" group="2" name="eye_right_visual" rgba="0.0 0.0 0.0 1.0" />
+      <body name="link_body_1" pos="0.0075000003 0 0">
+        <joint name="joint_pitch_body_0" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+        <joint name="joint_roll_body_0" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+        <geom type="mesh" mesh="link_1" pos="0 0 0" group="0" name="link_1_collision" density="731.57020432251477" />
+        <geom type="mesh" mesh="link_1" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_1_visual" rgba="0.02 0.0 0.0 1.0" />
+        <body name="link_leg_0_L_0" pos="0.0025 -0.003 -0.0015">
+          <joint name="joint_leg_0_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+          <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_0_L_0_collision" density="731.57020432251477" />
+          <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_0_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+          <body name="link_leg_0_L_1" pos="0 0 0">
+            <joint name="joint_leg_0_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+            <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_0_L_1_collision" density="731.57020432251477" />
+            <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_0_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+            <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_0_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_0_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_0_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_0_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_0_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_0_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_0_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_0_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_0_0" pos="0 -0.001175 0">
+                  <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_0_0_collision" density="731.57020432251477" />
+                  <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_0_0_visual" />
+                  <site name="site_foot_0_0" pos="0 0 0" size="0.0003" group="4" />
+                </body>
+                <site name="site_link_leg_0_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+        </body>
+        <body name="link_leg_0_R_0" pos="0.0025 0.003 -0.0015">
+          <joint name="joint_leg_0_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+          <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_0_R_0_collision" density="731.57020432251477" />
+          <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_0_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+          <body name="link_leg_0_R_1" pos="0 0 0">
+            <joint name="joint_leg_0_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+            <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_0_R_1_collision" density="731.57020432251477" />
+            <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_0_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+            <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_0_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_0_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_0_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_0_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_0_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_0_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_0_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_0_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_0_1" pos="0 0.001175 0">
+                  <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_0_1_collision" density="731.57020432251477" />
+                  <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_0_1_visual" />
+                  <site name="site_foot_0_1" pos="0 0 0" size="0.0003" group="4" />
+                </body>
+                <site name="site_link_leg_0_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+        </body>
+        <body name="link_body_2" pos="0.0049999997 0 0">
+          <joint name="joint_pitch_body_1" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+          <joint name="joint_roll_body_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+          <joint name="joint_body_1" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+          <geom type="mesh" mesh="link_2" pos="0 0 0" group="0" name="link_2_collision" density="731.57020432251477" />
+          <geom type="mesh" mesh="link_2" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_2_visual" rgba="0.1 0.0 0.0 1.0" />
+          <body name="link_leg_1_L_0" pos="0.0025 -0.003 -0.0015">
+            <joint name="joint_leg_1_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+            <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_1_L_0_collision" density="731.57020432251477" />
+            <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_1_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+            <body name="link_leg_1_L_1" pos="0 0 0">
+              <joint name="joint_leg_1_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+              <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_1_L_1_collision" density="731.57020432251477" />
+              <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_1_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+              <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_1_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_1_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_1_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_1_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_1_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_1_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_1_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_1_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_1_0" pos="0 -0.001175 0">
+                    <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_1_0_collision" density="731.57020432251477" />
+                    <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_1_0_visual" />
+                    <site name="site_foot_1_0" pos="0 0 0" size="0.0003" group="4" />
+                  </body>
+                  <site name="site_link_leg_1_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+          </body>
+          <body name="link_leg_1_R_0" pos="0.0025 0.003 -0.0015">
+            <joint name="joint_leg_1_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+            <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_1_R_0_collision" density="731.57020432251477" />
+            <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_1_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+            <body name="link_leg_1_R_1" pos="0 0 0">
+              <joint name="joint_leg_1_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+              <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_1_R_1_collision" density="731.57020432251477" />
+              <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_1_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+              <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_1_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_1_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_1_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_1_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_1_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_1_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_1_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_1_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_1_1" pos="0 0.001175 0">
+                    <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_1_1_collision" density="731.57020432251477" />
+                    <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_1_1_visual" />
+                    <site name="site_foot_1_1" pos="0 0 0" size="0.0003" group="4" />
+                  </body>
+                  <site name="site_link_leg_1_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+          </body>
+          <body name="link_body_3" pos="0.0049999997 0 0">
+            <joint name="joint_pitch_body_2" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+            <joint name="joint_roll_body_2" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+            <joint name="joint_body_2" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+            <geom type="mesh" mesh="link_3" pos="0 0 0" group="0" name="link_3_collision" density="731.57020432251477" />
+            <geom type="mesh" mesh="link_3" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_3_visual" rgba="0.02 0.0 0.0 1.0" />
+            <body name="link_leg_2_L_0" pos="0.0025 -0.003 -0.0015">
+              <joint name="joint_leg_2_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+              <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_2_L_0_collision" density="731.57020432251477" />
+              <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_2_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+              <body name="link_leg_2_L_1" pos="0 0 0">
+                <joint name="joint_leg_2_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_2_L_1_collision" density="731.57020432251477" />
+                <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_2_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_2_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_2_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_2_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_2_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_2_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_2_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_2_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_2_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_2_0" pos="0 -0.001175 0">
+                      <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_2_0_collision" density="731.57020432251477" />
+                      <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_2_0_visual" />
+                      <site name="site_foot_2_0" pos="0 0 0" size="0.0003" group="4" />
+                    </body>
+                    <site name="site_link_leg_2_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+            </body>
+            <body name="link_leg_2_R_0" pos="0.0025 0.003 -0.0015">
+              <joint name="joint_leg_2_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+              <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_2_R_0_collision" density="731.57020432251477" />
+              <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_2_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+              <body name="link_leg_2_R_1" pos="0 0 0">
+                <joint name="joint_leg_2_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_2_R_1_collision" density="731.57020432251477" />
+                <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_2_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_2_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_2_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_2_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_2_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_2_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_2_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_2_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_2_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_2_1" pos="0 0.001175 0">
+                      <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_2_1_collision" density="731.57020432251477" />
+                      <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_2_1_visual" />
+                      <site name="site_foot_2_1" pos="0 0 0" size="0.0003" group="4" />
+                    </body>
+                    <site name="site_link_leg_2_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+            </body>
+            <body name="link_body_4" pos="0.0049999997 0 0">
+              <joint name="joint_pitch_body_3" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+              <joint name="joint_roll_body_3" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+              <joint name="joint_body_3" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+              <geom type="mesh" mesh="link_4" pos="0 0 0" group="0" name="link_4_collision" density="731.57020432251477" />
+              <geom type="mesh" mesh="link_4" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_4_visual" rgba="0.1 0.0 0.0 1.0" />
+              <body name="link_leg_3_L_0" pos="0.0025 -0.003 -0.0015">
+                <joint name="joint_leg_3_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_3_L_0_collision" density="731.57020432251477" />
+                <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_3_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                <body name="link_leg_3_L_1" pos="0 0 0">
+                  <joint name="joint_leg_3_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                  <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_3_L_1_collision" density="731.57020432251477" />
+                  <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_3_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                  <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_3_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_3_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_3_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_3_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_3_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_3_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_3_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_3_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_3_0" pos="0 -0.001175 0">
+                        <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_3_0_collision" density="731.57020432251477" />
+                        <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_3_0_visual" />
+                        <site name="site_foot_3_0" pos="0 0 0" size="0.0003" group="4" />
+                      </body>
+                      <site name="site_link_leg_3_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+              </body>
+              <body name="link_leg_3_R_0" pos="0.0025 0.003 -0.0015">
+                <joint name="joint_leg_3_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_3_R_0_collision" density="731.57020432251477" />
+                <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_3_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                <body name="link_leg_3_R_1" pos="0 0 0">
+                  <joint name="joint_leg_3_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                  <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_3_R_1_collision" density="731.57020432251477" />
+                  <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_3_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                  <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_3_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_3_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_3_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_3_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_3_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_3_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_3_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_3_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_3_1" pos="0 0.001175 0">
+                        <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_3_1_collision" density="731.57020432251477" />
+                        <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_3_1_visual" />
+                        <site name="site_foot_3_1" pos="0 0 0" size="0.0003" group="4" />
+                      </body>
+                      <site name="site_link_leg_3_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+              </body>
+              <body name="link_body_5" pos="0.0050000012 0 0">
+                <joint name="joint_pitch_body_4" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                <joint name="joint_roll_body_4" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                <joint name="joint_body_4" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                <geom type="mesh" mesh="link_5" pos="0 0 0" group="0" name="link_5_collision" density="731.57020432251477" />
+                <geom type="mesh" mesh="link_5" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_5_visual" rgba="0.02 0.0 0.0 1.0" />
+                <body name="link_leg_4_L_0" pos="0.0025 -0.003 -0.0015">
+                  <joint name="joint_leg_4_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                  <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_4_L_0_collision" density="731.57020432251477" />
+                  <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_4_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                  <body name="link_leg_4_L_1" pos="0 0 0">
+                    <joint name="joint_leg_4_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                    <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_4_L_1_collision" density="731.57020432251477" />
+                    <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_4_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                    <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_4_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_4_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_4_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_4_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_4_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_4_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_4_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_4_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_4_0" pos="0 -0.001175 0">
+                          <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_4_0_collision" density="731.57020432251477" />
+                          <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_4_0_visual" />
+                          <site name="site_foot_4_0" pos="0 0 0" size="0.0003" group="4" />
+                        </body>
+                        <site name="site_link_leg_4_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                </body>
+                <body name="link_leg_4_R_0" pos="0.0025 0.003 -0.0015">
+                  <joint name="joint_leg_4_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                  <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_4_R_0_collision" density="731.57020432251477" />
+                  <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_4_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                  <body name="link_leg_4_R_1" pos="0 0 0">
+                    <joint name="joint_leg_4_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                    <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_4_R_1_collision" density="731.57020432251477" />
+                    <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_4_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                    <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_4_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_4_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_4_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_4_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_4_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_4_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_4_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_4_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_4_1" pos="0 0.001175 0">
+                          <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_4_1_collision" density="731.57020432251477" />
+                          <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_4_1_visual" />
+                          <site name="site_foot_4_1" pos="0 0 0" size="0.0003" group="4" />
+                        </body>
+                        <site name="site_link_leg_4_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                </body>
+                <body name="link_body_6" pos="0.0049999982 0 0">
+                  <joint name="joint_pitch_body_5" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                  <joint name="joint_roll_body_5" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                  <joint name="joint_body_5" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                  <geom type="mesh" mesh="link_6" pos="0 0 0" group="0" name="link_6_collision" density="731.57020432251477" />
+                  <geom type="mesh" mesh="link_6" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_6_visual" rgba="0.1 0.0 0.0 1.0" />
+                  <body name="link_leg_5_L_0" pos="0.0025 -0.003 -0.0015">
+                    <joint name="joint_leg_5_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                    <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_5_L_0_collision" density="731.57020432251477" />
+                    <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_5_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                    <body name="link_leg_5_L_1" pos="0 0 0">
+                      <joint name="joint_leg_5_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                      <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_5_L_1_collision" density="731.57020432251477" />
+                      <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_5_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                      <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_5_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_5_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_5_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_5_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_5_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_5_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_5_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_5_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_5_0" pos="0 -0.001175 0">
+                            <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_5_0_collision" density="731.57020432251477" />
+                            <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_5_0_visual" />
+                            <site name="site_foot_5_0" pos="0 0 0" size="0.0003" group="4" />
+                          </body>
+                          <site name="site_link_leg_5_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                  </body>
+                  <body name="link_leg_5_R_0" pos="0.0025 0.003 -0.0015">
+                    <joint name="joint_leg_5_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                    <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_5_R_0_collision" density="731.57020432251477" />
+                    <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_5_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                    <body name="link_leg_5_R_1" pos="0 0 0">
+                      <joint name="joint_leg_5_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                      <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_5_R_1_collision" density="731.57020432251477" />
+                      <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_5_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                      <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_5_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_5_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_5_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_5_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_5_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_5_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_5_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_5_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_5_1" pos="0 0.001175 0">
+                            <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_5_1_collision" density="731.57020432251477" />
+                            <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_5_1_visual" />
+                            <site name="site_foot_5_1" pos="0 0 0" size="0.0003" group="4" />
+                          </body>
+                          <site name="site_link_leg_5_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                  </body>
+                  <body name="link_body_7" pos="0.0050000012 0 0">
+                    <joint name="joint_pitch_body_6" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                    <joint name="joint_roll_body_6" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                    <joint name="joint_body_6" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                    <geom type="mesh" mesh="link_7" pos="0 0 0" group="0" name="link_7_collision" density="731.57020432251477" />
+                    <geom type="mesh" mesh="link_7" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_7_visual" rgba="0.02 0.0 0.0 1.0" />
+                    <body name="link_leg_6_L_0" pos="0.0025 -0.003 -0.0015">
+                      <joint name="joint_leg_6_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                      <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_6_L_0_collision" density="731.57020432251477" />
+                      <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_6_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                      <body name="link_leg_6_L_1" pos="0 0 0">
+                        <joint name="joint_leg_6_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                        <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_6_L_1_collision" density="731.57020432251477" />
+                        <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_6_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                        <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_6_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_6_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_6_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_6_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_6_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_6_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_6_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_6_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_6_0" pos="0 -0.001175 0">
+                              <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_6_0_collision" density="731.57020432251477" />
+                              <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_6_0_visual" />
+                              <site name="site_foot_6_0" pos="0 0 0" size="0.0003" group="4" />
+                            </body>
+                            <site name="site_link_leg_6_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                    </body>
+                    <body name="link_leg_6_R_0" pos="0.0025 0.003 -0.0015">
+                      <joint name="joint_leg_6_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                      <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_6_R_0_collision" density="731.57020432251477" />
+                      <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_6_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                      <body name="link_leg_6_R_1" pos="0 0 0">
+                        <joint name="joint_leg_6_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                        <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_6_R_1_collision" density="731.57020432251477" />
+                        <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_6_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                        <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_6_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_6_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_6_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_6_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_6_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_6_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_6_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_6_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_6_1" pos="0 0.001175 0">
+                              <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_6_1_collision" density="731.57020432251477" />
+                              <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_6_1_visual" />
+                              <site name="site_foot_6_1" pos="0 0 0" size="0.0003" group="4" />
+                            </body>
+                            <site name="site_link_leg_6_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                    </body>
+                    <body name="link_body_8" pos="0.0050000012 0 0">
+                      <joint name="joint_pitch_body_7" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                      <joint name="joint_roll_body_7" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                      <joint name="joint_body_7" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                      <geom type="mesh" mesh="link_8" pos="0 0 0" group="0" name="link_8_collision" density="731.57020432251477" />
+                      <geom type="mesh" mesh="link_8" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_8_visual" rgba="0.1 0.0 0.0 1.0" />
+                      <body name="link_leg_7_L_0" pos="0.0025 -0.003 -0.0015">
+                        <joint name="joint_leg_7_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                        <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_7_L_0_collision" density="731.57020432251477" />
+                        <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_7_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                        <body name="link_leg_7_L_1" pos="0 0 0">
+                          <joint name="joint_leg_7_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                          <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_7_L_1_collision" density="731.57020432251477" />
+                          <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_7_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                          <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_7_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_7_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_7_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_7_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_7_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_7_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_7_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_7_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_7_0" pos="0 -0.001175 0">
+                                <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_7_0_collision" density="731.57020432251477" />
+                                <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_7_0_visual" />
+                                <site name="site_foot_7_0" pos="0 0 0" size="0.0003" group="4" />
+                              </body>
+                              <site name="site_link_leg_7_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                      </body>
+                      <body name="link_leg_7_R_0" pos="0.0025 0.003 -0.0015">
+                        <joint name="joint_leg_7_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                        <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_7_R_0_collision" density="731.57020432251477" />
+                        <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_7_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                        <body name="link_leg_7_R_1" pos="0 0 0">
+                          <joint name="joint_leg_7_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                          <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_7_R_1_collision" density="731.57020432251477" />
+                          <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_7_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                          <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_7_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_7_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_7_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_7_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_7_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_7_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_7_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_7_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_7_1" pos="0 0.001175 0">
+                                <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_7_1_collision" density="731.57020432251477" />
+                                <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_7_1_visual" />
+                                <site name="site_foot_7_1" pos="0 0 0" size="0.0003" group="4" />
+                              </body>
+                              <site name="site_link_leg_7_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                      </body>
+                      <body name="link_body_9" pos="0.0049999982 0 0">
+                        <joint name="joint_pitch_body_8" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                        <joint name="joint_roll_body_8" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                        <joint name="joint_body_8" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                        <geom type="mesh" mesh="link_9" pos="0 0 0" group="0" name="link_9_collision" density="731.57020432251477" />
+                        <geom type="mesh" mesh="link_9" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_9_visual" rgba="0.02 0.0 0.0 1.0" />
+                        <body name="link_leg_8_L_0" pos="0.0025 -0.003 -0.0015">
+                          <joint name="joint_leg_8_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                          <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_8_L_0_collision" density="731.57020432251477" />
+                          <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_8_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                          <body name="link_leg_8_L_1" pos="0 0 0">
+                            <joint name="joint_leg_8_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                            <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_8_L_1_collision" density="731.57020432251477" />
+                            <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_8_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                            <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_8_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_8_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_8_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_8_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_8_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_8_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_8_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_8_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_8_0" pos="0 -0.001175 0">
+                                  <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_8_0_collision" density="731.57020432251477" />
+                                  <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_8_0_visual" />
+                                  <site name="site_foot_8_0" pos="0 0 0" size="0.0003" group="4" />
+                                </body>
+                                <site name="site_link_leg_8_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                        </body>
+                        <body name="link_leg_8_R_0" pos="0.0025 0.003 -0.0015">
+                          <joint name="joint_leg_8_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                          <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_8_R_0_collision" density="731.57020432251477" />
+                          <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_8_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                          <body name="link_leg_8_R_1" pos="0 0 0">
+                            <joint name="joint_leg_8_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                            <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_8_R_1_collision" density="731.57020432251477" />
+                            <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_8_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                            <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_8_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_8_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_8_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_8_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_8_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_8_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_8_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_8_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_8_1" pos="0 0.001175 0">
+                                  <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_8_1_collision" density="731.57020432251477" />
+                                  <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_8_1_visual" />
+                                  <site name="site_foot_8_1" pos="0 0 0" size="0.0003" group="4" />
+                                </body>
+                                <site name="site_link_leg_8_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                        </body>
+                        <body name="link_body_10" pos="0.0049999982 0 0">
+                          <joint name="joint_pitch_body_9" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                          <joint name="joint_roll_body_9" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                          <joint name="joint_body_9" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                          <geom type="mesh" mesh="link_10" pos="0 0 0" group="0" name="link_10_collision" density="731.57020432251477" />
+                          <geom type="mesh" mesh="link_10" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_10_visual" rgba="0.1 0.0 0.0 1.0" />
+                          <body name="link_leg_9_L_0" pos="0.0025 -0.003 -0.0015">
+                            <joint name="joint_leg_9_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                            <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_9_L_0_collision" density="731.57020432251477" />
+                            <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_9_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                            <body name="link_leg_9_L_1" pos="0 0 0">
+                              <joint name="joint_leg_9_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                              <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_9_L_1_collision" density="731.57020432251477" />
+                              <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_9_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                              <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_9_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_9_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_9_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_9_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_9_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_9_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_9_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_9_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_9_0" pos="0 -0.001175 0">
+                                    <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_9_0_collision" density="731.57020432251477" />
+                                    <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_9_0_visual" />
+                                    <site name="site_foot_9_0" pos="0 0 0" size="0.0003" group="4" />
+                                  </body>
+                                  <site name="site_link_leg_9_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                          </body>
+                          <body name="link_leg_9_R_0" pos="0.0025 0.003 -0.0015">
+                            <joint name="joint_leg_9_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                            <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_9_R_0_collision" density="731.57020432251477" />
+                            <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_9_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                            <body name="link_leg_9_R_1" pos="0 0 0">
+                              <joint name="joint_leg_9_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                              <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_9_R_1_collision" density="731.57020432251477" />
+                              <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_9_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                              <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_9_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_9_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_9_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_9_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_9_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_9_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_9_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_9_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_9_1" pos="0 0.001175 0">
+                                    <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_9_1_collision" density="731.57020432251477" />
+                                    <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_9_1_visual" />
+                                    <site name="site_foot_9_1" pos="0 0 0" size="0.0003" group="4" />
+                                  </body>
+                                  <site name="site_link_leg_9_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                          </body>
+                          <body name="link_body_11" pos="0.0050000012 0 0">
+                            <joint name="joint_pitch_body_10" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                            <joint name="joint_roll_body_10" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                            <joint name="joint_body_10" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                            <geom type="mesh" mesh="link_11" pos="0 0 0" group="0" name="link_11_collision" density="731.57020432251477" />
+                            <geom type="mesh" mesh="link_11" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_11_visual" rgba="0.02 0.0 0.0 1.0" />
+                            <body name="link_leg_10_L_0" pos="0.0025 -0.003 -0.0015">
+                              <joint name="joint_leg_10_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                              <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_10_L_0_collision" density="731.57020432251477" />
+                              <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_10_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                              <body name="link_leg_10_L_1" pos="0 0 0">
+                                <joint name="joint_leg_10_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_10_L_1_collision" density="731.57020432251477" />
+                                <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_10_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_10_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_10_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_10_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_10_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_10_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_10_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_10_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_10_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_10_0" pos="0 -0.001175 0">
+                                      <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_10_0_collision" density="731.57020432251477" />
+                                      <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_10_0_visual" />
+                                      <site name="site_foot_10_0" pos="0 0 0" size="0.0003" group="4" />
+                                    </body>
+                                    <site name="site_link_leg_10_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                            </body>
+                            <body name="link_leg_10_R_0" pos="0.0025 0.003 -0.0015">
+                              <joint name="joint_leg_10_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                              <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_10_R_0_collision" density="731.57020432251477" />
+                              <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_10_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                              <body name="link_leg_10_R_1" pos="0 0 0">
+                                <joint name="joint_leg_10_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_10_R_1_collision" density="731.57020432251477" />
+                                <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_10_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_10_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_10_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_10_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_10_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_10_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_10_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_10_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_10_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_10_1" pos="0 0.001175 0">
+                                      <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_10_1_collision" density="731.57020432251477" />
+                                      <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_10_1_visual" />
+                                      <site name="site_foot_10_1" pos="0 0 0" size="0.0003" group="4" />
+                                    </body>
+                                    <site name="site_link_leg_10_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                            </body>
+                            <body name="link_body_12" pos="0.0050000012 0 0">
+                              <joint name="joint_pitch_body_11" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                              <joint name="joint_roll_body_11" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                              <joint name="joint_body_11" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                              <geom type="mesh" mesh="link_12" pos="0 0 0" group="0" name="link_12_collision" density="731.57020432251477" />
+                              <geom type="mesh" mesh="link_12" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_12_visual" rgba="0.1 0.0 0.0 1.0" />
+                              <body name="link_leg_11_L_0" pos="0.0025 -0.003 -0.0015">
+                                <joint name="joint_leg_11_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_11_L_0_collision" density="731.57020432251477" />
+                                <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_11_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                <body name="link_leg_11_L_1" pos="0 0 0">
+                                  <joint name="joint_leg_11_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                  <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_11_L_1_collision" density="731.57020432251477" />
+                                  <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_11_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                  <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_11_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_11_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_11_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_11_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_11_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_11_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_11_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_11_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_11_0" pos="0 -0.001175 0">
+                                        <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_11_0_collision" density="731.57020432251477" />
+                                        <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_11_0_visual" />
+                                        <site name="site_foot_11_0" pos="0 0 0" size="0.0003" group="4" />
+                                      </body>
+                                      <site name="site_link_leg_11_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                              </body>
+                              <body name="link_leg_11_R_0" pos="0.0025 0.003 -0.0015">
+                                <joint name="joint_leg_11_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_11_R_0_collision" density="731.57020432251477" />
+                                <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_11_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                <body name="link_leg_11_R_1" pos="0 0 0">
+                                  <joint name="joint_leg_11_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                  <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_11_R_1_collision" density="731.57020432251477" />
+                                  <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_11_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                  <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_11_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_11_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_11_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_11_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_11_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_11_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_11_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_11_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_11_1" pos="0 0.001175 0">
+                                        <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_11_1_collision" density="731.57020432251477" />
+                                        <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_11_1_visual" />
+                                        <site name="site_foot_11_1" pos="0 0 0" size="0.0003" group="4" />
+                                      </body>
+                                      <site name="site_link_leg_11_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                              </body>
+                              <body name="link_body_13" pos="0.0050000012 0 0">
+                                <joint name="joint_pitch_body_12" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                                <joint name="joint_roll_body_12" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                                <joint name="joint_body_12" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                                <geom type="mesh" mesh="link_13" pos="0 0 0" group="0" name="link_13_collision" density="731.57020432251477" />
+                                <geom type="mesh" mesh="link_13" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_13_visual" rgba="0.02 0.0 0.0 1.0" />
+                                <body name="link_leg_12_L_0" pos="0.0025 -0.003 -0.0015">
+                                  <joint name="joint_leg_12_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                  <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_12_L_0_collision" density="731.57020432251477" />
+                                  <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_12_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                  <body name="link_leg_12_L_1" pos="0 0 0">
+                                    <joint name="joint_leg_12_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                    <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_12_L_1_collision" density="731.57020432251477" />
+                                    <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_12_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                    <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_12_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_12_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_12_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_12_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_12_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_12_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_12_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_12_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_12_0" pos="0 -0.001175 0">
+                                          <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_12_0_collision" density="731.57020432251477" />
+                                          <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_12_0_visual" />
+                                          <site name="site_foot_12_0" pos="0 0 0" size="0.0003" group="4" />
+                                        </body>
+                                        <site name="site_link_leg_12_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                </body>
+                                <body name="link_leg_12_R_0" pos="0.0025 0.003 -0.0015">
+                                  <joint name="joint_leg_12_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                  <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_12_R_0_collision" density="731.57020432251477" />
+                                  <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_12_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                  <body name="link_leg_12_R_1" pos="0 0 0">
+                                    <joint name="joint_leg_12_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                    <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_12_R_1_collision" density="731.57020432251477" />
+                                    <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_12_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                    <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_12_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_12_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_12_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_12_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_12_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_12_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_12_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_12_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_12_1" pos="0 0.001175 0">
+                                          <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_12_1_collision" density="731.57020432251477" />
+                                          <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_12_1_visual" />
+                                          <site name="site_foot_12_1" pos="0 0 0" size="0.0003" group="4" />
+                                        </body>
+                                        <site name="site_link_leg_12_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                </body>
+                                <body name="link_body_14" pos="0.0050000012 0 0">
+                                  <joint name="joint_pitch_body_13" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                                  <joint name="joint_roll_body_13" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                                  <joint name="joint_body_13" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                                  <geom type="mesh" mesh="link_14" pos="0 0 0" group="0" name="link_14_collision" density="731.57020432251477" />
+                                  <geom type="mesh" mesh="link_14" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_14_visual" rgba="0.1 0.0 0.0 1.0" />
+                                  <body name="link_leg_13_L_0" pos="0.0025 -0.003 -0.0015">
+                                    <joint name="joint_leg_13_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                    <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_13_L_0_collision" density="731.57020432251477" />
+                                    <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_13_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                    <body name="link_leg_13_L_1" pos="0 0 0">
+                                      <joint name="joint_leg_13_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                      <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_13_L_1_collision" density="731.57020432251477" />
+                                      <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_13_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                      <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_13_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_13_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_13_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_13_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_13_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_13_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_13_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_13_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_13_0" pos="0 -0.001175 0">
+                                            <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_13_0_collision" density="731.57020432251477" />
+                                            <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_13_0_visual" />
+                                            <site name="site_foot_13_0" pos="0 0 0" size="0.0003" group="4" />
+                                          </body>
+                                          <site name="site_link_leg_13_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                  </body>
+                                  <body name="link_leg_13_R_0" pos="0.0025 0.003 -0.0015">
+                                    <joint name="joint_leg_13_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                    <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_13_R_0_collision" density="731.57020432251477" />
+                                    <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_13_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                    <body name="link_leg_13_R_1" pos="0 0 0">
+                                      <joint name="joint_leg_13_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                      <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_13_R_1_collision" density="731.57020432251477" />
+                                      <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_13_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                      <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_13_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_13_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_13_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_13_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_13_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_13_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_13_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_13_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_13_1" pos="0 0.001175 0">
+                                            <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_13_1_collision" density="731.57020432251477" />
+                                            <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_13_1_visual" />
+                                            <site name="site_foot_13_1" pos="0 0 0" size="0.0003" group="4" />
+                                          </body>
+                                          <site name="site_link_leg_13_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                  </body>
+                                  <body name="link_body_15" pos="0.0049999952 0 0">
+                                    <joint name="joint_pitch_body_14" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                                    <joint name="joint_roll_body_14" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                                    <joint name="joint_body_14" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                                    <geom type="mesh" mesh="link_15" pos="0 0 0" group="0" name="link_15_collision" density="731.57020432251477" />
+                                    <geom type="mesh" mesh="link_15" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_15_visual" rgba="0.02 0.0 0.0 1.0" />
+                                    <body name="link_leg_14_L_0" pos="0.0025 -0.003 -0.0015">
+                                      <joint name="joint_leg_14_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                      <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_14_L_0_collision" density="731.57020432251477" />
+                                      <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_14_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                      <body name="link_leg_14_L_1" pos="0 0 0">
+                                        <joint name="joint_leg_14_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                        <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_14_L_1_collision" density="731.57020432251477" />
+                                        <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_14_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                        <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_14_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_14_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_14_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_14_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_14_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_14_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_14_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_14_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_14_0" pos="0 -0.001175 0">
+                                              <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_14_0_collision" density="731.57020432251477" />
+                                              <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_14_0_visual" />
+                                              <site name="site_foot_14_0" pos="0 0 0" size="0.0003" group="4" />
+                                            </body>
+                                            <site name="site_link_leg_14_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                    </body>
+                                    <body name="link_leg_14_R_0" pos="0.0025 0.003 -0.0015">
+                                      <joint name="joint_leg_14_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                      <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_14_R_0_collision" density="731.57020432251477" />
+                                      <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_14_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                      <body name="link_leg_14_R_1" pos="0 0 0">
+                                        <joint name="joint_leg_14_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                        <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_14_R_1_collision" density="731.57020432251477" />
+                                        <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_14_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                        <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_14_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_14_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_14_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_14_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_14_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_14_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_14_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_14_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_14_1" pos="0 0.001175 0">
+                                              <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_14_1_collision" density="731.57020432251477" />
+                                              <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_14_1_visual" />
+                                              <site name="site_foot_14_1" pos="0 0 0" size="0.0003" group="4" />
+                                            </body>
+                                            <site name="site_link_leg_14_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                    </body>
+                                    <body name="link_body_16" pos="0.0050000012 0 0">
+                                      <joint name="joint_pitch_body_15" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                                      <joint name="joint_roll_body_15" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                                      <joint name="joint_body_15" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                                      <geom type="mesh" mesh="link_16" pos="0 0 0" group="0" name="link_16_collision" density="731.57020432251477" />
+                                      <geom type="mesh" mesh="link_16" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_16_visual" rgba="0.1 0.0 0.0 1.0" />
+                                      <body name="link_leg_15_L_0" pos="0.0025 -0.003 -0.0015">
+                                        <joint name="joint_leg_15_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                        <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_15_L_0_collision" density="731.57020432251477" />
+                                        <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_15_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                        <body name="link_leg_15_L_1" pos="0 0 0">
+                                          <joint name="joint_leg_15_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                          <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_15_L_1_collision" density="731.57020432251477" />
+                                          <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_15_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                          <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_15_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_15_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_15_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_15_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_15_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_15_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_15_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_15_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_15_0" pos="0 -0.001175 0">
+                                                <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_15_0_collision" density="731.57020432251477" />
+                                                <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_15_0_visual" />
+                                                <site name="site_foot_15_0" pos="0 0 0" size="0.0003" group="4" />
+                                              </body>
+                                              <site name="site_link_leg_15_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                      </body>
+                                      <body name="link_leg_15_R_0" pos="0.0025 0.003 -0.0015">
+                                        <joint name="joint_leg_15_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                        <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_15_R_0_collision" density="731.57020432251477" />
+                                        <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_15_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                        <body name="link_leg_15_R_1" pos="0 0 0">
+                                          <joint name="joint_leg_15_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                          <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_15_R_1_collision" density="731.57020432251477" />
+                                          <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_15_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                          <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_15_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_15_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_15_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_15_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_15_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_15_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_15_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_15_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_15_1" pos="0 0.001175 0">
+                                                <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_15_1_collision" density="731.57020432251477" />
+                                                <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_15_1_visual" />
+                                                <site name="site_foot_15_1" pos="0 0 0" size="0.0003" group="4" />
+                                              </body>
+                                              <site name="site_link_leg_15_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                      </body>
+                                      <body name="link_body_17" pos="0.0050000012 0 0">
+                                        <joint name="joint_pitch_body_16" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                                        <joint name="joint_roll_body_16" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                                        <joint name="joint_body_16" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                                        <geom type="mesh" mesh="link_17" pos="0 0 0" group="0" name="link_17_collision" density="731.57020432251477" />
+                                        <geom type="mesh" mesh="link_17" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_17_visual" rgba="0.02 0.0 0.0 1.0" />
+                                        <body name="link_leg_16_L_0" pos="0.0025 -0.003 -0.0015">
+                                          <joint name="joint_leg_16_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                          <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_16_L_0_collision" density="731.57020432251477" />
+                                          <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_16_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                          <body name="link_leg_16_L_1" pos="0 0 0">
+                                            <joint name="joint_leg_16_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                            <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_16_L_1_collision" density="731.57020432251477" />
+                                            <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_16_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                            <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_16_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_16_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_16_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_16_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_16_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_16_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_16_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_16_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_16_0" pos="0 -0.001175 0">
+                                                  <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_16_0_collision" density="731.57020432251477" />
+                                                  <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_16_0_visual" />
+                                                  <site name="site_foot_16_0" pos="0 0 0" size="0.0003" group="4" />
+                                                </body>
+                                                <site name="site_link_leg_16_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                        </body>
+                                        <body name="link_leg_16_R_0" pos="0.0025 0.003 -0.0015">
+                                          <joint name="joint_leg_16_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                          <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_16_R_0_collision" density="731.57020432251477" />
+                                          <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_16_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                          <body name="link_leg_16_R_1" pos="0 0 0">
+                                            <joint name="joint_leg_16_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                            <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_16_R_1_collision" density="731.57020432251477" />
+                                            <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_16_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                            <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_16_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_16_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_16_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_16_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_16_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_16_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_16_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_16_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_16_1" pos="0 0.001175 0">
+                                                  <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_16_1_collision" density="731.57020432251477" />
+                                                  <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_16_1_visual" />
+                                                  <site name="site_foot_16_1" pos="0 0 0" size="0.0003" group="4" />
+                                                </body>
+                                                <site name="site_link_leg_16_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                        </body>
+                                        <body name="link_body_18" pos="0.0050000012 0 0">
+                                          <joint name="joint_pitch_body_17" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                                          <joint name="joint_roll_body_17" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                                          <joint name="joint_body_17" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                                          <geom type="mesh" mesh="link_18" pos="0 0 0" group="0" name="link_18_collision" density="731.57020432251477" />
+                                          <geom type="mesh" mesh="link_18" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_18_visual" rgba="0.1 0.0 0.0 1.0" />
+                                          <body name="link_leg_17_L_0" pos="0.0025 -0.003 -0.0015">
+                                            <joint name="joint_leg_17_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                            <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_17_L_0_collision" density="731.57020432251477" />
+                                            <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_17_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                            <body name="link_leg_17_L_1" pos="0 0 0">
+                                              <joint name="joint_leg_17_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                              <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_17_L_1_collision" density="731.57020432251477" />
+                                              <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_17_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                              <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_17_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_17_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_17_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_17_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_17_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_17_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_17_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_17_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_17_0" pos="0 -0.001175 0">
+                                                    <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_17_0_collision" density="731.57020432251477" />
+                                                    <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_17_0_visual" />
+                                                    <site name="site_foot_17_0" pos="0 0 0" size="0.0003" group="4" />
+                                                  </body>
+                                                  <site name="site_link_leg_17_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                          </body>
+                                          <body name="link_leg_17_R_0" pos="0.0025 0.003 -0.0015">
+                                            <joint name="joint_leg_17_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                            <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_17_R_0_collision" density="731.57020432251477" />
+                                            <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_17_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                            <body name="link_leg_17_R_1" pos="0 0 0">
+                                              <joint name="joint_leg_17_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                              <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_17_R_1_collision" density="731.57020432251477" />
+                                              <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_17_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                              <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_17_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_17_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_17_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_17_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_17_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_17_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_17_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_17_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_17_1" pos="0 0.001175 0">
+                                                    <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_17_1_collision" density="731.57020432251477" />
+                                                    <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_17_1_visual" />
+                                                    <site name="site_foot_17_1" pos="0 0 0" size="0.0003" group="4" />
+                                                  </body>
+                                                  <site name="site_link_leg_17_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                          </body>
+                                          <body name="link_body_19" pos="0.0050000012 0 0">
+                                            <joint name="joint_pitch_body_18" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                                            <joint name="joint_roll_body_18" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                                            <joint name="joint_body_18" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                                            <geom type="mesh" mesh="link_19" pos="0 0 0" group="0" name="link_19_collision" density="731.57020432251477" />
+                                            <geom type="mesh" mesh="link_19" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_19_visual" rgba="0.02 0.0 0.0 1.0" />
+                                            <body name="link_leg_18_L_0" pos="0.0025 -0.003 -0.0015">
+                                              <joint name="joint_leg_18_L_0" type="hinge" pos="0 0 0" axis="0 0 -1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                              <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_18_L_0_collision" density="731.57020432251477" />
+                                              <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_18_L_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                              <body name="link_leg_18_L_1" pos="0 0 0">
+                                                <joint name="joint_leg_18_L_1" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                                <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_18_L_1_collision" density="731.57020432251477" />
+                                                <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_18_L_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                                <geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="0" name="link_leg_18_L_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_18_L_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 -0.0035 0" size="0.000375" group="2" name="link_leg_18_L_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 -0.0035 0 0 -0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_18_L_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_18_L_tip" pos="0 -0.00583826859022 -0.00135" euler="0.523598775598 0 0"><joint name="joint_tip_18_L_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 -0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="0" name="link_leg_18_L_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 -0.0008 0" size="0.000375" group="2" name="link_leg_18_L_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_18_0" pos="0 -0.001175 0">
+                                                      <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_18_0_collision" density="731.57020432251477" />
+                                                      <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_18_0_visual" />
+                                                      <site name="site_foot_18_0" pos="0 0 0" size="0.0003" group="4" />
+                                                    </body>
+                                                    <site name="site_link_leg_18_L_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                            </body>
+                                            <body name="link_leg_18_R_0" pos="0.0025 0.003 -0.0015">
+                                              <joint name="joint_leg_18_R_0" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                              <geom type="sphere" size="0.0004125" pos="0 0 0" group="0" name="link_leg_18_R_0_collision" density="731.57020432251477" />
+                                              <geom type="sphere" size="0.0004125" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_18_R_0_visual" rgba="0.7 0.5 0.5 0.5" />
+                                              <body name="link_leg_18_R_1" pos="0 0 0">
+                                                <joint name="joint_leg_18_R_1" type="hinge" pos="0 0 0" axis="-1 0 0" range="-3.14159 3.14159" damping="0" armature="0" stiffness="0" />
+                                                <geom type="sphere" size="0.0004875" pos="0 0 0" group="0" name="link_leg_18_R_1_collision" density="731.57020432251477" />
+                                                <geom type="sphere" size="0.0004875" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_leg_18_R_1_visual" rgba="0.9 0.9 0.9 0.3" />
+                                                <geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="0" name="link_leg_18_R_seg1_collision" density="731.570204323" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="0" name="link_leg_18_R_seg2_collision" density="705.442697025" /><geom type="capsule" fromto="0 0 0 0 0.0035 0" size="0.000375" group="2" name="link_leg_18_R_seg1_visual" contype="0" conaffinity="0" rgba="0.76 0.62 0.30 1" /><geom type="capsule" fromto="0 0.0035 0 0 0.00583826859022 -0.00135" size="0.000375" group="2" name="link_leg_18_R_seg2_visual" contype="0" conaffinity="0" rgba="0.88 0.72 0.32 1" /><body name="link_leg_18_R_tip" pos="0 0.00583826859022 -0.00135" euler="-0.523598775598 0 0"><joint name="joint_tip_18_R_roll" type="hinge" pos="0 0 0" axis="0 0.866025403784 0.5" limited="true" range="-0.610865238198 0.610865238198" stiffness="4e-06" damping="1.08777503064e-09" springref="0" armature="0" solreflimit="0.0005 1.5" solimplimit="0.999 0.9999 0.00001 0.5 2" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="0" name="link_leg_18_R_tip_collision" density="514.51091293" /><geom type="capsule" fromto="0 0 0 0 0.0008 0" size="0.000375" group="2" name="link_leg_18_R_tip_visual" contype="0" conaffinity="0" rgba="0.96 0.28 0.08 1" /><body name="foot_18_1" pos="0 0.001175 0">
+                                                      <geom type="sphere" size="0.00045" pos="0 0 0" group="0" name="foot_18_1_collision" density="731.57020432251477" />
+                                                      <geom type="sphere" size="0.00045" pos="0 0 0" contype="0" conaffinity="0" group="2" name="foot_18_1_visual" />
+                                                      <site name="site_foot_18_1" pos="0 0 0" size="0.0003" group="4" />
+                                                    </body>
+                                                    <site name="site_link_leg_18_R_tip_joint" pos="0 0 0" size="0.0003" group="4" /></body></body>
+                                            </body>
+                                            <body name="link_body_20" pos="0.0049999952 0 0">
+                                              <joint name="joint_pitch_body_19" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.5708 1.5708" damping="0" stiffness="0" armature="0" />
+                                              <joint name="joint_roll_body_19" type="hinge" pos="0 0 0" axis="1 0 0" range="-0.523598775598 0.523598775598" stiffness="0.0006958425311" damping="9.86447628474e-07" armature="0" limited="true" springref="0" />
+                                              <joint name="joint_body_19" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.628319 0.628319" damping="0" armature="0" stiffness="0" />
+                                              <geom type="mesh" mesh="link_20" pos="0 0 0" group="0" name="link_20_collision" density="731.57020432251477" />
+                                              <geom type="mesh" mesh="link_20" pos="0 0 0" contype="0" conaffinity="0" group="2" name="link_20_visual" rgba="0.1 0.0 0.0 1.0" />
+                                            </body>
+                                          </body>
+                                        </body>
+                                      </body>
+                                    </body>
+                                  </body>
+                                </body>
+                              </body>
+                            </body>
+                          </body>
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    <geom name="terrain_geom" type="hfield" hfield="terrain" pos="0 0 0" conaffinity="1" condim="3" friction="1.6 0.005 0.0001" solref="0.0005 1.5" solimp="0.95 0.99 0.0001" rgba="0.35 0.38 0.42 0" />
+    <geom name="terrain_visual_geom" type="mesh" mesh="stage1_smooth_visual" contype="0" conaffinity="0" group="2" rgba="0.42 0.45 0.50 1" />
+  </worldbody>
+  <actuator>
+    <general name="act_joint_pitch_body_3" joint="joint_pitch_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_7" joint="joint_pitch_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_11" joint="joint_pitch_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_15" joint="joint_pitch_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_0" joint="joint_roll_body_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_1" joint="joint_roll_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_2" joint="joint_roll_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_3" joint="joint_roll_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_4" joint="joint_roll_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_5" joint="joint_roll_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_6" joint="joint_roll_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_7" joint="joint_roll_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_8" joint="joint_roll_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_9" joint="joint_roll_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_10" joint="joint_roll_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_11" joint="joint_roll_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_12" joint="joint_roll_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_13" joint="joint_roll_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_14" joint="joint_roll_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_15" joint="joint_roll_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_16" joint="joint_roll_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_17" joint="joint_roll_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_18" joint="joint_roll_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_roll_body_19" joint="joint_roll_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_0_L_0" joint="joint_leg_0_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_0_L_1" joint="joint_leg_0_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_0_R_0" joint="joint_leg_0_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_0_R_1" joint="joint_leg_0_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_1" joint="joint_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_1_L_0" joint="joint_leg_1_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_1_L_1" joint="joint_leg_1_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_1_R_0" joint="joint_leg_1_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_1_R_1" joint="joint_leg_1_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_2" joint="joint_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_2_L_0" joint="joint_leg_2_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_2_L_1" joint="joint_leg_2_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_2_R_0" joint="joint_leg_2_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_2_R_1" joint="joint_leg_2_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_3" joint="joint_body_3" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_3_L_0" joint="joint_leg_3_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_3_L_1" joint="joint_leg_3_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_3_R_0" joint="joint_leg_3_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_3_R_1" joint="joint_leg_3_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_4" joint="joint_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_4_L_0" joint="joint_leg_4_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_4_L_1" joint="joint_leg_4_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_4_R_0" joint="joint_leg_4_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_4_R_1" joint="joint_leg_4_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_5" joint="joint_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_5_L_0" joint="joint_leg_5_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_5_L_1" joint="joint_leg_5_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_5_R_0" joint="joint_leg_5_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_5_R_1" joint="joint_leg_5_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_6" joint="joint_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_6_L_0" joint="joint_leg_6_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_6_L_1" joint="joint_leg_6_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_6_R_0" joint="joint_leg_6_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_6_R_1" joint="joint_leg_6_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_7" joint="joint_body_7" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_7_L_0" joint="joint_leg_7_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_7_L_1" joint="joint_leg_7_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_7_R_0" joint="joint_leg_7_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_7_R_1" joint="joint_leg_7_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_8" joint="joint_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_8_L_0" joint="joint_leg_8_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_8_L_1" joint="joint_leg_8_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_8_R_0" joint="joint_leg_8_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_8_R_1" joint="joint_leg_8_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_9" joint="joint_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_9_L_0" joint="joint_leg_9_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_9_L_1" joint="joint_leg_9_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_9_R_0" joint="joint_leg_9_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_9_R_1" joint="joint_leg_9_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_10" joint="joint_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_10_L_0" joint="joint_leg_10_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_10_L_1" joint="joint_leg_10_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_10_R_0" joint="joint_leg_10_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_10_R_1" joint="joint_leg_10_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_11" joint="joint_body_11" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_11_L_0" joint="joint_leg_11_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_11_L_1" joint="joint_leg_11_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_11_R_0" joint="joint_leg_11_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_11_R_1" joint="joint_leg_11_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_12" joint="joint_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_12_L_0" joint="joint_leg_12_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_12_L_1" joint="joint_leg_12_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_12_R_0" joint="joint_leg_12_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_12_R_1" joint="joint_leg_12_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_13" joint="joint_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_13_L_0" joint="joint_leg_13_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_13_L_1" joint="joint_leg_13_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_13_R_0" joint="joint_leg_13_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_13_R_1" joint="joint_leg_13_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_14" joint="joint_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_14_L_0" joint="joint_leg_14_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_14_L_1" joint="joint_leg_14_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_14_R_0" joint="joint_leg_14_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_14_R_1" joint="joint_leg_14_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_15" joint="joint_body_15" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_15_L_0" joint="joint_leg_15_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_15_L_1" joint="joint_leg_15_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_15_R_0" joint="joint_leg_15_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_15_R_1" joint="joint_leg_15_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_16" joint="joint_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_16_L_0" joint="joint_leg_16_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_16_L_1" joint="joint_leg_16_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_16_R_0" joint="joint_leg_16_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_16_R_1" joint="joint_leg_16_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_17" joint="joint_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_17_L_0" joint="joint_leg_17_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_17_L_1" joint="joint_leg_17_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_17_R_0" joint="joint_leg_17_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_17_R_1" joint="joint_leg_17_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_18" joint="joint_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_18_L_0" joint="joint_leg_18_L_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_18_L_1" joint="joint_leg_18_L_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_18_R_0" joint="joint_leg_18_R_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_leg_18_R_1" joint="joint_leg_18_R_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_body_19" joint="joint_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_0" joint="joint_pitch_body_0" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_1" joint="joint_pitch_body_1" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_2" joint="joint_pitch_body_2" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_4" joint="joint_pitch_body_4" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_5" joint="joint_pitch_body_5" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_6" joint="joint_pitch_body_6" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_8" joint="joint_pitch_body_8" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_9" joint="joint_pitch_body_9" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_10" joint="joint_pitch_body_10" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_12" joint="joint_pitch_body_12" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_13" joint="joint_pitch_body_13" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_14" joint="joint_pitch_body_14" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_16" joint="joint_pitch_body_16" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_17" joint="joint_pitch_body_17" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_18" joint="joint_pitch_body_18" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+    <general name="act_joint_pitch_body_19" joint="joint_pitch_body_19" gainprm="1 0 0" biasprm="0 0 0" ctrllimited="false" />
+  </actuator>
+  <sensor>
+    <jointpos name="sp_joint_body_1" joint="joint_body_1" />
+    <jointvel name="sv_joint_body_1" joint="joint_body_1" />
+    <jointpos name="sp_joint_body_2" joint="joint_body_2" />
+    <jointvel name="sv_joint_body_2" joint="joint_body_2" />
+    <jointpos name="sp_joint_body_3" joint="joint_body_3" />
+    <jointvel name="sv_joint_body_3" joint="joint_body_3" />
+    <jointpos name="sp_joint_body_4" joint="joint_body_4" />
+    <jointvel name="sv_joint_body_4" joint="joint_body_4" />
+    <jointpos name="sp_joint_body_5" joint="joint_body_5" />
+    <jointvel name="sv_joint_body_5" joint="joint_body_5" />
+    <jointpos name="sp_joint_body_6" joint="joint_body_6" />
+    <jointvel name="sv_joint_body_6" joint="joint_body_6" />
+    <jointpos name="sp_joint_body_7" joint="joint_body_7" />
+    <jointvel name="sv_joint_body_7" joint="joint_body_7" />
+    <jointpos name="sp_joint_body_8" joint="joint_body_8" />
+    <jointvel name="sv_joint_body_8" joint="joint_body_8" />
+    <jointpos name="sp_joint_body_9" joint="joint_body_9" />
+    <jointvel name="sv_joint_body_9" joint="joint_body_9" />
+    <jointpos name="sp_joint_body_10" joint="joint_body_10" />
+    <jointvel name="sv_joint_body_10" joint="joint_body_10" />
+    <jointpos name="sp_joint_body_11" joint="joint_body_11" />
+    <jointvel name="sv_joint_body_11" joint="joint_body_11" />
+    <jointpos name="sp_joint_body_12" joint="joint_body_12" />
+    <jointvel name="sv_joint_body_12" joint="joint_body_12" />
+    <jointpos name="sp_joint_body_13" joint="joint_body_13" />
+    <jointvel name="sv_joint_body_13" joint="joint_body_13" />
+    <jointpos name="sp_joint_body_14" joint="joint_body_14" />
+    <jointvel name="sv_joint_body_14" joint="joint_body_14" />
+    <jointpos name="sp_joint_body_15" joint="joint_body_15" />
+    <jointvel name="sv_joint_body_15" joint="joint_body_15" />
+    <jointpos name="sp_joint_body_16" joint="joint_body_16" />
+    <jointvel name="sv_joint_body_16" joint="joint_body_16" />
+    <jointpos name="sp_joint_body_17" joint="joint_body_17" />
+    <jointvel name="sv_joint_body_17" joint="joint_body_17" />
+    <jointpos name="sp_joint_body_18" joint="joint_body_18" />
+    <jointvel name="sv_joint_body_18" joint="joint_body_18" />
+    <jointpos name="sp_joint_body_19" joint="joint_body_19" />
+    <jointvel name="sv_joint_body_19" joint="joint_body_19" />
+    <jointpos name="sp_joint_pitch_body_3" joint="joint_pitch_body_3" />
+    <jointvel name="sv_joint_pitch_body_3" joint="joint_pitch_body_3" />
+    <jointpos name="sp_joint_pitch_body_7" joint="joint_pitch_body_7" />
+    <jointvel name="sv_joint_pitch_body_7" joint="joint_pitch_body_7" />
+    <jointpos name="sp_joint_pitch_body_11" joint="joint_pitch_body_11" />
+    <jointvel name="sv_joint_pitch_body_11" joint="joint_pitch_body_11" />
+    <jointpos name="sp_joint_pitch_body_15" joint="joint_pitch_body_15" />
+    <jointvel name="sv_joint_pitch_body_15" joint="joint_pitch_body_15" />
+    <jointpos name="sp_joint_pitch_body_0" joint="joint_pitch_body_0" />
+    <jointvel name="sv_joint_pitch_body_0" joint="joint_pitch_body_0" />
+    <jointpos name="sp_joint_pitch_body_1" joint="joint_pitch_body_1" />
+    <jointvel name="sv_joint_pitch_body_1" joint="joint_pitch_body_1" />
+    <jointpos name="sp_joint_pitch_body_10" joint="joint_pitch_body_10" />
+    <jointvel name="sv_joint_pitch_body_10" joint="joint_pitch_body_10" />
+    <jointpos name="sp_joint_pitch_body_12" joint="joint_pitch_body_12" />
+    <jointvel name="sv_joint_pitch_body_12" joint="joint_pitch_body_12" />
+    <jointpos name="sp_joint_pitch_body_13" joint="joint_pitch_body_13" />
+    <jointvel name="sv_joint_pitch_body_13" joint="joint_pitch_body_13" />
+    <jointpos name="sp_joint_pitch_body_14" joint="joint_pitch_body_14" />
+    <jointvel name="sv_joint_pitch_body_14" joint="joint_pitch_body_14" />
+    <jointpos name="sp_joint_pitch_body_16" joint="joint_pitch_body_16" />
+    <jointvel name="sv_joint_pitch_body_16" joint="joint_pitch_body_16" />
+    <jointpos name="sp_joint_pitch_body_17" joint="joint_pitch_body_17" />
+    <jointvel name="sv_joint_pitch_body_17" joint="joint_pitch_body_17" />
+    <jointpos name="sp_joint_pitch_body_18" joint="joint_pitch_body_18" />
+    <jointvel name="sv_joint_pitch_body_18" joint="joint_pitch_body_18" />
+    <jointpos name="sp_joint_pitch_body_19" joint="joint_pitch_body_19" />
+    <jointvel name="sv_joint_pitch_body_19" joint="joint_pitch_body_19" />
+    <jointpos name="sp_joint_pitch_body_2" joint="joint_pitch_body_2" />
+    <jointvel name="sv_joint_pitch_body_2" joint="joint_pitch_body_2" />
+    <jointpos name="sp_joint_pitch_body_4" joint="joint_pitch_body_4" />
+    <jointvel name="sv_joint_pitch_body_4" joint="joint_pitch_body_4" />
+    <jointpos name="sp_joint_pitch_body_5" joint="joint_pitch_body_5" />
+    <jointvel name="sv_joint_pitch_body_5" joint="joint_pitch_body_5" />
+    <jointpos name="sp_joint_pitch_body_6" joint="joint_pitch_body_6" />
+    <jointvel name="sv_joint_pitch_body_6" joint="joint_pitch_body_6" />
+    <jointpos name="sp_joint_pitch_body_8" joint="joint_pitch_body_8" />
+    <jointvel name="sv_joint_pitch_body_8" joint="joint_pitch_body_8" />
+    <jointpos name="sp_joint_pitch_body_9" joint="joint_pitch_body_9" />
+    <jointvel name="sv_joint_pitch_body_9" joint="joint_pitch_body_9" />
+    <jointpos name="sp_joint_leg_0_L_0" joint="joint_leg_0_L_0" />
+    <jointvel name="sv_joint_leg_0_L_0" joint="joint_leg_0_L_0" />
+    <jointpos name="sp_joint_leg_0_L_1" joint="joint_leg_0_L_1" />
+    <jointvel name="sv_joint_leg_0_L_1" joint="joint_leg_0_L_1" />
+    <jointpos name="sp_joint_leg_0_R_0" joint="joint_leg_0_R_0" />
+    <jointvel name="sv_joint_leg_0_R_0" joint="joint_leg_0_R_0" />
+    <jointpos name="sp_joint_leg_0_R_1" joint="joint_leg_0_R_1" />
+    <jointvel name="sv_joint_leg_0_R_1" joint="joint_leg_0_R_1" />
+    <jointpos name="sp_joint_leg_10_L_0" joint="joint_leg_10_L_0" />
+    <jointvel name="sv_joint_leg_10_L_0" joint="joint_leg_10_L_0" />
+    <jointpos name="sp_joint_leg_10_L_1" joint="joint_leg_10_L_1" />
+    <jointvel name="sv_joint_leg_10_L_1" joint="joint_leg_10_L_1" />
+    <jointpos name="sp_joint_leg_10_R_0" joint="joint_leg_10_R_0" />
+    <jointvel name="sv_joint_leg_10_R_0" joint="joint_leg_10_R_0" />
+    <jointpos name="sp_joint_leg_10_R_1" joint="joint_leg_10_R_1" />
+    <jointvel name="sv_joint_leg_10_R_1" joint="joint_leg_10_R_1" />
+    <jointpos name="sp_joint_leg_11_L_0" joint="joint_leg_11_L_0" />
+    <jointvel name="sv_joint_leg_11_L_0" joint="joint_leg_11_L_0" />
+    <jointpos name="sp_joint_leg_11_L_1" joint="joint_leg_11_L_1" />
+    <jointvel name="sv_joint_leg_11_L_1" joint="joint_leg_11_L_1" />
+    <jointpos name="sp_joint_leg_11_R_0" joint="joint_leg_11_R_0" />
+    <jointvel name="sv_joint_leg_11_R_0" joint="joint_leg_11_R_0" />
+    <jointpos name="sp_joint_leg_11_R_1" joint="joint_leg_11_R_1" />
+    <jointvel name="sv_joint_leg_11_R_1" joint="joint_leg_11_R_1" />
+    <jointpos name="sp_joint_leg_12_L_0" joint="joint_leg_12_L_0" />
+    <jointvel name="sv_joint_leg_12_L_0" joint="joint_leg_12_L_0" />
+    <jointpos name="sp_joint_leg_12_L_1" joint="joint_leg_12_L_1" />
+    <jointvel name="sv_joint_leg_12_L_1" joint="joint_leg_12_L_1" />
+    <jointpos name="sp_joint_leg_12_R_0" joint="joint_leg_12_R_0" />
+    <jointvel name="sv_joint_leg_12_R_0" joint="joint_leg_12_R_0" />
+    <jointpos name="sp_joint_leg_12_R_1" joint="joint_leg_12_R_1" />
+    <jointvel name="sv_joint_leg_12_R_1" joint="joint_leg_12_R_1" />
+    <jointpos name="sp_joint_leg_13_L_0" joint="joint_leg_13_L_0" />
+    <jointvel name="sv_joint_leg_13_L_0" joint="joint_leg_13_L_0" />
+    <jointpos name="sp_joint_leg_13_L_1" joint="joint_leg_13_L_1" />
+    <jointvel name="sv_joint_leg_13_L_1" joint="joint_leg_13_L_1" />
+    <jointpos name="sp_joint_leg_13_R_0" joint="joint_leg_13_R_0" />
+    <jointvel name="sv_joint_leg_13_R_0" joint="joint_leg_13_R_0" />
+    <jointpos name="sp_joint_leg_13_R_1" joint="joint_leg_13_R_1" />
+    <jointvel name="sv_joint_leg_13_R_1" joint="joint_leg_13_R_1" />
+    <jointpos name="sp_joint_leg_14_L_0" joint="joint_leg_14_L_0" />
+    <jointvel name="sv_joint_leg_14_L_0" joint="joint_leg_14_L_0" />
+    <jointpos name="sp_joint_leg_14_L_1" joint="joint_leg_14_L_1" />
+    <jointvel name="sv_joint_leg_14_L_1" joint="joint_leg_14_L_1" />
+    <jointpos name="sp_joint_leg_14_R_0" joint="joint_leg_14_R_0" />
+    <jointvel name="sv_joint_leg_14_R_0" joint="joint_leg_14_R_0" />
+    <jointpos name="sp_joint_leg_14_R_1" joint="joint_leg_14_R_1" />
+    <jointvel name="sv_joint_leg_14_R_1" joint="joint_leg_14_R_1" />
+    <jointpos name="sp_joint_leg_15_L_0" joint="joint_leg_15_L_0" />
+    <jointvel name="sv_joint_leg_15_L_0" joint="joint_leg_15_L_0" />
+    <jointpos name="sp_joint_leg_15_L_1" joint="joint_leg_15_L_1" />
+    <jointvel name="sv_joint_leg_15_L_1" joint="joint_leg_15_L_1" />
+    <jointpos name="sp_joint_leg_15_R_0" joint="joint_leg_15_R_0" />
+    <jointvel name="sv_joint_leg_15_R_0" joint="joint_leg_15_R_0" />
+    <jointpos name="sp_joint_leg_15_R_1" joint="joint_leg_15_R_1" />
+    <jointvel name="sv_joint_leg_15_R_1" joint="joint_leg_15_R_1" />
+    <jointpos name="sp_joint_leg_16_L_0" joint="joint_leg_16_L_0" />
+    <jointvel name="sv_joint_leg_16_L_0" joint="joint_leg_16_L_0" />
+    <jointpos name="sp_joint_leg_16_L_1" joint="joint_leg_16_L_1" />
+    <jointvel name="sv_joint_leg_16_L_1" joint="joint_leg_16_L_1" />
+    <jointpos name="sp_joint_leg_16_R_0" joint="joint_leg_16_R_0" />
+    <jointvel name="sv_joint_leg_16_R_0" joint="joint_leg_16_R_0" />
+    <jointpos name="sp_joint_leg_16_R_1" joint="joint_leg_16_R_1" />
+    <jointvel name="sv_joint_leg_16_R_1" joint="joint_leg_16_R_1" />
+    <jointpos name="sp_joint_leg_17_L_0" joint="joint_leg_17_L_0" />
+    <jointvel name="sv_joint_leg_17_L_0" joint="joint_leg_17_L_0" />
+    <jointpos name="sp_joint_leg_17_L_1" joint="joint_leg_17_L_1" />
+    <jointvel name="sv_joint_leg_17_L_1" joint="joint_leg_17_L_1" />
+    <jointpos name="sp_joint_leg_17_R_0" joint="joint_leg_17_R_0" />
+    <jointvel name="sv_joint_leg_17_R_0" joint="joint_leg_17_R_0" />
+    <jointpos name="sp_joint_leg_17_R_1" joint="joint_leg_17_R_1" />
+    <jointvel name="sv_joint_leg_17_R_1" joint="joint_leg_17_R_1" />
+    <jointpos name="sp_joint_leg_18_L_0" joint="joint_leg_18_L_0" />
+    <jointvel name="sv_joint_leg_18_L_0" joint="joint_leg_18_L_0" />
+    <jointpos name="sp_joint_leg_18_L_1" joint="joint_leg_18_L_1" />
+    <jointvel name="sv_joint_leg_18_L_1" joint="joint_leg_18_L_1" />
+    <jointpos name="sp_joint_leg_18_R_0" joint="joint_leg_18_R_0" />
+    <jointvel name="sv_joint_leg_18_R_0" joint="joint_leg_18_R_0" />
+    <jointpos name="sp_joint_leg_18_R_1" joint="joint_leg_18_R_1" />
+    <jointvel name="sv_joint_leg_18_R_1" joint="joint_leg_18_R_1" />
+    <jointpos name="sp_joint_leg_1_L_0" joint="joint_leg_1_L_0" />
+    <jointvel name="sv_joint_leg_1_L_0" joint="joint_leg_1_L_0" />
+    <jointpos name="sp_joint_leg_1_L_1" joint="joint_leg_1_L_1" />
+    <jointvel name="sv_joint_leg_1_L_1" joint="joint_leg_1_L_1" />
+    <jointpos name="sp_joint_leg_1_R_0" joint="joint_leg_1_R_0" />
+    <jointvel name="sv_joint_leg_1_R_0" joint="joint_leg_1_R_0" />
+    <jointpos name="sp_joint_leg_1_R_1" joint="joint_leg_1_R_1" />
+    <jointvel name="sv_joint_leg_1_R_1" joint="joint_leg_1_R_1" />
+    <jointpos name="sp_joint_leg_2_L_0" joint="joint_leg_2_L_0" />
+    <jointvel name="sv_joint_leg_2_L_0" joint="joint_leg_2_L_0" />
+    <jointpos name="sp_joint_leg_2_L_1" joint="joint_leg_2_L_1" />
+    <jointvel name="sv_joint_leg_2_L_1" joint="joint_leg_2_L_1" />
+    <jointpos name="sp_joint_leg_2_R_0" joint="joint_leg_2_R_0" />
+    <jointvel name="sv_joint_leg_2_R_0" joint="joint_leg_2_R_0" />
+    <jointpos name="sp_joint_leg_2_R_1" joint="joint_leg_2_R_1" />
+    <jointvel name="sv_joint_leg_2_R_1" joint="joint_leg_2_R_1" />
+    <jointpos name="sp_joint_leg_3_L_0" joint="joint_leg_3_L_0" />
+    <jointvel name="sv_joint_leg_3_L_0" joint="joint_leg_3_L_0" />
+    <jointpos name="sp_joint_leg_3_L_1" joint="joint_leg_3_L_1" />
+    <jointvel name="sv_joint_leg_3_L_1" joint="joint_leg_3_L_1" />
+    <jointpos name="sp_joint_leg_3_R_0" joint="joint_leg_3_R_0" />
+    <jointvel name="sv_joint_leg_3_R_0" joint="joint_leg_3_R_0" />
+    <jointpos name="sp_joint_leg_3_R_1" joint="joint_leg_3_R_1" />
+    <jointvel name="sv_joint_leg_3_R_1" joint="joint_leg_3_R_1" />
+    <jointpos name="sp_joint_leg_4_L_0" joint="joint_leg_4_L_0" />
+    <jointvel name="sv_joint_leg_4_L_0" joint="joint_leg_4_L_0" />
+    <jointpos name="sp_joint_leg_4_L_1" joint="joint_leg_4_L_1" />
+    <jointvel name="sv_joint_leg_4_L_1" joint="joint_leg_4_L_1" />
+    <jointpos name="sp_joint_leg_4_R_0" joint="joint_leg_4_R_0" />
+    <jointvel name="sv_joint_leg_4_R_0" joint="joint_leg_4_R_0" />
+    <jointpos name="sp_joint_leg_4_R_1" joint="joint_leg_4_R_1" />
+    <jointvel name="sv_joint_leg_4_R_1" joint="joint_leg_4_R_1" />
+    <jointpos name="sp_joint_leg_5_L_0" joint="joint_leg_5_L_0" />
+    <jointvel name="sv_joint_leg_5_L_0" joint="joint_leg_5_L_0" />
+    <jointpos name="sp_joint_leg_5_L_1" joint="joint_leg_5_L_1" />
+    <jointvel name="sv_joint_leg_5_L_1" joint="joint_leg_5_L_1" />
+    <jointpos name="sp_joint_leg_5_R_0" joint="joint_leg_5_R_0" />
+    <jointvel name="sv_joint_leg_5_R_0" joint="joint_leg_5_R_0" />
+    <jointpos name="sp_joint_leg_5_R_1" joint="joint_leg_5_R_1" />
+    <jointvel name="sv_joint_leg_5_R_1" joint="joint_leg_5_R_1" />
+    <jointpos name="sp_joint_leg_6_L_0" joint="joint_leg_6_L_0" />
+    <jointvel name="sv_joint_leg_6_L_0" joint="joint_leg_6_L_0" />
+    <jointpos name="sp_joint_leg_6_L_1" joint="joint_leg_6_L_1" />
+    <jointvel name="sv_joint_leg_6_L_1" joint="joint_leg_6_L_1" />
+    <jointpos name="sp_joint_leg_6_R_0" joint="joint_leg_6_R_0" />
+    <jointvel name="sv_joint_leg_6_R_0" joint="joint_leg_6_R_0" />
+    <jointpos name="sp_joint_leg_6_R_1" joint="joint_leg_6_R_1" />
+    <jointvel name="sv_joint_leg_6_R_1" joint="joint_leg_6_R_1" />
+    <jointpos name="sp_joint_leg_7_L_0" joint="joint_leg_7_L_0" />
+    <jointvel name="sv_joint_leg_7_L_0" joint="joint_leg_7_L_0" />
+    <jointpos name="sp_joint_leg_7_L_1" joint="joint_leg_7_L_1" />
+    <jointvel name="sv_joint_leg_7_L_1" joint="joint_leg_7_L_1" />
+    <jointpos name="sp_joint_leg_7_R_0" joint="joint_leg_7_R_0" />
+    <jointvel name="sv_joint_leg_7_R_0" joint="joint_leg_7_R_0" />
+    <jointpos name="sp_joint_leg_7_R_1" joint="joint_leg_7_R_1" />
+    <jointvel name="sv_joint_leg_7_R_1" joint="joint_leg_7_R_1" />
+    <jointpos name="sp_joint_leg_8_L_0" joint="joint_leg_8_L_0" />
+    <jointvel name="sv_joint_leg_8_L_0" joint="joint_leg_8_L_0" />
+    <jointpos name="sp_joint_leg_8_L_1" joint="joint_leg_8_L_1" />
+    <jointvel name="sv_joint_leg_8_L_1" joint="joint_leg_8_L_1" />
+    <jointpos name="sp_joint_leg_8_R_0" joint="joint_leg_8_R_0" />
+    <jointvel name="sv_joint_leg_8_R_0" joint="joint_leg_8_R_0" />
+    <jointpos name="sp_joint_leg_8_R_1" joint="joint_leg_8_R_1" />
+    <jointvel name="sv_joint_leg_8_R_1" joint="joint_leg_8_R_1" />
+    <jointpos name="sp_joint_leg_9_L_0" joint="joint_leg_9_L_0" />
+    <jointvel name="sv_joint_leg_9_L_0" joint="joint_leg_9_L_0" />
+    <jointpos name="sp_joint_leg_9_L_1" joint="joint_leg_9_L_1" />
+    <jointvel name="sv_joint_leg_9_L_1" joint="joint_leg_9_L_1" />
+    <jointpos name="sp_joint_leg_9_R_0" joint="joint_leg_9_R_0" />
+    <jointvel name="sv_joint_leg_9_R_0" joint="joint_leg_9_R_0" />
+    <jointpos name="sp_joint_leg_9_R_1" joint="joint_leg_9_R_1" />
+    <jointvel name="sv_joint_leg_9_R_1" joint="joint_leg_9_R_1" />
+    <touch name="touch_foot_0_0" site="site_foot_0_0" />
+    <touch name="touch_foot_0_1" site="site_foot_0_1" />
+    <touch name="touch_foot_1_0" site="site_foot_1_0" />
+    <touch name="touch_foot_1_1" site="site_foot_1_1" />
+    <touch name="touch_foot_2_0" site="site_foot_2_0" />
+    <touch name="touch_foot_2_1" site="site_foot_2_1" />
+    <touch name="touch_foot_3_0" site="site_foot_3_0" />
+    <touch name="touch_foot_3_1" site="site_foot_3_1" />
+    <touch name="touch_foot_4_0" site="site_foot_4_0" />
+    <touch name="touch_foot_4_1" site="site_foot_4_1" />
+    <touch name="touch_foot_5_0" site="site_foot_5_0" />
+    <touch name="touch_foot_5_1" site="site_foot_5_1" />
+    <touch name="touch_foot_6_0" site="site_foot_6_0" />
+    <touch name="touch_foot_6_1" site="site_foot_6_1" />
+    <touch name="touch_foot_7_0" site="site_foot_7_0" />
+    <touch name="touch_foot_7_1" site="site_foot_7_1" />
+    <touch name="touch_foot_8_0" site="site_foot_8_0" />
+    <touch name="touch_foot_8_1" site="site_foot_8_1" />
+    <touch name="touch_foot_9_0" site="site_foot_9_0" />
+    <touch name="touch_foot_9_1" site="site_foot_9_1" />
+    <touch name="touch_foot_10_0" site="site_foot_10_0" />
+    <touch name="touch_foot_10_1" site="site_foot_10_1" />
+    <touch name="touch_foot_11_0" site="site_foot_11_0" />
+    <touch name="touch_foot_11_1" site="site_foot_11_1" />
+    <touch name="touch_foot_12_0" site="site_foot_12_0" />
+    <touch name="touch_foot_12_1" site="site_foot_12_1" />
+    <touch name="touch_foot_13_0" site="site_foot_13_0" />
+    <touch name="touch_foot_13_1" site="site_foot_13_1" />
+    <touch name="touch_foot_14_0" site="site_foot_14_0" />
+    <touch name="touch_foot_14_1" site="site_foot_14_1" />
+    <touch name="touch_foot_15_0" site="site_foot_15_0" />
+    <touch name="touch_foot_15_1" site="site_foot_15_1" />
+    <touch name="touch_foot_16_0" site="site_foot_16_0" />
+    <touch name="touch_foot_16_1" site="site_foot_16_1" />
+    <touch name="touch_foot_17_0" site="site_foot_17_0" />
+    <touch name="touch_foot_17_1" site="site_foot_17_1" />
+    <touch name="touch_foot_18_0" site="site_foot_18_0" />
+    <touch name="touch_foot_18_1" site="site_foot_18_1" />
+    <framepos name="com_pos" objtype="body" objname="link_body_0" />
+    <framelinvel name="com_vel" objtype="body" objname="link_body_0" reftype="world" refname="world" />
+  </sensor>
+</mujoco>

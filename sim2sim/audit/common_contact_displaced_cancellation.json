@@ -1,0 +1,27 @@
+{
+  "cancelled": true,
+  "stopped_utc": "2026-09-11T11:37:26.9779565Z",
+  "reason": "Superseded displaced-origin layout; preserve partial trajectory, require centered full validation",
+  "processes": [
+    {
+      "pid": 133008,
+      "creation_time": "2026-09-11T07:28:01.339084-04:00",
+      "command": "\"C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe\" -B .\\run_common_contact_centered_gpu.py"
+    },
+    {
+      "pid": 147284,
+      "creation_time": "2026-09-11T05:44:42.32636-04:00",
+      "command": "\"C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe\" -B run_common_contact_gpu_refinement_after_main.py"
+    },
+    {
+      "pid": 242636,
+      "creation_time": "2026-09-11T06:19:08.441664-04:00",
+      "command": "\"C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe\" -B collect_common_contact_native_results.py"
+    },
+    {
+      "pid": 142796,
+      "creation_time": "2026-09-11T06:37:01.982767-04:00",
+      "command": "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe -B C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_native_common_contact_fast_recorded.py --name native_common_contact_validation_gpu_dt15_000 --bank validation --device cuda:0 --cpu-threads 2 --dt .000015625 --command-dt .00025 --duration 6 --headless"
+    }
+  ]
+}

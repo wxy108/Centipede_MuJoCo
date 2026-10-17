@@ -1,0 +1,61 @@
+{
+  "status": "rejected_refinement",
+  "name": "common_physics_coupled_pd_tgs_external_each_iteration",
+  "physical_contract": "COMMON_CONTRACT.json",
+  "mujoco_runner": "run_mujoco_v8.py",
+  "native_runner": "run_native_v13.py",
+  "mujoco_dt_s": 3.125e-05,
+  "mujoco_refinement_dt_s": 1.5625e-05,
+  "native_dt_s": 0.00025,
+  "native_refinement_dt_s": 0.000125,
+  "command_dt_s": 0.00025,
+  "duration_s": 6.0,
+  "native_solver": "TGS",
+  "native_position_iterations": 16,
+  "native_velocity_iterations": 4,
+  "external_forces_every_iteration": true,
+  "physical_gain_fitting": false,
+  "physical_friction": 0.5,
+  "physical_friction_model": "circular Coulomb tangent limit, independently tested on both native backends",
+  "scope": "Open-loop flat-ground common-physics benchmark; CPU and GPU require independent complete validation. Original RL training is not migrated.",
+  "amendment": "NUMERICAL_AMENDMENT_13.md",
+  "acceptance_summary": "audit/tgs_candidate_summary.json",
+  "failed_criteria": [
+    {
+      "case": 1,
+      "criterion": "cpu_refinement_pct",
+      "value_pct": 12.240928729882846,
+      "limit_pct": 5
+    },
+    {
+      "case": 1,
+      "criterion": "gpu_refinement_pct",
+      "value_pct": 10.905995467164333,
+      "limit_pct": 5
+    },
+    {
+      "case": 3,
+      "criterion": "gpu_gap_pct",
+      "value_pct": 11.976983016725555,
+      "limit_pct": 10
+    },
+    {
+      "case": 3,
+      "criterion": "cpu_refinement_pct",
+      "value_pct": 5.37203947869993,
+      "limit_pct": 5
+    },
+    {
+      "case": 3,
+      "criterion": "gpu_refinement_pct",
+      "value_pct": 8.865554369567604,
+      "limit_pct": 5
+    },
+    {
+      "case": 7,
+      "criterion": "gpu_refinement_pct",
+      "value_pct": 5.550420438857437,
+      "limit_pct": 5
+    }
+  ]
+}

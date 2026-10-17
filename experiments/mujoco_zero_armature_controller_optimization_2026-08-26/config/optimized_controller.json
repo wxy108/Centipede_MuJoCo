@@ -1,0 +1,52 @@
+{
+  "schema": "centipede_model_zero_armature_controller_v2",
+  "plant": "../../mujoco_zero_armature_inertia_rebuild_2026-08-25/models/centipede_geometry_inertia_armature0.xml",
+  "armature_kg_m2": 0.0,
+  "physics_timestep_s": 0.001,
+  "integrator": "implicitfast",
+  "controller": "MuJoCo native affine implicit PD",
+  "impedance": {
+    "body_yaw": [0.00022994554433140637, 3.535602822709783e-07],
+    "head_pitch": [7.063766073317632e-05, 2.810583218533322e-07],
+    "body_pitch": [0.00018822053213608307, 6.24088085017595e-07],
+    "body_roll": [7.840454161670524e-05, 3.119617589788216e-07],
+    "legbase_yaw": [0.0008896108543478221, 1.2356289505314878e-06],
+    "legbase_pitch": [0.0006349502238586612, 9.29034687544872e-07],
+    "legbase_roll": [8.646579229272439e-06, 2.7842634967293457e-07],
+    "knee": [9.206183714773714e-05, 2.4420160753639064e-07]
+  },
+  "head_yaw_reference": {
+    "gain": 8.0,
+    "target_clip_rad": 0.6,
+    "reference": "world yaw sampled at reset",
+    "flat_w1p5_release_start_s": 1.0,
+    "flat_w1p5_release_duration_s": 0.25,
+    "rough_random_release_blend": 1.0
+  },
+  "base_gait": {
+    "frequency_hz": 1.0,
+    "body_amplitude_rad": 0.5480950698922444,
+    "leg_yaw_amplitude_rad": 0.32718067253845854,
+    "leg_pitch_amplitude_rad": 0.45999999999999996,
+    "knee_dc_rad": 0.5235987755982988,
+    "head_pitch_offset_rad": -0.57
+  },
+  "gait_profiles": {
+    "flat_w1p5": {
+      "leg_yaw_amplitude_scale": 2.2,
+      "leg_pitch_amplitude_scale": 1.4,
+      "leg_yaw_amplitude_rad": 0.7197974795846088,
+      "leg_pitch_amplitude_rad": 0.6439999999999999,
+      "warmup_settle_s": 1.0,
+      "segment_dct_ramp_s": 0.125,
+      "first_body_wave_enabled": false,
+      "first_leg_pitch_wave_enabled": true
+    },
+    "rough_and_random_w2_w3": {
+      "leg_yaw_amplitude_scale": 0.95,
+      "leg_pitch_amplitude_scale": 0.95,
+      "leg_yaw_amplitude_rad": 0.3108216389115356,
+      "leg_pitch_amplitude_rad": 0.43699999999999994
+    }
+  }
+}

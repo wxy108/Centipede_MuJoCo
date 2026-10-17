@@ -1,0 +1,45 @@
+{
+  "rows": [
+    {
+      "test": "full_robot_manual_zero_equivalence",
+      "steps": 1000,
+      "max_qpos_error": 0.0,
+      "max_qvel_error": 0.0,
+      "max_constraint_force_error": 0.0,
+      "passed": true
+    },
+    {
+      "test": "drop",
+      "native_run": "tgs_drop_external_each_iter_cpu_000",
+      "final_x_um": 127.49945492567221,
+      "native_final_x_um": 127.49823508784175,
+      "max_normal_velocity_mm_s": 62.53874999999995,
+      "unconverged_steps": 0,
+      "max_correction_residual_m_s": 1.0289078616887438e-19
+    },
+    {
+      "test": "force45",
+      "native_run": "tgs_friction_angle45_default_cpu_000",
+      "final_x_um": 34.94978442219142,
+      "native_final_x_um": 34.93654730846174,
+      "max_normal_velocity_mm_s": 2.255202692072305e-05,
+      "unconverged_steps": 0,
+      "max_correction_residual_m_s": 9.964947237151024e-09,
+      "final_y_um": 34.95560696118615,
+      "native_final_y_um": 34.97072611935437
+    },
+    {
+      "test": "free_slide",
+      "native_run": "oblique_slide_pgs_cpu_dt62_000",
+      "final_x_um": 219.30566267212305,
+      "native_final_x_um": 218.16615480929613,
+      "max_normal_velocity_mm_s": 2.8360499841430893e-05,
+      "unconverged_steps": 0,
+      "max_correction_residual_m_s": 9.939184131724232e-09,
+      "final_y_um": 126.62251829180138,
+      "native_final_y_um": 124.15427772793919
+    }
+  ],
+  "source_sha": "1952d1af19641c7465831ee83e4709eb4ae1b3090d2c8841cef79796046cedd2",
+  "adapter_sha": "e07b0ca34638491b5101b2946207169a578fc98fbbe1a25ad6515e2025bda6e3"
+}

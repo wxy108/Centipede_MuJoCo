@@ -1,0 +1,93 @@
+{
+  "rows": [
+    {
+      "path": "assets/mapping.json",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_000.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_001.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_014.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_027.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_040.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_053.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_066.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_079.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_092.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_105.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_118.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_131.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_144.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_157.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_170.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_183.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_196.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_209.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_222.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_235.obj",
+      "unchanged": true
+    },
+    {
+      "path": "assets/meshes/collision_248.obj",
+      "unchanged": true
+    }
+  ],
+  "all_unchanged": true
+}

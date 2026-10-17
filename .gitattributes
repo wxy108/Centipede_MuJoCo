@@ -1,0 +1,2 @@
+# Preserve frozen source bytes and checksum contracts, including original line endings.
+* -text

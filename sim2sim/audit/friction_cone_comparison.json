@@ -1,0 +1,90 @@
+{
+  "rows": [
+    {
+      "engine": "mujoco",
+      "mode": "elliptic",
+      "angle": 0,
+      "final_xy_um": [
+        49.16655638649393,
+        0.0
+      ],
+      "physical_axis_mu": 0.5,
+      "numeric_pyramid_edge_mu": 0.5
+    },
+    {
+      "engine": "mujoco",
+      "mode": "pyramidal",
+      "angle": 0,
+      "final_xy_um": [
+        49.16654085749016,
+        0.0
+      ],
+      "physical_axis_mu": 0.5,
+      "numeric_pyramid_edge_mu": 0.5
+    },
+    {
+      "engine": "mujoco",
+      "mode": "box_derived",
+      "angle": 0,
+      "final_xy_um": [
+        49.16654396589252,
+        2.183756817139993e-16
+      ],
+      "physical_axis_mu": 0.5,
+      "numeric_pyramid_edge_mu": 0.7071067811865476
+    },
+    {
+      "engine": "physx_cpu",
+      "angle": 0,
+      "final_xy_um": [
+        49.40609505865723,
+        -1.56378578977049e-08
+      ],
+      "physical_axis_mu": 0.5
+    },
+    {
+      "engine": "mujoco",
+      "mode": "elliptic",
+      "angle": 45,
+      "final_xy_um": [
+        34.77702934861621,
+        34.789316147964705
+      ],
+      "physical_axis_mu": 0.5,
+      "numeric_pyramid_edge_mu": 0.5
+    },
+    {
+      "engine": "mujoco",
+      "mode": "pyramidal",
+      "angle": 45,
+      "final_xy_um": [
+        86.15776501976896,
+        86.17441341498981
+      ],
+      "physical_axis_mu": 0.5,
+      "numeric_pyramid_edge_mu": 0.5
+    },
+    {
+      "engine": "mujoco",
+      "mode": "box_derived",
+      "angle": 45,
+      "final_xy_um": [
+        0.0007114363061728304,
+        0.0007114363068171071
+      ],
+      "physical_axis_mu": 0.5,
+      "numeric_pyramid_edge_mu": 0.7071067811865476
+    },
+    {
+      "engine": "physx_cpu",
+      "angle": 45,
+      "final_xy_um": [
+        0.0,
+        0.0
+      ],
+      "physical_axis_mu": 0.5
+    }
+  ],
+  "probe": "Force magnitude 1.2*mu*normal weight; independently chosen to lie outside the circle but inside the axis-aligned square at 45 degrees.",
+  "source_sha": "af4aa78cc15e196bf63e980b57348f4148ca664f0747766a77ff48f289a568fe"
+}

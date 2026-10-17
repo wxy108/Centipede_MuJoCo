@@ -1,0 +1,41 @@
+{
+  "rows": [
+    {
+      "run": "mu_coupled_rigid_dt31_case03_000",
+      "maximum_violation_deg": 0.0,
+      "minimum_limit_margin_deg": 16.548781917562586,
+      "joints_within_point1_deg": []
+    },
+    {
+      "run": "mu_box_velocity_dt31_case03_000",
+      "maximum_violation_deg": 0.0,
+      "minimum_limit_margin_deg": 15.386782721765371,
+      "joints_within_point1_deg": []
+    },
+    {
+      "run": "native_pgs_validation_cpu_dt62_000",
+      "maximum_violation_deg": 0.0,
+      "minimum_limit_margin_deg": 1.7954275004905062e-06,
+      "joints_within_point1_deg": [
+        "body_yaw_7",
+        "body_yaw_11",
+        "body_yaw_12",
+        "body_yaw_13"
+      ]
+    },
+    {
+      "run": "native_pgs_validation_gpu_dt62_000",
+      "maximum_violation_deg": 0.00025433666637498766,
+      "minimum_limit_margin_deg": -0.00025433666637498766,
+      "joints_within_point1_deg": [
+        "body_yaw_12",
+        "body_yaw_13"
+      ]
+    }
+  ],
+  "threshold_deg": 0.1,
+  "window_s": [
+    2,
+    6
+  ]
+}

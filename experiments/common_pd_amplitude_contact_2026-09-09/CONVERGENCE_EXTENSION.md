@@ -1,0 +1,9 @@
+# Continue unresolved local searches before amplitude freezing
+
+September9,2026, before any contact-erasure dynamics or final amplitude qualification. The seven-poll checkpoint shows multiple starts still improving with normalized step0.02 or0.04, including the newly competitive wave2.5 and3.5 branches. Treating the originally planned eight-poll budget as convergence would repeat the premature-selection problem the PI asked us to avoid.
+
+Continue every unresolved start at every wave with the same six coordinate probes, displacement objective, common PD, physical model, feasibility gates, domain and starting states. Do not condition continuation on amplitude direction, wave range, crossover preference or contact performance. The existing stopping criterion remains no improvement greater than0.2mm at normalized step0.005. This corresponds to0.18° body,0.45° leg yaw and0.3° leg pitch probe resolution. Use a finite safety ceiling of24 total polls, exiting earlier when all starts stop. Explicitly report any starts that reach that ceiling; this is still not a continuous-global-optimum claim.
+
+The prior runner is handed over only after local poll07 has completed and its checkpoint is written. Preserve prior checkpoints and any complete assessments. If it has already prepared or evaluated a coupled-probe point before handover, retain that evidence. After extended refinement, declare two fresh coupled-probe banks under different stage names so an earlier frozen plan is not silently reused for changed incumbents. Then run the unchanged fresh6s/12s/half-step qualification. The already-waiting contact workflow still starts only after final qualification finishes.
+
+No frozen source, original study, PD, clean edition, candidate result or old bank is changed. The new execution wrapper and its protocol have separate hashes and a handover receipt.

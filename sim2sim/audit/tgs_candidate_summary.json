@@ -1,0 +1,237 @@
+{
+  "updated_utc": "2026-09-11T09:56:19.764938+00:00",
+  "status": "FAILED_CRITERIA",
+  "rows": [
+    {
+      "case": 0,
+      "wave": 1.5,
+      "family": "A",
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt31_mm": 157.20648589456945,
+      "mu_dt15_mm": 159.71823661042492,
+      "native_cpu250_mm": 152.84165740013123,
+      "native_cpu125_mm": 154.94322776794434,
+      "native_gpu250_mm": 152.48841047286987,
+      "native_gpu125_mm": 157.16952085494995,
+      "cpu_gap_pct": 2.815581121083805,
+      "gpu_gap_pct": 3.046918420058038,
+      "mu_refinement_pct": 1.597739877946242,
+      "cpu_refinement_pct": 1.37499841572073,
+      "gpu_refinement_pct": 3.069813874748811,
+      "cpu_gpu_gap_pct": 0.23138692479397868
+    },
+    {
+      "case": 1,
+      "wave": 1.5,
+      "family": "B",
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt31_mm": 117.96086502692964,
+      "mu_dt15_mm": 118.8387220529124,
+      "native_cpu250_mm": 119.5090189576149,
+      "native_cpu125_mm": 134.13803279399872,
+      "native_gpu250_mm": 125.11774897575378,
+      "native_gpu125_mm": 138.76308500766754,
+      "cpu_gap_pct": 1.303873909995273,
+      "gpu_gap_pct": 5.888534438282702,
+      "mu_refinement_pct": 0.7441934456672173,
+      "cpu_refinement_pct": 12.240928729882846,
+      "gpu_refinement_pct": 10.905995467164333,
+      "cpu_gpu_gap_pct": 4.585540712099494
+    },
+    {
+      "case": 2,
+      "wave": 2.5,
+      "family": "A",
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt31_mm": 148.94800846001988,
+      "mu_dt15_mm": 151.73023663628834,
+      "native_cpu250_mm": 144.11556720733643,
+      "native_cpu125_mm": 144.5058435201645,
+      "native_gpu250_mm": 147.5493162870407,
+      "native_gpu125_mm": 150.14605224132538,
+      "cpu_gap_pct": 3.2978791319795713,
+      "gpu_gap_pct": 0.9434770948927652,
+      "mu_refinement_pct": 1.8679190175377587,
+      "cpu_refinement_pct": 0.2708078803635284,
+      "gpu_refinement_pct": 1.7599105300040891,
+      "cpu_gpu_gap_pct": 2.3545851928180324
+    },
+    {
+      "case": 3,
+      "wave": 2.5,
+      "family": "B",
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt31_mm": 160.10989086091223,
+      "mu_dt15_mm": 163.83310742325094,
+      "native_cpu250_mm": 171.0217446088791,
+      "native_cpu125_mm": 180.20910024642944,
+      "native_gpu250_mm": 180.50774931907654,
+      "native_gpu125_mm": 196.51076197624207,
+      "cpu_gap_pct": 6.590644069682876,
+      "gpu_gap_pct": 11.976983016725555,
+      "mu_refinement_pct": 2.325413216084865,
+      "cpu_refinement_pct": 5.37203947869993,
+      "gpu_refinement_pct": 8.865554369567604,
+      "cpu_gpu_gap_pct": 5.396989370195812
+    },
+    {
+      "case": 4,
+      "wave": 3.5,
+      "family": "A",
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt31_mm": 136.89805119147167,
+      "mu_dt15_mm": 136.5353191865224,
+      "native_cpu250_mm": 133.63176584243774,
+      "native_cpu125_mm": 128.48052382469177,
+      "native_gpu250_mm": 135.86853444576263,
+      "native_gpu125_mm": 135.03044843673706,
+      "cpu_gap_pct": 2.414732235319193,
+      "gpu_gap_pct": 0.7548701343340026,
+      "mu_refinement_pct": 0.2649650610744869,
+      "cpu_refinement_pct": 3.8548035231530857,
+      "gpu_refinement_pct": 0.6168359822561634,
+      "cpu_gpu_gap_pct": 1.6599377447319477
+    },
+    {
+      "case": 5,
+      "wave": 3.5,
+      "family": "B",
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt31_mm": 193.11895951026298,
+      "mu_dt15_mm": 194.7298681325247,
+      "native_cpu250_mm": 194.53592598438263,
+      "native_cpu125_mm": 191.23618304729462,
+      "native_gpu250_mm": 202.2874355316162,
+      "native_gpu125_mm": 206.53438568115234,
+      "cpu_gap_pct": 0.7310453329185341,
+      "gpu_gap_pct": 4.637495061445406,
+      "mu_refinement_pct": 0.8341535322823179,
+      "cpu_refinement_pct": 1.69621262519547,
+      "gpu_refinement_pct": 2.099463141828382,
+      "cpu_gpu_gap_pct": 3.9067808496053282
+    },
+    {
+      "case": 6,
+      "wave": 4.5,
+      "family": "A",
+      "amplitudes": [
+        32.0,
+        18.0,
+        26.0
+      ],
+      "mu_dt31_mm": 115.94467012132715,
+      "mu_dt15_mm": 116.19097006676819,
+      "native_cpu250_mm": 115.06466567516327,
+      "native_cpu125_mm": 114.1129732131958,
+      "native_gpu250_mm": 117.24886298179626,
+      "native_gpu125_mm": 118.0223673582077,
+      "cpu_gap_pct": 0.7618778203311469,
+      "gpu_gap_pct": 1.1185497668945834,
+      "mu_refinement_pct": 0.2124288638566172,
+      "cpu_refinement_pct": 0.8270935794087926,
+      "gpu_refinement_pct": 0.65971162256092,
+      "cpu_gpu_gap_pct": 1.8803875256513716
+    },
+    {
+      "case": 7,
+      "wave": 4.5,
+      "family": "B",
+      "amplitudes": [
+        16.0,
+        72.0,
+        24.0
+      ],
+      "mu_dt31_mm": 144.17398326394712,
+      "mu_dt15_mm": 145.731018287669,
+      "native_cpu250_mm": 147.82023429870605,
+      "native_cpu125_mm": 153.50931882858276,
+      "native_gpu250_mm": 158.14894437789917,
+      "native_gpu125_mm": 166.92687571048737,
+      "cpu_gap_pct": 2.4974816728872775,
+      "gpu_gap_pct": 9.245055426631621,
+      "mu_refinement_pct": 1.0799694844189274,
+      "cpu_refinement_pct": 3.848650732335166,
+      "gpu_refinement_pct": 5.550420438857437,
+      "cpu_gpu_gap_pct": 6.7514709317241834
+    }
+  ],
+  "missing": [],
+  "failed": [
+    {
+      "case": 1,
+      "criterion": "cpu_refinement_pct",
+      "value_pct": 12.240928729882846,
+      "limit_pct": 5
+    },
+    {
+      "case": 1,
+      "criterion": "gpu_refinement_pct",
+      "value_pct": 10.905995467164333,
+      "limit_pct": 5
+    },
+    {
+      "case": 3,
+      "criterion": "gpu_gap_pct",
+      "value_pct": 11.976983016725555,
+      "limit_pct": 10
+    },
+    {
+      "case": 3,
+      "criterion": "cpu_refinement_pct",
+      "value_pct": 5.37203947869993,
+      "limit_pct": 5
+    },
+    {
+      "case": 3,
+      "criterion": "gpu_refinement_pct",
+      "value_pct": 8.865554369567604,
+      "limit_pct": 5
+    },
+    {
+      "case": 7,
+      "criterion": "gpu_refinement_pct",
+      "value_pct": 5.550420438857437,
+      "limit_pct": 5
+    }
+  ],
+  "criteria": {
+    "cpu_gap_pct": 10,
+    "gpu_gap_pct": 10,
+    "mu_refinement_pct": 5,
+    "cpu_refinement_pct": 5,
+    "gpu_refinement_pct": 5,
+    "cpu_gpu_gap_pct": 10
+  },
+  "main_profile": {
+    "mujoco_dt_s": 3.125e-05,
+    "native_dt_s": 0.00025,
+    "command_dt_s": 0.00025,
+    "native_solver": "TGS 16/4",
+    "external_forces_every_iteration": true
+  },
+  "source_sha": "aa96bf819cb22f1ca773c5acd1765cc93856eb25af712bb07ef06ea7facab522"
+}

@@ -1,0 +1,53 @@
+{
+  "rows": [
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt31_000",
+      "environment": 0,
+      "control": "native_common_contact_validation_cpu_dt31_000",
+      "control_environment": 0,
+      "bitwise_identical": true,
+      "maximum_absolute_differences": {
+        "q": 0.0,
+        "v": 0.0,
+        "body": 0.0
+      }
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt31_000",
+      "environment": 7,
+      "control": "native_common_contact_origin_probe_cpu_dt31_000",
+      "control_environment": 0,
+      "bitwise_identical": true,
+      "maximum_absolute_differences": {
+        "q": 0.0,
+        "v": 0.0,
+        "body": 0.0
+      }
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt15_000",
+      "environment": 7,
+      "control": "native_common_contact_origin_probe_cpu_dt15_000",
+      "control_environment": 0,
+      "bitwise_identical": true,
+      "maximum_absolute_differences": {
+        "q": 0.0,
+        "v": 0.0,
+        "body": 0.0
+      }
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt31_000",
+      "environment": 0,
+      "control": "native_common_contact_validation_gpu_dt31_000",
+      "control_environment": 0,
+      "bitwise_identical": true,
+      "maximum_absolute_differences": {
+        "q": 0.0,
+        "v": 0.0,
+        "body": 0.0
+      }
+    }
+  ],
+  "source_sha": "a21a378276f21347cb717c00f5688895c9f86c4d66bafebeb389d8c4807a6c58"
+}

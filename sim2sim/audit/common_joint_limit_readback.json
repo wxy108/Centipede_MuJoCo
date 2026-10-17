@@ -1,0 +1,4393 @@
+{
+  "rows": [
+    {
+      "device": "cpu",
+      "bounded": [
+        {
+          "joint": "body_pitch_0",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "body_roll_0",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "legbase_yaw_0_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_0_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_1",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_0_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_0_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_1",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_1",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_0_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_0_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_1_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_1_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_2",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_1_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_1_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_2",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_2",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_1_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_1_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_2_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_2_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_3",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_2_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_2_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_3",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_3",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_2_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_2_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_3_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_3_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_4",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_3_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_3_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_4",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_4",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_3_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_3_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_4_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_4_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_5",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_4_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_4_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_5",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_5",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_4_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_4_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_5_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_5_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_6",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_5_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_5_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_6",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_6",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_5_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_5_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_6_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_6_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_7",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_6_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_6_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_7",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_7",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_6_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_6_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_7_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_7_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_8",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_7_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_7_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_8",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_8",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_7_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_7_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_8_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_8_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_9",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_8_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_8_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_9",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_9",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_8_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_8_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_9_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_9_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_10",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_9_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_9_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_10",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_10",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_9_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_9_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_10_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_10_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_11",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_10_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_10_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_11",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_11",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_10_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_10_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_11_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_11_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_12",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_11_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_11_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_12",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_12",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_11_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_11_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_12_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_12_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_13",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_12_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_12_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_13",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_13",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_12_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_12_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_13_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_13_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_14",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_13_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_13_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_14",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_14",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_13_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_13_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_14_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_14_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_15",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_14_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_14_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_15",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_15",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_14_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_14_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_15_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_15_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_16",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_15_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_15_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_16",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_16",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_15_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_15_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_16_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_16_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_17",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_16_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_16_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_17",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_17",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_16_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_16_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_17_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_17_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_18",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_17_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_17_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_18",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_18",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_17_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_17_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_18_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_18_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_19",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_18_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_18_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_19",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_19",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_18_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_18_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        }
+      ],
+      "unbounded": [],
+      "maximum_bounded_error_rad": 1.1043907921504115e-07
+    },
+    {
+      "device": "gpu",
+      "bounded": [
+        {
+          "joint": "body_pitch_0",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "body_roll_0",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "legbase_yaw_0_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_0_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_1",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_0_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_0_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_1",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_1",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_0_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_0_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_1_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_1_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_2",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_1_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_1_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_2",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_2",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_1_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_1_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_2_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_2_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_3",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_2_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_2_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_3",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_3",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_2_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_2_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_3_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_3_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_4",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_3_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_3_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_4",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_4",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_3_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_3_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_4_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_4_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_5",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_4_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_4_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_5",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_5",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_4_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_4_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_5_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_5_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_6",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_5_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_5_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_6",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_6",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_5_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_5_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_6_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_6_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_7",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_6_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_6_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_7",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_7",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_6_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_6_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_7_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_7_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_8",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_7_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_7_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_8",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_8",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_7_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_7_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_8_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_8_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_9",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_8_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_8_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_9",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_9",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_8_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_8_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_9_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_9_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_10",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_9_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_9_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_10",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_10",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_9_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_9_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_10_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_10_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_11",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_10_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_10_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_11",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_11",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_10_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_10_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_11_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_11_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_12",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_11_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_11_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_12",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_12",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_11_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_11_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_12_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_12_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_13",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_12_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_12_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_13",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_13",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_12_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_12_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_13_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_13_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_14",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_13_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_13_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_14",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_14",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_13_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_13_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_14_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_14_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_15",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_14_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_14_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_15",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_15",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_14_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_14_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_15_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_15_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_16",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_15_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_15_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_16",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_16",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_15_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_15_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_16_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_16_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_17",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_16_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_16_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_17",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_17",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_16_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_16_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_17_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_17_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_18",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_17_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_17_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_18",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_18",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_17_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_17_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "legbase_yaw_18_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_yaw_18_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_pitch_19",
+          "max_absolute_error_rad": 2.4722604852200902e-08,
+          "mujoco_range_rad": [
+            -1.5707999220623683,
+            1.5707999220623683
+          ],
+          "native_range_rad": [
+            -1.5707999467849731,
+            1.5707999467849731
+          ]
+        },
+        {
+          "joint": "legbase_pitch_18_L",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "legbase_pitch_18_R",
+          "max_absolute_error_rad": 1.1043907921504115e-07,
+          "mujoco_range_rad": [
+            -3.1415899904287032,
+            3.1415899904287032
+          ],
+          "native_range_rad": [
+            -3.141589879989624,
+            3.141589879989624
+          ]
+        },
+        {
+          "joint": "body_roll_19",
+          "max_absolute_error_rad": 1.8074262864153923e-08,
+          "mujoco_range_rad": [
+            -0.5235999407312758,
+            0.5235999407312758
+          ],
+          "native_range_rad": [
+            -0.5235999226570129,
+            0.5235999226570129
+          ]
+        },
+        {
+          "joint": "body_yaw_19",
+          "max_absolute_error_rad": 3.133612136441144e-08,
+          "mujoco_range_rad": [
+            -0.6283189967711494,
+            0.6283189967711494
+          ],
+          "native_range_rad": [
+            -0.6283189654350281,
+            0.6283189654350281
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_18_L",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        },
+        {
+          "joint": "tarsus_yaw_18_R",
+          "max_absolute_error_rad": 1.4122947256112184e-09,
+          "mujoco_range_rad": [
+            -0.6632251157578453,
+            0.6632251157578453
+          ],
+          "native_range_rad": [
+            -0.6632251143455505,
+            0.6632251143455505
+          ]
+        }
+      ],
+      "unbounded": [],
+      "maximum_bounded_error_rad": 1.1043907921504115e-07
+    }
+  ],
+  "trajectory_limit_clearances": [
+    {
+      "run": "mu_common_contact_dt15_case00_000",
+      "minimum_sampled_limit_clearance_deg": 0.8444815088002287,
+      "nearest_joint": "body_yaw_12",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt15_case01_000",
+      "minimum_sampled_limit_clearance_deg": 14.038341381509976,
+      "nearest_joint": "body_yaw_10",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt15_case02_000",
+      "minimum_sampled_limit_clearance_deg": 0.38003702394011324,
+      "nearest_joint": "body_yaw_7",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt15_case03_000",
+      "minimum_sampled_limit_clearance_deg": 16.52274008346584,
+      "nearest_joint": "body_yaw_6",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt15_case04_000",
+      "minimum_sampled_limit_clearance_deg": 2.3085412576928435,
+      "nearest_joint": "body_yaw_5",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt15_case05_000",
+      "minimum_sampled_limit_clearance_deg": 17.46634580857715,
+      "nearest_joint": "body_yaw_4",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt15_case06_000",
+      "minimum_sampled_limit_clearance_deg": 2.50208917181483,
+      "nearest_joint": "body_yaw_12",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt15_case07_000",
+      "minimum_sampled_limit_clearance_deg": 17.948355182910458,
+      "nearest_joint": "body_yaw_4",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt31_case00_000",
+      "minimum_sampled_limit_clearance_deg": 0.8519295273667395,
+      "nearest_joint": "body_yaw_12",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt31_case01_000",
+      "minimum_sampled_limit_clearance_deg": 14.038520147374422,
+      "nearest_joint": "body_yaw_10",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt31_case02_000",
+      "minimum_sampled_limit_clearance_deg": 0.3818746420111397,
+      "nearest_joint": "body_yaw_7",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt31_case03_000",
+      "minimum_sampled_limit_clearance_deg": 16.5225199196228,
+      "nearest_joint": "body_yaw_6",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt31_case04_000",
+      "minimum_sampled_limit_clearance_deg": 2.309702700182575,
+      "nearest_joint": "body_yaw_5",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt31_case05_000",
+      "minimum_sampled_limit_clearance_deg": 17.465945418203134,
+      "nearest_joint": "body_yaw_4",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt31_case06_000",
+      "minimum_sampled_limit_clearance_deg": 2.5019333797248784,
+      "nearest_joint": "body_yaw_12",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "mu_common_contact_dt31_case07_000",
+      "minimum_sampled_limit_clearance_deg": 17.94868500343918,
+      "nearest_joint": "body_yaw_4",
+      "environment": 0,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt15_000",
+      "minimum_sampled_limit_clearance_deg": 0.3801052378332951,
+      "nearest_joint": "body_yaw_7",
+      "environment": 3,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "native_common_contact_centered_validation_cpu_dt31_000",
+      "minimum_sampled_limit_clearance_deg": 0.3820518417467487,
+      "nearest_joint": "body_yaw_7",
+      "environment": 3,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt15_000",
+      "minimum_sampled_limit_clearance_deg": 0.37841476601371693,
+      "nearest_joint": "body_yaw_7",
+      "environment": 3,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    },
+    {
+      "run": "native_common_contact_centered_validation_gpu_dt31_000",
+      "minimum_sampled_limit_clearance_deg": 0.3816181247344529,
+      "nearest_joint": "body_yaw_7",
+      "environment": 3,
+      "window_s": [
+        2,
+        6
+      ],
+      "sample_interval_s": 0.01
+    }
+  ],
+  "source_sha": "f87a52480de47620567ce913c4838b1842a89899681e453a39163f9be603fdcc"
+}

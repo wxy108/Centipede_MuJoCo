@@ -1,0 +1,61 @@
+{
+  "qualification": "Partial initialization/ramp comparison; not the 2-6 s performance gate",
+  "rows": [
+    {
+      "case": 0,
+      "elapsed_s": 2.0,
+      "native_forward_from_start_mm": 32.198466360569,
+      "mu_forward_from_start_mm": 32.18574795208828,
+      "endpoint_q_max_error_deg": 0.0070604668897561815
+    },
+    {
+      "case": 1,
+      "elapsed_s": 2.0,
+      "native_forward_from_start_mm": 30.41335940361023,
+      "mu_forward_from_start_mm": 30.40912916012986,
+      "endpoint_q_max_error_deg": 0.0076283100914195925
+    },
+    {
+      "case": 2,
+      "elapsed_s": 2.0,
+      "native_forward_from_start_mm": 30.695945024490356,
+      "mu_forward_from_start_mm": 30.688236342699668,
+      "endpoint_q_max_error_deg": 0.00870552042410525
+    },
+    {
+      "case": 3,
+      "elapsed_s": 2.0,
+      "native_forward_from_start_mm": 42.29602590203285,
+      "mu_forward_from_start_mm": 42.293564202115554,
+      "endpoint_q_max_error_deg": 0.008694216205437724
+    },
+    {
+      "case": 4,
+      "elapsed_s": 2.0,
+      "native_forward_from_start_mm": 27.71535888314247,
+      "mu_forward_from_start_mm": 27.712106005079438,
+      "endpoint_q_max_error_deg": 0.00888014444388403
+    },
+    {
+      "case": 5,
+      "elapsed_s": 2.0,
+      "native_forward_from_start_mm": 44.12144422531128,
+      "mu_forward_from_start_mm": 44.11834177540723,
+      "endpoint_q_max_error_deg": 0.008887517262621998
+    },
+    {
+      "case": 6,
+      "elapsed_s": 2.0,
+      "native_forward_from_start_mm": 25.21393820643425,
+      "mu_forward_from_start_mm": 25.210807004028716,
+      "endpoint_q_max_error_deg": 0.00901829327595428
+    },
+    {
+      "case": 7,
+      "elapsed_s": 2.0,
+      "native_forward_from_start_mm": 37.599265575408936,
+      "mu_forward_from_start_mm": 37.59852433137659,
+      "endpoint_q_max_error_deg": 0.008844670262328845
+    }
+  ]
+}

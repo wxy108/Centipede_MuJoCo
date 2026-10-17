@@ -1,0 +1,18 @@
+{
+  "version": "validation_candidate_01",
+  "created_before_holdout_runs": true,
+  "candidate_physics_dt_s": 0.0000625,
+  "half_step_s": 0.00003125,
+  "physical_contract": "COMMON_CONTRACT.json",
+  "mujoco_integrator": "implicitfast",
+  "position_implicit_adapter": false,
+  "native_solver": "TGS 16 position, 4 velocity iterations",
+  "physical_params_and_acceptance_unchanged": true,
+  "calibration_evidence_mm": {"mujoco_dt250": 99.33509987350955, "mujoco_dt125": 126.99263372232924, "mujoco_dt62": 139.736344237237, "mujoco_dt31": 144.794201689391, "native_cpu_dt250": 143.35347712039948, "native_cpu_dt125": 146.9886749982834},
+  "mujoco_calibration_half_step_change_fraction": 0.036195719,
+  "native_dt62_and_half_step_convergence": "pending; candidate is not accepted yet",
+  "gpu_cpu_equivalence": "pending",
+  "command_cache": "Read-only acceleration; verified exactly equal float32 position AND velocity outputs against the shared generator across all calibration/holdout families, startup and steady state on all four tested time grids.",
+  "batch_isolation": "Separate MuJoCo processes; native environments have distinct initial origins before bootstrap and cross-environment collision groups.",
+  "no_gain_or_amplitude_selection_from_holdouts": true
+}

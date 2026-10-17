@@ -1,0 +1,18 @@
+{
+  "rows": [
+    {
+      "dt_us": 250,
+      "tip_inertia": 4.543031660395018e-13,
+      "max_transient_error_deg": 0.14604784665689372,
+      "first_5ms_nrmse": 0.05351318367842235,
+      "full_window_nrmse": 0.007076181102773684
+    },
+    {
+      "dt_us": 62.5,
+      "tip_inertia": 4.543031660395018e-13,
+      "max_transient_error_deg": 0.03200693528395069,
+      "first_5ms_nrmse": 0.012082887288154357,
+      "full_window_nrmse": 0.0015694533908031665
+    }
+  ]
+}

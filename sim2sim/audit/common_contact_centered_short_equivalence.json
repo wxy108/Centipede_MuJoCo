@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "proofs": [
+    {
+      "control": "native_common_contact_validation_cpu_dt31_000",
+      "environment": 0,
+      "control_environment": 0,
+      "bitwise": {
+        "q": true,
+        "v": true,
+        "body": true
+      }
+    },
+    {
+      "control": "native_common_contact_origin_probe_cpu_dt31_000",
+      "environment": 7,
+      "control_environment": 0,
+      "bitwise": {
+        "q": true,
+        "v": true,
+        "body": true
+      }
+    }
+  ]
+}

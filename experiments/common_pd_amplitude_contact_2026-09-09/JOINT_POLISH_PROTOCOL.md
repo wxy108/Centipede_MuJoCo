@@ -1,0 +1,9 @@
+# Refine improved joint-probe incumbents before amplitude qualification
+
+September9,2026, before amplitude qualification or contact erasure. The completed first joint-probe bank improves wave5 from152.0830 to166.2344mm (9.3%), and improves waves2,2.5 and3 by more than the existing0.2mm stopping tolerance. The28 earlier starts met their coordinate stopping criterion; this does not mean that the newly discovered joint-probe incumbents have been refined.
+
+After the already declared second joint-probe bank completes, compare every wave's best eligible nominal observation with the best of its completed pre-probe local starts. Include every wave whose displacement improved by more than0.2mm, regardless of wave range, amplitude direction, desired trend or future contact performance. The inclusion rule is fixed before the second bank's results are complete.
+
+From each included incumbent, evaluate the six coordinate directions and eight three-amplitude corner directions at normalized step0.005 (body0.18°, leg yaw0.45°, leg pitch0.30°). All proposals use the same model, PD, domain, objective, gates and numerical settings. Keep the best eligible observation and repeat only if its gain exceeds0.2mm. Stop on no gain exceeding0.2mm across these14 directions, with a finite safety limit of12 polls. Report any budget-limited starts explicitly. This is a local resolution check in the declared directions, not a global optimum proof or an exhaustive check of arbitrary directions.
+
+The current runner hands over only after the completed second joint-probe bank and before it starts qualification. Keep every existing bank, source and raw record. No frozen source is edited. Use the unchanged qualification function after this polish, followed by the already waiting contact workflow. No contact outcomes inform this decision.

@@ -1,0 +1,363 @@
+{
+  "time": "2026-09-08T21:30:25.160139-04:00",
+  "physics_simulations_run": 0,
+  "method": "Stored qpos -> mj_kinematics only. All 21 chassis-node origins, XY projection, 1.5..5.999 s. Per-frame centroid removal and signed first PCA axis remove rigid translation/yaw. Lateral halfspan is a descriptive geometric extent, not fitted traveling-wave amplitude; 1-Hz amplitude is also provided separately. A separate ideal-command geometry scan uses qpos0, zero pitch/roll targets, the actual body-yaw phase law at 256 evenly spaced phases, and no contact or dynamics solution. Those ratios demonstrate the geometry of a gate, not a completed simulation or causal attribution of a selected optimum.",
+  "seal_sha256_before": "DEC797624D36D81E08CDBE1496DD26901485DDB13433E2CB3897276212B84A57",
+  "seal_sha256_after": "DEC797624D36D81E08CDBE1496DD26901485DDB13433E2CB3897276212B84A57",
+  "verified_frozen_input_count": 53,
+  "sources": [
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w0p5_61da219554820e\\motion.npz",
+      "sha256": "14BFB5E698F0A0ED477038A183A450D2F09EA3F665030709A708222026508B23",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w1_ad22ea3e82adab\\motion.npz",
+      "sha256": "C01AF918D01C2243DC2193154366A50EFCAC19B83C55027D55B53A1D5EF604B7",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w1p5_2bb8803143d501\\motion.npz",
+      "sha256": "147BCFDD58EAB8B3E8E198D25EEA5CC4E1B952788416ABF99DE7E180F0EADB2E",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w2_98d25c5f39ecab\\motion.npz",
+      "sha256": "140EE4FC956E5A94953BB881CEC7C533D0F2BBF3569CDFD8FBDF7B9CF53763A4",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w2p5_b48aac04665bc2\\motion.npz",
+      "sha256": "20A9FCFD773DB6615F1205A23613196D09AD834B6D49025045E1D953D780EF7E",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w3_01ba6f57d087ee\\motion.npz",
+      "sha256": "528AFF80AE1A1C73823B65D5D31A73247A23F90D4B8626C0A85740B4DC12E916",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w3p5_a88f4bae8f6fd4\\motion.npz",
+      "sha256": "E9750498FFBE041407DA5F8A0A7908F7599250DEBCE0B850DA913494A78A2635",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w4_4829909daf8281\\motion.npz",
+      "sha256": "C2784BEEE6881EEE0F2F342B09BDA678D4E12B92303412F941E037953D158D60",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w4p5_13d7e1e414d4f9\\motion.npz",
+      "sha256": "F05BF8799495D9684A432BEEE344675FC3C7A92F7F1771FC013B383A5E542804",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w5_ce476cea937bbe\\motion.npz",
+      "sha256": "068ED2C0866A35140474364D374F97E19FA2A2AA047225B50212231E4583E66C",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w6_fc8e32d0def502\\motion.npz",
+      "sha256": "C3E40C3918525AE04DF6EF4DDC94C0D9FB2248111F0889F0CA1C5E0ED0650F0D",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w7_1d658980605825\\motion.npz",
+      "sha256": "4FC25F72C16A4DC107DEC4D0D10A537F8F4293E1380633C7250061EB531A0254",
+      "matched_sealed_input": true
+    },
+    {
+      "path": "C:\\Users\\wxy22\\Documents\\Centipede_MUJOCO-main\\experiments\\amplitude_optimization_recovery_2026-09-08\\fine_step\\outputs\\trials\\selected_motion\\flexible_flat_w9_16cfa9f7cac3ae\\motion.npz",
+      "sha256": "6FAB9DFFE71F6EFFBA0E5B08D9CC1BA4D6F254898711FBB54750A3B41D498C33",
+      "matched_sealed_input": true
+    }
+  ],
+  "rows": [
+    {
+      "wave": 0.5,
+      "command_body_deg": 18.214594131482755,
+      "actual_joint_half_P95_P05_deg": 3.765866205991649,
+      "actual_joint_median_1Hz_amplitude_deg": 2.989964009147479,
+      "yaw_k_multiplier": 0.40892517619206986,
+      "yaw_d_multiplier": 6.834208159154306,
+      "actual_yaw_kp_median": 9.262838296922146e-05,
+      "actual_yaw_kv_median": 4.434871823792407e-06,
+      "midline_median_lateral_halfspan_mm": 2.7413917970903925,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 1.7326538066600532,
+      "midline_median_spatial_rms_mm": 1.3704949393926351,
+      "nominal_id": "flexible_flat_w0p5_61da219554820e",
+      "D_mm": 95.95982023825151,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.6691309573280255,
+      "joint_1Hz_best_spatial_wave": -1.5599999999999996,
+      "joint_1Hz_best_spatial_mode_coherence": 0.7904697032630309,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 6.247780263624818,
+        "selected_command": 3.734422656979838
+      }
+    },
+    {
+      "wave": 1.0,
+      "command_body_deg": 36.0,
+      "actual_joint_half_P95_P05_deg": 12.330156635439131,
+      "actual_joint_median_1Hz_amplitude_deg": 12.190595748724803,
+      "yaw_k_multiplier": 0.25,
+      "yaw_d_multiplier": 2,
+      "actual_yaw_kp_median": 5.662917592393139e-05,
+      "actual_yaw_kv_median": 1.297845111098049e-06,
+      "midline_median_lateral_halfspan_mm": 5.117174257883043,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 4.3543789629126906,
+      "midline_median_spatial_rms_mm": 3.2581929884034566,
+      "nominal_id": "flexible_flat_w1_ad22ea3e82adab",
+      "D_mm": 138.03517943329985,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.8669293261489571,
+      "joint_1Hz_best_spatial_wave": 1.1600000000000001,
+      "joint_1Hz_best_spatial_mode_coherence": 0.917366682712011,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.3561318433205587,
+        "selected_command": 3.436636845519447
+      }
+    },
+    {
+      "wave": 1.5,
+      "command_body_deg": 16.941374023720492,
+      "actual_joint_half_P95_P05_deg": 19.509644639166265,
+      "actual_joint_median_1Hz_amplitude_deg": 18.50639772312521,
+      "yaw_k_multiplier": 1.0,
+      "yaw_d_multiplier": 2,
+      "actual_yaw_kp_median": 0.00022651670369572556,
+      "actual_yaw_kv_median": 1.297845111098049e-06,
+      "midline_median_lateral_halfspan_mm": 6.296025212158799,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 5.366899402206566,
+      "midline_median_spatial_rms_mm": 3.855911130043552,
+      "nominal_id": "flexible_flat_w1p5_2bb8803143d501",
+      "D_mm": 189.55849316541844,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9926048928948888,
+      "joint_1Hz_best_spatial_wave": 1.4900000000000002,
+      "joint_1Hz_best_spatial_mode_coherence": 0.9927720472971688,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.144036800264191,
+        "selected_command": 1.1031150644042858
+      }
+    },
+    {
+      "wave": 2.0,
+      "command_body_deg": 22.742694452404976,
+      "actual_joint_half_P95_P05_deg": 22.47818698712014,
+      "actual_joint_median_1Hz_amplitude_deg": 22.48947339907233,
+      "yaw_k_multiplier": 11.622178031557818,
+      "yaw_d_multiplier": 1.4261056493266842,
+      "actual_yaw_kp_median": 0.0026326174574733533,
+      "actual_yaw_kv_median": 9.254321224439729e-07,
+      "midline_median_lateral_halfspan_mm": 5.799322374827202,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 4.465629376386868,
+      "midline_median_spatial_rms_mm": 3.119801296136571,
+      "nominal_id": "flexible_flat_w2_98d25c5f39ecab",
+      "D_mm": 228.59593803830512,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9997121663629241,
+      "joint_1Hz_best_spatial_wave": 1.9900000000000002,
+      "joint_1Hz_best_spatial_mode_coherence": 0.9997551707370871,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.0839533059017648,
+        "selected_command": 1.1076524567339487
+      }
+    },
+    {
+      "wave": 2.5,
+      "command_body_deg": 21.824051097214532,
+      "actual_joint_half_P95_P05_deg": 20.868453181706123,
+      "actual_joint_median_1Hz_amplitude_deg": 21.0870011513218,
+      "yaw_k_multiplier": 1.0,
+      "yaw_d_multiplier": 2,
+      "actual_yaw_kp_median": 0.00022651670369572556,
+      "actual_yaw_kv_median": 1.297845111098049e-06,
+      "midline_median_lateral_halfspan_mm": 4.6468382742223024,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 3.737262006740445,
+      "midline_median_spatial_rms_mm": 2.625874830291644,
+      "nominal_id": "flexible_flat_w2p5_b48aac04665bc2",
+      "D_mm": 201.79846559937397,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9869787072803586,
+      "joint_1Hz_best_spatial_wave": 2.4700000000000006,
+      "joint_1Hz_best_spatial_mode_coherence": 0.9887606577150172,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.0560293683420792,
+        "selected_command": 1.0654526779948914
+      }
+    },
+    {
+      "wave": 3.0,
+      "command_body_deg": 15.33069611713531,
+      "actual_joint_half_P95_P05_deg": 15.196700840619917,
+      "actual_joint_median_1Hz_amplitude_deg": 14.819030351008792,
+      "yaw_k_multiplier": 2.0,
+      "yaw_d_multiplier": 6.805522522276109,
+      "actual_yaw_kp_median": 0.0004530334073914511,
+      "actual_yaw_kv_median": 4.4162570670018565e-06,
+      "midline_median_lateral_halfspan_mm": 2.164492004002352,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 1.435075583542349,
+      "midline_median_spatial_rms_mm": 1.230144001097222,
+      "nominal_id": "flexible_flat_w3_01ba6f57d087ee",
+      "D_mm": 191.56284718962675,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9946168917564784,
+      "joint_1Hz_best_spatial_wave": 2.9800000000000004,
+      "joint_1Hz_best_spatial_mode_coherence": 0.9950179715935564,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.0428464047458739,
+        "selected_command": 1.028518426955986
+      }
+    },
+    {
+      "wave": 3.5,
+      "command_body_deg": 23.94725369632244,
+      "actual_joint_half_P95_P05_deg": 12.913808372906608,
+      "actual_joint_median_1Hz_amplitude_deg": 13.559713152263932,
+      "yaw_k_multiplier": 0.3111659730729695,
+      "yaw_d_multiplier": 10.87704215333379,
+      "actual_yaw_kp_median": 7.048429052276195e-05,
+      "actual_yaw_kv_median": 7.058357990955828e-06,
+      "midline_median_lateral_halfspan_mm": 2.7579049923091263,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 2.0839781073583366,
+      "midline_median_spatial_rms_mm": 1.5238734220689687,
+      "nominal_id": "flexible_flat_w3p5_a88f4bae8f6fd4",
+      "D_mm": 184.4774713524575,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9622408437684393,
+      "joint_1Hz_best_spatial_wave": 3.450000000000001,
+      "joint_1Hz_best_spatial_mode_coherence": 0.9663079446212055,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.0338742020480272,
+        "selected_command": 1.0451253156022675
+      }
+    },
+    {
+      "wave": 4.0,
+      "command_body_deg": 4.32,
+      "actual_joint_half_P95_P05_deg": 4.915724988584271,
+      "actual_joint_median_1Hz_amplitude_deg": 2.465201064811561,
+      "yaw_k_multiplier": 1.0,
+      "yaw_d_multiplier": 2,
+      "actual_yaw_kp_median": 0.00022651670369572556,
+      "actual_yaw_kv_median": 1.297845111098049e-06,
+      "midline_median_lateral_halfspan_mm": 1.541379957982394,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 0.8519701307948842,
+      "midline_median_spatial_rms_mm": 0.9331491130471039,
+      "nominal_id": "flexible_flat_w4_4829909daf8281",
+      "D_mm": 186.0802487974651,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.6571051707636768,
+      "joint_1Hz_best_spatial_wave": 3.8499999999999996,
+      "joint_1Hz_best_spatial_mode_coherence": 0.6775094489986014,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.029119901799645,
+        "selected_command": 1.009555924712818
+      }
+    },
+    {
+      "wave": 4.5,
+      "command_body_deg": 24.637889471897523,
+      "actual_joint_half_P95_P05_deg": 12.01653494544422,
+      "actual_joint_median_1Hz_amplitude_deg": 6.523850479303333,
+      "yaw_k_multiplier": 0.3111659730729695,
+      "yaw_d_multiplier": 10.87704215333379,
+      "actual_yaw_kp_median": 7.048429052276195e-05,
+      "actual_yaw_kv_median": 7.058357990955828e-06,
+      "midline_median_lateral_halfspan_mm": 2.336228417117845,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 1.2338569799007717,
+      "midline_median_spatial_rms_mm": 1.1995755200573845,
+      "nominal_id": "flexible_flat_w4p5_13d7e1e414d4f9",
+      "D_mm": 156.7985119142394,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.6556028102724549,
+      "joint_1Hz_best_spatial_wave": 4.6899999999999995,
+      "joint_1Hz_best_spatial_mode_coherence": 0.6663420236309296,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.0250903123407438,
+        "selected_command": 1.0337642381919285
+      }
+    },
+    {
+      "wave": 5.0,
+      "command_body_deg": 25.902839786798502,
+      "actual_joint_half_P95_P05_deg": 14.207503192392332,
+      "actual_joint_median_1Hz_amplitude_deg": 12.458285374440901,
+      "yaw_k_multiplier": 0.3111659730729695,
+      "yaw_d_multiplier": 10.87704215333379,
+      "actual_yaw_kp_median": 7.048429052276195e-05,
+      "actual_yaw_kv_median": 7.058357990955828e-06,
+      "midline_median_lateral_halfspan_mm": 1.7213340474583108,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 0.9774298464004747,
+      "midline_median_spatial_rms_mm": 0.8791843259470671,
+      "nominal_id": "flexible_flat_w5_ce476cea937bbe",
+      "D_mm": 179.8005102881195,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9756640360871645,
+      "joint_1Hz_best_spatial_wave": 4.92,
+      "joint_1Hz_best_spatial_mode_coherence": 0.9863152163204136,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.0229866443889557,
+        "selected_command": 1.032899485585779
+      }
+    },
+    {
+      "wave": 6.0,
+      "command_body_deg": 11.712082269246816,
+      "actual_joint_half_P95_P05_deg": 9.395850139418386,
+      "actual_joint_median_1Hz_amplitude_deg": 7.212077380140351,
+      "yaw_k_multiplier": 1.0,
+      "yaw_d_multiplier": 2,
+      "actual_yaw_kp_median": 0.00022651670369572556,
+      "actual_yaw_kv_median": 1.297845111098049e-06,
+      "midline_median_lateral_halfspan_mm": 1.6930129000184446,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 1.0874591060234187,
+      "midline_median_spatial_rms_mm": 0.7875209972453705,
+      "nominal_id": "flexible_flat_w6_fc8e32d0def502",
+      "D_mm": 139.20161893559674,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9903596785763918,
+      "joint_1Hz_best_spatial_wave": 5.960000000000001,
+      "joint_1Hz_best_spatial_mode_coherence": 0.9933544040543713,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.0198404341815381,
+        "selected_command": 1.0124405266780279
+      }
+    },
+    {
+      "wave": 7.0,
+      "command_body_deg": 27.20443906845097,
+      "actual_joint_half_P95_P05_deg": 28.483089564979394,
+      "actual_joint_median_1Hz_amplitude_deg": 23.92085997299531,
+      "yaw_k_multiplier": 1.0,
+      "yaw_d_multiplier": 2,
+      "actual_yaw_kp_median": 0.00022651670369572556,
+      "actual_yaw_kv_median": 1.297845111098049e-06,
+      "midline_median_lateral_halfspan_mm": 2.5266915044320664,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 1.2785337511516395,
+      "midline_median_spatial_rms_mm": 1.1553534977830997,
+      "nominal_id": "flexible_flat_w7_1d658980605825",
+      "D_mm": 124.3287554393314,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9963204142887492,
+      "joint_1Hz_best_spatial_wave": 6.98,
+      "joint_1Hz_best_spatial_mode_coherence": 0.996696452275002,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.0181311054992082,
+        "selected_command": 1.0263303968675712
+      }
+    },
+    {
+      "wave": 9.0,
+      "command_body_deg": 15.353721441735031,
+      "actual_joint_half_P95_P05_deg": 14.910904991277201,
+      "actual_joint_median_1Hz_amplitude_deg": 10.166151944768753,
+      "yaw_k_multiplier": 1.0,
+      "yaw_d_multiplier": 1,
+      "actual_yaw_kp_median": 0.00022651670369572556,
+      "actual_yaw_kv_median": 6.489225555490245e-07,
+      "midline_median_lateral_halfspan_mm": 1.464661213276331,
+      "midline_1Hz_amplitude_rms_across_nodes_mm": 0.7764961758221095,
+      "midline_median_spatial_rms_mm": 0.553865784968196,
+      "nominal_id": "flexible_flat_w9_16cfa9f7cac3ae",
+      "D_mm": 35.63655433234518,
+      "joint_1Hz_commanded_spatial_mode_coherence": 0.9911138263095178,
+      "joint_1Hz_best_spatial_wave": 8.96,
+      "joint_1Hz_best_spatial_mode_coherence": 0.9934243588283153,
+      "ideal_command_kinematic_tortuosity_max": {
+        "common_20deg": 1.023946067210176,
+        "selected_command": 1.0176031777586643
+      }
+    }
+  ]
+}

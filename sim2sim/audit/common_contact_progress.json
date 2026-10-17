@@ -1,0 +1,230 @@
+{
+  "qualification": "Partial windows are diagnostic only, never substitute for the frozen 2\u20136 s gate.",
+  "comparisons": [
+    {
+      "device": "cpu",
+      "grid_us": 31.25,
+      "window_s": [
+        2.0,
+        4.5
+      ],
+      "complete_score_window": false,
+      "rows": [
+        {
+          "case": 0,
+          "native_D_mm": 103.86534323472351,
+          "mu_D_mm": 103.83748627103346,
+          "absolute_difference_mm": 0.027856963690055636,
+          "symmetric_gap_pct": 0.026823865381461753,
+          "endpoint_q_max_error_deg": 0.005461850474924449
+        },
+        {
+          "case": 1,
+          "native_D_mm": 92.93331687028208,
+          "mu_D_mm": 92.9276530228532,
+          "absolute_difference_mm": 0.005663847428877489,
+          "symmetric_gap_pct": 0.0060947141641777055,
+          "endpoint_q_max_error_deg": 0.005529065441068845
+        },
+        {
+          "case": 2,
+          "native_D_mm": 95.63210329395675,
+          "mu_D_mm": 95.62293475682462,
+          "absolute_difference_mm": 0.009168537132126175,
+          "symmetric_gap_pct": 0.009587760119230718,
+          "endpoint_q_max_error_deg": 0.00901232324491696
+        },
+        {
+          "case": 3,
+          "native_D_mm": 131.0583827878526,
+          "mu_D_mm": 131.06396892451284,
+          "absolute_difference_mm": 0.005586136660241436,
+          "symmetric_gap_pct": 0.004262236031188418,
+          "endpoint_q_max_error_deg": 0.008986784116989967
+        },
+        {
+          "case": 4,
+          "native_D_mm": 84.30412601280425,
+          "mu_D_mm": 84.30533780915867,
+          "absolute_difference_mm": 0.0012117963544255872,
+          "symmetric_gap_pct": 0.001437400163617316,
+          "endpoint_q_max_error_deg": 0.00918900221963782
+        },
+        {
+          "case": 5,
+          "native_D_mm": 132.59230467623897,
+          "mu_D_mm": 132.59341474664666,
+          "absolute_difference_mm": 0.001110070407690955,
+          "symmetric_gap_pct": 0.0008372022521474854,
+          "endpoint_q_max_error_deg": 0.008910946482301176
+        },
+        {
+          "case": 6,
+          "native_D_mm": 74.61216694320596,
+          "mu_D_mm": 74.61439282909657,
+          "absolute_difference_mm": 0.002225885890609902,
+          "symmetric_gap_pct": 0.0029832301890578617,
+          "endpoint_q_max_error_deg": 0.009323120934250282
+        },
+        {
+          "case": 7,
+          "native_D_mm": 109.32671780132556,
+          "mu_D_mm": 109.33152070635491,
+          "absolute_difference_mm": 0.004802905029350768,
+          "symmetric_gap_pct": 0.004393070265387749,
+          "endpoint_q_max_error_deg": 0.00913458912625336
+        }
+      ]
+    },
+    {
+      "device": "gpu",
+      "grid_us": 31.25,
+      "window_s": [
+        2.0,
+        3.0
+      ],
+      "complete_score_window": false,
+      "rows": [
+        {
+          "case": 0,
+          "native_D_mm": 41.73301722455238,
+          "mu_D_mm": 41.724155213541835,
+          "absolute_difference_mm": 0.008862011010542403,
+          "symmetric_gap_pct": 0.02123726637663396,
+          "endpoint_q_max_error_deg": 0.006538160509993142
+        },
+        {
+          "case": 1,
+          "native_D_mm": 37.283787550959026,
+          "mu_D_mm": 37.28133762773501,
+          "absolute_difference_mm": 0.002449923224013162,
+          "symmetric_gap_pct": 0.006571230768115692,
+          "endpoint_q_max_error_deg": 0.007354889180835214
+        },
+        {
+          "case": 2,
+          "native_D_mm": 38.269547094214,
+          "mu_D_mm": 38.26904967393155,
+          "absolute_difference_mm": 0.000497420282449923,
+          "symmetric_gap_pct": 0.0012997893963400788,
+          "endpoint_q_max_error_deg": 0.009020321585850408
+        },
+        {
+          "case": 3,
+          "native_D_mm": 52.48654979680265,
+          "mu_D_mm": 52.49159939538476,
+          "absolute_difference_mm": 0.005049598582111514,
+          "symmetric_gap_pct": 0.009620285023061373,
+          "endpoint_q_max_error_deg": 0.017519411790900077
+        },
+        {
+          "case": 4,
+          "native_D_mm": 33.765000729112046,
+          "mu_D_mm": 33.76281690579107,
+          "absolute_difference_mm": 0.0021838233209763303,
+          "symmetric_gap_pct": 0.00646792210221696,
+          "endpoint_q_max_error_deg": 0.009198251210732478
+        },
+        {
+          "case": 5,
+          "native_D_mm": 53.03152290538751,
+          "mu_D_mm": 53.033493423308876,
+          "absolute_difference_mm": 0.0019705179213644897,
+          "symmetric_gap_pct": 0.003715679287236119,
+          "endpoint_q_max_error_deg": 0.008967803898349239
+        },
+        {
+          "case": 6,
+          "native_D_mm": 29.886662815919234,
+          "mu_D_mm": 29.881847522436143,
+          "absolute_difference_mm": 0.004815293483090954,
+          "symmetric_gap_pct": 0.01611314538652915,
+          "endpoint_q_max_error_deg": 0.015014394233359075
+        },
+        {
+          "case": 7,
+          "native_D_mm": 43.743860977147484,
+          "mu_D_mm": 43.7455483321934,
+          "absolute_difference_mm": 0.0016873550459166609,
+          "symmetric_gap_pct": 0.0038572784048651904,
+          "endpoint_q_max_error_deg": 0.009142759009258554
+        }
+      ]
+    },
+    {
+      "device": "cpu",
+      "grid_us": 15.625,
+      "window_s": [
+        0.0,
+        2.0
+      ],
+      "complete_score_window": false,
+      "rows": [
+        {
+          "case": 0,
+          "native_D_mm": 32.19930846465841,
+          "mu_D_mm": 32.19450161412389,
+          "absolute_difference_mm": 0.004806850534521345,
+          "symmetric_gap_pct": 0.014929542229728067,
+          "endpoint_q_max_error_deg": 0.008189398178896136
+        },
+        {
+          "case": 1,
+          "native_D_mm": 30.417881809019796,
+          "mu_D_mm": 30.415808609242774,
+          "absolute_difference_mm": 0.002073199777022694,
+          "symmetric_gap_pct": 0.006815959257997964,
+          "endpoint_q_max_error_deg": 0.008968761174006685
+        },
+        {
+          "case": 2,
+          "native_D_mm": 30.697575914451765,
+          "mu_D_mm": 30.695189179910983,
+          "absolute_difference_mm": 0.002386734540781532,
+          "symmetric_gap_pct": 0.007775295792958798,
+          "endpoint_q_max_error_deg": 0.009369953787910027
+        },
+        {
+          "case": 3,
+          "native_D_mm": 42.29614065427865,
+          "mu_D_mm": 42.29753985349012,
+          "absolute_difference_mm": 0.0013991992114696927,
+          "symmetric_gap_pct": 0.0033080466603913647,
+          "endpoint_q_max_error_deg": 0.009382444968516682
+        },
+        {
+          "case": 4,
+          "native_D_mm": 27.716947641844552,
+          "mu_D_mm": 27.71705094648852,
+          "absolute_difference_mm": 0.00010330464396801631,
+          "symmetric_gap_pct": 0.00037271222209742723,
+          "endpoint_q_max_error_deg": 0.009564994921878754
+        },
+        {
+          "case": 5,
+          "native_D_mm": 44.12141672912098,
+          "mu_D_mm": 44.12052280174524,
+          "absolute_difference_mm": 0.0008939273757420096,
+          "symmetric_gap_pct": 0.0020260827912317635,
+          "endpoint_q_max_error_deg": 0.00958620289850238
+        },
+        {
+          "case": 6,
+          "native_D_mm": 25.213781184339453,
+          "mu_D_mm": 25.21426925110489,
+          "absolute_difference_mm": 0.00048806676543833305,
+          "symmetric_gap_pct": 0.001935695555247108,
+          "endpoint_q_max_error_deg": 0.00970651493471094
+        },
+        {
+          "case": 7,
+          "native_D_mm": 37.59811262855129,
+          "mu_D_mm": 37.60136785910526,
+          "absolute_difference_mm": 0.003255230553968147,
+          "symmetric_gap_pct": 0.008657587879220706,
+          "endpoint_q_max_error_deg": 0.009539907802163402
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "rows": [
+    {
+      "method": "hybr",
+      "contacts": 15,
+      "success_flag": false,
+      "max_residual_m_s": 2.679465851176629e-05,
+      "min_correction_m_s": -4.198848195799816e-09,
+      "calls": 123,
+      "wall_s": 4.25,
+      "message": "The iteration is not making good progress, as measured by the \n improvement from the last ten iterations."
+    },
+    {
+      "method": "lm",
+      "contacts": 15,
+      "success_flag": true,
+      "max_residual_m_s": 2.6789064184584016e-05,
+      "min_correction_m_s": 3.861930204474384e-07,
+      "calls": 1360,
+      "wall_s": 68.34299999999348,
+      "message": "Both actual and predicted relative reductions in the sum of squares\n  are at most 0.000000"
+    },
+    {
+      "method": "least_squares",
+      "contacts": 15,
+      "success_flag": true,
+      "max_residual_m_s": 2.678358372030826e-05,
+      "min_correction_m_s": 7.529970935623554e-07,
+      "calls": 1201,
+      "wall_s": 58.65700000000652,
+      "message": "`gtol` termination condition is satisfied."
+    }
+  ],
+  "source_run": "mu_desaxceAA_cmd250_dt125_case03_000",
+  "source_sha": "a858b1cbb0f1be72ec53dec4c66f317dc44ef962ff517a26ea4d9ffb3181929b",
+  "reconstruction": "Reverse the final semi-implicit Euler position update using post-step velocity; reverse velocity using saved acceleration. This recovers the pre-step physical state, but does not claim identical solver warmstart."
+}

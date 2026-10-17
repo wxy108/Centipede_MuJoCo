@@ -1,0 +1,50 @@
+{
+  "rows": [
+    {
+      "name": "mu_coupled_cmd250_dt7_case01_000",
+      "returncode": 0,
+      "pid": 221168,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_v8.py",
+        "--name",
+        "mu_coupled_cmd250_dt7_case01_000",
+        "--bank",
+        "holdout",
+        "--case-index",
+        "1",
+        "--dt",
+        ".0000078125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia"
+      ]
+    },
+    {
+      "name": "mu_coupled_cmd250_dt7_case03_000",
+      "returncode": 0,
+      "pid": 142448,
+      "command": [
+        "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\python.exe",
+        "-B",
+        "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\run_mujoco_v8.py",
+        "--name",
+        "mu_coupled_cmd250_dt7_case03_000",
+        "--bank",
+        "holdout",
+        "--case-index",
+        "3",
+        "--dt",
+        ".0000078125",
+        "--command-dt",
+        ".00025",
+        "--duration",
+        "6",
+        "--coupled-drive-inertia"
+      ]
+    }
+  ]
+}

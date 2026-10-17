@@ -1,0 +1,48 @@
+{
+  "rows": [
+    {
+      "engine": "mujoco",
+      "dt": 6.25e-05,
+      "final_x": 0.00046495196307280484,
+      "final_vx": 0.014283902636087982,
+      "final_roll_velocity": 31.742006218557346,
+      "surface_slip_velocity": -1.622628229697165e-10
+    },
+    {
+      "engine": "mujoco",
+      "dt": 3.125e-05,
+      "final_x": 0.00046506132780898033,
+      "final_vx": 0.014288343812748053,
+      "final_roll_velocity": 31.751875229614164,
+      "surface_slip_velocity": -4.057832021786556e-11
+    },
+    {
+      "engine": "mujoco",
+      "dt": 1.5625e-05,
+      "final_x": 0.00046508754658814127,
+      "final_vx": 0.01428611435552743,
+      "final_roll_velocity": 31.74692081260095,
+      "surface_slip_velocity": -1.014299755297543e-11
+    },
+    {
+      "radius": 0.00045,
+      "mass": 1e-06,
+      "carrier_mass": 1e-09,
+      "inertia": 8.1e-14,
+      "initial_clearance": 0.0002,
+      "initial_vx": 0.02,
+      "dt": 6.25e-05,
+      "friction_offset": 4e-05,
+      "contact_offset": 2e-05,
+      "final_x": 0.0004647065361496061,
+      "final_vx": 0.014288962818682194,
+      "final_roll_velocity": 31.759506225585938,
+      "min_surface_z": -2.1145679055412786e-10,
+      "source_sha": "ee876784214061b02110a8f9572f62c44525ef91cd0377950371627206fee3e9",
+      "engine": "physx_cpu",
+      "surface_slip_velocity": -2.8149828314779496e-06
+    }
+  ],
+  "ideal_rolling_vx": 0.01428979300499643,
+  "source_sha": "0099b2354f058db6b571da8da7f0d7ef52271ded4c53424b58fd3212443ff2e6"
+}

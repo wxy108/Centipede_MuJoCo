@@ -1,0 +1,53 @@
+{
+  "method": "Static common asset and exact installed PhysxSchema fallback audit; not a new runtime force measurement",
+  "rows": [
+    {
+      "attribute": "linearDamping",
+      "authored_count": 251,
+      "authored_values": [
+        "0"
+      ],
+      "installed_schema_default": "0.0"
+    },
+    {
+      "attribute": "angularDamping",
+      "authored_count": 251,
+      "authored_values": [
+        "0"
+      ],
+      "installed_schema_default": "0.05"
+    },
+    {
+      "attribute": "maxLinearVelocity",
+      "authored_count": 251,
+      "authored_values": [
+        "1000"
+      ],
+      "installed_schema_default": "inf"
+    },
+    {
+      "attribute": "maxAngularVelocity",
+      "authored_count": 251,
+      "authored_values": [
+        "100000000"
+      ],
+      "installed_schema_default": "5729.58"
+    },
+    {
+      "attribute": "enableGyroscopicForces",
+      "authored_count": 0,
+      "authored_values": [],
+      "installed_schema_default": "true"
+    },
+    {
+      "attribute": "disableGravity",
+      "authored_count": 0,
+      "authored_values": [],
+      "installed_schema_default": "false"
+    }
+  ],
+  "source_sha256": {
+    "C:\\Users\\wxy22\\Documents\\Centipede_Sim2Sim_2026-09-11\\assets\\common.usda": "bdfae3e4db7b4cc0d21ea87bffab9188ee6bd4bbd8f34048c19f285f6d910147",
+    "C:\\Users\\wxy22\\anaconda3\\envs\\isaaclab_50\\Lib\\site-packages\\isaacsim\\extscache\\omni.usd.schema.physx-107.3.18+107.3.1.wx64.r.cp311.u353\\plugins\\PhysxSchema\\resources\\schema.usda": "fe075bce4bde5ba7db69c6ccef0c4c26909336ab34c619129fc276f7cb4d7abc"
+  }
+}

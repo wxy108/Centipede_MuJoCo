@@ -1,0 +1,120 @@
+{
+  "case": "4.5/A",
+  "gait_window_s": [
+    2,
+    6
+  ],
+  "translation_window_s": [
+    0,
+    0.5
+  ],
+  "control_checks": [
+    {
+      "grid_us": 31.25,
+      "bitwise_identical": true
+    },
+    {
+      "grid_us": 15.625,
+      "bitwise_identical": true
+    }
+  ],
+  "gait_rows": [
+    {
+      "grid_us": 31.25,
+      "global_y_m": 0.0,
+      "forward_displacement_mm": 119.3484077562711,
+      "lateral_displacement_mm": 11.1682489057005,
+      "mu_forward_displacement_mm": 119.35030296360577,
+      "mu_lateral_displacement_mm": 11.168850561496658,
+      "max_xy_difference_mm": 0.0031390374090251322,
+      "max_lateral_difference_mm": 0.0007113044083464359,
+      "max_heading_difference_deg": 0.0014330804085869175
+    },
+    {
+      "grid_us": 31.25,
+      "global_y_m": 1.75,
+      "forward_displacement_mm": 119.34761482379622,
+      "lateral_displacement_mm": 10.451447396051305,
+      "mu_forward_displacement_mm": 119.35030296360577,
+      "mu_lateral_displacement_mm": 11.168850561496658,
+      "max_xy_difference_mm": 0.7507331884627712,
+      "max_lateral_difference_mm": 0.7507274790517471,
+      "max_heading_difference_deg": 0.0014513068981596433
+    },
+    {
+      "grid_us": 15.625,
+      "global_y_m": 0.0,
+      "forward_displacement_mm": 119.33475950111946,
+      "lateral_displacement_mm": 11.17533682831674,
+      "mu_forward_displacement_mm": 119.35887777996184,
+      "mu_lateral_displacement_mm": 11.171610662328678,
+      "max_xy_difference_mm": 0.024404419421272333,
+      "max_lateral_difference_mm": 0.00372616598806097,
+      "max_heading_difference_deg": 0.0045195921004728135
+    },
+    {
+      "grid_us": 15.625,
+      "global_y_m": 1.75,
+      "forward_displacement_mm": 119.33958161777507,
+      "lateral_displacement_mm": 7.646799087524414,
+      "mu_forward_displacement_mm": 119.35887777996184,
+      "mu_lateral_displacement_mm": 11.171610662328678,
+      "max_xy_difference_mm": 3.550056393978722,
+      "max_lateral_difference_mm": 3.550009232991055,
+      "max_heading_difference_deg": 0.0049602308460938715
+    }
+  ],
+  "translation_rows": [
+    {
+      "grid_us": 31.25,
+      "global_y_m": 0.0,
+      "expected_displacement_mm": 1.5,
+      "measured_displacement_mm": 1.4998069891589694,
+      "float32_repeated_addition_displacement_mm": 1.4998933766037226,
+      "maximum_prediction_trace_error_mm": 8.638744475319982e-05,
+      "maximum_velocity_change_m_s": 2.7752234104533313e-12,
+      "maximum_contact_point_force_N": 0.0,
+      "max_abs_joint_position_rad": 2.981523961703616e-28,
+      "ulp_at_initial_y_nm": 1.401298464324817e-36
+    },
+    {
+      "grid_us": 31.25,
+      "global_y_m": 1.75,
+      "expected_displacement_mm": 1.5,
+      "measured_displacement_mm": 0.0005960464477539062,
+      "float32_repeated_addition_displacement_mm": 1.9073486328125,
+      "maximum_prediction_trace_error_mm": 1.906752586364746,
+      "maximum_velocity_change_m_s": 2.7752216757298553e-12,
+      "maximum_contact_point_force_N": 0.0,
+      "max_abs_joint_position_rad": 2.944535514156687e-28,
+      "ulp_at_initial_y_nm": 119.20928955078125
+    },
+    {
+      "grid_us": 15.625,
+      "global_y_m": 0.0,
+      "expected_displacement_mm": 1.5,
+      "measured_displacement_mm": 1.5002862710389309,
+      "float32_repeated_addition_displacement_mm": 1.5003111911937594,
+      "maximum_prediction_trace_error_mm": 3.400054993107915e-05,
+      "maximum_velocity_change_m_s": 2.7752234104533313e-12,
+      "maximum_contact_point_force_N": 0.0,
+      "max_abs_joint_position_rad": 4.151952996401544e-28,
+      "ulp_at_initial_y_nm": 1.401298464324817e-36
+    },
+    {
+      "grid_us": 15.625,
+      "global_y_m": 1.75,
+      "expected_displacement_mm": 1.5,
+      "measured_displacement_mm": 0.0,
+      "float32_repeated_addition_displacement_mm": 0.0,
+      "maximum_prediction_trace_error_mm": 0.0,
+      "maximum_velocity_change_m_s": 2.775222759932028e-12,
+      "maximum_contact_point_force_N": 0.0,
+      "max_abs_joint_position_rad": 4.409688163796735e-28,
+      "ulp_at_initial_y_nm": 119.20928955078125
+    }
+  ],
+  "adopted": false,
+  "qualification": "Selected causal diagnostics, not replacements for the original bank. Constant-velocity prediction is independently calculated from measured initial velocity using repeated float32 addition. Origin dependence does not establish the unique cause of historical native-contact gaps.",
+  "source_sha": "feb42c40c1ff3aa41a2c0c930e9e3e8fd5adb9ba9f3d443ba56f943dfce63059"
+}
